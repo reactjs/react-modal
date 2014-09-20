@@ -1,6 +1,7 @@
 body {
   font-family: "Helvetica Neue", Arial;
   font-weight: 200;
+  background: #ccc;
 }
 
 a {
@@ -10,4 +11,34 @@ a {
 a.active {
   color: hsl(20, 50%, 50%);
 }
+
+.ReactModal__Overlay {
+  -webkit-perspective: 600;
+  opacity: 0;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transition: opacity 150ms ease-out;
+}
+
+.ReactModal__Content {
+  -webkit-transform: scale(0.5) rotateX(-30deg);
+}
+
+.ReactModal__Content--after-open {
+  -webkit-transform: scale(1) rotateX(0deg);
+  transition: all 150ms ease-in;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--before-close {
+  -webkit-transform: scale(0.5) rotateX(30deg);
+  transition: all 150ms ease-in;
+}
+
+
 
