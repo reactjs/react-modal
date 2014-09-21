@@ -5,39 +5,30 @@ require('react-tap-event-plugin')();
 
 var appElement = document.getElementById('example');
 
-React.initializeTouchEvents(true);
-
 Modal.setAppElement(appElement);
 Modal.injectCSS();
 
 var App = React.createClass({
 
-  getInitialState: function() {
-    return {
-      modalIsOpen: false
-    };
-  },
-
   openModal: function() {
-    this.setState({modalIsOpen: !this.state.modalIsOpen});
+    this.refs.modal.open();
   },
 
   closeModal: function() {
-    this.setState({modalIsOpen: false});
+    this.refs.modal.close();
   },
 
   render: function() {
     return (
       <div>
-        <button onTouchTap={this.openModal}>Open Modal</button>
+        <button onClick={this.openModal}>Open Modal</button>
         <Modal
+          ref="modal"
           closeTimeoutMS={150}
           dismissable={true}
-          isOpen={this.state.modalIsOpen}
-          onClose={this.closeModal}
         >
           <h1>Hello</h1>
-          <button onTouchTap={this.closeModal}>close</button>
+          <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
             <input />

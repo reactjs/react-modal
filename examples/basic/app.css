@@ -14,6 +14,7 @@ a.active {
 
 .ReactModal__Overlay {
   -webkit-perspective: 600;
+  perspective: 600;
   opacity: 0;
 }
 
