@@ -16,5 +16,6 @@ describe('Modal', function () {
   it('focuses the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
   it('adds --after-open for animations');
+  it('adds --before-close for animations');
 });
 

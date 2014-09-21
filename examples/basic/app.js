@@ -1,7 +1,11 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Modal = require('react-modal');
+var Modal = require('../../lib/index');
+require('react-tap-event-plugin')();
+
 var appElement = document.getElementById('example');
+
+React.initializeTouchEvents(true);
 
 Modal.setAppElement(appElement);
 Modal.injectCSS();
@@ -25,7 +29,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal</button>
+        <button onTouchTap={this.openModal}>Open Modal</button>
         <Modal
           closeTimeoutMS={150}
           dismissable={true}
@@ -33,6 +37,7 @@ var App = React.createClass({
           onClose={this.closeModal}
         >
           <h1>Hello</h1>
+          <button onTouchTap={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
             <input />
