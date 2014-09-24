@@ -6,6 +6,6 @@ NODE_ENV=production node_modules/.bin/browserify lib/index.js \
   -t envify \
   --detect-globals false \
   -s ReactModal > dist/react-modal.js
-node_modules/.bin/uglifyjs dist/react-modal \
+node_modules/.bin/uglifyjs dist/react-modal.js \
   --compress warnings=false > dist/react-modal.min.js
 
