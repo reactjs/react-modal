@@ -1,0 +1,11 @@
+#!/bin/sh
+mkdir -p dist
+NODE_ENV=production node_modules/.bin/browserify lib/index.js \
+  -t reactify \
+  -t browserify-shim \
+  -t envify \
+  --detect-globals false \
+  -s ReactModal > dist/react-modal.js
+node_modules/.bin/uglifyjs dist/react-modal \
+  --compress warnings=false > dist/react-modal.min.js
+

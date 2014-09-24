@@ -1,16 +1,17 @@
 {
-  "name": "react-router",
-  "version": "0.7.0",
-  "homepage": "https://github.com/rackt/react-router",
+  "name": "react-modal",
+  "version": "0.0.0",
+  "homepage": "https://github.com/rackt/react-modal",
   "authors": [
     "Ryan Florence",
     "Michael Jackson"
   ],
   "description": "A complete routing library for React.js",
-  "main": "dist/react-router.js",
+  "main": "dist/react-modal.js",
   "keywords": [
     "react",
-    "router"
+    "modal",
+    "dialog"
   ],
   "license": "MIT",
   "ignore": [
@@ -23,7 +24,6 @@
     "script",
     "CONTRIBUTING.md",
     "karma.conf.js",
-    "package.json",
-    "webpack.config.js"
+    "package.json"
   ]
 }
