@@ -12,10 +12,10 @@ describe('Modal', function () {
   it('has default props');
   it('removes the portal node');
   it('scopes tab navigation to the modal');
-  it('ignores clicks outside of it');
   it('focuses the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
   it('adds --after-open for animations');
   it('adds --before-close for animations');
+  it('does not freak out when you hand it a ref');
 });
 
