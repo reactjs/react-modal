@@ -1,21 +1,132 @@
 require('./helper');
 var Modal = require('../lib/components/Modal');
+var React = require('react/addons');
+var Simulate = React.addons.TestUtils.Simulate;
+var ariaAppHider = require('../lib/helpers/ariaAppHider');
+var button = React.DOM.button;
 
 describe('Modal', function () {
-  it('throws without an appElement');
-  it('uses the global appElement');
-  it('accepts appElement as a prop');
-  it('opens');
-  it('closes');
-  it('renders into the body, not in context');
-  it('renders children');
-  it('has default props');
-  it('removes the portal node');
+
   it('scopes tab navigation to the modal');
-  it('focuses the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
-  it('adds --after-open for animations');
-  it('adds --before-close for animations');
-  it('does not freak out when you hand it a ref');
+
+
+  it('can be open initially', function() {
+    var component = renderModal({isOpen: true}, 'hello');
+    equal(component.portal.refs.content.getDOMNode().innerHTML.trim(), 'hello');
+    unmountModal();
+  });
+
+  it('can be closed initially', function() {
+    var component = renderModal({}, 'hello');
+    equal(component.portal.getDOMNode().innerHTML.trim(), '');
+    unmountModal();
+  });
+
+  it('throws without an appElement', function() {
+    var node = document.createElement('div');
+    throws(function() {
+      React.renderComponent(Modal({isOpen: true}), node);
+    });
+    React.unmountComponentAtNode(node);
+  });
+
+  it('uses the global appElement', function() {
+    var app = document.createElement('div');
+    var node = document.createElement('div');
+    Modal.setAppElement(app);
+    React.renderComponent(Modal({isOpen: true}), node);
+    equal(app.getAttribute('aria-hidden'), 'true');
+    ariaAppHider.resetForTesting();
+    React.unmountComponentAtNode(node);
+  });
+
+  it('accepts appElement as a prop', function() {
+    var el = document.createElement('div');
+    var node = document.createElement('div');
+    React.renderComponent(Modal({
+      isOpen: true,
+      appElement: el
+    }), node);
+    equal(el.getAttribute('aria-hidden'), 'true');
+    React.unmountComponentAtNode(node);
+  });
+
+  it('renders into the body, not in context', function() {
+    var node = document.createElement('div');
+    var App = React.createClass({
+      render: function() {
+        return React.DOM.div({}, Modal({isOpen: true, ariaHideApp: false}, 'hello'));
+      }
+    });
+    React.renderComponent(App(), node);
+    var modalParent = document.body.querySelector('.ReactModalPortal').parentNode;
+    equal(modalParent, document.body);
+    React.unmountComponentAtNode(node);
+  });
+
+  it('renders children', function() {
+    var child = 'I am a child of Modal, and he has sent me here...';
+    var component = renderModal({isOpen: true}, child);
+    equal(component.portal.refs.content.getDOMNode().innerHTML, child);
+    unmountModal();
+  });
+
+  it('has default props', function() {
+    var node = document.createElement('div');
+    Modal.setAppElement(document.createElement('div'));
+    var component = React.renderComponent(Modal(), node);
+    var props = component.props;
+    equal(props.isOpen, false);
+    equal(props.ariaHideApp, true);
+    equal(props.closeTimeoutMS, 0);
+    React.unmountComponentAtNode(node);
+    ariaAppHider.resetForTesting();
+  });
+
+  it('removes the portal node', function() {
+    var component = renderModal({isOpen: true}, 'hello');
+    equal(component.portal.refs.content.getDOMNode().innerHTML.trim(), 'hello');
+    unmountModal();
+    ok(!document.querySelector('.ReactModalPortal'));
+  });
+
+  it('focuses the modal content', function() {
+    var modal = renderModal({isOpen: true});
+    strictEqual(document.activeElement, modal.portal.refs.content.getDOMNode());
+    unmountModal();
+  });
+
+  it('adds --after-open for animations', function() {
+    var modal = renderModal({isOpen: true});
+    var overlay = document.querySelector('.ReactModal__Overlay');
+    var content = document.querySelector('.ReactModal__Content');
+    ok(overlay.className.match(/ReactModal__Overlay--after-open/));
+    ok(content.className.match(/ReactModal__Content--after-open/));
+    unmountModal();
+  });
+
+  //it('adds --before-close for animations', function() {
+    //var node = document.createElement('div');
+
+    //var component = React.renderComponent(Modal({
+      //isOpen: true,
+      //ariaHideApp: false,
+      //closeTimeoutMS: 50,
+    //}), node);
+
+    //component = React.renderComponent(Modal({
+      //isOpen: false,
+      //ariaHideApp: false,
+      //closeTimeoutMS: 50,
+    //}), node);
+
+    // It can't find these nodes, I didn't spend much time on this
+    //var overlay = document.querySelector('.ReactModal__Overlay');
+    //var content = document.querySelector('.ReactModal__Content');
+    //ok(overlay.className.match(/ReactModal__Overlay--before-close/));
+    //ok(content.className.match(/ReactModal__Content--before-close/));
+    //unmountModal();
+  //});
 });
 

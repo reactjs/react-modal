@@ -4,14 +4,6 @@ body {
   background: #ccc;
 }
 
-a {
-  color: hsl(200, 50%, 50%);
-}
-
-a.active {
-  color: hsl(20, 50%, 50%);
-}
-
 .ReactModal__Overlay {
   -webkit-perspective: 600;
   perspective: 600;
@@ -40,6 +32,4 @@ a.active {
   -webkit-transform: scale(0.5) rotateX(30deg);
   transition: all 150ms ease-in;
 }
-
-
 
