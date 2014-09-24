@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Modal = require('../../lib/index');
-require('react-tap-event-plugin')();
 
 var appElement = document.getElementById('example');
 
@@ -10,12 +9,22 @@ Modal.injectCSS();
 
 var App = React.createClass({
 
+  getInitialState: function() {
+    return { modalIsOpen: false };
+  },
+
   openModal: function() {
-    this.refs.modal.open();
+    this.setState({modalIsOpen: true});
   },
 
   closeModal: function() {
-    this.refs.modal.close();
+    this.setState({modalIsOpen: false});
+  },
+
+  handleModalCloseRequest: function() {
+    // opportunity to validate something and keep the modal open even if it
+    // requested to be closed
+    this.setState({modalIsOpen: false});
   },
 
   render: function() {
@@ -23,9 +32,9 @@ var App = React.createClass({
       <div>
         <button onClick={this.openModal}>Open Modal</button>
         <Modal
-          ref="modal"
           closeTimeoutMS={150}
-          dismissable={true}
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.handleModalCloseRequest}
         >
           <h1>Hello</h1>
           <button onClick={this.closeModal}>close</button>
