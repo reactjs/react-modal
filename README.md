@@ -4,26 +4,26 @@ React Modal
 Accessible React Modal Dialog Component. This isn't ready to be used
 yet, still under development.
 
+Accessibility Notes
+-------------------
+
+Etc. etc. etc.
+
 Usage
 -----
 
 ```xml
 <Modal
-  isOpen={this.state.modalIsOpen}
-  onRequestClose={this.handleModalCloseRequest}
-  closeTimeoutMS={150}
+  isOpen={bool}
+  onRequestClose={fn}
+  closeTimeoutMS={n}
 >
   <h1>Modal Content</h1>
   <p>Etc.</p>
 </Modal>
 ```
 
-Accessibility Notes
--------------------
-
-
-
-Inside the app:
+Inside an app:
 
 ```js
 /** @jsx React.DOM */
@@ -50,35 +50,23 @@ var App = React.createClass({
     this.setState({modalIsOpen: false});
   },
 
-  handleModalCloseRequest: function() {
-    // opportunity to validate something and keep the modal open even if it
-    // requested to be closed
-    this.setState({modalIsOpen: false});
-  },
-
   render: function() {
     return (
       <div>
         <button onClick={this.openModal}>Open Modal</button>
         <Modal
-          closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          onRequestClose={this.handleModalCloseRequest}
+          onRequestClose={this.closeModal}
         >
-          <h1>Hello</h1>
+          <h2>Hello</h2>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
             <input />
-            <input />
-            <input />
-            <input />
-            <input />
-            <br/>
-            <button>hi</button>
-            <button>hi</button>
-            <button>hi</button>
-            <button>hi</button>
+            <button>tab navigation</button>
+            <button>stays</button>
+            <button>inside</button>
+            <button>the modal</button>
           </form>
         </Modal>
       </div>
