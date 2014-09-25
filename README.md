@@ -1,7 +1,8 @@
 React Modal
 ===========
 
-Accessible React Modal Dialog Component
+Accessible React Modal Dialog Component. This isn't ready to be used
+yet, still under development.
 
 Usage
 -----
