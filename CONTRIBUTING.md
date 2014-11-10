@@ -28,10 +28,10 @@ always be in sync.
 
 ### Development
 
-- `script/test` will fire up a karma runner and watch for changes in the
-  specs directory.
-- `npm test` will do the same but doesn't watch, just runs the tests.
-- `script/build-examples` does exactly that.
+- `npm start` runs the dev server to run/develop examples
+- `npm test` will run the test.
+- `script/test` same as `npm test` but keeps karma running and watches
+  for changes
 
 ### Build
 
