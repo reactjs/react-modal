@@ -1,6 +1,6 @@
 require('./helper');
-var Modal = require('../lib/components/Modal');
 var React = require('react/addons');
+var Modal = require('../lib/components/Modal');
 var Simulate = React.addons.TestUtils.Simulate;
 var ariaAppHider = require('../lib/helpers/ariaAppHider');
 var button = React.DOM.button;
@@ -26,7 +26,7 @@ describe('Modal', function () {
   it('throws without an appElement', function() {
     var node = document.createElement('div');
     throws(function() {
-      React.renderComponent(Modal({isOpen: true}), node);
+      React.render(React.createElement(Modal, {isOpen: true}), node);
     });
     React.unmountComponentAtNode(node);
   });
@@ -35,7 +35,7 @@ describe('Modal', function () {
     var app = document.createElement('div');
     var node = document.createElement('div');
     Modal.setAppElement(app);
-    React.renderComponent(Modal({isOpen: true}), node);
+    React.render(React.createElement(Modal, {isOpen: true}), node);
     equal(app.getAttribute('aria-hidden'), 'true');
     ariaAppHider.resetForTesting();
     React.unmountComponentAtNode(node);
@@ -44,7 +44,7 @@ describe('Modal', function () {
   it('accepts appElement as a prop', function() {
     var el = document.createElement('div');
     var node = document.createElement('div');
-    React.renderComponent(Modal({
+    React.render(React.createElement(Modal, {
       isOpen: true,
       appElement: el
     }), node);
@@ -56,10 +56,10 @@ describe('Modal', function () {
     var node = document.createElement('div');
     var App = React.createClass({
       render: function() {
-        return React.DOM.div({}, Modal({isOpen: true, ariaHideApp: false}, 'hello'));
+        return React.DOM.div({}, React.createElement(Modal, {isOpen: true, ariaHideApp: false}, 'hello'));
       }
     });
-    React.renderComponent(App(), node);
+    React.render(React.createElement(App), node);
     var modalParent = document.body.querySelector('.ReactModalPortal').parentNode;
     equal(modalParent, document.body);
     React.unmountComponentAtNode(node);
@@ -75,7 +75,7 @@ describe('Modal', function () {
   it('has default props', function() {
     var node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
-    var component = React.renderComponent(Modal(), node);
+    var component = React.render(React.createElement(Modal), node);
     var props = component.props;
     equal(props.isOpen, false);
     equal(props.ariaHideApp, true);
@@ -116,13 +116,13 @@ describe('Modal', function () {
   //it('adds --before-close for animations', function() {
     //var node = document.createElement('div');
 
-    //var component = React.renderComponent(Modal({
+    //var component = React.render(React.createElement(Modal, {
       //isOpen: true,
       //ariaHideApp: false,
       //closeTimeoutMS: 50,
     //}), node);
 
-    //component = React.renderComponent(Modal({
+    //component = React.render(React.createElement(Modal, {
       //isOpen: false,
       //ariaHideApp: false,
       //closeTimeoutMS: 50,
