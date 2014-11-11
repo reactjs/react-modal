@@ -51,7 +51,10 @@ var Modal = module.exports = React.createClass({
       ariaAppHider.toggle(props.isOpen, props.appElement);
     }
     sanitizeProps(props);
-    this.portal = React.renderComponent(ModalPortal(props), this.node);
+    if (this.portal)
+      this.portal.setProps(props);
+    else
+      this.portal = React.renderComponent(ModalPortal(props), this.node);
   },
 
   render: function () {
@@ -62,7 +65,6 @@ var Modal = module.exports = React.createClass({
 function sanitizeProps(props) {
   delete props.ref;
 }
-
 
 },{"../helpers/ariaAppHider":3,"../helpers/injectCSS":5,"./ModalPortal":2}],2:[function(_dereq_,module,exports){
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
@@ -137,8 +139,10 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   maybeFocus: function() {
-    if (this.props.isOpen)
+    if (this.props.isOpen &&
+      !this.refs.content.getDOMNode().contains(document.activeElement)) {
       this.focusContent();
+    }
   },
 
   focusContent: function() {
@@ -164,8 +168,8 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   handleKeyDown: function(event) {
-    if (event.key == 9 /*tab*/) scopeTab(this.getDOMNode(), event);
-    if (event.key == 27 /*esc*/) this.requestClose();
+    if (event.keyCode == 9 /*tab*/) scopeTab(this.getDOMNode(), event);
+    if (event.keyCode == 27 /*esc*/) this.requestClose();
   },
 
   handleOverlayClick: function() {
@@ -176,7 +180,7 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   requestClose: function() {
-    if (this.ownerHandlesClose)
+    if (this.ownerHandlesClose())
       this.props.onRequestClose();
   },
 
@@ -219,7 +223,6 @@ var ModalPortal = module.exports = React.createClass({
     );
   }
 });
-
 
 },{"../helpers/focusManager":4,"../helpers/scopeTab":6}],3:[function(_dereq_,module,exports){
 var _element = null;
