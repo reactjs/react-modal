@@ -13,8 +13,8 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "script/test --browsers Firefox --single-run",
-    "start": "script/dev-examples"
+    "test": "scripts/test --browsers Firefox --single-run",
+    "start": "scripts/dev-examples"
   },
   "authors": [
     "Ryan Florence"

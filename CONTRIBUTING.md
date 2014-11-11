@@ -30,12 +30,12 @@ always be in sync.
 
 - `npm start` runs the dev server to run/develop examples
 - `npm test` will run the test.
-- `script/test` same as `npm test` but keeps karma running and watches
+- `scripts/test` same as `npm test` but keeps karma running and watches
   for changes
 
 ### Build
 
-Please do not include the output of `script/build` in your commits, we
+Please do not include the output of `scripts/build` in your commits, we
 only do this when we release. (Also, you probably don't need to build
 anyway unless you are fixing something around our global build.)
 
