@@ -92,9 +92,10 @@ describe('Modal', function () {
   });
 
   it('focuses the modal content', function() {
-    var modal = renderModal({isOpen: true});
-    strictEqual(document.activeElement, modal.portal.refs.content.getDOMNode());
-    unmountModal();
+    renderModal({isOpen: true}, null, function () {
+      strictEqual(document.activeElement, this.portal.refs.content.getDOMNode());
+      unmountModal();
+    });
   });
 
   it('adds --after-open for animations', function() {
@@ -129,4 +130,3 @@ describe('Modal', function () {
     //unmountModal();
   //});
 });
-

@@ -10,11 +10,11 @@ throws = assert.throws;
 
 var _currentDiv = null;
 
-renderModal = function(def) {
-  def.ariaHideApp = false;
+renderModal = function(props, children, callback) {
+  props.ariaHideApp = false;
   _currentDiv = document.createElement('div');
   document.body.appendChild(_currentDiv);
-  return React.renderComponent(Modal.apply(Modal, arguments), _currentDiv);
+  return React.renderComponent(Modal(props, children), _currentDiv, callback);
 };
 
 unmountModal = function() {
@@ -22,4 +22,3 @@ unmountModal = function() {
   document.body.removeChild(_currentDiv);
   _currentDiv = null;
 };
-
