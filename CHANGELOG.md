@@ -1,3 +1,10 @@
+v0.0.5 - Thu, 13 Nov 2014 18:55:47 GMT
+--------------------------------------
+
+- [b15aa82](../../commit/b15aa82) [added] Supporting custom className
+- [b7a38de](../../commit/b7a38de) [fixed] Warning caused by trying to focus null element closes #11
+
+
 v0.0.4 - Tue, 11 Nov 2014 16:08:14 GMT
 --------------------------------------
 

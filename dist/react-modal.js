@@ -71,6 +71,7 @@ var React = (typeof window !== "undefined" ? window.React : typeof global !== "u
 var div = React.DOM.div;
 var focusManager = _dereq_('../helpers/focusManager');
 var scopeTab = _dereq_('../helpers/scopeTab');
+var cx = _dereq_('react/lib/cx');
 
 // so that our CSS is statically analyzable
 var CLASS_NAMES = {
@@ -102,19 +103,34 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    this.handleProps(this.props);
-    this.maybeFocus();
+    // Focus needs to be set when mounting and already open
+    if (this.props.isOpen) {
+      this.setFocusAfterRender(true);
+      this.open();
+    }
   },
 
   componentWillReceiveProps: function(newProps) {
-    this.handleProps(newProps);
+    // Focus only needs to be set once when the modal is being opened
+    if (!this.props.isOpen && newProps.isOpen) {
+      this.setFocusAfterRender(true);
+    }
+
+    if (newProps.isOpen === true)
+      this.open();
+    else if (newProps.isOpen === false)
+      this.close();
   },
 
-  handleProps: function(props) {
-    if (props.isOpen === true)
-      this.open();
-    else if (props.isOpen === false)
-      this.close();
+  componentDidUpdate: function () {
+    if (this.focusAfterRender) {
+      this.focusContent();
+      this.setFocusAfterRender(false);
+    }
+  },
+
+  setFocusAfterRender: function (focus) {
+    this.focusAfterRender = focus;
   },
 
   open: function() {
@@ -132,17 +148,6 @@ var ModalPortal = module.exports = React.createClass({
       this.closeWithTimeout();
     else
       this.closeWithoutTimeout();
-  },
-
-  componentDidUpdate: function() {
-    this.maybeFocus();
-  },
-
-  maybeFocus: function() {
-    if (this.props.isOpen &&
-      !this.refs.content.getDOMNode().contains(document.activeElement)) {
-      this.focusContent();
-    }
   },
 
   focusContent: function() {
@@ -212,7 +217,7 @@ var ModalPortal = module.exports = React.createClass({
       },
         div({
           ref: "content",
-          className: this.buildClassName('content'),
+          className: cx(this.buildClassName('content'), this.props.className),
           tabIndex: "-1",
           onClick: stopPropagation,
           onKeyDown: this.handleKeyDown
@@ -224,7 +229,7 @@ var ModalPortal = module.exports = React.createClass({
   }
 });
 
-},{"../helpers/focusManager":4,"../helpers/scopeTab":6}],3:[function(_dereq_,module,exports){
+},{"../helpers/focusManager":4,"../helpers/scopeTab":6,"react/lib/cx":9}],3:[function(_dereq_,module,exports){
 var _element = null;
 
 function setElement(element) {
@@ -435,6 +440,52 @@ module.exports = findTabbableDescendants;
 module.exports = _dereq_('./components/Modal');
 
 
-},{"./components/Modal":1}]},{},[8])
+},{"./components/Modal":1}],9:[function(_dereq_,module,exports){
+/**
+ * Copyright 2013-2014 Facebook, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @providesModule cx
+ */
+
+/**
+ * This function is used to mark string literals representing CSS class names
+ * so that they can be transformed statically. This allows for modularization
+ * and minification of CSS class names.
+ *
+ * In static_upstream, this function is actually implemented, but it should
+ * eventually be replaced with something more descriptive, and the transform
+ * that is used in the main stack should be ported for use elsewhere.
+ *
+ * @param string|object className to modularize, or an object of key/values.
+ *                      In the object case, the values are conditions that
+ *                      determine if the className keys should be included.
+ * @param [string ...]  Variable list of classNames in the string case.
+ * @return string       Renderable space-separated CSS className.
+ */
+function cx(classNames) {
+  if (typeof classNames == 'object') {
+    return Object.keys(classNames).filter(function(className) {
+      return classNames[className];
+    }).join(' ');
+  } else {
+    return Array.prototype.join.call(arguments, ' ');
+  }
+}
+
+module.exports = cx;
+
+},{}]},{},[8])
 (8)
 });
