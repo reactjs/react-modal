@@ -104,6 +104,12 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('supports overlayClassName', function () {
+    var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
+    equal(modal.portal.refs.overlay.getDOMNode().className.contains('myOverlayClass'), true);
+    unmountModal();
+  });
+
   it('adds --after-open for animations', function() {
     var modal = renderModal({isOpen: true});
     var overlay = document.querySelector('.ReactModal__Overlay');
