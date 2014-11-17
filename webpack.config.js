@@ -39,12 +39,6 @@ module.exports = {
     ]
   },
 
-  resolve: {
-    alias: {
-      'react-router': '../../modules/index'
-    }
-  },
-
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('shared.js')
   ]
