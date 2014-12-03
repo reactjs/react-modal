@@ -1,3 +1,10 @@
+v0.0.6 - Wed, 03 Dec 2014 21:24:45 GMT
+--------------------------------------
+
+- [28dbc63](../../commit/28dbc63) [added] Supporting custom overlay className closes #14
+- [6626dae](../../commit/6626dae) [fixed] erroneous alias in webpack build
+
+
 v0.0.5 - Thu, 13 Nov 2014 18:55:47 GMT
 --------------------------------------
 
