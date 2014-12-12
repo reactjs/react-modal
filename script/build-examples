@@ -1,6 +1,0 @@
-#!/bin/sh
-BROWSERIFY="node_modules/.bin/browserify --detect-globals false"
-BUNDLE_EXAMPLE="$BROWSERIFY -t reactify -t envify -x react -x react-modal"
-NODE_ENV=development $BROWSERIFY -t reactify -t envify -r react -r ./lib:react-modal > examples/global-bundle.js
-
-$BUNDLE_EXAMPLE examples/basic/app.js > examples/basic/app-bundle.js

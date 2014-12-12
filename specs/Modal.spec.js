@@ -92,8 +92,21 @@ describe('Modal', function () {
   });
 
   it('focuses the modal content', function() {
-    var modal = renderModal({isOpen: true});
-    strictEqual(document.activeElement, modal.portal.refs.content.getDOMNode());
+    renderModal({isOpen: true}, null, function () {
+      strictEqual(document.activeElement, this.portal.refs.content.getDOMNode());
+      unmountModal();
+    });
+  });
+
+  it('supports custom className', function() {
+    var modal = renderModal({isOpen: true, className: 'myClass'});
+    equal(modal.portal.refs.content.getDOMNode().className.contains('myClass'), true);
+    unmountModal();
+  });
+
+  it('supports overlayClassName', function () {
+    var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
+    equal(modal.portal.refs.overlay.getDOMNode().className.contains('myOverlayClass'), true);
     unmountModal();
   });
 
@@ -129,4 +142,3 @@ describe('Modal', function () {
     //unmountModal();
   //});
 });
-

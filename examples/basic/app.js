@@ -27,6 +27,10 @@ var App = React.createClass({
     this.setState({modalIsOpen: false});
   },
 
+  handleInputChange: function() {
+    this.setState({foo: 'bar'});
+  },
+
   render: function() {
     return (
       <div>
@@ -40,7 +44,7 @@ var App = React.createClass({
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
-            <input />
+            <input onChange={this.handleInputChange} />
             <input />
             <input />
             <input />

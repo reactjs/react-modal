@@ -51,7 +51,10 @@ var Modal = module.exports = React.createClass({
       ariaAppHider.toggle(props.isOpen, props.appElement);
     }
     sanitizeProps(props);
-    this.portal = React.renderComponent(ModalPortal(props), this.node);
+    if (this.portal)
+      this.portal.setProps(props);
+    else
+      this.portal = React.renderComponent(ModalPortal(props), this.node);
   },
 
   render: function () {
@@ -63,12 +66,12 @@ function sanitizeProps(props) {
   delete props.ref;
 }
 
-
 },{"../helpers/ariaAppHider":3,"../helpers/injectCSS":5,"./ModalPortal":2}],2:[function(_dereq_,module,exports){
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 var div = React.DOM.div;
 var focusManager = _dereq_('../helpers/focusManager');
 var scopeTab = _dereq_('../helpers/scopeTab');
+var cx = _dereq_('react/lib/cx');
 
 // so that our CSS is statically analyzable
 var CLASS_NAMES = {
@@ -100,19 +103,34 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    this.handleProps(this.props);
-    this.maybeFocus();
+    // Focus needs to be set when mounting and already open
+    if (this.props.isOpen) {
+      this.setFocusAfterRender(true);
+      this.open();
+    }
   },
 
   componentWillReceiveProps: function(newProps) {
-    this.handleProps(newProps);
+    // Focus only needs to be set once when the modal is being opened
+    if (!this.props.isOpen && newProps.isOpen) {
+      this.setFocusAfterRender(true);
+    }
+
+    if (newProps.isOpen === true)
+      this.open();
+    else if (newProps.isOpen === false)
+      this.close();
   },
 
-  handleProps: function(props) {
-    if (props.isOpen === true)
-      this.open();
-    else if (props.isOpen === false)
-      this.close();
+  componentDidUpdate: function () {
+    if (this.focusAfterRender) {
+      this.focusContent();
+      this.setFocusAfterRender(false);
+    }
+  },
+
+  setFocusAfterRender: function (focus) {
+    this.focusAfterRender = focus;
   },
 
   open: function() {
@@ -130,15 +148,6 @@ var ModalPortal = module.exports = React.createClass({
       this.closeWithTimeout();
     else
       this.closeWithoutTimeout();
-  },
-
-  componentDidUpdate: function() {
-    this.maybeFocus();
-  },
-
-  maybeFocus: function() {
-    if (this.props.isOpen)
-      this.focusContent();
   },
 
   focusContent: function() {
@@ -164,8 +173,8 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   handleKeyDown: function(event) {
-    if (event.key == 9 /*tab*/) scopeTab(this.getDOMNode(), event);
-    if (event.key == 27 /*esc*/) this.requestClose();
+    if (event.keyCode == 9 /*tab*/) scopeTab(this.getDOMNode(), event);
+    if (event.keyCode == 27 /*esc*/) this.requestClose();
   },
 
   handleOverlayClick: function() {
@@ -176,7 +185,7 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   requestClose: function() {
-    if (this.ownerHandlesClose)
+    if (this.ownerHandlesClose())
       this.props.onRequestClose();
   },
 
@@ -202,13 +211,14 @@ var ModalPortal = module.exports = React.createClass({
   render: function() {
     return this.shouldBeClosed() ? div() : (
       div({
-        className: this.buildClassName('overlay'),
+        ref: "overlay",
+        className: cx(this.buildClassName('overlay'), this.props.overlayClassName),
         style: this.overlayStyles,
         onClick: this.handleOverlayClick
       },
         div({
           ref: "content",
-          className: this.buildClassName('content'),
+          className: cx(this.buildClassName('content'), this.props.className),
           tabIndex: "-1",
           onClick: stopPropagation,
           onKeyDown: this.handleKeyDown
@@ -220,8 +230,7 @@ var ModalPortal = module.exports = React.createClass({
   }
 });
 
-
-},{"../helpers/focusManager":4,"../helpers/scopeTab":6}],3:[function(_dereq_,module,exports){
+},{"../helpers/focusManager":4,"../helpers/scopeTab":6,"react/lib/cx":9}],3:[function(_dereq_,module,exports){
 var _element = null;
 
 function setElement(element) {
@@ -432,6 +441,45 @@ module.exports = findTabbableDescendants;
 module.exports = _dereq_('./components/Modal');
 
 
-},{"./components/Modal":1}]},{},[8])
+},{"./components/Modal":1}],9:[function(_dereq_,module,exports){
+/**
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule cx
+ */
+
+/**
+ * This function is used to mark string literals representing CSS class names
+ * so that they can be transformed statically. This allows for modularization
+ * and minification of CSS class names.
+ *
+ * In static_upstream, this function is actually implemented, but it should
+ * eventually be replaced with something more descriptive, and the transform
+ * that is used in the main stack should be ported for use elsewhere.
+ *
+ * @param string|object className to modularize, or an object of key/values.
+ *                      In the object case, the values are conditions that
+ *                      determine if the className keys should be included.
+ * @param [string ...]  Variable list of classNames in the string case.
+ * @return string       Renderable space-separated CSS className.
+ */
+function cx(classNames) {
+  if (typeof classNames == 'object') {
+    return Object.keys(classNames).filter(function(className) {
+      return classNames[className];
+    }).join(' ');
+  } else {
+    return Array.prototype.join.call(arguments, ' ');
+  }
+}
+
+module.exports = cx;
+
+},{}]},{},[8])
 (8)
 });
