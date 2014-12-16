@@ -1,6 +1,6 @@
 assert = require('assert');
 React = require('react/addons');
-var Modal = require('../lib/components/Modal');
+var Modal = React.createFactory(require('../lib/components/Modal'));
 
 ReactTestUtils = React.addons.TestUtils;
 ok = assert.ok;
@@ -14,7 +14,7 @@ renderModal = function(props, children, callback) {
   props.ariaHideApp = false;
   _currentDiv = document.createElement('div');
   document.body.appendChild(_currentDiv);
-  return React.renderComponent(Modal(props, children), _currentDiv, callback);
+  return React.render(Modal(props, children), _currentDiv, callback);
 };
 
 unmountModal = function() {
