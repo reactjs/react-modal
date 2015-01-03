@@ -1,7 +1,6 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.ReactModal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-/** @jsx React.DOM */
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
-var ModalPortal = _dereq_('./ModalPortal');
+var ModalPortal = React.createFactory(_dereq_('./ModalPortal'));
 var ariaAppHider = _dereq_('../helpers/ariaAppHider');
 var injectCSS = _dereq_('../helpers/injectCSS');
 
@@ -54,7 +53,7 @@ var Modal = module.exports = React.createClass({
     if (this.portal)
       this.portal.setProps(props);
     else
-      this.portal = React.renderComponent(ModalPortal(props), this.node);
+      this.portal = React.render(ModalPortal(props), this.node);
   },
 
   render: function () {
