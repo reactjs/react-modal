@@ -1,3 +1,11 @@
+v0.1.0 - Thu, 26 Feb 2015 17:14:27 GMT
+--------------------------------------
+
+- [1b8e2d0](../../commit/1b8e2d0) [fixed] ModalPortal's componentWillReceiveProps
+- [28dbc63](../../commit/28dbc63) [added] Supporting custom overlay className closes #14
+- [6626dae](../../commit/6626dae) [fixed] erroneous alias in webpack build
+
+
 v0.0.7 - Sat, 03 Jan 2015 06:44:47 GMT
 --------------------------------------
 
