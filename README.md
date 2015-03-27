@@ -26,7 +26,6 @@ Usage
 Inside an app:
 
 ```js
-/** @jsx React.DOM */
 
 var React = require('react');
 var Modal = require('react-modal');
@@ -74,6 +73,6 @@ var App = React.createClass({
   }
 });
 
-React.renderComponent(<App/>, appElement);
+React.render(<App/>, appElement);
 ```
 

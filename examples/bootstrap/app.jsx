@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var React = require('react');
 var Modal = require('../../lib/index');
 
@@ -66,4 +65,4 @@ var App = React.createClass({
   }
 });
 
-React.renderComponent(<App/>, appElement);
+React.render(<App/>, appElement);
