@@ -110,6 +110,11 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('supports adding style to the modal contents', function () {
+    var modal = renderModal({isOpen: true, style: {width: '20px'}});
+    equal(modal.portal.refs.content.getDOMNode().style.width, '20px');
+  });
+
   it('adds --after-open for animations', function() {
     var modal = renderModal({isOpen: true});
     var overlay = document.querySelector('.ReactModal__Overlay');
