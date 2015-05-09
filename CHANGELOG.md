@@ -1,3 +1,9 @@
+v0.2.0 - Sat, 09 May 2015 05:16:40 GMT
+--------------------------------------
+
+- [f5fe537](../../commit/f5fe537) [added] Ability to specify style for the modal contents
+
+
 v0.1.1 - Tue, 31 Mar 2015 15:56:47 GMT
 --------------------------------------
 
