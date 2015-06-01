@@ -1,3 +1,15 @@
+v0.2.0 - Sat, 09 May 2015 05:16:40 GMT
+--------------------------------------
+
+- [f5fe537](../../commit/f5fe537) [added] Ability to specify style for the modal contents
+
+
+v0.1.1 - Tue, 31 Mar 2015 15:56:47 GMT
+--------------------------------------
+
+- [f86de0a](../../commit/f86de0a) [fixed] shift+tab closes #23
+
+
 v0.1.0 - Thu, 26 Feb 2015 17:14:27 GMT
 --------------------------------------
 

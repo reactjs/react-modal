@@ -1,8 +1,11 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.ReactModal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var ExecutionEnvironment = _dereq_('react/lib/ExecutionEnvironment');
 var ModalPortal = React.createFactory(_dereq_('./ModalPortal'));
 var ariaAppHider = _dereq_('../helpers/ariaAppHider');
 var injectCSS = _dereq_('../helpers/injectCSS');
+
+var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 
 var Modal = module.exports = React.createClass({
 
@@ -16,7 +19,7 @@ var Modal = module.exports = React.createClass({
   propTypes: {
     isOpen: React.PropTypes.bool.isRequired,
     onRequestClose: React.PropTypes.func,
-    appElement: React.PropTypes.instanceOf(HTMLElement),
+    appElement: React.PropTypes.instanceOf(SafeHTMLElement),
     closeTimeoutMS: React.PropTypes.number,
     ariaHideApp: React.PropTypes.bool
   },
@@ -65,26 +68,28 @@ function sanitizeProps(props) {
   delete props.ref;
 }
 
-},{"../helpers/ariaAppHider":3,"../helpers/injectCSS":5,"./ModalPortal":2}],2:[function(_dereq_,module,exports){
+},{"../helpers/ariaAppHider":3,"../helpers/injectCSS":5,"./ModalPortal":2,"react/lib/ExecutionEnvironment":10}],2:[function(_dereq_,module,exports){
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 var div = React.DOM.div;
 var focusManager = _dereq_('../helpers/focusManager');
 var scopeTab = _dereq_('../helpers/scopeTab');
-var cx = _dereq_('react/lib/cx');
+var cx = _dereq_('classnames');
 
 // so that our CSS is statically analyzable
 var CLASS_NAMES = {
   overlay: {
     base: 'ReactModal__Overlay',
     afterOpen: 'ReactModal__Overlay--after-open',
-    beforeClose: 'ReactModal__Overlay--before-close',
+    beforeClose: 'ReactModal__Overlay--before-close'
   },
   content: {
     base: 'ReactModal__Content',
     afterOpen: 'ReactModal__Content--after-open',
-    beforeClose: 'ReactModal__Content--before-close',
+    beforeClose: 'ReactModal__Content--before-close'
   }
 };
+
+var OVERLAY_STYLES = { position: 'fixed', left: 0, right: 0, top: 0, bottom: 0 };
 
 function stopPropagation(event) {
   event.stopPropagation();
@@ -170,7 +175,7 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   handleKeyDown: function(event) {
-    if (event.keyCode == 9 /*tab*/) scopeTab(this.getDOMNode(), event);
+    if (event.keyCode == 9 /*tab*/) scopeTab(this.refs.content.getDOMNode(), event);
     if (event.keyCode == 27 /*esc*/) this.requestClose();
   },
 
@@ -194,8 +199,6 @@ var ModalPortal = module.exports = React.createClass({
     return !this.props.isOpen && !this.state.beforeClose;
   },
 
-  overlayStyles: { position: 'fixed', left: 0, right: 0, top: 0, bottom: 0 },
-
   buildClassName: function(which) {
     var className = CLASS_NAMES[which].base;
     if (this.state.afterOpen)
@@ -210,11 +213,12 @@ var ModalPortal = module.exports = React.createClass({
       div({
         ref: "overlay",
         className: cx(this.buildClassName('overlay'), this.props.overlayClassName),
-        style: this.overlayStyles,
+        style: OVERLAY_STYLES,
         onClick: this.handleOverlayClick
       },
         div({
           ref: "content",
+          style: this.props.style,
           className: cx(this.buildClassName('content'), this.props.className),
           tabIndex: "-1",
           onClick: stopPropagation,
@@ -227,7 +231,7 @@ var ModalPortal = module.exports = React.createClass({
   }
 });
 
-},{"../helpers/focusManager":4,"../helpers/scopeTab":6,"react/lib/cx":9}],3:[function(_dereq_,module,exports){
+},{"../helpers/focusManager":4,"../helpers/scopeTab":6,"classnames":9}],3:[function(_dereq_,module,exports){
 var _element = null;
 
 function setElement(element) {
@@ -280,6 +284,9 @@ function handleBlur(event) {
 function handleFocus(event) {
   if (needToFocus) {
     needToFocus = false;
+    if (!modalElement) {
+      return;
+    }
     // need to see how jQuery shims document.on('focusin') so we don't need the
     // setTimeout, firefox doesn't support focusin, if it did, we could focus
     // the the element outisde of a setTimeout. Side-effect of this
@@ -310,15 +317,28 @@ exports.returnFocus = function() {
 
 exports.setupScopedFocus = function(element) {
   modalElement = element;
-  window.addEventListener('blur', handleBlur, false);
-  document.addEventListener('focus', handleFocus, true);
+
+  if (window.addEventListener) {
+    window.addEventListener('blur', handleBlur, false);
+    document.addEventListener('focus', handleFocus, true);
+  } else {
+    window.attachEvent('onBlur', handleBlur);
+    document.attachEvent('onFocus', handleFocus);
+  }
 };
 
 exports.teardownScopedFocus = function() {
   modalElement = null;
-  window.removeEventListener('blur', handleBlur);
-  document.removeEventListener('focus', handleFocus);
+
+  if (window.addEventListener) {
+    window.removeEventListener('blur', handleBlur);
+    document.removeEventListener('focus', handleFocus);
+  } else {
+    window.detachEvent('onBlur', handleBlur);
+    document.detachEvent('onFocus', handleFocus);
+  }
 };
+
 
 
 },{"../helpers/tabbable":7}],5:[function(_dereq_,module,exports){
@@ -439,6 +459,51 @@ module.exports = _dereq_('./components/Modal');
 
 
 },{"./components/Modal":1}],9:[function(_dereq_,module,exports){
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+
+function classNames() {
+	var classes = '';
+	var arg;
+
+	for (var i = 0; i < arguments.length; i++) {
+		arg = arguments[i];
+		if (!arg) {
+			continue;
+		}
+
+		if ('string' === typeof arg || 'number' === typeof arg) {
+			classes += ' ' + arg;
+		} else if (Object.prototype.toString.call(arg) === '[object Array]') {
+			classes += ' ' + classNames.apply(null, arg);
+		} else if ('object' === typeof arg) {
+			for (var key in arg) {
+				if (!arg.hasOwnProperty(key) || !arg[key]) {
+					continue;
+				}
+				classes += ' ' + key;
+			}
+		}
+	}
+	return classes.substr(1);
+}
+
+// safely export classNames for node / browserify
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = classNames;
+}
+
+// safely export classNames for RequireJS
+if (typeof define !== 'undefined' && define.amd) {
+	define('classnames', [], function() {
+		return classNames;
+	});
+}
+
+},{}],10:[function(_dereq_,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -447,35 +512,41 @@ module.exports = _dereq_('./components/Modal');
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @providesModule cx
+ * @providesModule ExecutionEnvironment
  */
+
+/*jslint evil: true */
+
+"use strict";
+
+var canUseDOM = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
 
 /**
- * This function is used to mark string literals representing CSS class names
- * so that they can be transformed statically. This allows for modularization
- * and minification of CSS class names.
- *
- * In static_upstream, this function is actually implemented, but it should
- * eventually be replaced with something more descriptive, and the transform
- * that is used in the main stack should be ported for use elsewhere.
- *
- * @param string|object className to modularize, or an object of key/values.
- *                      In the object case, the values are conditions that
- *                      determine if the className keys should be included.
- * @param [string ...]  Variable list of classNames in the string case.
- * @return string       Renderable space-separated CSS className.
+ * Simple, lightweight module assisting with the detection and context of
+ * Worker. Helps avoid circular dependencies and allows code to reason about
+ * whether or not they are in a Worker, even if they never include the main
+ * `ReactWorker` dependency.
  */
-function cx(classNames) {
-  if (typeof classNames == 'object') {
-    return Object.keys(classNames).filter(function(className) {
-      return classNames[className];
-    }).join(' ');
-  } else {
-    return Array.prototype.join.call(arguments, ' ');
-  }
-}
+var ExecutionEnvironment = {
 
-module.exports = cx;
+  canUseDOM: canUseDOM,
+
+  canUseWorkers: typeof Worker !== 'undefined',
+
+  canUseEventListeners:
+    canUseDOM && !!(window.addEventListener || window.attachEvent),
+
+  canUseViewport: canUseDOM && !!window.screen,
+
+  isInWorker: !canUseDOM // For now, this is true - might change in the future.
+
+};
+
+module.exports = ExecutionEnvironment;
 
 },{}]},{},[8])
 (8)
