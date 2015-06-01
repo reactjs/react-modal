@@ -42,7 +42,9 @@
   "peerDependencies": {
     "react": ">=0.13.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "element-class": "^0.2.0"
+  },
   "tags": [
     "react",
     "modal",
