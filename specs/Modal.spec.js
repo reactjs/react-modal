@@ -115,6 +115,18 @@ describe('Modal', function () {
     equal(modal.portal.refs.content.getDOMNode().style.width, '20px');
   });
 
+  it('adds class to body when open', function() {
+    var modal = renderModal({isOpen: false});
+    equal(document.body.className.contains('ReactModalBody--open'), false);
+
+    modal.setProps({ isOpen: true});
+    equal(document.body.className.contains('ReactModalBody--open'), true);
+
+    modal = renderModal({isOpen: false});
+    equal(document.body.className.contains('ReactModalBody--open'), false);
+    unmountModal();
+  });
+
   it('adds --after-open for animations', function() {
     var modal = renderModal({isOpen: true});
     var overlay = document.querySelector('.ReactModal__Overlay');
