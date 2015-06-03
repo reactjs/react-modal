@@ -16,7 +16,7 @@ function buildEntries() {
     var isDraft = dir.charAt(0) === '_';
 
     if (!isDraft && isDirectory(path.join(EXAMPLES_DIR, dir)))
-      entries[dir] = path.join(EXAMPLES_DIR, dir, 'app.js');
+      entries[dir] = path.join(EXAMPLES_DIR, dir, 'app.jsx');
 
     return entries;
   }, {});
@@ -35,7 +35,7 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'jsx-loader?harmony' }
+      { test: /\.jsx$|\.js$/, loader: 'jsx-loader?harmony' }
     ]
   },
 
