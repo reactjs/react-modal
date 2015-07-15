@@ -1,16 +1,8 @@
-React Modal
-===========
+# react-modal
 
-Accessible React Modal Dialog Component. This isn't ready to be used
-yet, still under development.
+Accessible modal dialog component for React.JS
 
-Accessibility Notes
--------------------
-
-Etc. etc. etc.
-
-Usage
------
+## Usage
 
 ```xml
 <Modal
@@ -26,8 +18,6 @@ Usage
 Inside an app:
 
 ```js
-/** @jsx React.DOM */
-
 var React = require('react');
 var Modal = require('react-modal');
 
