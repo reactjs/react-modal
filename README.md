@@ -74,6 +74,6 @@ var App = React.createClass({
   }
 });
 
-React.renderComponent(<App/>, appElement);
+React.render(<App/>, appElement);
 ```
 
