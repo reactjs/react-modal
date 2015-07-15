@@ -1,3 +1,9 @@
+v0.3.0 - Wed, 15 Jul 2015 06:17:24 GMT
+--------------------------------------
+
+- [adecf62](../../commit/adecf62) [added] Class name on body when modal is open
+
+
 v0.2.0 - Sat, 09 May 2015 05:16:40 GMT
 --------------------------------------
 

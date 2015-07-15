@@ -1,9 +1,11 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.ReactModal=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
-var ExecutionEnvironment = _dereq_('react/lib/ExecutionEnvironment');
-var ModalPortal = React.createFactory(_dereq_('./ModalPortal'));
-var ariaAppHider = _dereq_('../helpers/ariaAppHider');
-var injectCSS = _dereq_('../helpers/injectCSS');
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ReactModal = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (global){
+var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var ExecutionEnvironment = require('react/lib/ExecutionEnvironment');
+var ModalPortal = React.createFactory(require('./ModalPortal'));
+var ariaAppHider = require('../helpers/ariaAppHider');
+var injectCSS = require('../helpers/injectCSS');
+var elementClass = require('element-class');
 
 var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 
@@ -49,6 +51,12 @@ var Modal = module.exports = React.createClass({
   },
 
   renderPortal: function(props) {
+    if (props.isOpen) {
+      elementClass(document.body).add('ReactModal__Body--open');
+    } else {
+      elementClass(document.body).remove('ReactModal__Body--open');
+    }
+
     if (props.ariaHideApp) {
       ariaAppHider.toggle(props.isOpen, props.appElement);
     }
@@ -68,12 +76,14 @@ function sanitizeProps(props) {
   delete props.ref;
 }
 
-},{"../helpers/ariaAppHider":3,"../helpers/injectCSS":5,"./ModalPortal":2,"react/lib/ExecutionEnvironment":10}],2:[function(_dereq_,module,exports){
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../helpers/ariaAppHider":3,"../helpers/injectCSS":5,"./ModalPortal":2,"element-class":10,"react/lib/ExecutionEnvironment":11}],2:[function(require,module,exports){
+(function (global){
+var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 var div = React.DOM.div;
-var focusManager = _dereq_('../helpers/focusManager');
-var scopeTab = _dereq_('../helpers/scopeTab');
-var cx = _dereq_('classnames');
+var focusManager = require('../helpers/focusManager');
+var scopeTab = require('../helpers/scopeTab');
+var cx = require('classnames');
 
 // so that our CSS is statically analyzable
 var CLASS_NAMES = {
@@ -231,7 +241,8 @@ var ModalPortal = module.exports = React.createClass({
   }
 });
 
-},{"../helpers/focusManager":4,"../helpers/scopeTab":6,"classnames":9}],3:[function(_dereq_,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../helpers/focusManager":4,"../helpers/scopeTab":6,"classnames":9}],3:[function(require,module,exports){
 var _element = null;
 
 function setElement(element) {
@@ -270,9 +281,8 @@ exports.show = show;
 exports.hide = hide;
 exports.resetForTesting = resetForTesting;
 
-
-},{}],4:[function(_dereq_,module,exports){
-var findTabbable = _dereq_('../helpers/tabbable');
+},{}],4:[function(require,module,exports){
+var findTabbable = require('../helpers/tabbable');
 var modalElement = null;
 var focusLaterElement = null;
 var needToFocus = false;
@@ -339,9 +349,7 @@ exports.teardownScopedFocus = function() {
   }
 };
 
-
-
-},{"../helpers/tabbable":7}],5:[function(_dereq_,module,exports){
+},{"../helpers/tabbable":7}],5:[function(require,module,exports){
 module.exports = function() {
   injectStyle([
     '.ReactModal__Overlay {',
@@ -378,15 +386,20 @@ function injectStyle(css) {
   if (!style) {
     style = document.createElement('style');
     style.setAttribute('id', 'rackt-style');
-    var head = document.getElementsByTagName('head')[0];
-    head.insertBefore(style, head.firstChild);
+    style.setAttribute("type", "text/css");
   }
-  style.innerHTML = style.innerHTML+'\n'+css;
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+    document.body.appendChild(style);
+  } else {
+    style.innerHTML = css;
+    document.head.appendChild(style);
+  }
 }
 
-
-},{}],6:[function(_dereq_,module,exports){
-var findTabbable = _dereq_('../helpers/tabbable');
+},{}],6:[function(require,module,exports){
+var findTabbable = require('../helpers/tabbable');
 
 module.exports = function(node, event) {
   var tabbable = findTabbable(node);
@@ -402,7 +415,7 @@ module.exports = function(node, event) {
   target.focus();
 };
 
-},{"../helpers/tabbable":7}],7:[function(_dereq_,module,exports){
+},{"../helpers/tabbable":7}],7:[function(require,module,exports){
 /*!
  * Adapted from jQuery UI core
  *
@@ -453,59 +466,117 @@ function findTabbableDescendants(element) {
 
 module.exports = findTabbableDescendants;
 
+},{}],8:[function(require,module,exports){
+module.exports = require('./components/Modal');
 
-},{}],8:[function(_dereq_,module,exports){
-module.exports = _dereq_('./components/Modal');
-
-
-},{"./components/Modal":1}],9:[function(_dereq_,module,exports){
+},{"./components/Modal":1}],9:[function(require,module,exports){
 /*!
   Copyright (c) 2015 Jed Watson.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
 
-function classNames() {
-	var classes = '';
-	var arg;
+(function () {
+	'use strict';
 
-	for (var i = 0; i < arguments.length; i++) {
-		arg = arguments[i];
-		if (!arg) {
-			continue;
-		}
+	function classNames () {
 
-		if ('string' === typeof arg || 'number' === typeof arg) {
-			classes += ' ' + arg;
-		} else if (Object.prototype.toString.call(arg) === '[object Array]') {
-			classes += ' ' + classNames.apply(null, arg);
-		} else if ('object' === typeof arg) {
-			for (var key in arg) {
-				if (!arg.hasOwnProperty(key) || !arg[key]) {
-					continue;
+		var classes = '';
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if ('string' === argType || 'number' === argType) {
+				classes += ' ' + arg;
+
+			} else if (Array.isArray(arg)) {
+				classes += ' ' + classNames.apply(null, arg);
+
+			} else if ('object' === argType) {
+				for (var key in arg) {
+					if (arg.hasOwnProperty(key) && arg[key]) {
+						classes += ' ' + key;
+					}
 				}
-				classes += ' ' + key;
 			}
 		}
+
+		return classes.substr(1);
 	}
-	return classes.substr(1);
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd){
+		// AMD. Register as an anonymous module.
+		define(function () {
+			return classNames;
+		});
+	} else {
+		window.classNames = classNames;
+	}
+
+}());
+
+},{}],10:[function(require,module,exports){
+module.exports = function(opts) {
+  return new ElementClass(opts)
 }
 
-// safely export classNames for node / browserify
-if (typeof module !== 'undefined' && module.exports) {
-	module.exports = classNames;
+function indexOf(arr, prop) {
+  if (arr.indexOf) return arr.indexOf(prop)
+  for (var i = 0, len = arr.length; i < len; i++)
+    if (arr[i] === prop) return i
+  return -1
 }
 
-// safely export classNames for RequireJS
-if (typeof define !== 'undefined' && define.amd) {
-	define('classnames', [], function() {
-		return classNames;
-	});
+function ElementClass(opts) {
+  if (!(this instanceof ElementClass)) return new ElementClass(opts)
+  var self = this
+  if (!opts) opts = {}
+
+  // similar doing instanceof HTMLElement but works in IE8
+  if (opts.nodeType) opts = {el: opts}
+
+  this.opts = opts
+  this.el = opts.el || document.body
+  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
 }
 
-},{}],10:[function(_dereq_,module,exports){
+ElementClass.prototype.add = function(className) {
+  var el = this.el
+  if (!el) return
+  if (el.className === "") return el.className = className
+  var classes = el.className.split(' ')
+  if (indexOf(classes, className) > -1) return classes
+  classes.push(className)
+  el.className = classes.join(' ')
+  return classes
+}
+
+ElementClass.prototype.remove = function(className) {
+  var el = this.el
+  if (!el) return
+  if (el.className === "") return
+  var classes = el.className.split(' ')
+  var idx = indexOf(classes, className)
+  if (idx > -1) classes.splice(idx, 1)
+  el.className = classes.join(' ')
+  return classes
+}
+
+ElementClass.prototype.has = function(className) {
+  var el = this.el
+  if (!el) return
+  var classes = el.className.split(' ')
+  return indexOf(classes, className) > -1
+}
+
+},{}],11:[function(require,module,exports){
 /**
- * Copyright 2013-2014, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -520,9 +591,8 @@ if (typeof define !== 'undefined' && define.amd) {
 "use strict";
 
 var canUseDOM = !!(
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
+  (typeof window !== 'undefined' &&
+  window.document && window.document.createElement)
 );
 
 /**
@@ -548,6 +618,5 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}]},{},[8])
-(8)
+},{}]},{},[8])(8)
 });

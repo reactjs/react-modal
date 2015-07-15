@@ -1,6 +1,6 @@
 {
   "name": "react-modal",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Accessible modal dialog component for React.JS",
   "main": "./lib/index",
   "repository": {
