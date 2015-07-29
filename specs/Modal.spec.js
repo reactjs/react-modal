@@ -23,14 +23,6 @@ describe('Modal', function () {
     unmountModal();
   });
 
-  it('throws without an appElement', function() {
-    var node = document.createElement('div');
-    throws(function() {
-      React.render(React.createElement(Modal, {isOpen: true}), node);
-    });
-    React.unmountComponentAtNode(node);
-  });
-
   it('uses the global appElement', function() {
     var app = document.createElement('div');
     var node = document.createElement('div');
@@ -111,7 +103,7 @@ describe('Modal', function () {
   });
 
   it('supports adding style to the modal contents', function () {
-    var modal = renderModal({isOpen: true, style: {width: '20px'}});
+    var modal = renderModal({isOpen: true, style: {content: {width: '20px'}}});
     equal(modal.portal.refs.content.getDOMNode().style.width, '20px');
   });
 

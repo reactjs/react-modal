@@ -3,8 +3,7 @@ var Modal = require('../../lib/index');
 
 var appElement = document.getElementById('example');
 
-Modal.setAppElement(appElement);
-Modal.injectCSS();
+Modal.setAppElement('#example');
 
 var App = React.createClass({
 
@@ -37,8 +36,7 @@ var App = React.createClass({
         <Modal
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          onRequestClose={this.handleModalCloseRequest}
-        >
+          onRequestClose={this.handleModalCloseRequest}>
           <h1>Hello</h1>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
