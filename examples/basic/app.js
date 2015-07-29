@@ -3,8 +3,7 @@ var Modal = require('../../lib/index');
 
 var appElement = document.getElementById('example');
 
-Modal.setAppElement(appElement);
-Modal.injectCSS();
+Modal.setAppElement('#example');
 
 var App = React.createClass({
 

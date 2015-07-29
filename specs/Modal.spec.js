@@ -23,14 +23,6 @@ describe('Modal', function () {
     unmountModal();
   });
 
-  it('throws without an appElement', function() {
-    var node = document.createElement('div');
-    throws(function() {
-      React.render(React.createElement(Modal, {isOpen: true}), node);
-    });
-    React.unmountComponentAtNode(node);
-  });
-
   it('uses the global appElement', function() {
     var app = document.createElement('div');
     var node = document.createElement('div');

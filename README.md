@@ -23,8 +23,16 @@ var Modal = require('react-modal');
 
 var appElement = document.getElementById('your-app-element');
 
+/*
+By default the modal is anchored to document.body. All of the following overrides are available.
+
+* element
 Modal.setAppElement(appElement);
-Modal.injectCSS();
+
+* query selector - uses the first element found if you pass in a class.
+Modal.setAppElement('#your-app-element');
+
+*/
 
 var App = React.createClass({
 
