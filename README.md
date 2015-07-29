@@ -66,4 +66,4 @@ var App = React.createClass({
 
 React.render(<App/>, appElement);
 ```
-
+[Demo](http://rackt.github.io/react-modal/)
