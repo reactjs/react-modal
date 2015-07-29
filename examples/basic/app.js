@@ -36,8 +36,7 @@ var App = React.createClass({
         <Modal
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          onRequestClose={this.handleModalCloseRequest}
-        >
+          onRequestClose={this.handleModalCloseRequest}>
           <h1>Hello</h1>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
