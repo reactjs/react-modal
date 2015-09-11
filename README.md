@@ -67,3 +67,6 @@ var App = React.createClass({
 React.render(<App/>, appElement);
 ```
 
+# Demos
+* http://rackt.github.io/react-modal/
+* http://rackt.github.io/react-modal/bootstrap
