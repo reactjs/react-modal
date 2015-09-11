@@ -24,7 +24,6 @@ var Modal = require('react-modal');
 var appElement = document.getElementById('your-app-element');
 
 Modal.setAppElement(appElement);
-Modal.injectCSS();
 
 var App = React.createClass({
 
