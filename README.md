@@ -19,6 +19,7 @@ Inside an app:
 
 ```js
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
 
 var appElement = document.getElementById('your-app-element');
@@ -64,7 +65,7 @@ var App = React.createClass({
   }
 });
 
-React.render(<App/>, appElement);
+ReactDOM.render(<App/>, appElement);
 ```
 
 # Demos
