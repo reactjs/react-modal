@@ -45,7 +45,7 @@
     "lodash.assign": "^3.2.0"
   },
   "peerDependencies": {
-    "react": ">=0.13.3"
+    "react": ">=0.13.3 || ^0.14.0-beta3"
   },
   "tags": [
     "react",
