@@ -1,3 +1,10 @@
+v0.5.0 - Tue, 22 Sep 2015 19:19:44 GMT
+--------------------------------------
+
+- [4d25989](../../commit/4d25989) [added] Inline CSS for modal and overlay as well as props to override. [changed] injectCSS has been changed to a warning message in preperation for a future removal. lib/components/Modal.js [changed] setAppElement method is now optional. Defaults to document.body and now allows for a css selector to be passed in rather than the whole element.
+- [02cf2c3](../../commit/02cf2c3) [fixed] Clear the closeWithTimeout timer before unmounting
+
+
 v0.3.0 - Wed, 15 Jul 2015 06:17:24 GMT
 --------------------------------------
 
