@@ -25,6 +25,7 @@
     "browserify-shim": "3.8.10",
     "envify": "3.4.0",
     "expect": "1.10.0",
+    "fbjs": "^0.3.1",
     "jsx-loader": "0.13.2",
     "karma": "0.13.10",
     "karma-browserify": "^4.2.1",
