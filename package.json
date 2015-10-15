@@ -34,7 +34,7 @@
     "karma-mocha": "0.2.0",
     "karma-safari-launcher": "^0.1.1",
     "mocha": "2.3.3",
-    "react": ">=0.13.3",
+    "react": "0.13.3",
     "reactify": "^1.1.1",
     "rf-release": "0.4.0",
     "uglify-js": "2.4.24",
@@ -59,6 +59,7 @@
     "dialog"
   ],
   "browserify-shim": {
-    "react": "global:React"
+    "react": "global:React",
+    "lodash.assign": "global:_.assign"
   }
 }
