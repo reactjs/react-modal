@@ -109,7 +109,7 @@ describe('Modal', function () {
     equal(modal.portal.refs.content.style.width, '20px');
   });
 
-  it('supports overridding style on the modal contents', function() {
+  it('supports overriding style on the modal contents', function() {
     var modal = renderModal({isOpen: true, style: {content: {position: 'static'}}});
     equal(modal.portal.refs.content.style.position, 'static');
   });
@@ -119,7 +119,7 @@ describe('Modal', function () {
     equal(modal.portal.refs.overlay.style.width, '75px');
   });
 
-  it('supports overridding style on the modal overlay', function() {
+  it('supports overriding style on the modal overlay', function() {
     var modal = renderModal({isOpen: true, style: {overlay: {position: 'static'}}});
     equal(modal.portal.refs.overlay.style.position, 'static');
   });
