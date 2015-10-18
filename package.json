@@ -34,7 +34,6 @@
     "karma-mocha": "0.2.0",
     "karma-safari-launcher": "^0.1.1",
     "mocha": "2.3.3",
-    "exenv": "1.2.0",
     "react-addons-test-utils": "^0.14.0",
     "react-dom": "^0.14.0",
     "react": "^0.14.0",
@@ -45,6 +44,7 @@
   },
   "dependencies": {
     "element-class": "^0.2.0",
+    "exenv": "1.2.0",
     "lodash.assign": "^3.2.0"
   },
   "peerDependencies": {
