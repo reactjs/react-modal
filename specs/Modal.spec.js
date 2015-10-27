@@ -272,6 +272,44 @@ describe('Modal', function () {
         ok(hasPropagated)
       });
     });
+
+    it('verify event passing on overlay click', function() {
+      var requestCloseCallback = sinon.spy();
+      var modal = renderModal({
+        isOpen: true,
+        shouldCloseOnOverlayClick: true,
+        onRequestClose: requestCloseCallback,
+      });
+      equal(modal.props.isOpen, true);
+      var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+      equal(overlay.length, 1);
+      Simulate.click(overlay[0]); // click the overlay
+      ok(requestCloseCallback.called)
+      // Check if event is passed to onRequestClose callback.
+      var event = requestCloseCallback.getCall(0).args[0];
+      ok(event);
+      ok(event.constructor);
+      equal(event.constructor.name, 'SyntheticEvent');
+    });
+  });
+
+  it('should close on Esc key event', function() {
+    var requestCloseCallback = sinon.spy();
+    var modal = renderModal({
+      isOpen: true,
+      shouldCloseOnOverlayClick: true,
+      onRequestClose: requestCloseCallback,
+    });
+    equal(modal.props.isOpen, true);
+    assert.doesNotThrow(function() {
+      Simulate.keyDown(modal.portal.refs.content, {key: "Esc", keyCode: 27, which: 27})
+    });
+    ok(requestCloseCallback.called)
+    // Check if event is passed to onRequestClose callback.
+    var event = requestCloseCallback.getCall(0).args[0];
+    ok(event);
+    ok(event.constructor);
+    equal(event.constructor.name, 'SyntheticEvent');
   });
 
   //it('adds --before-close for animations', function() {
