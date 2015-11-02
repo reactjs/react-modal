@@ -175,6 +175,13 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('removes class from body when unmounted without closing', function() {
+    var modal = renderModal({isOpen: true});
+    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
+    unmountModal();
+    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
+  });
+
   it('adds --after-open for animations', function() {
     var modal = renderModal({isOpen: true});
     var overlay = document.querySelector('.ReactModal__Overlay');
