@@ -94,13 +94,13 @@ describe('Modal', function () {
 
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
-    equal(modal.portal.refs.content.className.contains('myClass'), true);
+    equal(modal.portal.refs.content.classList.contains('myClass'), true);
     unmountModal();
   });
 
   it('supports overlayClassName', function () {
     var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
-    equal(modal.portal.refs.overlay.className.contains('myOverlayClass'), true);
+    equal(modal.portal.refs.overlay.classList.contains('myOverlayClass'), true);
     unmountModal();
   });
 
