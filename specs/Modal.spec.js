@@ -125,13 +125,13 @@ describe('Modal', function () {
   });
 
   it('adds class to body when open', function() {
-    var modal = renderModal({isOpen: false});
+    var modal = renderModal({isOpen: false, bodyClass: 'ReactModal__Body--open'});
     equal(document.body.className.indexOf('ReactModal__Body--open') !== -1, false);
 
-    modal = renderModal({isOpen: true});
+    modal = renderModal({isOpen: true, bodyClass: 'ReactModal__Body--open'});
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
 
-    modal = renderModal({isOpen: false});
+    modal = renderModal({isOpen: false, bodyClass: 'ReactModal__Body--open'});
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
     unmountModal();
   });
