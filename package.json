@@ -13,7 +13,9 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "scripts/test --browsers Firefox --single-run",
+    "test:firefox": "scripts/test --browsers Firefox --single-run",
+    "test:chrome": "scripts/test --browsers Chrome --single-run",
+    "test": "npm run test:firefox && npm run test:chrome",
     "start": "scripts/dev-examples"
   },
   "authors": [

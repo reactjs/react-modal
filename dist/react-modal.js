@@ -39,8 +39,7 @@ var Modal = module.exports = React.createClass({
       isOpen: false,
       ariaHideApp: true,
       closeTimeoutMS: 0,
-      bodyClass: '',
-      className: ''
+      bodyClass: ''
     };
   },
 
