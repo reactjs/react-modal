@@ -103,7 +103,7 @@ var App = React.createClass({
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          style={customStyles} >
+          style={customStyles}>
 
           <h2>Hello</h2>
           <button onClick={this.closeModal}>close</button>
