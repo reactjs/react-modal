@@ -40,7 +40,6 @@ Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '20px'
-
   }
 }
 ```
