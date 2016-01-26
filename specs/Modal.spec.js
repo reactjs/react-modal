@@ -92,6 +92,14 @@ describe('Modal', function () {
     });
   });
 
+  it('handles case when child has no tabbable elements', function() {
+    var component = renderModal({isOpen: true}, 'hello');
+    assert.doesNotThrow(function() {
+      Simulate.keyDown(component.portal.refs.content, {key: "Tab", keyCode: 9, which: 9})
+    });
+    unmountModal();
+  });
+
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
     equal(modal.portal.refs.content.className.contains('myClass'), true);
