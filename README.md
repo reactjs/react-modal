@@ -125,5 +125,5 @@ ReactDOM.render(<App/>, appElement);
 ```
 
 # Demos
-* http://rackt.github.io/react-modal/
-* http://rackt.github.io/react-modal/bootstrap
+* http://reactjs.github.io/react-modal/
+* http://reactjs.github.io/react-modal/bootstrap
