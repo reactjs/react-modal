@@ -46,6 +46,31 @@ describe('Modal', function () {
     ReactDOM.unmountComponentAtNode(node);
   });
 
+  it('relative modals render into context, not in body', function() {
+    var node = document.createElement('div');
+    var App = React.createClass({
+      render: function() {
+        return React.DOM.div({ id: 'context' }, React.createElement(Modal, {isOpen: true, relative: true}, 'hello'));
+      }
+    });
+    ReactDOM.render(React.createElement(App), node);
+    var modalParent = node.querySelector('.ReactModalPortal').parentNode;
+    equal(modalParent.id, 'context')
+    ReactDOM.unmountComponentAtNode(node)
+  });
+
+  it('modal overlays have default fixed position', function() {
+    var modal = renderModal({isOpen: true});
+    equal(modal.portal.refs.overlay.style.position, 'fixed');
+    unmountModal();
+  });
+
+  it('relative modal overlays have default absolute position', function() {
+    var modal = renderModal({isOpen: true, relative: true});
+    equal(modal.portal.refs.overlay.style.position, 'absolute');
+    unmountModal();
+  });
+
   it('renders into the body, not in context', function() {
     var node = document.createElement('div');
     var App = React.createClass({
