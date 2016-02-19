@@ -5,6 +5,7 @@ var Modal = React.createFactory(require('../lib/components/Modal'));
 
 ok = assert.ok;
 equal = assert.equal;
+notEqual = assert.notEqual;
 strictEqual = assert.strictEqual;
 throws = assert.throws;
 

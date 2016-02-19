@@ -6,6 +6,7 @@ var Modal = require('../lib/components/Modal');
 var Simulate = TestUtils.Simulate;
 var ariaAppHider = require('../lib/helpers/ariaAppHider');
 var button = ReactDOM.button;
+var sinon = require('sinon');
 
 describe('Modal', function () {
 
@@ -74,6 +75,7 @@ describe('Modal', function () {
     equal(props.isOpen, false);
     equal(props.ariaHideApp, true);
     equal(props.closeTimeoutMS, 0);
+    equal(props.shouldCloseOnOverlayClick, true);
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
   });
@@ -94,13 +96,13 @@ describe('Modal', function () {
 
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
-    equal(modal.portal.refs.content.className.contains('myClass'), true);
+    notEqual(modal.portal.refs.content.className.indexOf('myClass'), -1);
     unmountModal();
   });
 
   it('supports overlayClassName', function () {
     var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
-    equal(modal.portal.refs.overlay.className.contains('myOverlayClass'), true);
+    notEqual(modal.portal.refs.overlay.className.indexOf('myOverlayClass'), -1);
     unmountModal();
   });
 
@@ -143,6 +145,55 @@ describe('Modal', function () {
     ok(overlay.className.match(/ReactModal__Overlay--after-open/));
     ok(content.className.match(/ReactModal__Content--after-open/));
     unmountModal();
+  });
+
+  describe('should close on overlay click', function() {
+    afterEach('Unmount modal', function() {
+      unmountModal();
+    });
+
+    describe('verify props', function() {
+      it('verify default prop of shouldCloseOnOverlayClick', function () {
+        var modal = renderModal({isOpen: true});
+        equal(modal.props.shouldCloseOnOverlayClick, true);
+      });
+
+      it('verify prop of shouldCloseOnOverlayClick', function () {
+        var modal = renderModal({isOpen: true, shouldCloseOnOverlayClick: false});
+        equal(modal.props.shouldCloseOnOverlayClick, false);
+      });
+    });
+
+    describe('verify clicks', function() {
+      it('verify overlay click when shouldCloseOnOverlayClick sets to false', function () {
+        var requestCloseCallback = sinon.spy();
+        var modal = renderModal({
+          isOpen: true,
+          shouldCloseOnOverlayClick: false
+        });
+        equal(modal.props.isOpen, true);
+        var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        equal(overlay.length, 1);
+        Simulate.click(overlay[0]); // click the overlay
+        ok(!requestCloseCallback.called)
+      });
+
+      it('verify overlay click when shouldCloseOnOverlayClick sets to true', function() {
+        var requestCloseCallback = sinon.spy();
+        var modal = renderModal({
+          isOpen: true,
+          shouldCloseOnOverlayClick: true,
+          onRequestClose: function() {
+            requestCloseCallback();
+          }
+        });
+        equal(modal.props.isOpen, true);
+        var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        equal(overlay.length, 1);
+        Simulate.click(overlay[0]); // click the overlay
+        ok(requestCloseCallback.called)
+      });
+    });
   });
 
   //it('adds --before-close for animations', function() {

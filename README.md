@@ -124,6 +124,22 @@ var App = React.createClass({
 ReactDOM.render(<App/>, appElement);
 ```
 
+By default the modal is closed when clicking outside of it (the overlay area). If you want to prevent this behavior you can
+pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
+```xml
+<Modal
+  isOpen={bool}
+  onRequestClose={fn}
+  closeTimeoutMS={n}
+  shouldCloseOnOverlayClick={false}
+  style={customStyle}>
+
+  <h1>Force Modal</h1>
+  <p>Modal cannot be closed when clickig the overlay area</p>
+  <button onClick={handleCloseFunc}>Close Modal...</button>
+</Modal>
+```
+
 # Demos
 * http://reactjs.github.io/react-modal/
 * http://reactjs.github.io/react-modal/bootstrap
