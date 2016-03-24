@@ -104,6 +104,17 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('overrides the default styles when a custom classname is used', function () {
+    var modal = renderModal({isOpen: true, className: 'myClass'});
+    equal(modal.portal.refs.content.style.top, '');
+    unmountModal();
+  });
+
+  it('overrides the default styles when a custom overlayClassName is used', function () {
+    var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
+    equal(modal.portal.refs.overlay.style.backgroundColor, '');
+  });
+
   it('supports adding style to the modal contents', function () {
     var modal = renderModal({isOpen: true, style: {content: {width: '20px'}}});
     equal(modal.portal.refs.content.style.width, '20px');
