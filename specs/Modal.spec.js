@@ -30,6 +30,9 @@ describe('Modal', function () {
     var node = document.createElement('div');
     Modal.setAppElement(app);
     ReactDOM.render(React.createElement(Modal, {isOpen: true}), node);
+    var modalParent = app.querySelector('.ReactModalPortal').parentNode;
+    assert.notEqual(modalParent, document.body);
+    assert.equal(modalParent, app);
     equal(app.getAttribute('aria-hidden'), 'true');
     ariaAppHider.resetForTesting();
     ReactDOM.unmountComponentAtNode(node);
@@ -53,6 +56,7 @@ describe('Modal', function () {
         return React.DOM.div({}, React.createElement(Modal, {isOpen: true, ariaHideApp: false}, 'hello'));
       }
     });
+    Modal.setAppElement(document.body);
     ReactDOM.render(React.createElement(App), node);
     var modalParent = document.body.querySelector('.ReactModalPortal').parentNode;
     equal(modalParent, document.body);
@@ -76,6 +80,7 @@ describe('Modal', function () {
     equal(props.closeTimeoutMS, 0);
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
+    Modal.setAppElement(document.body);  // restore default
   });
 
   it('removes the portal node', function() {
