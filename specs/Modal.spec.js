@@ -102,6 +102,19 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('keeps focus inside the modal when child has no tabbable elements', function() {
+    var tabPrevented = false;
+    var modal = renderModal({isOpen: true}, 'hello');
+    strictEqual(document.activeElement, modal.portal.refs.content);
+    Simulate.keyDown(modal.portal.refs.content, {
+        key: "Tab",
+        keyCode: 9,
+        which: 9,
+        preventDefault: function() { tabPrevented = true; }
+    });
+    equal(tabPrevented, true);
+  });
+
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
     notEqual(modal.portal.refs.content.className.indexOf('myClass'), -1);
