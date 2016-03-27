@@ -1,0 +1,14 @@
+{
+  "extends": "rackt",
+  "rules": {
+    "array-bracket-spacing": 0,
+    "no-console": 0,
+    "no-multiple-empty-lines": 0,
+    "no-undef": 0,
+    "no-unused-vars": 0,
+    "object-curly-spacing": 0,
+    "quotes": 0,
+    "semi": 0,
+    "space-before-function-paren": 0
+  }
+}
