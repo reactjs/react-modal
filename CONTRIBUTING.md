@@ -29,7 +29,7 @@ always be in sync.
 ### Development
 
 - `npm start` runs the dev server to run/develop examples
-- `npm test` will run the test.
+- `npm test` will run the tests.
 - `scripts/test` same as `npm test` but keeps karma running and watches
   for changes
 
