@@ -3,7 +3,6 @@ var TestUtils = require('react-addons-test-utils');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('../lib/components/Modal');
-var defaultStyles = require('../lib/styles')
 var Simulate = TestUtils.Simulate;
 var ariaAppHider = require('../lib/helpers/ariaAppHider');
 var button = ReactDOM.button;
@@ -165,13 +164,13 @@ describe('Modal', function () {
   });
 
   it('supports overriding the default styles', function() {
-    var previousStyle = defaultStyles.content.position
+    var previousStyle = Modal.defaultStyles.content.position
     //Just in case the default style is already relative, check that we can change it
     var newStyle = previousStyle === 'relative' ? 'static': 'relative'
-    defaultStyles.content.position = newStyle
+    Modal.defaultStyles.content.position = newStyle
     var modal = renderModal({isOpen: true});
     equal(modal.portal.refs.content.style.position, newStyle);
-    defaultStyles.content.position = previousStyle
+    Modal.defaultStyles.content.position = previousStyle
   });
 
   it('adds class to body when open', function() {

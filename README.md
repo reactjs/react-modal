@@ -48,6 +48,9 @@ Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
 Styles passed to the modal are merged in with the above defaults and applied to their respective elements.
 At this time, media queries will need to be handled by the consumer.
 
+###Overriding styles globally
+
+The default styles above are available on `Modal.defaultStyles`.
 
 ## Examples
 Inside an app:
