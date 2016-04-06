@@ -237,6 +237,18 @@ describe('Modal', function () {
         Simulate.click(overlay[0]); // click the overlay
         ok(requestCloseCallback.called)
       });
+
+      it('should not stop event propagation', function() {
+        var hasPropagated = false
+        var modal = renderModal({
+          isOpen: true,
+          shouldCloseOnOverlayClick: true
+        });
+        var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        window.addEventListener('click', function () { hasPropagated = true })
+        overlay[0].dispatchEvent(new MouseEvent('click', { bubbles: true }))
+        ok(hasPropagated)
+      });
     });
   });
 
