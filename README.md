@@ -9,12 +9,13 @@ Accessible modal dialog component for React.JS
   isOpen={bool}
   onRequestClose={fn}
   closeTimeoutMS={n}
-  style={customStyle}>
-
+  style={customStyle}
+>
   <h1>Modal Content</h1>
   <p>Etc.</p>
 </Modal>
 ```
+
 ## Styles
 Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
 ```js
@@ -48,9 +49,17 @@ Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
 Styles passed to the modal are merged in with the above defaults and applied to their respective elements.
 At this time, media queries will need to be handled by the consumer.
 
-###Overriding styles globally
+### Using CSS Classes
 
-The default styles above are available on `Modal.defaultStyles`.
+If you prefer not to use inline styles or are unable to do so in your project,
+you can pass `className` and `overlayClassName` props to the Modal.  If you do
+this then none of the default styles will apply and you will have full control
+over styling via CSS.
+
+
+### Overriding styles globally
+The default styles above are available on `Modal.defaultStyles`. Changes to this
+object will apply to all instances of the modal.
 
 ## Examples
 Inside an app:
