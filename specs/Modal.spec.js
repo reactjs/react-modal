@@ -163,6 +163,16 @@ describe('Modal', function () {
     equal(modal.portal.refs.overlay.style.position, 'static');
   });
 
+  it('supports overriding the default styles', function() {
+    var previousStyle = Modal.defaultStyles.content.position
+    //Just in case the default style is already relative, check that we can change it
+    var newStyle = previousStyle === 'relative' ? 'static': 'relative'
+    Modal.defaultStyles.content.position = newStyle
+    var modal = renderModal({isOpen: true});
+    equal(modal.portal.refs.content.style.position, newStyle);
+    Modal.defaultStyles.content.position = previousStyle
+  });
+
   it('adds class to body when open', function() {
     var modal = renderModal({isOpen: false});
     equal(document.body.className.indexOf('ReactModal__Body--open') !== -1, false);
