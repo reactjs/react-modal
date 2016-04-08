@@ -7,7 +7,8 @@ Accessible modal dialog component for React.JS
 ```xml
 <Modal
   isOpen={bool}
-  onRequestClose={fn}
+  onAfterOpen={afterOpenFn}
+  onRequestClose={requestOpenFn}
   closeTimeoutMS={n}
   style={customStyle}
 >
@@ -104,6 +105,11 @@ var App = React.createClass({
     this.setState({modalIsOpen: true});
   },
 
+  afterOpenModal: function() {
+    // references are now sync'd and can be accessed.
+    this.refs.subtitle.style.color = '#f00';
+  },
+
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
@@ -114,10 +120,11 @@ var App = React.createClass({
         <button onClick={this.openModal}>Open Modal</button>
         <Modal
           isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles} >
 
-          <h2>Hello</h2>
+          <h2 ref="subtitle">Hello</h2>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
@@ -146,7 +153,8 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
 ```xml
 <Modal
   isOpen={bool}
-  onRequestClose={fn}
+  onAfterOpen={afterOpenFn}
+  onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   shouldCloseOnOverlayClick={false}
   style={customStyle}>

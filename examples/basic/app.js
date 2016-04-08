@@ -60,17 +60,23 @@ var App = React.createClass({
     this.setState({foo: 'bar'});
   },
 
+  handleOnAfterOpenModal: function() {
+    // when ready, we can access the available refs.
+    this.refs.title.style.color = '#F00';
+  },
+
   render: function() {
     return (
       <div>
         <button onClick={this.openModal}>Open Modal</button>
         <button onClick={this.openModal2}>Open Modal 2</button>
         <Modal
+          ref="mymodal"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          onRequestClose={this.handleModalCloseRequest}
-        >
-          <h1>Hello</h1>
+          onAfterOpen={this.handleOnAfterOpenModal}
+          onRequestClose={this.handleModalCloseRequest}>
+          <h1 ref="title">Hello</h1>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>

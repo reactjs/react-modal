@@ -201,6 +201,18 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('should trigger the onAfterOpen callback', function() {
+    var afterOpenCallback = sinon.spy();
+    var modal = renderModal({
+      isOpen: true,
+      onAfterOpen: function() {
+        afterOpenCallback();
+      }
+    });
+    ok(afterOpenCallback.called);
+    unmountModal();
+  });
+
   describe('should close on overlay click', function() {
     afterEach('Unmount modal', function() {
       unmountModal();
