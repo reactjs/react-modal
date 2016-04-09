@@ -1,6 +1,6 @@
 {
   "name": "react-modal",
-  "version": "0.6.1",
+  "version": "1.0.0",
   "description": "Accessible modal dialog component for React.JS",
   "main": "./lib/index",
   "repository": {
@@ -26,7 +26,7 @@
     "envify": "3.4.0",
     "expect": "1.10.0",
     "jsx-loader": "0.13.2",
-    "karma": "0.13.10",
+    "karma": "^0.13.22",
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "0.2.0",
     "karma-cli": "0.1.0",

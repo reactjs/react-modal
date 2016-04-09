@@ -1,3 +1,12 @@
+v1.0.0 - Sat, 09 Apr 2016 05:03:25 GMT
+--------------------------------------
+
+- [4e2447a](../../commit/4e2447a) [changed] Updated to add support for React 15  (#152)
+- [0d4e600](../../commit/0d4e600) [added] module for default style
+- [cb53bca](../../commit/cb53bca) [fixed] Remove ReactModal__Body--open class when unmounting Modal
+- [63bee72](../../commit/63bee72) [fixed] Custom classnames override default styles
+
+
 v0.6.1 - Fri, 23 Oct 2015 18:03:54 GMT
 --------------------------------------
 
