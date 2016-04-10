@@ -41,7 +41,6 @@ Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '20px'
-
   }
 }
 ```
@@ -115,8 +114,7 @@ var App = React.createClass({
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          style={customStyles} >
-
+          style={customStyles}>
           <h2>Hello</h2>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
