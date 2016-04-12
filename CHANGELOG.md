@@ -1,3 +1,9 @@
+v1.1.0 - Tue, 12 Apr 2016 13:03:08 GMT
+--------------------------------------
+
+- [6c03d17](../../commit/6c03d17) [added] trigger onAfterOpen callback when available. (#154)
+
+
 v1.0.0 - Sat, 09 Apr 2016 05:03:25 GMT
 --------------------------------------
 

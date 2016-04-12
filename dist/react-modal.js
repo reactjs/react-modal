@@ -32,6 +32,7 @@ var Modal = React.createClass({
       overlay: React.PropTypes.object
     }),
     appElement: React.PropTypes.instanceOf(SafeHTMLElement),
+    onAfterOpen: React.PropTypes.func,
     onRequestClose: React.PropTypes.func,
     closeTimeoutMS: React.PropTypes.number,
     ariaHideApp: React.PropTypes.bool,
@@ -194,6 +195,10 @@ var ModalPortal = module.exports = React.createClass({
     focusManager.markForFocusLater();
     this.setState({isOpen: true}, function() {
       this.setState({afterOpen: true});
+
+      if (this.props.isOpen && this.props.onAfterOpen) {
+        this.props.onAfterOpen();
+      }
     }.bind(this));
   },
 
