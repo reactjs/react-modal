@@ -9,6 +9,11 @@ module.exports = {
     'react-modal.min': './lib/index.js'
   },
 
+  externals: [
+    'react',
+    'react-dom'
+  ],
+
   output: {
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
