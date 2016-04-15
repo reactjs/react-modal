@@ -1,7 +1,9 @@
 v1.1.1 - Fri, 15 Apr 2016 05:30:45 GMT
 --------------------------------------
+This release affects only the dist version of the library reducing size immensely.
 
-- 
+- [9823bc5](../../commit/9823bc5) Use -p flag in webpack for minification and exclude externals react and react-dom
+- [72c8498](../../commit/72c8498) Move to using webpack for building the library
 
 
 v1.1.0 - Tue, 12 Apr 2016 13:03:08 GMT
