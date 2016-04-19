@@ -1,2 +1,2 @@
 #!/bin/sh
-webpack --config webpack.dist.config.js -p
+webpack --config webpack.dist.config.js
