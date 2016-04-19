@@ -1,3 +1,9 @@
+v1.1.2 - Tue, 19 Apr 2016 02:36:05 GMT
+--------------------------------------
+
+- [4509133](../../commit/4509133) [fixed] moved sanitizeProps out of the render calls. (#162)
+
+
 v1.1.1 - Fri, 15 Apr 2016 05:30:45 GMT
 --------------------------------------
 This release affects only the dist version of the library reducing size immensely.
