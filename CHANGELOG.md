@@ -1,3 +1,10 @@
+v1.2.0 - Thu, 21 Apr 2016 22:02:02 GMT
+--------------------------------------
+
+- [a10683a](../../commit/a10683a) [fixed] Make the non-minified dist build present again (#164)
+- [04db149](../../commit/04db149) [added] Propagate event on close request (#91)
+
+
 v1.1.2 - Tue, 19 Apr 2016 02:36:05 GMT
 --------------------------------------
 
