@@ -160,7 +160,7 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
   style={customStyle}>
 
   <h1>Force Modal</h1>
-  <p>Modal cannot be closed when clickig the overlay area</p>
+  <p>Modal cannot be closed when clicking the overlay area</p>
   <button onClick={handleCloseFunc}>Close Modal...</button>
 </Modal>
 ```
