@@ -119,7 +119,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-	    sanitizeProps(newProps);
 	    this.renderPortal(newProps);
 	  },
 
@@ -174,10 +173,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = Modal;
-
-	function sanitizeProps(props) {
-	  delete props.ref;
-	}
 
 /***/ },
 /* 2 */
