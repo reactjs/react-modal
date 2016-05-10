@@ -143,6 +143,13 @@ describe('Modal', function () {
     equal(modal.portal.refs.overlay.style.backgroundColor, '');
   });
 
+  it('adds --after-open for animations when a custom ClassNames are used', function() {
+    var modal = renderModal({isOpen: true, className: 'myClass', overlayClassName: 'myOverlayClass'});
+    notEqual(modal.portal.refs.overlay.className.indexOf('myOverlayClass--after-open'), -1);
+    notEqual(modal.portal.refs.content.className.indexOf('myClass--after-open'), -1);
+    unmountModal();
+  });
+
   it('supports adding style to the modal contents', function () {
     var modal = renderModal({isOpen: true, style: {content: {width: '20px'}}});
     equal(modal.portal.refs.content.style.width, '20px');
