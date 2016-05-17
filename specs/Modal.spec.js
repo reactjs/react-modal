@@ -26,19 +26,6 @@ describe('Modal', function () {
     unmountModal();
   });
 
-  it('uses the global appElement', function() {
-    var app = document.createElement('div');
-    var node = document.createElement('div');
-    Modal.setAppElement(app);
-    ReactDOM.render(React.createElement(Modal, {isOpen: true}), node);
-    var modalParent = app.querySelector('.ReactModalPortal').parentNode;
-    assert.notEqual(modalParent, document.body);
-    assert.equal(modalParent, app);
-    equal(app.getAttribute('aria-hidden'), 'true');
-    ariaAppHider.resetForTesting();
-    ReactDOM.unmountComponentAtNode(node);
-  });
-
   it('accepts appElement as a prop', function() {
     var el = document.createElement('div');
     var node = document.createElement('div');
@@ -54,10 +41,10 @@ describe('Modal', function () {
     var node = document.createElement('div');
     var App = React.createClass({
       render: function() {
-        return React.DOM.div({}, React.createElement(Modal, {isOpen: true, ariaHideApp: false}, 'hello'));
+        return React.DOM.div({}, React.createElement(Modal, {isOpen: true}, 'hello'));
       }
     });
-    Modal.setAppElement(document.body);
+    Modal.setAppElement(node);
     ReactDOM.render(React.createElement(App), node);
     var modalParent = document.body.querySelector('.ReactModalPortal').parentNode;
     equal(modalParent, document.body);
