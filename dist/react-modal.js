@@ -114,7 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  componentDidMount: function componentDidMount() {
 	    this.node = document.createElement('div');
 	    this.node.className = 'ReactModalPortal';
-	    AppElement.appendChild(this.node);
+	    document.body.appendChild(this.node);
 	    this.renderPortal(this.props);
 	  },
 
@@ -124,7 +124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  componentWillUnmount: function componentWillUnmount() {
 	    ReactDOM.unmountComponentAtNode(this.node);
-	    AppElement.removeChild(this.node);
+	    document.body.removeChild(this.node);
 	    elementClass(document.body).remove('ReactModal__Body--open');
 	  },
 

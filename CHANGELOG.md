@@ -1,3 +1,9 @@
+v1.3.0 - Tue, 17 May 2016 16:04:50 GMT
+--------------------------------------
+
+- [9089a2d](../../commit/9089a2d) [fixed] Make the modal portal render into body again (#176)
+
+
 v1.2.1 - Sat, 23 Apr 2016 19:09:46 GMT
 --------------------------------------
 
