@@ -200,6 +200,20 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('check the state of the modal after close with time out and reopen it', function() {
+    var afterOpenCallback = sinon.spy();
+    var modal = renderModal({
+      isOpen: true,
+      closeTimeoutMS: 2000,
+      onRequestClose: function() {}
+    });
+    modal.portal.closeWithTimeout();
+    modal.portal.open();
+    modal.portal.closeWithoutTimeout();
+    ok(!modal.portal.state.isOpen);
+    unmountModal();
+  });
+
   describe('should close on overlay click', function() {
     afterEach('Unmount modal', function() {
       unmountModal();
