@@ -8,7 +8,7 @@ Accessible modal dialog component for React.JS
 <Modal
   isOpen={bool}
   onAfterOpen={afterOpenFn}
-  onRequestClose={requestOpenFn}
+  onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   style={customStyle}
 >
