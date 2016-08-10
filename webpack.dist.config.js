@@ -2,6 +2,19 @@ var webpack = require('webpack');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var env = process.env.WEBPACK_ENV;
 
+var reactExternal = {
+  root: 'React',
+  commonjs2: 'react',
+  commonjs: 'react',
+  amd: 'react'
+};
+var reactDOMExternal = {
+  root: 'ReactDOM',
+  commonjs2: 'react-dom',
+  commonjs: 'react-dom',
+  amd: 'react-dom'
+};
+
 module.exports = {
 
   entry: {
@@ -9,10 +22,10 @@ module.exports = {
     'react-modal.min': './lib/index.js'
   },
 
-  externals: [
-    'react',
-    'react-dom'
-  ],
+  externals: {
+    'react': reactExternal,
+    'react-dom': reactDOMExternal
+  },
 
   output: {
     filename: '[name].js',
