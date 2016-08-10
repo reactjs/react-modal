@@ -57,6 +57,8 @@ you can pass `className` and `overlayClassName` props to the Modal.  If you do
 this then none of the default styles will apply and you will have full control
 over styling via CSS.
 
+You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).
+This doesn't affect styling as no styles are applied to this element by default.
 
 ### Overriding styles globally
 The default styles above are available on `Modal.defaultStyles`. Changes to this

@@ -107,6 +107,12 @@ describe('Modal', function () {
     equal(tabPrevented, true);
   });
 
+  it('supports portalClassName', function () {
+    var modal = renderModal({isOpen: true, portalClassName: 'myPortalClass'});
+    equal(modal.node.className, 'myPortalClass');
+    unmountModal();
+  });
+
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
     notEqual(modal.portal.refs.content.className.indexOf('myClass'), -1);
