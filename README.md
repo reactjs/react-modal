@@ -72,10 +72,11 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
 
-var appElement = document.getElementById('your-app-element');
 
 /*
-By default the modal is anchored to document.body. All of the following overrides are available.
+The app element allows you to specify the portion of your app that should be hidden (via aria-hidden)
+to prevent assistive technologies such as screenreaders from reading content outside of the content of
+your modal.  It can be specified in the following ways:
 
 * element
 Modal.setAppElement(appElement);
@@ -84,6 +85,9 @@ Modal.setAppElement(appElement);
 Modal.setAppElement('#your-app-element');
 
 */
+var appElement = document.getElementById('your-app-element');
+
+
 
 const customStyles = {
   content : {
