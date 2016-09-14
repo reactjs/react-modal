@@ -58,6 +58,13 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('renders the modal content with a dialog aria role ', function () {
+    var child = 'I am a child of Modal, and he has sent me here...';
+    var component = renderModal({isOpen: true}, child);
+    equal(component.portal.refs.content.getAttribute('role'), 'dialog');
+    unmountModal();
+  });
+
   it('has default props', function() {
     var node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
