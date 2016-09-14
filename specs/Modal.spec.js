@@ -86,6 +86,14 @@ describe('Modal', function () {
     });
   });
 
+  it('does not focus the modal content when a descendent is already focused', function() {
+    var input = React.DOM.input({ className: 'focus_input', ref: function(el) { el && el.focus(); } });
+    renderModal({isOpen: true}, input, function () {
+      strictEqual(document.activeElement, document.querySelector('.focus_input'));
+      unmountModal();
+    });
+  });
+
   it('handles case when child has no tabbable elements', function() {
     var component = renderModal({isOpen: true}, 'hello');
     assert.doesNotThrow(function() {
