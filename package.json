@@ -13,7 +13,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "scripts/test --browsers Firefox --single-run",
+    "test": "scripts/test --browsers Firefox",
     "start": "scripts/dev-examples"
   },
   "authors": [
@@ -50,7 +50,8 @@
     "lodash.assign": "^3.2.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-0"
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
   },
   "tags": [
     "react",
