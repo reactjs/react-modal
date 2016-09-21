@@ -2,6 +2,14 @@
 
 Accessible modal dialog component for React.JS
 
+### Installation
+
+To install the stable version:
+
+```
+npm install --save react-modal
+```
+
 ## Usage
 
 ```xml
