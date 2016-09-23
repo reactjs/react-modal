@@ -140,6 +140,18 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('supports custom aria-attributes', function () {
+    var modal = renderModal({isOpen: true, 'aria-foo': 'bar'});
+    equal(modal.portal.refs.content.getAttribute('aria-foo'), 'bar');
+    unmountModal();
+  });
+
+  it('supports custom data-attributes', function () {
+    var modal = renderModal({isOpen: true, 'data-foo': 'bar'});
+    equal(modal.portal.refs.content.getAttribute('data-foo'), 'bar');
+    unmountModal();
+  });
+
   it('overrides the default styles when a custom classname is used', function () {
     var modal = renderModal({isOpen: true, className: 'myClass'});
     equal(modal.portal.refs.content.style.top, '');
