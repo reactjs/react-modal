@@ -2,13 +2,21 @@
 
 Accessible modal dialog component for React.JS
 
+### Installation
+
+To install the stable version:
+
+```
+npm install --save react-modal
+```
+
 ## Usage
 
 ```xml
 <Modal
   isOpen={bool}
   onAfterOpen={afterOpenFn}
-  onRequestClose={requestOpenFn}
+  onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   style={customStyle}
 >
@@ -57,6 +65,8 @@ you can pass `className` and `overlayClassName` props to the Modal.  If you do
 this then none of the default styles will apply and you will have full control
 over styling via CSS.
 
+You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).
+This doesn't affect styling as no styles are applied to this element by default.
 
 ### Overriding styles globally
 The default styles above are available on `Modal.defaultStyles`. Changes to this
@@ -70,10 +80,11 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
 
-var appElement = document.getElementById('your-app-element');
 
 /*
-By default the modal is anchored to document.body. All of the following overrides are available.
+The app element allows you to specify the portion of your app that should be hidden (via aria-hidden)
+to prevent assistive technologies such as screenreaders from reading content outside of the content of
+your modal.  It can be specified in the following ways:
 
 * element
 Modal.setAppElement(appElement);
@@ -82,6 +93,9 @@ Modal.setAppElement(appElement);
 Modal.setAppElement('#your-app-element');
 
 */
+var appElement = document.getElementById('your-app-element');
+
+
 
 const customStyles = {
   content : {
