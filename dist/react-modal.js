@@ -311,15 +311,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  open: function open() {
-	    focusManager.setupScopedFocus(this.node);
-	    focusManager.markForFocusLater();
-	    this.setState({ isOpen: true }, function () {
-	      this.setState({ afterOpen: true });
+	    if (this.state.afterOpen && this.state.beforeClose) {
+	      clearTimeout(this.closeTimer);
+	      this.setState({ beforeClose: false });
+	    } else {
+	      focusManager.setupScopedFocus(this.node);
+	      focusManager.markForFocusLater();
+	      this.setState({ isOpen: true }, function () {
+	        this.setState({ afterOpen: true });
 
-	      if (this.props.isOpen && this.props.onAfterOpen) {
-	        this.props.onAfterOpen();
-	      }
-	    }.bind(this));
+	        if (this.props.isOpen && this.props.onAfterOpen) {
+	          this.props.onAfterOpen();
+	        }
+	      }.bind(this));
+	    }
 	  },
 
 	  close: function close() {
@@ -339,8 +344,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  closeWithoutTimeout: function closeWithoutTimeout() {
 	    this.setState({
-	      afterOpen: false,
-	      beforeClose: false
+	      beforeClose: false,
+	      isOpen: false,
+	      afterOpen: false
 	    }, this.afterClose);
 	  },
 

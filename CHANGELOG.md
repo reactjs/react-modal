@@ -1,3 +1,10 @@
+v1.4.0 - Thu, 30 Jun 2016 19:12:02 GMT
+--------------------------------------
+
+- [13bd46e](../../commit/13bd46e) [fixed] clear the delayed close timer when modal opens again. (#189)
+- [70d91eb](../../commit/70d91eb) [fixed] Add missing envify npm dependency. Closes #193 (#194)
+
+
 v1.3.0 - Tue, 17 May 2016 16:04:50 GMT
 --------------------------------------
 
