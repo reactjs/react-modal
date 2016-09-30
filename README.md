@@ -72,6 +72,26 @@ This doesn't affect styling as no styles are applied to this element by default.
 The default styles above are available on `Modal.defaultStyles`. Changes to this
 object will apply to all instances of the modal.
 
+### Appended to custom node
+You can choose an element for the modal to be appended to, rather than using
+body tag. To do this, provide a function to `parentSelector` prop that return
+the element to be used.
+
+```jsx
+
+function getParent() {
+  return document.querySelector('#root');
+}
+
+<Modal
+  ...
+  parentSelector={getParent}
+  ...
+>
+  <p>Modal Content.</p>
+</Modal>
+```
+
 ## Examples
 Inside an app:
 
