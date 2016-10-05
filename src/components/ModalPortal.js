@@ -2,34 +2,25 @@ var React = require('react');
 var div = React.DOM.div;
 var focusManager = require('../helpers/focusManager');
 var scopeTab = require('../helpers/scopeTab');
-var Assign = require('lodash.assign');
 
-// so that our CSS is statically analyzable
-var CLASS_NAMES = {
-  overlay: {
-    base: 'ReactModal__Overlay',
-    afterOpen: 'ReactModal__Overlay--after-open',
-    beforeClose: 'ReactModal__Overlay--before-close'
+var noOp = function(){};
+
+var defaultProps = {
+  onAfterClose: noOp,
+  style: {
+    overlay: {},
+    content: {}
   },
-  content: {
-    base: 'ReactModal__Content',
-    afterOpen: 'ReactModal__Content--after-open',
-    beforeClose: 'ReactModal__Content--before-close'
-  }
+  overlayClassName: 'ReactModal__Overlay',
+  className: 'ReactModal__Content'
 };
 
 var ModalPortal = module.exports = React.createClass({
-
   displayName: 'ModalPortal',
   shouldClose: null,
 
   getDefaultProps: function() {
-    return {
-      style: {
-        overlay: {},
-        content: {}
-      }
-    };
+    return defaultProps;
   },
 
   getInitialState: function() {
@@ -122,6 +113,7 @@ var ModalPortal = module.exports = React.createClass({
   afterClose: function() {
     focusManager.returnFocus();
     focusManager.teardownScopedFocus();
+    this.props.onAfterClose();
   },
 
   handleKeyDown: function(event) {
@@ -173,31 +165,41 @@ var ModalPortal = module.exports = React.createClass({
     return document.activeElement === this.refs.content || this.refs.content.contains(document.activeElement);
   },
 
-  buildClassName: function(which, additional) {
-    var className = CLASS_NAMES[which].base;
+  buildClassName: function(baseClass) {
+    var className = baseClass+" ";
     if (this.state.afterOpen)
-      className += ' '+CLASS_NAMES[which].afterOpen;
+      className += baseClass+'--after-open';
     if (this.state.beforeClose)
-      className += ' '+CLASS_NAMES[which].beforeClose;
-    return additional ? className + ' ' + additional : className;
+      className += baseClass+'--before-close';
+    return className;
+  },
+
+  getPropInlineStyle: function(useDefaultStyle, styleName) {
+    var defaultStyles = useDefaultStyle ? this.props.defaultStyles[styleName] : {};
+    var propsStyles = this.props.style[styleName] || {};
+    return {...defaultStyles, ...propsStyles};
+  },
+
+  isPropEqualToDefault: function(propName) {
+    return this.props[propName] === defaultProps[propName];
   },
 
   render: function() {
-    var contentStyles = (this.props.className) ? {} : this.props.defaultStyles.content;
-    var overlayStyles = (this.props.overlayClassName) ? {} : this.props.defaultStyles.overlay;
+    var contentStyles = this.getPropInlineStyle(this.isPropEqualToDefault("className"), "content");
+    var overlayStyles = this.getPropInlineStyle(this.isPropEqualToDefault("overlayClassName"), "overlay");
 
     return this.shouldBeClosed() ? div() : (
       div({
         ref: "overlay",
-        className: this.buildClassName('overlay', this.props.overlayClassName),
-        style: Assign({}, overlayStyles, this.props.style.overlay || {}),
+        className: this.buildClassName(this.props.overlayClassName),
+        style: overlayStyles,
         onMouseDown: this.handleOverlayMouseDown,
         onMouseUp: this.handleOverlayMouseUp
       },
         div({
           ref: "content",
-          style: Assign({}, contentStyles, this.props.style.content || {}),
-          className: this.buildClassName('content', this.props.className),
+          style: contentStyles,
+          className: this.buildClassName(this.props.className),
           tabIndex: "-1",
           onKeyDown: this.handleKeyDown,
           onMouseDown: this.handleContentMouseDown,

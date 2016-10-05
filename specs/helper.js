@@ -13,12 +13,20 @@ var _currentDiv = null;
 
 renderModal = function(props, children, callback) {
   props.ariaHideApp = false;
-  _currentDiv = document.createElement('div');
-  document.body.appendChild(_currentDiv);
+  if (_currentDiv === null){
+    _currentDiv = document.createElement('div');
+    document.body.appendChild(_currentDiv);
+  }
+  return ReactDOM.render(Modal(props, children), _currentDiv, callback);
+};
+
+rerenderModal = function(_currentDiv, props, children, callback) {
+  props.ariaHideApp = false;
   return ReactDOM.render(Modal(props, children), _currentDiv, callback);
 };
 
 unmountModal = function() {
+  if (_currentDiv === null) return;
   ReactDOM.unmountComponentAtNode(_currentDiv);
   document.body.removeChild(_currentDiv);
   _currentDiv = null;

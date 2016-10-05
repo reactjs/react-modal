@@ -5,7 +5,6 @@ var ModalPortal = React.createFactory(require('./ModalPortal'));
 var ariaAppHider = require('../helpers/ariaAppHider');
 var elementClass = require('element-class');
 var renderSubtreeIntoContainer = require("react-dom").unstable_renderSubtreeIntoContainer;
-var Assign = require('lodash.assign');
 
 var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 var AppElement = ExecutionEnvironment.canUseDOM ? document.body : {appendChild: function() {}};
@@ -31,6 +30,7 @@ var Modal = React.createClass({
       overlay: React.PropTypes.object
     }),
     portalClassName: React.PropTypes.string,
+    bodyClassName: React.PropTypes.string,
     appElement: React.PropTypes.instanceOf(SafeHTMLElement),
     onAfterOpen: React.PropTypes.func,
     onRequestClose: React.PropTypes.func,
@@ -43,6 +43,7 @@ var Modal = React.createClass({
     return {
       isOpen: false,
       portalClassName: 'ReactModalPortal',
+      bodyClassName: 'ReactModal__Body',
       ariaHideApp: true,
       closeTimeoutMS: 0,
       shouldCloseOnOverlayClick: true
@@ -63,21 +64,25 @@ var Modal = React.createClass({
   componentWillUnmount: function() {
     ReactDOM.unmountComponentAtNode(this.node);
     document.body.removeChild(this.node);
-    elementClass(document.body).remove('ReactModal__Body--open');
+    elementClass(document.body).remove(this.openBodyClass());
+  },
+
+  openBodyClass: function() {
+    return this.props.bodyClassName+"--open";
   },
 
   renderPortal: function(props) {
     if (props.isOpen) {
-      elementClass(document.body).add('ReactModal__Body--open');
+      elementClass(document.body).add(this.openBodyClass());
     } else {
-      elementClass(document.body).remove('ReactModal__Body--open');
+      elementClass(document.body).remove(this.openBodyClass());
     }
 
     if (props.ariaHideApp) {
       ariaAppHider.toggle(props.isOpen, props.appElement);
     }
 
-    this.portal = renderSubtreeIntoContainer(this, ModalPortal(Assign({}, props, {defaultStyles: Modal.defaultStyles})), this.node);
+    this.portal = renderSubtreeIntoContainer(this, ModalPortal({...props, defaultStyles: Modal.defaultStyles}), this.node);
   },
 
   render: function () {

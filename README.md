@@ -63,10 +63,12 @@ At this time, media queries will need to be handled by the consumer.
 If you prefer not to use inline styles or are unable to do so in your project,
 you can pass `className` and `overlayClassName` props to the Modal.  If you do
 this then none of the default styles will apply and you will have full control
-over styling via CSS.
+over styling via CSS. There will be other classes which will be added depending on the state of the modal, such as `--after-open` and `--before-close`. These classes will be prefixed with the class names passed as props or with the default class names, for example with a `className=mycompany-modal-class` will  produce a derivate class  `mycompany-modal-class--after-open`.
 
 You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).
 This doesn't affect styling as no styles are applied to this element by default.
+
+In addition you can also pass `bodyClassName` which will be the base for the class added to the body of the document.
 
 ### Overriding styles globally
 The default styles above are available on `Modal.defaultStyles`. Changes to this
