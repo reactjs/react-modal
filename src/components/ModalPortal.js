@@ -192,13 +192,13 @@ var ModalPortal = module.exports = React.createClass({
       div({
         ref: "overlay",
         className: this.buildClassName(this.props.overlayClassName),
-        style: contentStyles,
+        style: overlayStyles,
         onMouseDown: this.handleOverlayMouseDown,
         onMouseUp: this.handleOverlayMouseUp
       },
         div({
           ref: "content",
-          style: overlayStyles,
+          style: contentStyles,
           className: this.buildClassName(this.props.className),
           tabIndex: "-1",
           onKeyDown: this.handleKeyDown,
