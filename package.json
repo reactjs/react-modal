@@ -2,7 +2,7 @@
   "name": "react-modal",
   "version": "1.4.0",
   "description": "Accessible modal dialog component for React.JS",
-  "main": "./npmLib/index",
+  "main": "./lib/index",
   "repository": {
     "type": "git",
     "url": "https://github.com/rackt/react-modal.git"
@@ -13,9 +13,10 @@
     "example": "examples"
   },
   "scripts": {
+    "pretest": "npm run build",
     "test": "scripts/test --browsers Firefox",
     "start": "scripts/dev-examples",
-    "build": "babel lib --out-dir npmlib"
+    "build": "babel src --out-dir lib"
   },
   "authors": [
     "Ryan Florence"
