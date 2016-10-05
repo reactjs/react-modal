@@ -16,7 +16,7 @@
     "pretest": "npm run build",
     "test": "scripts/test --browsers Firefox",
     "start": "scripts/dev-examples",
-    "build": "babel src --out-dir lib"
+    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib"
   },
   "authors": [
     "Ryan Florence"
@@ -52,6 +52,7 @@
     "webpack-dev-server": "1.11.0"
   },
   "dependencies": {
+    "cross-env": "^3.1.1",
     "element-class": "^0.2.0",
     "exenv": "1.2.0"
   },
