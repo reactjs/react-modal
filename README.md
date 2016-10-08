@@ -19,6 +19,7 @@ npm install --save react-modal
   onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   style={customStyle}
+  contentLabel="Modal"
 >
   <h1>Modal Content</h1>
   <p>Etc.</p>
@@ -136,7 +137,9 @@ var App = React.createClass({
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
-          style={customStyles} >
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
 
           <h2 ref="subtitle">Hello</h2>
           <button onClick={this.closeModal}>close</button>
@@ -171,7 +174,9 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
   onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   shouldCloseOnOverlayClick={false}
-  style={customStyle}>
+  style={customStyle}
+  contentLabel="No Overlay Click Modal"
+>
 
   <h1>Force Modal</h1>
   <p>Modal cannot be closed when clicking the overlay area</p>

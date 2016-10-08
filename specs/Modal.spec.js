@@ -65,6 +65,13 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('renders the modal with a aria-label based on the contentLabel prop', function () {
+    var child = 'I am a child of Modal, and he has sent me here...';
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, child);
+    equal(component.portal.refs.content.getAttribute('aria-label'), 'Special Modal');
+    unmountModal();
+  });
+
   it('has default props', function() {
     var node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
