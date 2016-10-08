@@ -1,3 +1,9 @@
+v1.5.2 - Sat, 08 Oct 2016 14:29:09 GMT
+--------------------------------------
+
+- [d78428b](../../commit/d78428b) [fixed] Remove remaining reference to role dialog
+
+
 v1.5.1 - Sat, 08 Oct 2016 04:11:39 GMT
 --------------------------------------
 

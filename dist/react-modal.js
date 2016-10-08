@@ -432,7 +432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      onKeyDown: this.handleKeyDown,
 	      onMouseDown: this.handleContentMouseDown,
 	      onMouseUp: this.handleContentMouseUp,
-	      role: "dialog"
+	      role: this.props.role
 	    }, this.props.children));
 	  }
 	});
