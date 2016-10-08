@@ -1,7 +1,7 @@
 v1.5.1 - Sat, 08 Oct 2016 04:11:39 GMT
 --------------------------------------
 
-- 
+- This version only added the `dist/` versions which were omitted from 1.4.0 -> 1.5.0
 
 
 v1.5.0 - Sat, 08 Oct 2016 02:18:52 GMT
