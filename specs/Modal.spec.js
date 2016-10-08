@@ -58,9 +58,9 @@ describe('Modal', function () {
     unmountModal();
   });
 
-  it('renders the modal content with a dialog aria role ', function () {
+  it('renders the modal content with a dialog aria role when provided ', function () {
     var child = 'I am a child of Modal, and he has sent me here...';
-    var component = renderModal({isOpen: true}, child);
+    var component = renderModal({isOpen: true, role: 'dialog'}, child);
     equal(component.portal.refs.content.getAttribute('role'), 'dialog');
     unmountModal();
   });
