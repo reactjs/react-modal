@@ -1,3 +1,18 @@
+v1.5.0 - Sat, 08 Oct 2016 02:18:52 GMT
+--------------------------------------
+
+- [919daa3](../../commit/919daa3) [fixed] Remove the default aria role dialog
+- [2e806c7](../../commit/2e806c7) [added] Make modal portal have the dialog role (#223)
+- [5429f7c](../../commit/5429f7c) [fixed] Don't steal focus from a descendent when rendering (#222)
+- [8e767e9](../../commit/8e767e9) [fixed] Add react-dom as a peer dependency
+- [ff09b49](../../commit/ff09b49) [fixed] Close modal when mouseDown and MouseUp happen only on the overlay (#217)
+- [6550b87](../../commit/6550b87) Revert "[fixed] Dont change body class if isOpen not change (#201)"
+- [8e5f5b7](../../commit/8e5f5b7) [fixed] Fix incorrect details in the README
+- [e5b0181](../../commit/e5b0181) [added] ability to change default 'ReactModalPortal' class (#208)
+- [1e29e4f](../../commit/1e29e4f) [fixed] Dont change body class if isOpen not change (#201)
+- [d347547](../../commit/d347547) [fixed] Updates webpack distribution config to reference the correct externals (#210)
+
+
 v1.4.0 - Thu, 30 Jun 2016 19:12:02 GMT
 --------------------------------------
 
