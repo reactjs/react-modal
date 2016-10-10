@@ -5,10 +5,10 @@
   "main": "./lib/index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rackt/react-modal.git"
+    "url": "https://github.com/reactjs/react-modal.git"
   },
-  "homepage": "https://github.com/rackt/react-modal",
-  "bugs": "https://github.com/rackt/react-modal/issues",
+  "homepage": "https://github.com/reactjs/react-modal",
+  "bugs": "https://github.com/reactjs/react-modal/issues",
   "directories": {
     "example": "examples"
   },
