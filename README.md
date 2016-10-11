@@ -73,6 +73,17 @@ This doesn't affect styling as no styles are applied to this element by default.
 The default styles above are available on `Modal.defaultStyles`. Changes to this
 object will apply to all instances of the modal.
 
+### Body class
+When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
+You can use this to remove scrolling on the the body while the modal is open.
+
+```CSS
+/* Remove scroll on the body when react-modal is open */
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+```
+
 ## Examples
 Inside an app:
 
