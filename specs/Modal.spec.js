@@ -9,7 +9,13 @@ const Simulate = TestUtils.Simulate;
 import sinon from 'sinon';
 import expect from 'expect';
 
-describe('Modal', function () {
+describe('Modal', () => {
+  afterEach('check if test cleaned up rendered modals', function () {
+    var overlay = document.querySelectorAll('.ReactModal__Overlay');
+    var content = document.querySelectorAll('.ReactModal__Content');
+    expect(overlay.length).toBe(0);
+    expect(content.length).toBe(0);
+  });
 
   it('scopes tab navigation to the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
@@ -116,7 +122,7 @@ describe('Modal', function () {
         unmountModal();
         done();
       }
-    }, null, function () {});
+    }, null);
 
     renderModal({
       isOpen: true,
@@ -174,6 +180,7 @@ describe('Modal', function () {
         preventDefault: function() { tabPrevented = true; }
     });
     expect(tabPrevented).toEqual(true);
+    unmountModal();
   });
 
   it('supports portalClassName', function () {
@@ -236,15 +243,16 @@ describe('Modal', function () {
   });
 
   it('adds class to body when open', function() {
-    renderModal({isOpen: false});
+    renderModal({ isOpen: false });
     expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
-
-    renderModal({isOpen: true});
-    expect(document.body.className.indexOf('ReactModal__Body--open')  !== -1).toEqual(true);
-
-    renderModal({isOpen: false});
-    expect(document.body.className.indexOf('ReactModal__Body--open')  !== -1).toEqual(false);
     unmountModal();
+
+    renderModal({ isOpen: true });
+    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(true);
+    unmountModal();
+
+    renderModal({ isOpen: false });
+    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
   });
 
   it('removes class from body when unmounted without closing', function() {
@@ -441,26 +449,50 @@ describe('Modal', function () {
     expect(event.constructor.name).toEqual('SyntheticEvent');
   });
 
-  //it('adds --before-close for animations', function() {
-    //var node = document.createElement('div');
+  it('adds --before-close for animations', () => {
+    const closeTimeoutMS = 50;
+    const modal = renderModal({
+      isOpen: true,
+      closeTimeoutMS
+    });
 
-    //var component = ReactDOM.render(React.createElement(Modal, {
-      //isOpen: true,
-      //ariaHideApp: false,
-      //closeTimeoutMS: 50,
-    //}), node);
+    modal.portal.closeWithTimeout();
 
-    //component = ReactDOM.render(React.createElement(Modal, {
-      //isOpen: false,
-      //ariaHideApp: false,
-      //closeTimeoutMS: 50,
-    //}), node);
+    const overlay = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Overlay');
+    const content = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Content');
 
-    // It can't find these nodes, I didn't spend much time on this
-    //var overlay = document.querySelector('.ReactModal__Overlay');
-    //var content = document.querySelector('.ReactModal__Content');
-    //ok(overlay.className.match(/ReactModal__Overlay--before-close/));
-    //ok(content.className.match(/ReactModal__Content--before-close/));
-    //unmountModal();
-  //});
+    expect(/ReactModal__Overlay--before-close/.test(overlay.className)).toBe(true);
+    expect(/ReactModal__Content--before-close/.test(content.className)).toBe(true);
+
+    modal.portal.closeWithoutTimeout();
+    unmountModal();
+  });
+
+  it('keeps the modal in the DOM until closeTimeoutMS elapses', (done) => {
+    const closeTimeoutMS = 50;
+
+    renderModal({
+      isOpen: true,
+      closeTimeoutMS
+    });
+
+    unmountModal();
+
+    const checkDOM = (expectMounted) => {
+      const overlay = document.querySelectorAll('.ReactModal__Overlay');
+      const content = document.querySelectorAll('.ReactModal__Content');
+      const numNodes = expectMounted ? 1 : 0;
+      expect(overlay.length).toBe(numNodes);
+      expect(content.length).toBe(numNodes);
+    };
+
+    // content is still mounted after modal is gone
+    checkDOM(true);
+
+    setTimeout(() => {
+      // content is unmounted after specified timeout
+      checkDOM(false);
+      done();
+    }, closeTimeoutMS);
+  });
 });
