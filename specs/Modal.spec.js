@@ -18,6 +18,13 @@ const Simulate = TestUtils.Simulate;
 
 
 describe('Modal', () => {
+  afterEach('check if test cleaned up rendered modals', () => {
+    const overlay = document.querySelectorAll('.ReactModal__Overlay');
+    const content = document.querySelectorAll('.ReactModal__Content');
+    expect(overlay.length).toBe(0);
+    expect(content.length).toBe(0);
+  });
+
   it('scopes tab navigation to the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
 
@@ -116,6 +123,7 @@ describe('Modal', () => {
       isOpen: true,
       onRequestClose () {
         unmountModal();
+        unmountModal();
         done();
       }
     }, null, () => {});
@@ -175,6 +183,7 @@ describe('Modal', () => {
       preventDefault () { tabPrevented = true; }
     });
     expect(tabPrevented).toEqual(true);
+    unmountModal();
   });
 
   it('supports portalClassName', () => {
@@ -204,26 +213,31 @@ describe('Modal', () => {
   it('overrides the default styles when a custom overlayClassName is used', () => {
     const modal = renderModal({ isOpen: true, overlayClassName: 'myOverlayClass' });
     expect(modal.portal.overlay.style.backgroundColor).toEqual('');
+    unmountModal();
   });
 
   it('supports adding style to the modal contents', () => {
     const modal = renderModal({ isOpen: true, style: { content: { width: '20px' } } });
     expect(modal.portal.content.style.width).toEqual('20px');
+    unmountModal();
   });
 
   it('supports overriding style on the modal contents', () => {
     const modal = renderModal({ isOpen: true, style: { content: { position: 'static' } } });
     expect(modal.portal.content.style.position).toEqual('static');
+    unmountModal();
   });
 
   it('supports adding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { width: '75px' } } });
     expect(modal.portal.overlay.style.width).toEqual('75px');
+    unmountModal();
   });
 
   it('supports overriding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { position: 'static' } } });
     expect(modal.portal.overlay.style.position).toEqual('static');
+    unmountModal();
   });
 
   it('supports overriding the default styles', () => {
@@ -234,14 +248,17 @@ describe('Modal', () => {
     const modal = renderModal({ isOpen: true });
     expect(modal.portal.content.style.position).toEqual(newStyle);
     Modal.defaultStyles.content.position = previousStyle;
+    unmountModal();
   });
 
   it('adds class to body when open', () => {
     renderModal({ isOpen: false });
     expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
+    unmountModal();
 
     renderModal({ isOpen: true });
     expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(true);
+    unmountModal();
 
     renderModal({ isOpen: false });
     expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
@@ -323,6 +340,7 @@ describe('Modal', () => {
     expect(event).toBeTruthy();
     expect(event.constructor).toBeTruthy();
     expect(event.key).toEqual('FakeKeyToTestLater');
+    unmountModal();
   });
 
   describe('should close on overlay click', () => {
@@ -455,26 +473,50 @@ describe('Modal', () => {
     });
   });
 
-  // it('adds --before-close for animations', function() {
-    // var node = document.createElement('div');
+  it('adds --before-close for animations', () => {
+    const closeTimeoutMS = 50;
+    const modal = renderModal({
+      isOpen: true,
+      closeTimeoutMS
+    });
 
-    // var component = ReactDOM.render(React.createElement(Modal, {
-      // isOpen: true,
-      // ariaHideApp: false,
-      // closeTimeoutMS: 50,
-    // }), node);
+    modal.portal.closeWithTimeout();
 
-    // component = ReactDOM.render(React.createElement(Modal, {
-      // isOpen: false,
-      // ariaHideApp: false,
-      // closeTimeoutMS: 50,
-    // }), node);
+    const overlay = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Overlay');
+    const content = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Content');
 
-    // It can't find these nodes, I didn't spend much time on this
-    // var overlay = document.querySelector('.ReactModal__Overlay');
-    // var content = document.querySelector('.ReactModal__Content');
-    // ok(overlay.className.match(/ReactModal__Overlay--before-close/));
-    // ok(content.className.match(/ReactModal__Content--before-close/));
-    // unmountModal();
-  // });
+    expect(/ReactModal__Overlay--before-close/.test(overlay.className)).toBe(true);
+    expect(/ReactModal__Content--before-close/.test(content.className)).toBe(true);
+
+    modal.portal.closeWithoutTimeout();
+    unmountModal();
+  });
+
+  it('keeps the modal in the DOM until closeTimeoutMS elapses', (done) => {
+    const closeTimeoutMS = 50;
+
+    renderModal({
+      isOpen: true,
+      closeTimeoutMS
+    });
+
+    unmountModal();
+
+    const checkDOM = (expectMounted) => {
+      const overlay = document.querySelectorAll('.ReactModal__Overlay');
+      const content = document.querySelectorAll('.ReactModal__Content');
+      const numNodes = expectMounted ? 1 : 0;
+      expect(overlay.length).toBe(numNodes);
+      expect(content.length).toBe(numNodes);
+    };
+
+    // content is still mounted after modal is gone
+    checkDOM(true);
+
+    setTimeout(() => {
+      // content is unmounted after specified timeout
+      checkDOM(false);
+      done();
+    }, closeTimeoutMS);
+  });
 });
