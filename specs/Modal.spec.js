@@ -207,6 +207,18 @@ describe('Modal', function () {
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
   });
 
+  it('removes aria-hidden from appElement when unmounted without closing', function() {
+    var el = document.createElement('div');
+    var node = document.createElement('div');
+    ReactDOM.render(React.createElement(Modal, {
+      isOpen: true,
+      appElement: el
+    }), node);
+    equal(el.getAttribute('aria-hidden'), 'true');
+    ReactDOM.unmountComponentAtNode(node);
+    equal(el.getAttribute('aria-hidden'), null);
+  });
+
   it('adds --after-open for animations', function() {
     var modal = renderModal({isOpen: true});
     var overlay = document.querySelector('.ReactModal__Overlay');
