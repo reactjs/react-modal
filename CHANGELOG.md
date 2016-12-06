@@ -1,3 +1,10 @@
+v1.6.0 - Tue, 06 Dec 2016 15:09:25 GMT
+--------------------------------------
+
+- [de14816](../../commit/de14816) [added] Ability for modal to be appended to arbitrary elements (#183)
+- [3d8e5a0](../../commit/3d8e5a0) [added] Add contentLabel prop to put aria-label on modal content
+
+
 v1.5.2 - Sat, 08 Oct 2016 14:29:09 GMT
 --------------------------------------
 
