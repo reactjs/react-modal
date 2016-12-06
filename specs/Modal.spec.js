@@ -13,7 +13,6 @@ describe('Modal', function () {
   it('scopes tab navigation to the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
 
-
   it('can be open initially', function() {
     var component = renderModal({isOpen: true}, 'hello');
     equal(component.portal.refs.content.innerHTML.trim(), 'hello');
@@ -35,6 +34,11 @@ describe('Modal', function () {
     }), node);
     equal(el.getAttribute('aria-hidden'), 'true');
     ReactDOM.unmountComponentAtNode(node);
+  });
+
+  it('checks for document.body and appends one if none exists', function() {
+    var body = document.body ? document.body : dom.documentElement.appendChild("body");
+    equal(body, document.body);
   });
 
   it('renders into the body, not in context', function() {
