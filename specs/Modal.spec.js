@@ -1,5 +1,4 @@
 /* eslint-env mocha */
-import "should";
 import should from "should";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
