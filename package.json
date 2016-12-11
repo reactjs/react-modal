@@ -14,7 +14,14 @@
   },
   "scripts": {
     "test": "scripts/test --browsers Firefox",
-    "start": "scripts/dev-examples"
+    "start": "scripts/dev-examples",
+    "docs": "npm-run-all docs:*",
+    "docs-dev": "npm-run-all docs:clean docs:prepare docs:build:watch",
+    "docs:clean": "rimraf _book",
+    "docs:prepare": "gitbook install",
+    "docs:build": "gitbook build -g reactjs/react-modal",
+    "docs:build:watch": "gitbook serve",
+    "docs:publish": "cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:reactjs/react-modal gh-pages --force"
   },
   "authors": [
     "Ryan Florence"
@@ -27,6 +34,7 @@
     "babel-preset-react": "^6.5.0",
     "envify": "^3.4.1",
     "expect": "1.10.0",
+    "gitbook-cli": "^2.3.0",
     "karma": "^0.13.22",
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "0.2.0",
@@ -35,10 +43,12 @@
     "karma-mocha": "0.2.0",
     "karma-safari-launcher": "^0.1.1",
     "mocha": "2.3.3",
+    "npm-run-all": "^3.1.2",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "rf-release": "0.4.0",
+    "rimraf": "^2.5.4",
     "sinon": "^1.17.3",
     "uglify-js": "2.4.24",
     "webpack": "^1.12.14",

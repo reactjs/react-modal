@@ -224,4 +224,3 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
 
 # Demos
 * http://reactjs.github.io/react-modal/
-* http://reactjs.github.io/react-modal/bootstrap
