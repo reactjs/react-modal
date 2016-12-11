@@ -1,7 +1,7 @@
 v1.6.2 - Sun, 11 Dec 2016 17:32:03 GMT
 --------------------------------------
 
-- 
+- This version only added the `dist/` versions which were omitted from 1.5.2 -> 1.6.1
 
 
 v1.6.1 - Tue, 06 Dec 2016 17:16:10 GMT
