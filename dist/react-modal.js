@@ -76,6 +76,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 	var AppElement = ExecutionEnvironment.canUseDOM ? document.body : { appendChild: function appendChild() {} };
 
+	function getParentElement(parentSelector) {
+	  return parentSelector();
+	}
+
 	var Modal = React.createClass({
 
 	  displayName: 'Modal',
@@ -101,7 +105,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    closeTimeoutMS: React.PropTypes.number,
 	    ariaHideApp: React.PropTypes.bool,
 	    shouldCloseOnOverlayClick: React.PropTypes.bool,
-	    role: React.PropTypes.string
+	    parentSelector: React.PropTypes.func,
+	    role: React.PropTypes.string,
+	    contentLabel: React.PropTypes.string.isRequired
 	  },
 
 	  getDefaultProps: function getDefaultProps() {
@@ -110,24 +116,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	      portalClassName: 'ReactModalPortal',
 	      ariaHideApp: true,
 	      closeTimeoutMS: 0,
-	      shouldCloseOnOverlayClick: true
+	      shouldCloseOnOverlayClick: true,
+	      parentSelector: function parentSelector() {
+	        return document.body;
+	      }
 	    };
 	  },
 
 	  componentDidMount: function componentDidMount() {
 	    this.node = document.createElement('div');
 	    this.node.className = this.props.portalClassName;
-	    document.body.appendChild(this.node);
+
+	    var parent = getParentElement(this.props.parentSelector);
+	    parent.appendChild(this.node);
 	    this.renderPortal(this.props);
 	  },
 
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+	    var currentParent = getParentElement(this.props.parentSelector);
+	    var newParent = getParentElement(newProps.parentSelector);
+
+	    if (newParent !== currentParent) {
+	      currentParent.removeChild(this.node);
+	      newParent.appendChild(this.node);
+	    }
+
 	    this.renderPortal(newProps);
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
+	    if (this.props.ariaHideApp) {
+	      ariaAppHider.show(this.props.appElement);
+	    }
+
 	    ReactDOM.unmountComponentAtNode(this.node);
-	    document.body.removeChild(this.node);
+	    var parent = getParentElement(this.props.parentSelector);
+	    parent.removeChild(this.node);
 	    elementClass(document.body).remove('ReactModal__Body--open');
 	  },
 
@@ -432,7 +456,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      onKeyDown: this.handleKeyDown,
 	      onMouseDown: this.handleContentMouseDown,
 	      onMouseUp: this.handleContentMouseUp,
-	      role: this.props.role
+	      role: this.props.role,
+	      "aria-label": this.props.contentLabel
 	    }, this.props.children));
 	  }
 	});
