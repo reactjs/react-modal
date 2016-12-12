@@ -12,6 +12,13 @@ npm install --save react-modal
 
 ## Usage
 
+The Modal object has two required props:
+
+- `isOpen` to render its children.
+- `contentLabel` to improve a11y, since `v1.6.0`.
+
+Example:
+
 ```xml
 <Modal
   isOpen={bool}
