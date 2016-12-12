@@ -1,7 +1,7 @@
 v1.6.3 - Mon, 12 Dec 2016 14:03:43 GMT
 --------------------------------------
 
-- 
+- Removes some files that were inadvertently published in 1.6.2 reducing the npm install size.
 
 
 v1.6.2 - Sun, 11 Dec 2016 17:32:03 GMT
