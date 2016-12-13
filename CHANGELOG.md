@@ -1,3 +1,28 @@
+v1.6.3 - Mon, 12 Dec 2016 14:03:43 GMT
+--------------------------------------
+
+- Removes some files that were inadvertently published in 1.6.2 reducing the npm install size.
+
+
+v1.6.2 - Sun, 11 Dec 2016 17:32:03 GMT
+--------------------------------------
+
+- This version only added the `dist/` versions which were omitted from 1.5.2 -> 1.6.1
+
+
+v1.6.1 - Tue, 06 Dec 2016 17:16:10 GMT
+--------------------------------------
+
+- [62d87e1](../../commit/62d87e1) [fixed] Remove arrow function from ES5 source
+
+
+v1.6.0 - Tue, 06 Dec 2016 15:09:25 GMT
+--------------------------------------
+
+- [de14816](../../commit/de14816) [added] Ability for modal to be appended to arbitrary elements (#183)
+- [3d8e5a0](../../commit/3d8e5a0) [added] Add contentLabel prop to put aria-label on modal content
+
+
 v1.5.2 - Sat, 08 Oct 2016 14:29:09 GMT
 --------------------------------------
 

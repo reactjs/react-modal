@@ -12,6 +12,13 @@ npm install --save react-modal
 
 ## Usage
 
+The Modal object has two required props:
+
+- `isOpen` to render its children.
+- `contentLabel` to improve a11y, since `v1.6.0`.
+
+Example:
+
 ```xml
 <Modal
   isOpen={bool}
@@ -19,6 +26,7 @@ npm install --save react-modal
   onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   style={customStyle}
+  contentLabel="Modal"
 >
   <h1>Modal Content</h1>
   <p>Etc.</p>
@@ -71,6 +79,37 @@ This doesn't affect styling as no styles are applied to this element by default.
 ### Overriding styles globally
 The default styles above are available on `Modal.defaultStyles`. Changes to this
 object will apply to all instances of the modal.
+
+### Appended to custom node
+You can choose an element for the modal to be appended to, rather than using
+body tag. To do this, provide a function to `parentSelector` prop that return
+the element to be used.
+
+```jsx
+
+function getParent() {
+  return document.querySelector('#root');
+}
+
+<Modal
+  ...
+  parentSelector={getParent}
+  ...
+>
+  <p>Modal Content.</p>
+</Modal>
+```
+
+### Body class
+When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
+You can use this to remove scrolling on the the body while the modal is open.
+
+```CSS
+/* Remove scroll on the body when react-modal is open */
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+```
 
 ## Examples
 Inside an app:
@@ -136,7 +175,9 @@ var App = React.createClass({
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
-          style={customStyles} >
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
 
           <h2 ref="subtitle">Hello</h2>
           <button onClick={this.closeModal}>close</button>
@@ -171,7 +212,9 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
   onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   shouldCloseOnOverlayClick={false}
-  style={customStyle}>
+  style={customStyle}
+  contentLabel="No Overlay Click Modal"
+>
 
   <h1>Force Modal</h1>
   <p>Modal cannot be closed when clicking the overlay area</p>

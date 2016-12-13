@@ -65,6 +65,13 @@ describe('Modal', function () {
     unmountModal();
   });
 
+  it('renders the modal with a aria-label based on the contentLabel prop', function () {
+    var child = 'I am a child of Modal, and he has sent me here...';
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, child);
+    equal(component.portal.refs.content.getAttribute('aria-label'), 'Special Modal');
+    unmountModal();
+  });
+
   it('has default props', function() {
     var node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
@@ -198,6 +205,18 @@ describe('Modal', function () {
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
     unmountModal();
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
+  });
+
+  it('removes aria-hidden from appElement when unmounted without closing', function() {
+    var el = document.createElement('div');
+    var node = document.createElement('div');
+    ReactDOM.render(React.createElement(Modal, {
+      isOpen: true,
+      appElement: el
+    }), node);
+    equal(el.getAttribute('aria-hidden'), 'true');
+    ReactDOM.unmountComponentAtNode(node);
+    equal(el.getAttribute('aria-hidden'), null);
   });
 
   it('adds --after-open for animations', function() {
