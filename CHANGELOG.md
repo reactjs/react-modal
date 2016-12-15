@@ -2,6 +2,7 @@ v1.6.4 - Thu, 15 Dec 2016 05:48:59 GMT
 --------------------------------------
 
 - [694cb87](../../commit/694cb87) [fixed] updated references from rackt to reactjs. (#244)
+- [ad0b071](../../commit/ad0b071) Bumps lodash.assign dependency to version 4.2.0
 
 
 v1.6.3 - Mon, 12 Dec 2016 14:03:43 GMT
