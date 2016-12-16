@@ -416,4 +416,36 @@ describe('Modal', function () {
     //ok(content.className.match(/ReactModal__Content--before-close/));
     //unmountModal();
   //});
+
+  it('renders overlayExtras elements', function() {
+    var overlayExtras = 'I am a child of Overlay, and he has sent me here...';
+    var component = renderModal({isOpen: true, overlayExtras});
+    // console.log('Overlay: ', component.portal.refs.overlay.children[1].innerHTML);
+    equal(component.portal.refs.overlay.children.length, 2);
+    equal(component.portal.refs.overlay.children[1].innerHTML, overlayExtras);
+    unmountModal();
+  });
+
+  it('supports overlayExtrasClassName', function () {
+    var overlayExtrasClassName = 'myExtrasClass';
+    var modal = renderModal({isOpen: true, overlayExtrasClassName });
+    notEqual(modal.portal.refs.extras.className.indexOf(overlayExtrasClassName), -1);
+    unmountModal();
+  });
+
+  it('overrides the default styles when a custom overlayExtrasClassName is used', function () {
+    var overlayExtrasClassName = 'myExtrasClass';
+    var modal = renderModal({isOpen: true, overlayExtrasClassName });
+    equal(modal.portal.refs.extras.style.bottom, '');
+  });
+
+  it('supports adding style on the modal overlay extras', function() {
+    var modal = renderModal({isOpen: true, style: {extras: {width: '75px'}}});
+    equal(modal.portal.refs.extras.style.width, '75px');
+  });
+
+  it('supports overriding style on the modal contents extras', function() {
+    var modal = renderModal({isOpen: true, style: {extras: {position: 'static'}}});
+    equal(modal.portal.refs.extras.style.position, 'static');
+  });
 });

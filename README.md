@@ -34,7 +34,7 @@ Example:
 ```
 
 ## Styles
-Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
+Styles are passed as an object with 3 keys, 'overlay', 'content', 'extras' like so
 ```js
 {
   overlay : {
@@ -58,7 +58,11 @@ Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '20px'
-
+  },
+  extras: {
+    position : 'absolute',
+    bottom   : '10px',
+    right    : '10px'
   }
 }
 ```
@@ -69,8 +73,8 @@ At this time, media queries will need to be handled by the consumer.
 ### Using CSS Classes
 
 If you prefer not to use inline styles or are unable to do so in your project,
-you can pass `className` and `overlayClassName` props to the Modal.  If you do
-this then none of the default styles will apply and you will have full control
+you can pass `className`, `overlayClassName`, `overlayExtrasClassName` props to the Modal.  
+If you do this then none of the default styles will apply and you will have full control
 over styling via CSS.
 
 You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).

@@ -42,6 +42,9 @@ var App = React.createClass({
         <Modal
           ref="mymodal"
           closeTimeoutMS={150}
+          overlayExtras={
+            <span style={{fontSize: '10px'}}>https://github.com/reactjs/react-modal</span>
+          }
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
