@@ -2,20 +2,38 @@
 
 Accessible modal dialog component for React.JS
 
+### Installation
+
+To install the stable version:
+
+```
+npm install --save react-modal
+```
+
 ## Usage
+
+The Modal object has two required props:
+
+- `isOpen` to render its children.
+- `contentLabel` to improve a11y, since `v1.6.0`.
+
+Example:
 
 ```xml
 <Modal
   isOpen={bool}
-  onRequestClose={fn}
+  onAfterOpen={afterOpenFn}
+  onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   style={customStyle}
-  bodyClass={customBodyClassName} >
-
+  bodyClass={customBodyClassName}
+  contentLabel="Modal"
+>
   <h1>Modal Content</h1>
   <p>Etc.</p>
 </Modal>
 ```
+
 ## Styles
 Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
 ```js
@@ -49,6 +67,50 @@ Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
 Styles passed to the modal are merged in with the above defaults and applied to their respective elements.
 At this time, media queries will need to be handled by the consumer.
 
+### Using CSS Classes
+
+If you prefer not to use inline styles or are unable to do so in your project,
+you can pass `className` and `overlayClassName` props to the Modal.  If you do
+this then none of the default styles will apply and you will have full control
+over styling via CSS.
+
+You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).
+This doesn't affect styling as no styles are applied to this element by default.
+
+### Overriding styles globally
+The default styles above are available on `Modal.defaultStyles`. Changes to this
+object will apply to all instances of the modal.
+
+### Appended to custom node
+You can choose an element for the modal to be appended to, rather than using
+body tag. To do this, provide a function to `parentSelector` prop that return
+the element to be used.
+
+```jsx
+
+function getParent() {
+  return document.querySelector('#root');
+}
+
+<Modal
+  ...
+  parentSelector={getParent}
+  ...
+>
+  <p>Modal Content.</p>
+</Modal>
+```
+
+### Body class
+When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
+You can use this to remove scrolling on the the body while the modal is open.
+
+```CSS
+/* Remove scroll on the body when react-modal is open */
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+```
 
 ## Examples
 Inside an app:
@@ -58,10 +120,11 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
 
-var appElement = document.getElementById('your-app-element');
 
 /*
-By default the modal is anchored to document.body. All of the following overrides are available.
+The app element allows you to specify the portion of your app that should be hidden (via aria-hidden)
+to prevent assistive technologies such as screenreaders from reading content outside of the content of
+your modal.  It can be specified in the following ways:
 
 * element
 Modal.setAppElement(appElement);
@@ -70,6 +133,9 @@ Modal.setAppElement(appElement);
 Modal.setAppElement('#your-app-element');
 
 */
+var appElement = document.getElementById('your-app-element');
+
+
 
 const customStyles = {
   content : {
@@ -93,6 +159,11 @@ var App = React.createClass({
     this.setState({modalIsOpen: true});
   },
 
+  afterOpenModal: function() {
+    // references are now sync'd and can be accessed.
+    this.refs.subtitle.style.color = '#f00';
+  },
+
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
@@ -103,11 +174,17 @@ var App = React.createClass({
         <button onClick={this.openModal}>Open Modal</button>
         <Modal
           isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
+<<<<<<< HEAD
           bodyClass={this.state.myClass} >
+=======
+          contentLabel="Example Modal"
+        >
+>>>>>>> master
 
-          <h2>Hello</h2>
+          <h2 ref="subtitle">Hello</h2>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
@@ -125,7 +202,31 @@ var App = React.createClass({
 
 ReactDOM.render(<App/>, appElement);
 ```
+# Testing
+
+When using React Test Utils with this library, here are some things to keep in mind:
+- You need to set isOpen={true} on the modal component for it to render its children.
+- You need to use the `.portal` property, as in `ReactDOM.findDOMNode(renderedModal.portal)` or `TestUtils.scryRenderedDOMComponentsWithClass(Modal.portal, 'my-modal-class')` to acquire a handle to the inner contents of your modal.
+
+By default the modal is closed when clicking outside of it (the overlay area). If you want to prevent this behavior you can
+pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
+```xml
+<Modal
+  isOpen={bool}
+  onAfterOpen={afterOpenFn}
+  onRequestClose={requestCloseFn}
+  closeTimeoutMS={n}
+  shouldCloseOnOverlayClick={false}
+  style={customStyle}
+  contentLabel="No Overlay Click Modal"
+>
+
+  <h1>Force Modal</h1>
+  <p>Modal cannot be closed when clicking the overlay area</p>
+  <button onClick={handleCloseFunc}>Close Modal...</button>
+</Modal>
+```
 
 # Demos
-* http://rackt.github.io/react-modal/
-* http://rackt.github.io/react-modal/bootstrap
+* http://reactjs.github.io/react-modal/
+* http://reactjs.github.io/react-modal/bootstrap
