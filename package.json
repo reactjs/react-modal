@@ -13,8 +13,11 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "scripts/test --browsers Firefox",
-    "start": "scripts/dev-examples"
+    "test:firefox": "scripts/test --browsers Firefox",
+    "test:chrome": "scripts/test --browsers Chrome",
+    "test": "npm run test:firefox && npm run test:chrome",
+    "start": "scripts/dev-examples",
+    "bundle": "webpack --config webpack.dist.config.js --progress"
   },
   "authors": [
     "Ryan Florence"

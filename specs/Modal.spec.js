@@ -15,13 +15,13 @@ describe('Modal', function () {
 
 
   it('can be open initially', function() {
-    var component = renderModal({isOpen: true}, 'hello');
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, 'hello');
     equal(component.portal.refs.content.innerHTML.trim(), 'hello');
     unmountModal();
   });
 
   it('can be closed initially', function() {
-    var component = renderModal({}, 'hello');
+    var component = renderModal({contentLabel: 'Special Modal'}, 'hello');
     equal(ReactDOM.findDOMNode(component.portal).innerHTML.trim(), '');
     unmountModal();
   });
@@ -31,6 +31,7 @@ describe('Modal', function () {
     var node = document.createElement('div');
     ReactDOM.render(React.createElement(Modal, {
       isOpen: true,
+      contentLabel: 'Special Modal',
       appElement: el
     }), node);
     equal(el.getAttribute('aria-hidden'), 'true');
@@ -41,7 +42,7 @@ describe('Modal', function () {
     var node = document.createElement('div');
     var App = React.createClass({
       render: function() {
-        return React.DOM.div({}, React.createElement(Modal, {isOpen: true}, 'hello'));
+        return React.DOM.div({}, React.createElement(Modal, {isOpen: true, contentLabel: 'Special Modal'}, 'hello'));
       }
     });
     Modal.setAppElement(node);
@@ -53,14 +54,14 @@ describe('Modal', function () {
 
   it('renders children', function() {
     var child = 'I am a child of Modal, and he has sent me here...';
-    var component = renderModal({isOpen: true}, child);
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, child);
     equal(component.portal.refs.content.innerHTML, child);
     unmountModal();
   });
 
   it('renders the modal content with a dialog aria role when provided ', function () {
     var child = 'I am a child of Modal, and he has sent me here...';
-    var component = renderModal({isOpen: true, role: 'dialog'}, child);
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal', role: 'dialog'}, child);
     equal(component.portal.refs.content.getAttribute('role'), 'dialog');
     unmountModal();
   });
@@ -75,7 +76,7 @@ describe('Modal', function () {
   it('has default props', function() {
     var node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
-    var component = ReactDOM.render(React.createElement(Modal), node);
+    var component = ReactDOM.render(React.createElement(Modal, { contentLabel: 'Special Modal' }), node);
     var props = component.props;
     equal(props.isOpen, false);
     equal(props.ariaHideApp, true);
@@ -87,14 +88,14 @@ describe('Modal', function () {
   });
 
   it('removes the portal node', function() {
-    var component = renderModal({isOpen: true}, 'hello');
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, 'hello');
     equal(component.portal.refs.content.innerHTML.trim(), 'hello');
     unmountModal();
     ok(!document.querySelector('.ReactModalPortal'));
   });
 
   it('focuses the modal content', function() {
-    renderModal({isOpen: true}, null, function () {
+    renderModal({isOpen: true, contentLabel: 'Special Modal'}, null, function () {
       strictEqual(document.activeElement, this.portal.refs.content);
       unmountModal();
     });
@@ -102,14 +103,14 @@ describe('Modal', function () {
 
   it('does not focus the modal content when a descendent is already focused', function() {
     var input = React.DOM.input({ className: 'focus_input', ref: function(el) { el && el.focus(); } });
-    renderModal({isOpen: true}, input, function () {
+    renderModal({isOpen: true, contentLabel: 'Special Modal'}, input, function () {
       strictEqual(document.activeElement, document.querySelector('.focus_input'));
       unmountModal();
     });
   });
 
   it('handles case when child has no tabbable elements', function() {
-    var component = renderModal({isOpen: true}, 'hello');
+    var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, 'hello');
     assert.doesNotThrow(function() {
       Simulate.keyDown(component.portal.refs.content, {key: "Tab", keyCode: 9, which: 9})
     });
@@ -118,7 +119,7 @@ describe('Modal', function () {
 
   it('keeps focus inside the modal when child has no tabbable elements', function() {
     var tabPrevented = false;
-    var modal = renderModal({isOpen: true}, 'hello');
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal'}, 'hello');
     strictEqual(document.activeElement, modal.portal.refs.content);
     Simulate.keyDown(modal.portal.refs.content, {
         key: "Tab",
@@ -130,51 +131,51 @@ describe('Modal', function () {
   });
 
   it('supports portalClassName', function () {
-    var modal = renderModal({isOpen: true, portalClassName: 'myPortalClass'});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', portalClassName: 'myPortalClass'});
     equal(modal.node.className, 'myPortalClass');
     unmountModal();
   });
 
   it('supports custom className', function() {
-    var modal = renderModal({isOpen: true, className: 'myClass'});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', className: 'myClass'});
     notEqual(modal.portal.refs.content.className.indexOf('myClass'), -1);
     unmountModal();
   });
 
   it('supports overlayClassName', function () {
-    var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', overlayClassName: 'myOverlayClass'});
     notEqual(modal.portal.refs.overlay.className.indexOf('myOverlayClass'), -1);
     unmountModal();
   });
 
   it('overrides the default styles when a custom classname is used', function () {
-    var modal = renderModal({isOpen: true, className: 'myClass'});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', className: 'myClass'});
     equal(modal.portal.refs.content.style.top, '');
     unmountModal();
   });
 
   it('overrides the default styles when a custom overlayClassName is used', function () {
-    var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', overlayClassName: 'myOverlayClass'});
     equal(modal.portal.refs.overlay.style.backgroundColor, '');
   });
 
   it('supports adding style to the modal contents', function () {
-    var modal = renderModal({isOpen: true, style: {content: {width: '20px'}}});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', style: {content: {width: '20px'}}});
     equal(modal.portal.refs.content.style.width, '20px');
   });
 
   it('supports overriding style on the modal contents', function() {
-    var modal = renderModal({isOpen: true, style: {content: {position: 'static'}}});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', style: {content: {position: 'static'}}});
     equal(modal.portal.refs.content.style.position, 'static');
   });
 
   it('supports adding style on the modal overlay', function() {
-    var modal = renderModal({isOpen: true, style: {overlay: {width: '75px'}}});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', style: {overlay: {width: '75px'}}});
     equal(modal.portal.refs.overlay.style.width, '75px');
   });
 
   it('supports overriding style on the modal overlay', function() {
-    var modal = renderModal({isOpen: true, style: {overlay: {position: 'static'}}});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', style: {overlay: {position: 'static'}}});
     equal(modal.portal.refs.overlay.style.position, 'static');
   });
 
@@ -183,25 +184,23 @@ describe('Modal', function () {
     //Just in case the default style is already relative, check that we can change it
     var newStyle = previousStyle === 'relative' ? 'static': 'relative'
     Modal.defaultStyles.content.position = newStyle
-    var modal = renderModal({isOpen: true});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal'});
     equal(modal.portal.refs.content.style.position, newStyle);
     Modal.defaultStyles.content.position = previousStyle
   });
 
   it('adds class to body when open', function() {
-    var modal = renderModal({isOpen: false});
+    var modal = renderModal({isOpen: false, contentLabel: 'Special Modal', bodyClass: 'ReactModal__Body--open'});
     equal(document.body.className.indexOf('ReactModal__Body--open') !== -1, false);
-
-    modal = renderModal({isOpen: true});
+    modal = renderModal({isOpen: true, bodyClass: 'ReactModal__Body--open', contentLabel: 'Special Modal'});
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
-
-    modal = renderModal({isOpen: false});
+    modal = renderModal({isOpen: false, contentLabel: 'Special Modal', bodyClass: 'ReactModal__Body--open'});
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
     unmountModal();
   });
 
   it('removes class from body when unmounted without closing', function() {
-    var modal = renderModal({isOpen: true});
+    var modal = renderModal({isOpen: true, bodyClass: 'ReactModal__Body--open', contentLabel: 'Special Modal'});
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
     unmountModal();
     equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
@@ -212,6 +211,7 @@ describe('Modal', function () {
     var node = document.createElement('div');
     ReactDOM.render(React.createElement(Modal, {
       isOpen: true,
+      contentLabel: 'Special Modal',
       appElement: el
     }), node);
     equal(el.getAttribute('aria-hidden'), 'true');
@@ -220,7 +220,7 @@ describe('Modal', function () {
   });
 
   it('adds --after-open for animations', function() {
-    var modal = renderModal({isOpen: true});
+    var modal = renderModal({isOpen: true, contentLabel: 'Special Modal'});
     var overlay = document.querySelector('.ReactModal__Overlay');
     var content = document.querySelector('.ReactModal__Content');
     ok(overlay.className.match(/ReactModal__Overlay--after-open/));
@@ -232,6 +232,7 @@ describe('Modal', function () {
     var afterOpenCallback = sinon.spy();
     var modal = renderModal({
       isOpen: true,
+      contentLabel: 'Special Modal',
       onAfterOpen: function() {
         afterOpenCallback();
       }
@@ -244,6 +245,7 @@ describe('Modal', function () {
     var afterOpenCallback = sinon.spy();
     var modal = renderModal({
       isOpen: true,
+      contentLabel: 'Special Modal',
       closeTimeoutMS: 2000,
       onRequestClose: function() {}
     });
@@ -261,12 +263,12 @@ describe('Modal', function () {
 
     describe('verify props', function() {
       it('verify default prop of shouldCloseOnOverlayClick', function () {
-        var modal = renderModal({isOpen: true});
+        var modal = renderModal({isOpen: true, contentLabel: 'Special Modal'});
         equal(modal.props.shouldCloseOnOverlayClick, true);
       });
 
       it('verify prop of shouldCloseOnOverlayClick', function () {
-        var modal = renderModal({isOpen: true, shouldCloseOnOverlayClick: false});
+        var modal = renderModal({isOpen: true, contentLabel: 'Special Modal', shouldCloseOnOverlayClick: false});
         equal(modal.props.shouldCloseOnOverlayClick, false);
       });
     });
@@ -276,6 +278,7 @@ describe('Modal', function () {
         var requestCloseCallback = sinon.spy();
         var modal = renderModal({
           isOpen: true,
+          contentLabel: 'Special Modal',
           shouldCloseOnOverlayClick: false
         });
         equal(modal.props.isOpen, true);
@@ -290,6 +293,7 @@ describe('Modal', function () {
         var requestCloseCallback = sinon.spy();
         var modal = renderModal({
           isOpen: true,
+          contentLabel: 'Special Modal',
           shouldCloseOnOverlayClick: true,
           onRequestClose: function() {
             requestCloseCallback();
@@ -307,6 +311,7 @@ describe('Modal', function () {
         var requestCloseCallback = sinon.spy();
         var modal = renderModal({
                                   isOpen: true,
+                                  contentLabel: 'Special Modal',
                                   shouldCloseOnOverlayClick: true,
                                   onRequestClose: function() {
                                     requestCloseCallback();
@@ -326,6 +331,7 @@ describe('Modal', function () {
         var requestCloseCallback = sinon.spy();
         var modal = renderModal({
                                   isOpen: true,
+                                  contentLabel: 'Special Modal',
                                   shouldCloseOnOverlayClick: true,
                                   onRequestClose: function() {
                                     requestCloseCallback();
@@ -345,6 +351,7 @@ describe('Modal', function () {
         var hasPropagated = false
         var modal = renderModal({
           isOpen: true,
+          contentLabel: 'Special Modal',
           shouldCloseOnOverlayClick: true
         });
         var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
@@ -358,6 +365,7 @@ describe('Modal', function () {
       var requestCloseCallback = sinon.spy();
       var modal = renderModal({
         isOpen: true,
+        contentLabel: 'Special Modal',
         shouldCloseOnOverlayClick: true,
         onRequestClose: requestCloseCallback,
       });
@@ -379,6 +387,7 @@ describe('Modal', function () {
     var requestCloseCallback = sinon.spy();
     var modal = renderModal({
       isOpen: true,
+      contentLabel: 'Special Modal',
       shouldCloseOnOverlayClick: true,
       onRequestClose: requestCloseCallback,
     });

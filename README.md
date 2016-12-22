@@ -26,6 +26,7 @@ Example:
   onRequestClose={requestCloseFn}
   closeTimeoutMS={n}
   style={customStyle}
+  bodyClass={customBodyClassName}
   contentLabel="Modal"
 >
   <h1>Modal Content</h1>
@@ -151,7 +152,7 @@ const customStyles = {
 var App = React.createClass({
 
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return { modalIsOpen: false, myClass: 'ReactModal__Body--open' };
   },
 
   openModal: function() {
@@ -176,6 +177,7 @@ var App = React.createClass({
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
+          bodyClass={this.state.myClass}
           contentLabel="Example Modal"
         >
 
