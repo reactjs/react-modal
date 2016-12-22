@@ -177,12 +177,9 @@ var App = React.createClass({
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
-<<<<<<< HEAD
-          bodyClass={this.state.myClass} >
-=======
+          bodyClass={this.state.myClass}
           contentLabel="Example Modal"
         >
->>>>>>> master
 
           <h2 ref="subtitle">Hello</h2>
           <button onClick={this.closeModal}>close</button>
