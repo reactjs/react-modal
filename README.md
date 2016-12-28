@@ -111,6 +111,29 @@ You can use this to remove scrolling on the the body while the modal is open.
 }
 ```
 
+### Provide an infinite scroll hook
+You can provide a callback function to be invoked when a user scroll down to
+the end of the modal. Provide `onEndReached` (function) and `onEndReachedThreshold` (number) via props.
+`onEndReached` will be called when modal has been scrolled within onEndReachedThreshold
+of the bottom.
+`onEndReachedThreshold` is threshold in pixel for calling `onEndReached`, defaults to 20.
+
+```jsx
+  <Modal
+    isOpen={bool}
+    onAfterOpen={afterOpenFn}
+    onRequestClose={requestCloseFn}
+    closeTimeoutMS={n}
+    style={customStyle}
+    contentLabel="Modal"
+    onEndReached={() => {console.log('fetch more resource!')}}
+    onEndReachedThreshold={30}
+  >
+    <h1>Modal Content</h1>
+    <p>Etc.</p>
+  </Modal>
+```
+
 ## Examples
 Inside an app:
 
