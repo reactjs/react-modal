@@ -1,12 +1,13 @@
-require('./helper');
-var TestUtils = require('react-addons-test-utils');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Modal = require('../lib/components/Modal');
-var Simulate = TestUtils.Simulate;
-var ariaAppHider = require('../lib/helpers/ariaAppHider');
-var button = ReactDOM.button;
-var sinon = require('sinon');
+/* eslint-env mocha */
+import { renderModal, unmountModal } from './helper';
+import TestUtils from 'react-addons-test-utils';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Modal from '../lib/components/Modal';
+import ariaAppHider from '../lib/helpers/ariaAppHider';
+const Simulate = TestUtils.Simulate;
+import sinon from 'sinon';
+import expect from 'expect';
 
 describe('Modal', function () {
 
@@ -16,71 +17,79 @@ describe('Modal', function () {
 
   it('can be open initially', function() {
     var component = renderModal({isOpen: true}, 'hello');
-    equal(component.portal.refs.content.innerHTML.trim(), 'hello');
+    expect(component.portal.refs.content.innerHTML.trim()).toEqual('hello');
     unmountModal();
   });
 
   it('can be closed initially', function() {
     var component = renderModal({}, 'hello');
-    equal(ReactDOM.findDOMNode(component.portal).innerHTML.trim(), '');
+    expect(ReactDOM.findDOMNode(component.portal).innerHTML.trim()).toEqual('');
     unmountModal();
   });
 
   it('accepts appElement as a prop', function() {
     var el = document.createElement('div');
     var node = document.createElement('div');
-    ReactDOM.render(React.createElement(Modal, {
-      isOpen: true,
-      appElement: el
-    }), node);
-    equal(el.getAttribute('aria-hidden'), 'true');
+    ReactDOM.render(
+      <Modal
+        isOpen={true}
+        appElement={el}
+      />
+    , node);
+    expect(el.getAttribute('aria-hidden')).toEqual('true');
     ReactDOM.unmountComponentAtNode(node);
   });
 
   it('renders into the body, not in context', function() {
     var node = document.createElement('div');
     var App = React.createClass({
-      render: function() {
-        return React.DOM.div({}, React.createElement(Modal, {isOpen: true}, 'hello'));
+      render() {
+        return (
+          <div>
+            <Modal isOpen={true}>
+              hello
+            </Modal>
+          </div>
+        );
       }
     });
     Modal.setAppElement(node);
-    ReactDOM.render(React.createElement(App), node);
+    ReactDOM.render(<App />, node);
     var modalParent = document.body.querySelector('.ReactModalPortal').parentNode;
-    equal(modalParent, document.body);
+    expect(modalParent).toEqual(document.body);
     ReactDOM.unmountComponentAtNode(node);
   });
 
   it('renders children', function() {
     var child = 'I am a child of Modal, and he has sent me here...';
     var component = renderModal({isOpen: true}, child);
-    equal(component.portal.refs.content.innerHTML, child);
+    expect(component.portal.refs.content.innerHTML).toEqual(child);
     unmountModal();
   });
 
   it('renders the modal content with a dialog aria role when provided ', function () {
     var child = 'I am a child of Modal, and he has sent me here...';
     var component = renderModal({isOpen: true, role: 'dialog'}, child);
-    equal(component.portal.refs.content.getAttribute('role'), 'dialog');
+    expect(component.portal.refs.content.getAttribute('role')).toEqual('dialog');
     unmountModal();
   });
 
   it('renders the modal with a aria-label based on the contentLabel prop', function () {
     var child = 'I am a child of Modal, and he has sent me here...';
     var component = renderModal({isOpen: true, contentLabel: 'Special Modal'}, child);
-    equal(component.portal.refs.content.getAttribute('aria-label'), 'Special Modal');
+    expect(component.portal.refs.content.getAttribute('aria-label')).toEqual('Special Modal');
     unmountModal();
   });
 
   it('has default props', function() {
     var node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
-    var component = ReactDOM.render(React.createElement(Modal), node);
+    var component = ReactDOM.render(<Modal />, node);
     var props = component.props;
-    equal(props.isOpen, false);
-    equal(props.ariaHideApp, true);
-    equal(props.closeTimeoutMS, 0);
-    equal(props.shouldCloseOnOverlayClick, true);
+    expect(props.isOpen).toBe(false);
+    expect(props.ariaHideApp).toBe(true);
+    expect(props.closeTimeoutMS).toBe(0);
+    expect(props.shouldCloseOnOverlayClick).toBe(true);
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
     Modal.setAppElement(document.body);  // restore default
@@ -88,94 +97,100 @@ describe('Modal', function () {
 
   it('removes the portal node', function() {
     var component = renderModal({isOpen: true}, 'hello');
-    equal(component.portal.refs.content.innerHTML.trim(), 'hello');
+    expect(component.portal.refs.content.innerHTML.trim()).toEqual('hello');
     unmountModal();
-    ok(!document.querySelector('.ReactModalPortal'));
+    expect(!document.querySelector('.ReactModalPortal')).toExist();
   });
 
   it('focuses the modal content', function() {
     renderModal({isOpen: true}, null, function () {
-      strictEqual(document.activeElement, this.portal.refs.content);
+      expect(document.activeElement).toEqual(this.portal.refs.content);
       unmountModal();
     });
   });
 
   it('does not focus the modal content when a descendent is already focused', function() {
-    var input = React.DOM.input({ className: 'focus_input', ref: function(el) { el && el.focus(); } });
+    var input = (
+      <input
+        className="focus_input"
+        ref={(el) => { el && el.focus(); }}
+      />
+    );
+
     renderModal({isOpen: true}, input, function () {
-      strictEqual(document.activeElement, document.querySelector('.focus_input'));
+      expect(document.activeElement).toEqual(document.querySelector('.focus_input'));
       unmountModal();
     });
   });
 
   it('handles case when child has no tabbable elements', function() {
     var component = renderModal({isOpen: true}, 'hello');
-    assert.doesNotThrow(function() {
+    expect(function() {
       Simulate.keyDown(component.portal.refs.content, {key: "Tab", keyCode: 9, which: 9})
-    });
+    }).toNotThrow;
     unmountModal();
   });
 
   it('keeps focus inside the modal when child has no tabbable elements', function() {
     var tabPrevented = false;
     var modal = renderModal({isOpen: true}, 'hello');
-    strictEqual(document.activeElement, modal.portal.refs.content);
+    expect(document.activeElement).toEqual(modal.portal.refs.content);
     Simulate.keyDown(modal.portal.refs.content, {
         key: "Tab",
         keyCode: 9,
         which: 9,
         preventDefault: function() { tabPrevented = true; }
     });
-    equal(tabPrevented, true);
+    expect(tabPrevented).toEqual(true);
   });
 
   it('supports portalClassName', function () {
     var modal = renderModal({isOpen: true, portalClassName: 'myPortalClass'});
-    equal(modal.node.className, 'myPortalClass');
+    expect(modal.node.className).toEqual('myPortalClass');
     unmountModal();
   });
 
   it('supports custom className', function() {
     var modal = renderModal({isOpen: true, className: 'myClass'});
-    notEqual(modal.portal.refs.content.className.indexOf('myClass'), -1);
+    expect(modal.portal.refs.content.className.indexOf('myClass')).toNotEqual(-1);
     unmountModal();
   });
 
   it('supports overlayClassName', function () {
     var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
-    notEqual(modal.portal.refs.overlay.className.indexOf('myOverlayClass'), -1);
+    expect(modal.portal.refs.overlay.className.indexOf('myOverlayClass')).toNotEqual(-1);
     unmountModal();
   });
 
   it('overrides the default styles when a custom classname is used', function () {
     var modal = renderModal({isOpen: true, className: 'myClass'});
-    equal(modal.portal.refs.content.style.top, '');
+    expect(modal.portal.refs.content.style.top).toEqual('');
     unmountModal();
   });
 
   it('overrides the default styles when a custom overlayClassName is used', function () {
     var modal = renderModal({isOpen: true, overlayClassName: 'myOverlayClass'});
-    equal(modal.portal.refs.overlay.style.backgroundColor, '');
+    expect(modal.portal.refs.overlay.style.backgroundColor).toEqual('');
   });
 
   it('supports adding style to the modal contents', function () {
     var modal = renderModal({isOpen: true, style: {content: {width: '20px'}}});
-    equal(modal.portal.refs.content.style.width, '20px');
+    expect(modal.portal.refs.content.style.width).toEqual('20px');
   });
 
   it('supports overriding style on the modal contents', function() {
     var modal = renderModal({isOpen: true, style: {content: {position: 'static'}}});
-    equal(modal.portal.refs.content.style.position, 'static');
+    expect(modal.portal.refs.content.style.position).toEqual('static');
   });
 
   it('supports adding style on the modal overlay', function() {
     var modal = renderModal({isOpen: true, style: {overlay: {width: '75px'}}});
-    equal(modal.portal.refs.overlay.style.width, '75px');
+    expect(modal.portal.refs.overlay.style.width).toEqual('75px');
   });
 
   it('supports overriding style on the modal overlay', function() {
     var modal = renderModal({isOpen: true, style: {overlay: {position: 'static'}}});
-    equal(modal.portal.refs.overlay.style.position, 'static');
+    expect(modal.portal.refs.overlay.style.position).toEqual('static');
   });
 
   it('supports overriding the default styles', function() {
@@ -184,27 +199,27 @@ describe('Modal', function () {
     var newStyle = previousStyle === 'relative' ? 'static': 'relative'
     Modal.defaultStyles.content.position = newStyle
     var modal = renderModal({isOpen: true});
-    equal(modal.portal.refs.content.style.position, newStyle);
+    expect(modal.portal.refs.content.style.position).toEqual(newStyle);
     Modal.defaultStyles.content.position = previousStyle
   });
 
   it('adds class to body when open', function() {
-    var modal = renderModal({isOpen: false});
-    equal(document.body.className.indexOf('ReactModal__Body--open') !== -1, false);
+    renderModal({isOpen: false});
+    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
 
-    modal = renderModal({isOpen: true});
-    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
+    renderModal({isOpen: true});
+    expect(document.body.className.indexOf('ReactModal__Body--open')  !== -1).toEqual(true);
 
-    modal = renderModal({isOpen: false});
-    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
+    renderModal({isOpen: false});
+    expect(document.body.className.indexOf('ReactModal__Body--open')  !== -1).toEqual(false);
     unmountModal();
   });
 
   it('removes class from body when unmounted without closing', function() {
-    var modal = renderModal({isOpen: true});
-    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, true);
+    renderModal({isOpen: true});
+    expect(document.body.className.indexOf('ReactModal__Body--open')  !== -1).toEqual(true);
     unmountModal();
-    equal(document.body.className.indexOf('ReactModal__Body--open')  !== -1, false);
+    expect(document.body.className.indexOf('ReactModal__Body--open')  !== -1).toEqual(false);
   });
 
   it('removes aria-hidden from appElement when unmounted without closing', function() {
@@ -214,34 +229,33 @@ describe('Modal', function () {
       isOpen: true,
       appElement: el
     }), node);
-    equal(el.getAttribute('aria-hidden'), 'true');
+    expect(el.getAttribute('aria-hidden')).toEqual('true');
     ReactDOM.unmountComponentAtNode(node);
-    equal(el.getAttribute('aria-hidden'), null);
+    expect(el.getAttribute('aria-hidden')).toEqual(null);
   });
 
   it('adds --after-open for animations', function() {
-    var modal = renderModal({isOpen: true});
+    renderModal({isOpen: true});
     var overlay = document.querySelector('.ReactModal__Overlay');
     var content = document.querySelector('.ReactModal__Content');
-    ok(overlay.className.match(/ReactModal__Overlay--after-open/));
-    ok(content.className.match(/ReactModal__Content--after-open/));
+    expect(overlay.className.match(/ReactModal__Overlay--after-open/)).toExist();
+    expect(content.className.match(/ReactModal__Content--after-open/)).toExist();
     unmountModal();
   });
 
   it('should trigger the onAfterOpen callback', function() {
     var afterOpenCallback = sinon.spy();
-    var modal = renderModal({
+    renderModal({
       isOpen: true,
       onAfterOpen: function() {
         afterOpenCallback();
       }
     });
-    ok(afterOpenCallback.called);
+    expect(afterOpenCallback.called).toBeTruthy();
     unmountModal();
   });
 
   it('check the state of the modal after close with time out and reopen it', function() {
-    var afterOpenCallback = sinon.spy();
     var modal = renderModal({
       isOpen: true,
       closeTimeoutMS: 2000,
@@ -250,7 +264,7 @@ describe('Modal', function () {
     modal.portal.closeWithTimeout();
     modal.portal.open();
     modal.portal.closeWithoutTimeout();
-    ok(!modal.portal.state.isOpen);
+    expect(!modal.portal.state.isOpen).toBeTruthy();
     unmountModal();
   });
 
@@ -262,12 +276,12 @@ describe('Modal', function () {
     describe('verify props', function() {
       it('verify default prop of shouldCloseOnOverlayClick', function () {
         var modal = renderModal({isOpen: true});
-        equal(modal.props.shouldCloseOnOverlayClick, true);
+        expect(modal.props.shouldCloseOnOverlayClick).toEqual(true);
       });
 
       it('verify prop of shouldCloseOnOverlayClick', function () {
         var modal = renderModal({isOpen: true, shouldCloseOnOverlayClick: false});
-        equal(modal.props.shouldCloseOnOverlayClick, false);
+        expect(modal.props.shouldCloseOnOverlayClick).toEqual(false);
       });
     });
 
@@ -278,12 +292,12 @@ describe('Modal', function () {
           isOpen: true,
           shouldCloseOnOverlayClick: false
         });
-        equal(modal.props.isOpen, true);
+        expect(modal.props.isOpen).toEqual(true);
         var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
-        equal(overlay.length, 1);
+        expect(overlay.length).toEqual(1);
         Simulate.mouseDown(overlay[0]); // click the overlay
         Simulate.mouseUp(overlay[0]);
-        ok(!requestCloseCallback.called)
+        expect(!requestCloseCallback.called).toBeTruthy();
       });
 
       it('verify overlay click when shouldCloseOnOverlayClick sets to true', function() {
@@ -295,12 +309,12 @@ describe('Modal', function () {
             requestCloseCallback();
           }
         });
-        equal(modal.props.isOpen, true);
+        expect(modal.props.isOpen).toEqual(true);
         var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
-        equal(overlay.length, 1);
+        expect(overlay.length).toEqual(1);
         Simulate.mouseDown(overlay[0]); // click the overlay
         Simulate.mouseUp(overlay[0]);
-        ok(requestCloseCallback.called)
+        expect(requestCloseCallback.called).toBeTruthy();
       });
 
       it('verify overlay mouse down and content mouse up when shouldCloseOnOverlayClick sets to true', function() {
@@ -312,14 +326,14 @@ describe('Modal', function () {
                                     requestCloseCallback();
                                   }
                                 });
-        equal(modal.props.isOpen, true);
+        expect(modal.props.isOpen).toEqual(true);
         var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         var content = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
-        equal(overlay.length, 1);
-        equal(content.length, 1);
+        expect(overlay.length).toEqual(1);
+        expect(content.length).toEqual(1);
         Simulate.mouseDown(overlay[0]); // click the overlay
         Simulate.mouseUp(content[0]);
-        ok(!requestCloseCallback.called)
+        expect(!requestCloseCallback.called).toBeTruthy();
       });
 
       it('verify content mouse down and overlay mouse up when shouldCloseOnOverlayClick sets to true', function() {
@@ -331,14 +345,14 @@ describe('Modal', function () {
                                     requestCloseCallback();
                                   }
                                 });
-        equal(modal.props.isOpen, true);
+        expect(modal.props.isOpen).toEqual(true);
         var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         var content = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
-        equal(content.length, 1);
-        equal(overlay.length, 1);
+        expect(content.length).toEqual(1);
+        expect(overlay.length).toEqual(1);
         Simulate.mouseDown(content[0]); // click the overlay
         Simulate.mouseUp(overlay[0]);
-        ok(!requestCloseCallback.called)
+        expect(!requestCloseCallback.called).toBeTruthy();
       });
 
       it('should not stop event propagation', function() {
@@ -350,7 +364,7 @@ describe('Modal', function () {
         var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         window.addEventListener('click', function () { hasPropagated = true })
         overlay[0].dispatchEvent(new MouseEvent('click', { bubbles: true }))
-        ok(hasPropagated)
+        expect(hasPropagated).toBeTruthy();
       });
     });
 
@@ -359,19 +373,19 @@ describe('Modal', function () {
       var modal = renderModal({
         isOpen: true,
         shouldCloseOnOverlayClick: true,
-        onRequestClose: requestCloseCallback,
+        onRequestClose: requestCloseCallback
       });
-      equal(modal.props.isOpen, true);
+      expect(modal.props.isOpen).toEqual(true);
       var overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
-      equal(overlay.length, 1);
+      expect(overlay.length).toEqual(1);
       Simulate.mouseDown(overlay[0]); // click the overlay
       Simulate.mouseUp(overlay[0]);
-      ok(requestCloseCallback.called)
+      expect(requestCloseCallback.called).toBeTruthy();
       // Check if event is passed to onRequestClose callback.
       var event = requestCloseCallback.getCall(0).args[0];
-      ok(event);
-      ok(event.constructor);
-      equal(event.constructor.name, 'SyntheticEvent');
+      expect(event).toBeTruthy();
+      expect(event.constructor).toBeTruthy();
+      expect(event.constructor.name).toEqual('SyntheticEvent');
     });
   });
 
@@ -380,18 +394,18 @@ describe('Modal', function () {
     var modal = renderModal({
       isOpen: true,
       shouldCloseOnOverlayClick: true,
-      onRequestClose: requestCloseCallback,
+      onRequestClose: requestCloseCallback
     });
-    equal(modal.props.isOpen, true);
-    assert.doesNotThrow(function() {
+    expect(modal.props.isOpen).toEqual(true);
+    expect(function() {
       Simulate.keyDown(modal.portal.refs.content, {key: "Esc", keyCode: 27, which: 27})
-    });
-    ok(requestCloseCallback.called)
+    }).toNotThrow();
+    expect(requestCloseCallback.called).toBeTruthy();
     // Check if event is passed to onRequestClose callback.
     var event = requestCloseCallback.getCall(0).args[0];
-    ok(event);
-    ok(event.constructor);
-    equal(event.constructor.name, 'SyntheticEvent');
+    expect(event).toBeTruthy();
+    expect(event.constructor).toBeTruthy();
+    expect(event.constructor.name).toEqual('SyntheticEvent');
   });
 
   //it('adds --before-close for animations', function() {
