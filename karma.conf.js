@@ -3,25 +3,27 @@ module.exports = function(config) {
 
     basePath: '',
 
-    frameworks: ['mocha', 'browserify'],
+    frameworks: ['mocha'],
 
     files: [
-      'specs/main.js'
+      'specs/spec_index.js'
     ],
 
-    exclude: [],
-
     preprocessors: {
-      'specs/main.js': ['browserify']
+      'specs/spec_index.js': [ 'webpack', 'sourcemap' ]
     },
 
-    browserify: {
-      transform: ['envify'],
-      watch: true,
-      debug: true
+    webpack: require('./webpack.test.config'),
+
+    webpackMiddleware: {
+      stats: 'errors-only'
     },
 
-    reporters: ['progress'],
+    reporters: ['mocha'],
+
+    mochaReporter: {
+      showDiff: true
+    },
 
     port: 9876,
 
@@ -31,10 +33,10 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: ['Chrome'],
+    browsers: [ (process.env.CONTINUOUS_INTEGRATION) ? 'Firefox' : 'Chrome' ],
 
     captureTimeout: 60000,
 
-    singleRun: true
+    singleRun: (process.env.CONTINUOUS_INTEGRATION)
   });
 };

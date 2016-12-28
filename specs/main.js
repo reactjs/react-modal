@@ -1,1 +1,0 @@
-require('./Modal.spec.js');

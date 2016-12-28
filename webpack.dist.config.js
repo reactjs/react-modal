@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var env = process.env.WEBPACK_ENV;
 
 var reactExternal = {
   root: 'React',
@@ -51,7 +50,7 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.js?$/, exclude: /node_modules/, loader: 'babel'},
+      { test: /\.js?$/, exclude: /node_modules/, loader: 'babel'}
     ]
   }
 

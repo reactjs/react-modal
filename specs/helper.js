@@ -1,24 +1,19 @@
-assert = require('assert');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Modal = React.createFactory(require('../lib/components/Modal'));
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Modal from '../lib/components/Modal';
 
-ok = assert.ok;
-equal = assert.equal;
-notEqual = assert.notEqual;
-strictEqual = assert.strictEqual;
-throws = assert.throws;
+let _currentDiv = null;
 
-var _currentDiv = null;
-
-renderModal = function(props, children, callback) {
+export const renderModal = function(props, children, callback) {
   props.ariaHideApp = false;
   _currentDiv = document.createElement('div');
   document.body.appendChild(_currentDiv);
-  return ReactDOM.render(Modal(props, children), _currentDiv, callback);
+  return ReactDOM.render(
+    <Modal {...props}>{children}</Modal>
+  , _currentDiv, callback);
 };
 
-unmountModal = function() {
+export const unmountModal = function() {
   ReactDOM.unmountComponentAtNode(_currentDiv);
   document.body.removeChild(_currentDiv);
   _currentDiv = null;
