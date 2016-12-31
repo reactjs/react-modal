@@ -17,6 +17,7 @@ help: info
 	@echo "  make deps         - install all dependencies."
 	@echo "  make serve        - start the server."
 	@echo "  make tests        - run tests."
+	@echo "  make lint         - run lint."
 	@echo "  make docs         - build and serve the docs."
 	@echo "  make build        - build project artifacts."
 	@echo "  make publish      - build and publish version on npm."
@@ -47,6 +48,9 @@ tests:
 
 tests-ci:
 	@npm run test -- --single-run
+
+lint:
+	@npm run lint
 
 docs: build-docs
 	gitbook serve
