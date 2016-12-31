@@ -14,7 +14,9 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
-    "test": "cross-env NODE_ENV=test karma start"
+    "test": "cross-env NODE_ENV=test karma start",
+    "test:full": "npm-run-all -p 'test -- --single-run' lint",
+    "lint": "eslint lib/ specs/"
   },
   "authors": [
     "Ryan Florence"
@@ -22,12 +24,18 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.7.4",
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^5.0.1",
     "envify": "^3.4.1",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb": "latest",
+    "eslint-plugin-import": "^2.1.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.6.0",
     "expect": "^1.20.2",
     "gitbook-cli": "^2.3.0",
     "karma": "^1.3.0",
