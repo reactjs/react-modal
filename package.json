@@ -14,6 +14,7 @@
   },
   "scripts": {
     "test": "NODE_ENV=test karma start",
+    "test:full": "npm-run-all -p 'test -- --single-run' lint",
     "start": "scripts/dev-examples",
     "docs": "npm-run-all docs:*",
     "docs-dev": "npm-run-all docs:clean docs:prepare docs:build:watch",
@@ -21,7 +22,8 @@
     "docs:prepare": "gitbook install",
     "docs:build": "gitbook build -g reactjs/react-modal",
     "docs:build:watch": "gitbook serve",
-    "docs:publish": "cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:reactjs/react-modal gh-pages --force"
+    "docs:publish": "cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:reactjs/react-modal gh-pages --force",
+    "lint": "eslint lib/ specs/"
   },
   "authors": [
     "Ryan Florence"
