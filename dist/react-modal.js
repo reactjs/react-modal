@@ -356,7 +356,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  close: function close() {
-	    if (!this.ownerHandlesClose()) return;
 	    if (this.props.closeTimeoutMS > 0) this.closeWithTimeout();else this.closeWithoutTimeout();
 	  },
 

@@ -1,3 +1,10 @@
+v1.6.5 - Sat, 31 Dec 2016 17:14:28 GMT
+--------------------------------------
+
+- [c50f19a](../../commit/c50f19a) [fixed] Add file extention to entry point (#294)
+- [08bf920](../../commit/08bf920) [fixed] closeTimeoutMS doesn't work without onRequestClose (#278)
+
+
 v1.6.4 - Thu, 15 Dec 2016 05:48:59 GMT
 --------------------------------------
 
