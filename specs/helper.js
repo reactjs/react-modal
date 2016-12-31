@@ -1,20 +1,26 @@
+// The following eslint overrides should be removed when refactoring can occur
+
+/* eslint react/no-render-return-value: "warn" */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../lib/components/Modal';
 
-let _currentDiv = null;
+let currentDiv = null;
 
-export const renderModal = function(props, children, callback) {
-  props.ariaHideApp = false;
-  _currentDiv = document.createElement('div');
-  document.body.appendChild(_currentDiv);
+export function renderModal (props, children, callback) {
+  const myProps = {
+    ariaHideApp: false,
+    ...props
+  };
+  currentDiv = document.createElement('div');
+  document.body.appendChild(currentDiv);
   return ReactDOM.render(
-    <Modal {...props}>{children}</Modal>
-  , _currentDiv, callback);
-};
+    <Modal {...myProps}>{children}</Modal>
+  , currentDiv, callback);
+}
 
-export const unmountModal = function() {
-  ReactDOM.unmountComponentAtNode(_currentDiv);
-  document.body.removeChild(_currentDiv);
-  _currentDiv = null;
+export const unmountModal = () => {
+  ReactDOM.unmountComponentAtNode(currentDiv);
+  document.body.removeChild(currentDiv);
+  currentDiv = null;
 };
