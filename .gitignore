@@ -4,7 +4,7 @@ examples/**/*-bundle.js
 node_modules/
 .idea/
 _book
-coverage/*
 *.patch
 *.diff
 examples/__build__
+coverage

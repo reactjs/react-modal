@@ -19,10 +19,15 @@ module.exports = function(config) {
       stats: 'errors-only'
     },
 
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
 
     mochaReporter: {
       showDiff: true
+    },
+
+    coverageReporter: {
+      type : 'lcov',
+      dir : 'coverage/'
     },
 
     port: 9876,
