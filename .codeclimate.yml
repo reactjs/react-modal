@@ -1,0 +1,11 @@
+engines:
+  eslint:
+    enabled: true
+    channel: "eslint-3"
+  duplication:
+    enabled: true
+ratings:
+  paths:
+    - lib/**
+    - specs/**
+    - "**.js"
