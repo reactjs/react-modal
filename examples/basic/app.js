@@ -1,6 +1,6 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Modal = require('../../lib/index');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Modal from '../../lib/index';
 
 var appElement = document.getElementById('example');
 
