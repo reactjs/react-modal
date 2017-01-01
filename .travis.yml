@@ -11,3 +11,8 @@ after_success:
   - cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 script: npm run test:full
 cache: yarn
+addons:
+  sauce_connect:
+    username: "cd-reactmodal"
+  jwt:
+    secure: PpSLvFVrzYYh5zn4SXSkhDsQ3lRxCa4yOwjbVCy3C3smQxgJLKDCHTBp4OcwDlDfPjSsq4nKaQcsOJa9DlduAxMIW98t6pQelqLD9aaEGDbdzyJ4qx5G3fTs6AdU8WJuvVY145zaRcgUdejs5Ii9j1rMna3yS9HfGRE5r4aHNhE=
