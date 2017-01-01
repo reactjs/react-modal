@@ -10,5 +10,8 @@ engines:
 ratings:
   paths:
     - lib/**
-    - specs/**
     - "**.js"
+exclude_paths:
+  - "specs/"
+  - "dist/"
+  - "examples/"
