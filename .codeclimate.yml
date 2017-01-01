@@ -4,6 +4,9 @@ engines:
     channel: "eslint-3"
   duplication:
     enabled: true
+    config:
+      languages:
+        javascript:
 ratings:
   paths:
     - lib/**
