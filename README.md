@@ -2,6 +2,9 @@
 
 Accessible modal dialog component for React.JS
 
+[![Code Climate](https://codeclimate.com/github/reactjs/react-modal/badges/gpa.svg)](https://codeclimate.com/github/reactjs/react-modal)
+[![Coverage Status](https://coveralls.io/repos/github/reactjs/react-modal/badge.svg?branch=master)](https://coveralls.io/github/reactjs/react-modal?branch=master)
+
 ## Active Development
 The modal is currently undergoing significant development for a v2 release.  The `master` branch contains that development work.
 If you'd like to see the latest stable version please use the release tags (https://github.com/reactjs/react-modal/releases)
