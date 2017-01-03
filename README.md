@@ -144,9 +144,9 @@ You can use this to remove scrolling on the the body while the modal is open.
 Inside an app:
 
 ```js
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Modal = require('react-modal');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 
 /*
@@ -161,7 +161,7 @@ Modal.setAppElement(appElement);
 Modal.setAppElement('#your-app-element');
 
 */
-var appElement = document.getElementById('your-app-element');
+const appElement = document.getElementById('your-app-element');
 
 
 
@@ -177,26 +177,33 @@ const customStyles = {
 };
 
 
-var App = React.createClass({
+class App extends React.Component {
+  constructor() {
+    super();
 
-  getInitialState: function() {
-    return { modalIsOpen: false };
-  },
+    this.state = {
+      modalIsOpen: false
+    };
 
-  openModal: function() {
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  openModal() {
     this.setState({modalIsOpen: true});
-  },
+  }
 
-  afterOpenModal: function() {
+  afterOpenModal() {
     // references are now sync'd and can be accessed.
     this.refs.subtitle.style.color = '#f00';
-  },
+  }
 
-  closeModal: function() {
+  closeModal() {
     this.setState({modalIsOpen: false});
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         <button onClick={this.openModal}>Open Modal</button>
@@ -222,9 +229,9 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
 
-ReactDOM.render(<App/>, appElement);
+ReactDOM.render(<App />, appElement);
 ```
 # Testing
 
