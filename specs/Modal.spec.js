@@ -11,7 +11,7 @@ import sinon from 'sinon';
 import expect from 'expect';
 import ReactDOM from 'react-dom';
 import Modal from '../lib/components/Modal';
-import ariaAppHider from '../lib/helpers/ariaAppHider';
+import * as ariaAppHider from '../lib/helpers/ariaAppHider';
 import { renderModal, unmountModal } from './helper';
 
 const Simulate = TestUtils.Simulate;
