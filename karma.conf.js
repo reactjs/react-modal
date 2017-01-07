@@ -4,6 +4,8 @@ module.exports = function karmaConfig (config) {
   let browsers = [];
   const customLaunchers = {};
 
+  const reporters = [];
+
   function createCustomLauncher (browser, version, platform) {
     return {
       base: 'SauceLabs',
@@ -57,6 +59,7 @@ module.exports = function karmaConfig (config) {
     }
 
     browsers = Object.keys(customLaunchers);
+    reporters.push('saucelabs');
   } else {
     browsers = [(process.env.CONTINUOUS_INTEGRATION) ? 'Firefox' : 'Chrome'];
   }
@@ -81,7 +84,7 @@ module.exports = function karmaConfig (config) {
       stats: 'errors-only'
     },
 
-    reporters: ['mocha', 'coverage'],
+    reporters: ['mocha', 'coverage'].concat(reporters),
 
     mochaReporter: {
       showDiff: true
