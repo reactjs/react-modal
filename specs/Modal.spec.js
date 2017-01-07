@@ -270,6 +270,30 @@ describe('Modal', () => {
     unmountModal();
   });
 
+  it('should close on Esc key event', () => {
+    const requestCloseCallback = sinon.spy();
+    const modal = renderModal({
+      isOpen: true,
+      shouldCloseOnOverlayClick: true,
+      onRequestClose: requestCloseCallback
+    });
+    expect(modal.props.isOpen).toEqual(true);
+    expect(() => {
+      Simulate.keyDown(modal.portal.content, {
+        // The keyCode is all that matters, so this works
+        key: 'FakeKeyToTestLater',
+        keyCode: 27,
+        which: 27
+      });
+    }).toNotThrow();
+    expect(requestCloseCallback.called).toBeTruthy();
+    // Check if event is passed to onRequestClose callback.
+    const event = requestCloseCallback.getCall(0).args[0];
+    expect(event).toBeTruthy();
+    expect(event.constructor).toBeTruthy();
+    expect(event.key).toEqual('FakeKeyToTestLater');
+  });
+
   describe('should close on overlay click', () => {
     afterEach('Unmount modal', () => {
       unmountModal();
@@ -365,7 +389,15 @@ describe('Modal', () => {
         });
         const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         window.addEventListener('click', () => { hasPropagated = true; });
-        overlay[0].dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        // Work around for running the spec in IE 11
+        let mouseEvent = null;
+        try {
+          mouseEvent = new MouseEvent('click', { bubbles: true });
+        } catch (err) {
+          mouseEvent = document.createEvent('MouseEvent');
+          mouseEvent.initEvent('click', true, false);
+        }
+        overlay[0].dispatchEvent(mouseEvent);
         expect(hasPropagated).toBeTruthy();
       });
     });
@@ -380,34 +412,19 @@ describe('Modal', () => {
       expect(modal.props.isOpen).toEqual(true);
       const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
       expect(overlay.length).toEqual(1);
-      Simulate.mouseDown(overlay[0]); // click the overlay
-      Simulate.mouseUp(overlay[0]);
+      // click the overlay
+      Simulate.mouseDown(overlay[0]);
+      Simulate.mouseUp(overlay[0], {
+        // Used to test that this was the event received
+        fakeData: 'ABC'
+      });
       expect(requestCloseCallback.called).toBeTruthy();
       // Check if event is passed to onRequestClose callback.
       const event = requestCloseCallback.getCall(0).args[0];
       expect(event).toBeTruthy();
       expect(event.constructor).toBeTruthy();
-      expect(event.constructor.name).toEqual('SyntheticEvent');
+      expect(event.fakeData).toEqual('ABC');
     });
-  });
-
-  it('should close on Esc key event', () => {
-    const requestCloseCallback = sinon.spy();
-    const modal = renderModal({
-      isOpen: true,
-      shouldCloseOnOverlayClick: true,
-      onRequestClose: requestCloseCallback
-    });
-    expect(modal.props.isOpen).toEqual(true);
-    expect(() => {
-      Simulate.keyDown(modal.portal.content, { key: 'Esc', keyCode: 27, which: 27 });
-    }).toNotThrow();
-    expect(requestCloseCallback.called).toBeTruthy();
-    // Check if event is passed to onRequestClose callback.
-    const event = requestCloseCallback.getCall(0).args[0];
-    expect(event).toBeTruthy();
-    expect(event.constructor).toBeTruthy();
-    expect(event.constructor.name).toEqual('SyntheticEvent');
   });
 
   // it('adds --before-close for animations', function() {
