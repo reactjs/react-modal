@@ -38,7 +38,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal</button>
+        <button className="Example__OpenModalBtn" onClick={this.openModal}>Open Modal</button>
         <Modal
           ref="mymodal"
           closeTimeoutMS={150}
