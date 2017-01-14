@@ -46,7 +46,7 @@ var App = React.createClass({
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           <h1 ref="title">Hello</h1>
-          <button onClick={this.closeModal}>close</button>
+          <button className="Example__CloseModalBtn" onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
             <input onChange={this.handleInputChange} />
@@ -55,10 +55,10 @@ var App = React.createClass({
             <input />
             <input />
             <br/>
-            <button>hi</button>
-            <button>hi</button>
-            <button>hi</button>
-            <button>hi</button>
+            <button type="button">hi</button>
+            <button type="button">hi</button>
+            <button type="button">hi</button>
+            <button type="button" className="Example__Button--last">hi</button>
           </form>
         </Modal>
       </div>

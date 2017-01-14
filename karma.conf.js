@@ -71,11 +71,11 @@ module.exports = function karmaConfig (config) {
     frameworks: ['mocha'],
 
     files: [
-      'specs/spec_index.js'
+      'specs/js/spec_index.js'
     ],
 
     preprocessors: {
-      'specs/spec_index.js': ['webpack', 'sourcemap']
+      'specs/js/spec_index.js': ['webpack', 'sourcemap']
     },
 
     webpack: webpackTestConfig,
@@ -117,6 +117,7 @@ module.exports = function karmaConfig (config) {
 
     // SauceLabs config
     sauceLabs: {
+      startConnect: (!process.env.CONTINUOUS_INTEGRATION),
       recordScreenshots: false,
       connectOptions: {
         port: 5757,

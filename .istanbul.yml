@@ -1,0 +1,4 @@
+reporting:
+  report-config:
+    lcovonly:
+      file: 'lcov.selenium.info'
