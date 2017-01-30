@@ -11,6 +11,7 @@ import sinon from 'sinon';
 import expect from 'expect';
 import ReactDOM from 'react-dom';
 import Modal from '../lib/components/Modal';
+import ModalOverlay from '../lib/components/ModalOverlay';
 import * as ariaAppHider from '../lib/helpers/ariaAppHider';
 import { renderModal, unmountModal, emptyDOM } from './helper';
 
@@ -182,7 +183,8 @@ describe('Modal', () => {
 
   it('supports overlayClassName', () => {
     const modal = renderModal({ isOpen: true, overlayClassName: 'myOverlayClass' });
-    expect(modal.portal.overlay.className.indexOf('myOverlayClass')).toNotEqual(-1);
+    expect(modal.portal.overlay.props.className.indexOf('myOverlayClass')).toNotEqual(-1);
+    unmountModal();
   });
 
   it('overrides the default styles when a custom classname is used', () => {
@@ -192,7 +194,7 @@ describe('Modal', () => {
 
   it('overrides the default styles when a custom overlayClassName is used', () => {
     const modal = renderModal({ isOpen: true, overlayClassName: 'myOverlayClass' });
-    expect(modal.portal.overlay.style.backgroundColor).toEqual('');
+    expect(modal.portal.overlay.props.style.backgroundColor).toNotExist();
   });
 
   it('supports adding style to the modal contents', () => {
@@ -207,12 +209,12 @@ describe('Modal', () => {
 
   it('supports adding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { width: '75px' } } });
-    expect(modal.portal.overlay.style.width).toEqual('75px');
+    expect(modal.portal.overlay.props.style.width).toEqual('75px');
   });
 
   it('supports overriding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { position: 'static' } } });
-    expect(modal.portal.overlay.style.position).toEqual('static');
+    expect(modal.portal.overlay.props.style.position).toEqual('static');
   });
 
   it('supports overriding the default styles', () => {
@@ -223,6 +225,25 @@ describe('Modal', () => {
     const modal = renderModal({ isOpen: true });
     expect(modal.portal.content.style.position).toEqual(newStyle);
     Modal.defaultStyles.content.position = previousStyle;
+  });
+
+  it('supports overriding overlay component', () => {
+    class MyOverlay extends ModalOverlay {
+      render () {
+        const { children, text, ...restProps } = this.props;
+
+        return (
+          <div {...restProps}>
+            {children}
+            <p>{text}</p>
+          </div>
+        );
+      }
+    }
+
+    const text = 'Extra text in overlay';
+    const modal = renderModal({ isOpen: true, overlay: <MyOverlay text={text} /> });
+    expect(modal.portal.overlay.props.text).toEqual(text);
   });
 
   it('adds class to body when open', () => {

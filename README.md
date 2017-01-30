@@ -120,6 +120,33 @@ You can use this to remove scrolling on the the body while the modal is open.
 }
 ```
 
+### Overriding overlay
+You can override default overlay component providing `overlay` prop to `Modal`.  
+Note that overlay component should be a class (not function) due to internal refs usage.
+
+```js
+import Modal, { ModalOverlay } from 'react-modal';
+
+class MyOverlay extends ModalOverlay {
+  render () {
+    return (
+      <div {...restProps}>
+        {children}
+      </div>
+    );
+  }
+}
+
+<Modal
+  {...modalProps}
+  overlay={<MyOverlay />}
+>
+  {...modalContent}
+<Modal>
+```
+
+See another example in [overlay example](examples/overlay/app.js).
+
 ## Examples
 Inside an app:
 
