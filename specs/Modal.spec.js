@@ -321,8 +321,7 @@ describe('Modal', () => {
         expect(modal.props.isOpen).toEqual(true);
         const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         expect(overlay.length).toEqual(1);
-        Simulate.mouseDown(overlay[0]); // click the overlay
-        Simulate.mouseUp(overlay[0]);
+        Simulate.click(overlay[0]); // click the overlay
         expect(!requestCloseCallback.called).toBeTruthy();
       });
 
@@ -338,8 +337,7 @@ describe('Modal', () => {
         expect(modal.props.isOpen).toEqual(true);
         const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         expect(overlay.length).toEqual(1);
-        Simulate.mouseDown(overlay[0]); // click the overlay
-        Simulate.mouseUp(overlay[0]);
+        Simulate.click(overlay[0]); // click the overlay
         expect(requestCloseCallback.called).toBeTruthy();
       });
 
@@ -413,8 +411,7 @@ describe('Modal', () => {
       const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
       expect(overlay.length).toEqual(1);
       // click the overlay
-      Simulate.mouseDown(overlay[0]);
-      Simulate.mouseUp(overlay[0], {
+      Simulate.click(overlay[0], {
         // Used to test that this was the event received
         fakeData: 'ABC'
       });
