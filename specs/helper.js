@@ -5,14 +5,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../lib/components/Modal';
 
-let currentDiv = null;
+const divStack = [];
 
 export function renderModal (props, children, callback) {
   const myProps = {
     ariaHideApp: false,
     ...props
   };
-  currentDiv = document.createElement('div');
+  const currentDiv = document.createElement('div');
+  divStack.push(currentDiv);
   document.body.appendChild(currentDiv);
   return ReactDOM.render(
     <Modal {...myProps}>{children}</Modal>
@@ -20,7 +21,7 @@ export function renderModal (props, children, callback) {
 }
 
 export const unmountModal = () => {
+  const currentDiv = divStack.pop();
   ReactDOM.unmountComponentAtNode(currentDiv);
   document.body.removeChild(currentDiv);
-  currentDiv = null;
 };
