@@ -109,6 +109,38 @@ describe('Modal', function () {
     });
   });
 
+  it('give back focus to previous element or modal.', function (done) {
+    var modal = renderModal({
+      isOpen: true,
+      onRequestClose: function () {
+        unmountModal();
+        done();
+      }
+    }, null, function () {});
+
+    renderModal({
+      isOpen: true,
+      onRequestClose: function () {
+        Simulate.keyDown(modal.portal.refs.content, {
+          // The keyCode is all that matters, so this works
+          key: 'FakeKeyToTestLater',
+          keyCode: 27,
+          which: 27
+        });
+        expect(document.activeElement).toEqual(modal.portal.refs.content);
+      }
+    }, null, function checkPortalFocus () {
+      expect(document.activeElement).toEqual(this.portal.refs.content);
+      Simulate.keyDown(this.portal.refs.content, {
+        // The keyCode is all that matters, so this works
+        key: 'FakeKeyToTestLater',
+        keyCode: 27,
+        which: 27
+      });
+    });
+  });
+
+
   it('does not focus the modal content when a descendent is already focused', function() {
     var input = (
       <input

@@ -9,25 +9,34 @@ Modal.setAppElement('#example');
 var App = React.createClass({
 
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return { modalIsOpen: false, modal2: false };
   },
 
   openModal: function() {
-    this.setState({modalIsOpen: true});
+    this.setState({ ...this.state, modalIsOpen: true });
   },
 
   closeModal: function() {
-    this.setState({modalIsOpen: false});
+    this.setState({ ...this.state, modalIsOpen: false });
+  },
+
+  openSecondModal: function(event) {
+    event.preventDefault();
+    this.setState({ ...this.state, modal2:true });
+  },
+
+  closeSecondModal: function() {
+    this.setState({ ...this.state, modal2:false });
   },
 
   handleModalCloseRequest: function() {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
-    this.setState({modalIsOpen: false});
+    this.setState({ ...this.state, modalIsOpen: false });
   },
 
   handleInputChange: function() {
-    this.setState({foo: 'bar'});
+    this.setState({ foo: 'bar' });
   },
 
   handleOnAfterOpenModal: function() {
@@ -38,9 +47,11 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal</button>
+        <button onClick={this.openModal}>Open Modal A</button>
+        <button onClick={this.openSecondModal}>Open Modal B</button>
         <Modal
           ref="mymodal"
+          id="test"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.handleOnAfterOpenModal}
@@ -59,7 +70,16 @@ var App = React.createClass({
             <button>hi</button>
             <button>hi</button>
             <button>hi</button>
+            <button onClick={this.openSecondModal}>Open Modal B</button>
           </form>
+        </Modal>
+        <Modal ref="mymodal2"
+               id="test2"
+               closeTimeoutMS={150}
+               isOpen={this.state.modal2}
+               onAfterOpen={() => {}}
+               onRequestClose={this.closeSecondModal}>
+          <p>test</p>
         </Modal>
       </div>
     );
