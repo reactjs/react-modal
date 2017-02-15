@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import sinon from 'sinon';
 import expect from 'expect';
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import Modal from '../lib/components/Modal';
@@ -307,5 +307,38 @@ describe('State', () => {
       checkDOM(0);
       done();
     }, closeTimeoutMS);
+  });
+
+  it('shouldn\'t throw if forcibly unmounted during mounting', () => {
+    /* eslint-disable camelcase, react/prop-types */
+    class Wrapper extends Component {
+      constructor (props) {
+        super(props);
+        this.state = { error: false };
+      }
+      unstable_handleError () {
+        this.setState({ error: true });
+      }
+      render () {
+        return this.state.error ? null : <div>{ this.props.children }</div>;
+      }
+    }
+    /* eslint-enable camelcase, react/prop-types */
+
+    const Throw = () => { throw new Error('reason'); };
+    const TestCase = () => (
+      <Wrapper>
+        <Modal />
+        <Throw />
+      </Wrapper>
+    );
+
+    const currentDiv = document.createElement('div');
+    document.body.appendChild(currentDiv);
+
+    const mount = () => ReactDOM.render(<TestCase />, currentDiv);
+    expect(mount).toNotThrow();
+
+    document.body.removeChild(currentDiv);
   });
 });
