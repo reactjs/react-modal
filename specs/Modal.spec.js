@@ -112,17 +112,21 @@ describe('Modal', () => {
   });
 
   it('give back focus to previous element or modal.', (done) => {
+    function cleanup () {
+      unmountModal();
+      done();
+    }
     const modal = renderModal({
       isOpen: true,
       onRequestClose () {
-        unmountModal();
-        done();
+        cleanup();
       }
     }, null, () => {});
 
     renderModal({
       isOpen: true,
       onRequestClose () {
+        unmountModal();
         Simulate.keyDown(modal.portal.content, {
           // The keyCode is all that matters, so this works
           key: 'FakeKeyToTestLater',
@@ -175,6 +179,7 @@ describe('Modal', () => {
       preventDefault () { tabPrevented = true; }
     });
     expect(tabPrevented).toEqual(true);
+    unmountModal();
   });
 
   it('supports portalClassName', () => {
@@ -204,26 +209,31 @@ describe('Modal', () => {
   it('overrides the default styles when a custom overlayClassName is used', () => {
     const modal = renderModal({ isOpen: true, overlayClassName: 'myOverlayClass' });
     expect(modal.portal.overlay.style.backgroundColor).toEqual('');
+    unmountModal();
   });
 
   it('supports adding style to the modal contents', () => {
     const modal = renderModal({ isOpen: true, style: { content: { width: '20px' } } });
     expect(modal.portal.content.style.width).toEqual('20px');
+    unmountModal();
   });
 
   it('supports overriding style on the modal contents', () => {
     const modal = renderModal({ isOpen: true, style: { content: { position: 'static' } } });
     expect(modal.portal.content.style.position).toEqual('static');
+    unmountModal();
   });
 
   it('supports adding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { width: '75px' } } });
     expect(modal.portal.overlay.style.width).toEqual('75px');
+    unmountModal();
   });
 
   it('supports overriding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { position: 'static' } } });
     expect(modal.portal.overlay.style.position).toEqual('static');
+    unmountModal();
   });
 
   it('supports overriding the default styles', () => {
@@ -234,25 +244,42 @@ describe('Modal', () => {
     const modal = renderModal({ isOpen: true });
     expect(modal.portal.content.style.position).toEqual(newStyle);
     Modal.defaultStyles.content.position = previousStyle;
+    unmountModal();
+  });
+
+  it('should remove class from body when no modals opened', () => {
+    const expectedBodyClass = 'ReactModal__Body--open';
+    const classList = document.body.classList;
+    renderModal({ isOpen: true });
+    renderModal({ isOpen: true });
+    expect(classList.contains(expectedBodyClass)).toBe(true);
+    unmountModal();
+    expect(classList.contains(expectedBodyClass)).toBe(false);
+    unmountModal();
+    expect(classList.contains(expectedBodyClass)).toBe(false);
   });
 
   it('adds class to body when open', () => {
+    const expectedBodyClass = 'ReactModal__Body--open';
+    const classList = document.body.classList;
     renderModal({ isOpen: false });
-    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
-
+    expect(classList.contains(expectedBodyClass)).toEqual(false);
+    unmountModal();
     renderModal({ isOpen: true });
-    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(true);
-
+    expect(classList.contains(expectedBodyClass)).toEqual(true);
+    unmountModal();
     renderModal({ isOpen: false });
-    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
+    expect(classList.contains(expectedBodyClass)).toEqual(false);
     unmountModal();
   });
 
   it('removes class from body when unmounted without closing', () => {
+    const expectedBodyClass = 'ReactModal__Body--open';
+    const classList = document.body.classList;
     renderModal({ isOpen: true });
-    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(true);
+    expect(classList.contains(expectedBodyClass)).toEqual(true);
     unmountModal();
-    expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
+    expect(classList.contains(expectedBodyClass)).toEqual(false);
   });
 
   it('removes aria-hidden from appElement when unmounted without closing', () => {
