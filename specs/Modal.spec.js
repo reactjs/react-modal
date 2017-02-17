@@ -175,6 +175,32 @@ describe('Modal', () => {
     expect(modal.portal.overlay.className.indexOf('myOverlayClass')).toNotEqual(-1);
   });
 
+  it('overrides the default content classes when a custom object className is used', () => {
+    const modal = renderModal({
+      isOpen: true,
+      className: {
+        base: 'myClass',
+        afterOpen: 'myClass_after-open',
+        beforeClose: 'myClass_before-close'
+      }
+    });
+    expect(modal.portal.content.className).toEqual('myClass myClass_after-open');
+    unmountModal();
+  });
+
+  it('overrides the default overlay classes when a custom object overlayClassName is used', () => {
+    const modal = renderModal({
+      isOpen: true,
+      overlayClassName: {
+        base: 'myOverlayClass',
+        afterOpen: 'myOverlayClass_after-open',
+        beforeClose: 'myOverlayClass_before-close'
+      }
+    });
+    expect(modal.portal.overlay.className).toEqual('myOverlayClass myOverlayClass_after-open');
+    unmountModal();
+  });
+
   it('overrides the default styles when a custom classname is used', () => {
     const modal = renderModal({ ...getDefaultProps(), className: 'myClass' });
     expect(modal.portal.content.style.top).toEqual('');
