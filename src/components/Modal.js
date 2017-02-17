@@ -21,6 +21,7 @@ export default class Modal extends Component {
       overlay: React.PropTypes.object
     }),
     portalClassName: React.PropTypes.string,
+    bodyOpenClassName: React.PropTypes.string,
     /**
      * A function that returns the appElement that will be aria-hidden
      * when the modal is open. The function should return a DOMElement or
@@ -41,6 +42,7 @@ export default class Modal extends Component {
   static defaultProps = {
     isOpen: false,
     portalClassName: 'ReactModalPortal',
+    bodyOpenClassName: 'ReactModal__Body--open',
     ariaHideApp: true,
     closeTimeoutMS: 0,
     shouldCloseOnOverlayClick: true,
@@ -125,14 +127,14 @@ export default class Modal extends Component {
     ReactDOM.unmountComponentAtNode(this.node);
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
-    elementClass(document.body).remove('ReactModal__Body--open');
+    elementClass(document.body).remove(this.props.bodyOpenClassName);
   }
 
   renderPortal (props) {
     if (props.isOpen) {
-      elementClass(document.body).add('ReactModal__Body--open');
+      elementClass(document.body).add(this.props.bodyOpenClassName);
     } else {
-      elementClass(document.body).remove('ReactModal__Body--open');
+      elementClass(document.body).remove(this.props.bodyOpenClassName);
     }
 
     if (props.ariaHideApp) {

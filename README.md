@@ -85,6 +85,26 @@ you can pass `className` and `overlayClassName` props to the Modal.  If you do
 this then none of the default styles will apply and you will have full control
 over styling via CSS.
 
+If you want to override default content and overlay classes you can pass object
+with three required properties: `base`, `afterOpen`, `beforeClose`.
+
+```jsx
+<Modal
+  ...
+  className={{
+    base: 'myClass',
+    afterOpen: 'myClass_after-open',
+    beforeClose: 'myClass_before-close'
+  }}
+  overlayClassName={{
+    base: 'myOverlayClass',
+    afterOpen: 'myOverlayClass_after-open',
+    beforeClose: 'myOverlayClass_before-close'
+  }}
+  ...
+>
+```
+
 You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).
 This doesn't affect styling as no styles are applied to this element by default.
 
@@ -115,6 +135,7 @@ function getParent() {
 ### Body class
 When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
 You can use this to remove scrolling on the the body while the modal is open.
+You can also pass a `bodyOpenClassName` to change the default class.
 
 ```CSS
 /* Remove scroll on the body when react-modal is open */

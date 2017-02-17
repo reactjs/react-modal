@@ -10,16 +10,8 @@ import {
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
-  overlay: {
-    base: 'ReactModal__Overlay',
-    afterOpen: 'ReactModal__Overlay--after-open',
-    beforeClose: 'ReactModal__Overlay--before-close'
-  },
-  content: {
-    base: 'ReactModal__Content',
-    afterOpen: 'ReactModal__Content--after-open',
-    beforeClose: 'ReactModal__Content--before-close'
-  }
+  overlay: 'ReactModal__Overlay',
+  content: 'ReactModal__Content'
 };
 
 export default class ModalPortal extends Component {
@@ -29,8 +21,22 @@ export default class ModalPortal extends Component {
     closeTimeoutMS: PropTypes.number,
     shouldCloseOnOverlayClick: PropTypes.bool,
     onRequestClose: PropTypes.func,
-    className: PropTypes.string,
-    overlayClassName: PropTypes.string,
+    className: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        base: PropTypes.string.isRequired,
+        afterOpen: PropTypes.string.isRequired,
+        beforeClose: PropTypes.string.isRequired
+      })
+    ]),
+    overlayClassName: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        base: PropTypes.string.isRequired,
+        afterOpen: PropTypes.string.isRequired,
+        beforeClose: PropTypes.string.isRequired
+      })
+    ]),
     defaultStyles: PropTypes.shape({
       content: PropTypes.object,
       overlay: PropTypes.object
@@ -191,12 +197,15 @@ export default class ModalPortal extends Component {
   }
 
   buildClassName (which, additional) {
-    let className = CLASS_NAMES[which].base;
-    if (this.state.afterOpen) { className += ` ${CLASS_NAMES[which].afterOpen}`; }
-    if (this.state.beforeClose) {
-      className += ` ${CLASS_NAMES[which].beforeClose}`;
-    }
-    return additional ? `${className} ${additional}` : className;
+    const classNames = (typeof additional === 'object') ? additional : {
+      base: CLASS_NAMES[which],
+      afterOpen: `${CLASS_NAMES[which]}--after-open`,
+      beforeClose: `${CLASS_NAMES[which]}--before-close`
+    };
+    let className = classNames.base;
+    if (this.state.afterOpen) { className += ` ${classNames.afterOpen}`; }
+    if (this.state.beforeClose) { className += ` ${classNames.beforeClose}`; }
+    return (typeof additional === 'string' && additional) ? `${className} ${additional}` : className;
   }
 
   render () {
