@@ -12,18 +12,13 @@ import expect from 'expect';
 import ReactDOM from 'react-dom';
 import Modal from '../lib/components/Modal';
 import * as ariaAppHider from '../lib/helpers/ariaAppHider';
-import { renderModal, unmountModal } from './helper';
+import { renderModal, unmountModal, emptyDOM } from './helper';
 
 const Simulate = TestUtils.Simulate;
 
 
 describe('Modal', () => {
-  afterEach('check if test cleaned up rendered modals', () => {
-    const overlay = document.querySelectorAll('.ReactModal__Overlay');
-    const content = document.querySelectorAll('.ReactModal__Content');
-    expect(overlay.length).toBe(0);
-    expect(content.length).toBe(0);
-  });
+  afterEach('check if test cleaned up rendered modals', emptyDOM);
 
   it('scopes tab navigation to the modal');
   it('focuses the last focused element when tabbing in from browser chrome');
@@ -31,13 +26,11 @@ describe('Modal', () => {
   it('can be open initially', () => {
     const component = renderModal({ isOpen: true }, 'hello');
     expect(component.portal.content.innerHTML.trim()).toEqual('hello');
-    unmountModal();
   });
 
   it('can be closed initially', () => {
     const component = renderModal({}, 'hello');
     expect(ReactDOM.findDOMNode(component.portal).innerHTML.trim()).toEqual('');
-    unmountModal();
   });
 
   it('accepts appElement as a prop', () => {
@@ -73,21 +66,18 @@ describe('Modal', () => {
     const child = 'I am a child of Modal, and he has sent me here...';
     const component = renderModal({ isOpen: true }, child);
     expect(component.portal.content.innerHTML).toEqual(child);
-    unmountModal();
   });
 
   it('renders the modal content with a dialog aria role when provided ', () => {
     const child = 'I am a child of Modal, and he has sent me here...';
     const component = renderModal({ isOpen: true, role: 'dialog' }, child);
     expect(component.portal.content.getAttribute('role')).toEqual('dialog');
-    unmountModal();
   });
 
   it('renders the modal with a aria-label based on the contentLabel prop', () => {
     const child = 'I am a child of Modal, and he has sent me here...';
     const component = renderModal({ isOpen: true, contentLabel: 'Special Modal' }, child);
     expect(component.portal.content.getAttribute('aria-label')).toEqual('Special Modal');
-    unmountModal();
   });
 
   it('has default props', () => {
@@ -114,7 +104,6 @@ describe('Modal', () => {
   it('focuses the modal content', () => {
     renderModal({ isOpen: true }, null, function checkModalContentFocus () {
       expect(document.activeElement).toEqual(this.portal.content);
-      unmountModal();
     });
   });
 
@@ -122,8 +111,6 @@ describe('Modal', () => {
     const modal = renderModal({
       isOpen: true,
       onRequestClose () {
-        unmountModal();
-        unmountModal();
         done();
       }
     }, null, () => {});
@@ -160,7 +147,6 @@ describe('Modal', () => {
 
     renderModal({ isOpen: true }, input, () => {
       expect(document.activeElement).toEqual(document.querySelector('.focus_input'));
-      unmountModal();
     });
   });
 
@@ -169,7 +155,6 @@ describe('Modal', () => {
     expect(() => {
       Simulate.keyDown(component.portal.content, { key: 'Tab', keyCode: 9, which: 9 });
     }).toNotThrow();
-    unmountModal();
   });
 
   it('keeps focus inside the modal when child has no tabbable elements', () => {
@@ -183,61 +168,51 @@ describe('Modal', () => {
       preventDefault () { tabPrevented = true; }
     });
     expect(tabPrevented).toEqual(true);
-    unmountModal();
   });
 
   it('supports portalClassName', () => {
     const modal = renderModal({ isOpen: true, portalClassName: 'myPortalClass' });
     expect(modal.node.className).toEqual('myPortalClass');
-    unmountModal();
   });
 
   it('supports custom className', () => {
     const modal = renderModal({ isOpen: true, className: 'myClass' });
     expect(modal.portal.content.className.indexOf('myClass')).toNotEqual(-1);
-    unmountModal();
   });
 
   it('supports overlayClassName', () => {
     const modal = renderModal({ isOpen: true, overlayClassName: 'myOverlayClass' });
     expect(modal.portal.overlay.className.indexOf('myOverlayClass')).toNotEqual(-1);
-    unmountModal();
   });
 
   it('overrides the default styles when a custom classname is used', () => {
     const modal = renderModal({ isOpen: true, className: 'myClass' });
     expect(modal.portal.content.style.top).toEqual('');
-    unmountModal();
   });
 
   it('overrides the default styles when a custom overlayClassName is used', () => {
     const modal = renderModal({ isOpen: true, overlayClassName: 'myOverlayClass' });
     expect(modal.portal.overlay.style.backgroundColor).toEqual('');
-    unmountModal();
   });
 
   it('supports adding style to the modal contents', () => {
     const modal = renderModal({ isOpen: true, style: { content: { width: '20px' } } });
     expect(modal.portal.content.style.width).toEqual('20px');
-    unmountModal();
   });
 
   it('supports overriding style on the modal contents', () => {
     const modal = renderModal({ isOpen: true, style: { content: { position: 'static' } } });
     expect(modal.portal.content.style.position).toEqual('static');
-    unmountModal();
   });
 
   it('supports adding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { width: '75px' } } });
     expect(modal.portal.overlay.style.width).toEqual('75px');
-    unmountModal();
   });
 
   it('supports overriding style on the modal overlay', () => {
     const modal = renderModal({ isOpen: true, style: { overlay: { position: 'static' } } });
     expect(modal.portal.overlay.style.position).toEqual('static');
-    unmountModal();
   });
 
   it('supports overriding the default styles', () => {
@@ -248,7 +223,6 @@ describe('Modal', () => {
     const modal = renderModal({ isOpen: true });
     expect(modal.portal.content.style.position).toEqual(newStyle);
     Modal.defaultStyles.content.position = previousStyle;
-    unmountModal();
   });
 
   it('adds class to body when open', () => {
@@ -262,7 +236,6 @@ describe('Modal', () => {
 
     renderModal({ isOpen: false });
     expect(document.body.className.indexOf('ReactModal__Body--open') !== -1).toEqual(false);
-    unmountModal();
   });
 
   it('removes class from body when unmounted without closing', () => {
@@ -290,19 +263,15 @@ describe('Modal', () => {
     const content = document.querySelector('.ReactModal__Content');
     expect(overlay.className.match(/ReactModal__Overlay--after-open/)).toExist();
     expect(content.className.match(/ReactModal__Content--after-open/)).toExist();
-    unmountModal();
   });
 
   it('should trigger the onAfterOpen callback', () => {
     const afterOpenCallback = sinon.spy();
     renderModal({
       isOpen: true,
-      onAfterOpen () {
-        afterOpenCallback();
-      }
+      onAfterOpen: afterOpenCallback
     });
     expect(afterOpenCallback.called).toBeTruthy();
-    unmountModal();
   });
 
   it('check the state of the modal after close with time out and reopen it', () => {
@@ -315,7 +284,6 @@ describe('Modal', () => {
     modal.portal.open();
     modal.portal.closeWithoutTimeout();
     expect(!modal.portal.state.isOpen).toBeTruthy();
-    unmountModal();
   });
 
   it('should close on Esc key event', () => {
@@ -340,15 +308,14 @@ describe('Modal', () => {
     expect(event).toBeTruthy();
     expect(event.constructor).toBeTruthy();
     expect(event.key).toEqual('FakeKeyToTestLater');
-    unmountModal();
   });
 
   describe('should close on overlay click', () => {
-    afterEach('Unmount modal', () => {
-      unmountModal();
-    });
+    afterEach('Unmount modal', emptyDOM);
 
     describe('verify props', () => {
+      afterEach('Unmount modal', emptyDOM);
+
       it('verify default prop of shouldCloseOnOverlayClick', () => {
         const modal = renderModal({ isOpen: true });
         expect(modal.props.shouldCloseOnOverlayClick).toEqual(true);
@@ -361,6 +328,8 @@ describe('Modal', () => {
     });
 
     describe('verify clicks', () => {
+      afterEach('Unmount modal', emptyDOM);
+
       it('verify overlay click when shouldCloseOnOverlayClick sets to false', () => {
         const requestCloseCallback = sinon.spy();
         const modal = renderModal({
@@ -395,9 +364,7 @@ describe('Modal', () => {
         const modal = renderModal({
           isOpen: true,
           shouldCloseOnOverlayClick: true,
-          onRequestClose () {
-            requestCloseCallback();
-          }
+          onRequestClose: requestCloseCallback
         });
         expect(modal.props.isOpen).toEqual(true);
         const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
@@ -481,6 +448,7 @@ describe('Modal', () => {
     });
 
     modal.portal.closeWithTimeout();
+    unmountModal();
 
     const overlay = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Overlay');
     const content = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Content');
@@ -489,7 +457,6 @@ describe('Modal', () => {
     expect(/ReactModal__Content--before-close/.test(content.className)).toBe(true);
 
     modal.portal.closeWithoutTimeout();
-    unmountModal();
   });
 
   it('keeps the modal in the DOM until closeTimeoutMS elapses', (done) => {
