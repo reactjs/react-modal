@@ -20,3 +20,9 @@ export const unmountModal = function() {
   ReactDOM.unmountComponentAtNode(currentDiv);
   document.body.removeChild(currentDiv);
 };
+
+export const emptyDOM = () => {
+  while (divStack.length) {
+    unmountModal();
+  }
+};
