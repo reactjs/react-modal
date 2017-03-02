@@ -149,11 +149,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      ariaAppHider.show(this.props.appElement);
 	    }
 
+	    var state = this.portal.state;
+	    var now = Date.now();
+	    var closesAt = state.isOpen && this.props.closeTimeoutMS && (state.closesAt || now + this.props.closeTimeoutMS);
+
+	    if (closesAt) {
+	      if (!state.beforeClose) {
+	        this.portal.closeWithTimeout();
+	      }
+
+	      setTimeout(this.removePortal.bind(this), closesAt - now);
+	    } else {
+	      this.removePortal();
+	    }
+	  },
+
+	  removePortal: function removePortal() {
 	    ReactDOM.unmountComponentAtNode(this.node);
 	    var parent = getParentElement(this.props.parentSelector);
 	    parent.removeChild(this.node);
 	    elementClass(document.body).remove('ReactModal__Body--open');
 	  },
+
 
 	  renderPortal: function renderPortal(props) {
 	    if (props.isOpen) {
@@ -338,6 +355,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.focusAfterRender = focus;
 	  },
 
+	  afterClose: function afterClose() {
+	    focusManager.returnFocus();
+	    focusManager.teardownScopedFocus();
+	  },
+
 	  open: function open() {
 	    if (this.state.afterOpen && this.state.beforeClose) {
 	      clearTimeout(this.closeTimer);
@@ -355,6 +377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 
+
 	  close: function close() {
 	    if (this.props.closeTimeoutMS > 0) this.closeWithTimeout();else this.closeWithoutTimeout();
 	  },
@@ -367,8 +390,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  closeWithTimeout: function closeWithTimeout() {
-	    this.setState({ beforeClose: true }, function () {
-	      this.closeTimer = setTimeout(this.closeWithoutTimeout, this.props.closeTimeoutMS);
+	    var closesAt = Date.now() + this.props.closeTimeoutMS;
+	    this.setState({ beforeClose: true, closesAt: closesAt }, function () {
+	      this.closeTimer = setTimeout(this.closeWithoutTimeout, this.state.closesAt - Date.now());
 	    }.bind(this));
 	  },
 
@@ -376,13 +400,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.setState({
 	      beforeClose: false,
 	      isOpen: false,
-	      afterOpen: false
+	      afterOpen: false,
+	      closesAt: null
 	    }, this.afterClose);
-	  },
-
-	  afterClose: function afterClose() {
-	    focusManager.returnFocus();
-	    focusManager.teardownScopedFocus();
 	  },
 
 	  handleKeyDown: function handleKeyDown(event) {
@@ -393,24 +413,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	  },
 
-	  handleOverlayMouseDown: function handleOverlayMouseDown(event) {
+	  handleOverlayOnClick: function handleOverlayOnClick(event) {
 	    if (this.shouldClose === null) {
 	      this.shouldClose = true;
 	    }
-	  },
 
-	  handleOverlayMouseUp: function handleOverlayMouseUp(event) {
 	    if (this.shouldClose && this.props.shouldCloseOnOverlayClick) {
 	      if (this.ownerHandlesClose()) this.requestClose(event);else this.focusContent();
 	    }
 	    this.shouldClose = null;
 	  },
 
-	  handleContentMouseDown: function handleContentMouseDown(event) {
-	    this.shouldClose = false;
-	  },
-
-	  handleContentMouseUp: function handleContentMouseUp(event) {
+	  handleContentOnClick: function handleContentOnClick() {
 	    this.shouldClose = false;
 	  },
 
@@ -423,7 +437,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  shouldBeClosed: function shouldBeClosed() {
-	    return !this.props.isOpen && !this.state.beforeClose;
+	    return !this.state.isOpen && !this.state.beforeClose;
 	  },
 
 	  contentHasFocus: function contentHasFocus() {
@@ -445,16 +459,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      ref: "overlay",
 	      className: this.buildClassName('overlay', this.props.overlayClassName),
 	      style: Assign({}, overlayStyles, this.props.style.overlay || {}),
-	      onMouseDown: this.handleOverlayMouseDown,
-	      onMouseUp: this.handleOverlayMouseUp
+	      onClick: this.handleOverlayOnClick
 	    }, div({
 	      ref: "content",
 	      style: Assign({}, contentStyles, this.props.style.content || {}),
 	      className: this.buildClassName('content', this.props.className),
 	      tabIndex: "-1",
 	      onKeyDown: this.handleKeyDown,
-	      onMouseDown: this.handleContentMouseDown,
-	      onMouseUp: this.handleContentMouseUp,
+	      onClick: this.handleContentOnClick,
 	      role: this.props.role,
 	      "aria-label": this.props.contentLabel
 	    }, this.props.children));
@@ -468,8 +480,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var findTabbable = __webpack_require__(7);
+	var focusLaterElements = [];
 	var modalElement = null;
-	var focusLaterElement = null;
 	var needToFocus = false;
 
 	function handleBlur(event) {
@@ -484,8 +496,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    // need to see how jQuery shims document.on('focusin') so we don't need the
 	    // setTimeout, firefox doesn't support focusin, if it did, we could focus
-	    // the element outside of a setTimeout. Side-effect of this implementation 
-	    // is that the document.body gets focus, and then we focus our element right 
+	    // the element outside of a setTimeout. Side-effect of this implementation
+	    // is that the document.body gets focus, and then we focus our element right
 	    // after, seems fine.
 	    setTimeout(function () {
 	      if (modalElement.contains(document.activeElement)) return;
@@ -496,16 +508,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	exports.markForFocusLater = function () {
-	  focusLaterElement = document.activeElement;
+	  focusLaterElements.push(document.activeElement);
 	};
 
 	exports.returnFocus = function () {
+	  var toFocus = null;
 	  try {
-	    focusLaterElement.focus();
+	    toFocus = focusLaterElements.pop();
+	    toFocus.focus();
+	    return;
 	  } catch (e) {
-	    console.warn('You tried to return focus to ' + focusLaterElement + ' but it is not in the DOM anymore');
+	    console.warn('You tried to return focus to ' + toFocus + ' but it is not in the DOM anymore');
 	  }
-	  focusLaterElement = null;
 	};
 
 	exports.setupScopedFocus = function (element) {

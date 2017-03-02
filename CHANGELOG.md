@@ -1,3 +1,10 @@
+v1.7.0 - Thu, 02 Mar 2017 03:54:08 GMT
+--------------------------------------
+
+- [ea4f37a](../../commit/ea4f37a) [fixed] respect closeTimeoutMS during unmount
+- [4232477](../../commit/4232477) [fixed] Enable click to close in iOS (#301) (#304) (#313)
+
+
 v1.6.5 - Sat, 31 Dec 2016 17:14:28 GMT
 --------------------------------------
 
