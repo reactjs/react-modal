@@ -171,7 +171,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    elementClass(document.body).remove('ReactModal__Body--open');
 	  },
 
-
 	  renderPortal: function renderPortal(props) {
 	    if (props.isOpen) {
 	      elementClass(document.body).add('ReactModal__Body--open');
@@ -376,7 +375,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }.bind(this));
 	    }
 	  },
-
 
 	  close: function close() {
 	    if (this.props.closeTimeoutMS > 0) this.closeWithTimeout();else this.closeWithoutTimeout();
