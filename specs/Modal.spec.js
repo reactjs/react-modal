@@ -451,4 +451,42 @@ describe('Modal', () => {
       done();
     }, closeTimeoutMS);
   });
+
+  it('verify that portalClassName is refreshed on component update', () => {
+    var node = document.createElement('div');
+    var modal = null;
+
+    var App = React.createClass({
+      getInitialState: function () {
+        return {testHasChanged: false}
+      },
+
+      componentDidMount: function() {
+        expect(modal.node.className).toEqual('myPortalClass');
+
+        this.setState({
+          testHasChanged: true
+        });
+      },
+
+      componentDidUpdate: function() {
+        expect(modal.node.className).toEqual('myPortalClass-modifier');
+      },
+
+      render: function() {
+        return (
+          <div>
+            <Modal
+              ref={(modalComponent) => {modal = modalComponent}}
+              isOpen={true}
+              portalClassName={this.state.testHasChanged === true ? 'myPortalClass-modifier' : 'myPortalClass'}>
+            </Modal>
+          </div>
+        );
+      }
+    });
+
+    Modal.setAppElement(node);
+    ReactDOM.render(<App />, node);
+  });
 });
