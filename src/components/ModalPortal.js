@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Assign from 'lodash.assign';
 import scopeTab from '../helpers/scopeTab';
 import {
   returnFocus,
@@ -211,12 +210,12 @@ export default class ModalPortal extends Component {
       <div
         ref={(c) => { this.overlay = c; }}
         className={this.buildClassName('overlay', this.props.overlayClassName)}
-        style={Assign({}, overlayStyles, this.props.style.overlay || {})}
+        style={Object.assign({}, overlayStyles, this.props.style.overlay || {})}
         onClick={this.handleOverlayOnClick}
       >
         <div
           ref={(c) => { this.content = c; }}
-          style={Assign({}, contentStyles, this.props.style.content || {})}
+          style={Object.assign({}, contentStyles, this.props.style.content || {})}
           className={this.buildClassName('content', this.props.className)}
           tabIndex={-1}
           onKeyDown={this.handleKeyDown}
