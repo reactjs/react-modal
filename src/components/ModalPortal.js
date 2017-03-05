@@ -42,14 +42,14 @@ export default class ModalPortal extends Component {
     role: PropTypes.string,
     children: PropTypes.node,
     contentLabel: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     style: {
       overlay: {},
       content: {}
     }
-  };
+  }
 
   constructor () {
     super();

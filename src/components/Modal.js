@@ -32,7 +32,7 @@ export default class Modal extends Component {
     parentSelector: React.PropTypes.func,
     role: React.PropTypes.string,
     contentLabel: React.PropTypes.string.isRequired
-  };
+  }
   /* eslint-enable react/no-unused-prop-types */
 
   static defaultProps = {
@@ -42,7 +42,7 @@ export default class Modal extends Component {
     closeTimeoutMS: 0,
     shouldCloseOnOverlayClick: true,
     parentSelector () { return document.body; }
-  };
+  }
 
   static defaultStyles = {
     overlay: {
@@ -67,7 +67,7 @@ export default class Modal extends Component {
       outline: 'none',
       padding: '20px'
     }
-  };
+  }
 
   static setAppElement (element) {
     ariaAppHider.setElement(element);
