@@ -8,7 +8,7 @@ testsContext.keys().forEach((path) => {
   }
 });
 
-const componentsContext = require.context('../lib', true, /\.js$/);
+const componentsContext = require.context('../src', true, /\.js$/);
 componentsContext.keys().forEach((path) => {
   try {
     componentsContext(path);

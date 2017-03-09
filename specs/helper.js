@@ -3,7 +3,7 @@
 /* eslint react/no-render-return-value: "warn" */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Modal from '../lib/components/Modal';
+import Modal from '../src/components/Modal';
 
 const divStack = [];
 
