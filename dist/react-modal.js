@@ -158,7 +158,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.portal.closeWithTimeout();
 	      }
 
-	      setTimeout(this.removePortal.bind(this), closesAt - now);
+	      setTimeout(function () {
+	        this.removePortal();
+	      }, closesAt - now);
 	    } else {
 	      this.removePortal();
 	    }
