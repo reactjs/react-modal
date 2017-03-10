@@ -220,7 +220,7 @@ When using React Test Utils with this library, here are some things to keep in m
 - You need to use the `.portal` property, as in `ReactDOM.findDOMNode(renderedModal.portal)` or `TestUtils.scryRenderedDOMComponentsWithClass(Modal.portal, 'my-modal-class')` to acquire a handle to the inner contents of your modal.
 
 By default the modal is closed when clicking outside of it (the overlay area). If you want to prevent this behavior you can
-pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
+pass the 'shouldCloseOnOverlayClick' prop with 'false' value. And you have to define 'onRequestClose' prop to manual control modal state for open or close.
 ```xml
 <Modal
   isOpen={bool}
