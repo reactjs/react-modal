@@ -77,6 +77,8 @@ var App = React.createClass({
                id="test2"
                closeTimeoutMS={150}
                isOpen={this.state.modal2}
+               onKeyDown={(event) => { console.log("key pressed:", event.keyCode, event.which); }}
+               onClick={(event) => { console.log("mouse pressed:", event); }}
                onAfterOpen={() => {}}
                onRequestClose={this.closeSecondModal}>
           <p>test</p>
