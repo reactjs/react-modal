@@ -98,11 +98,15 @@ describe('Modal', () => {
     });
   });
 
-  it('give back focus to previous element or modal.', function (done) {
-    var modal = renderModal({
+  it('give back focus to previous element or modal.', (done) => {
+    function cleanup () {
+      unmountModal();
+      done();
+    }
+    const modal = renderModal({
       isOpen: true,
-      onRequestClose: function () {
-	done();
+      onRequestClose () {
+	cleanup();
       }
     }, null);
 
@@ -213,6 +217,17 @@ describe('Modal', () => {
     const modal = renderModal({ isOpen: true });
     expect(modal.portal.refs.content.style.position).toEqual(newStyle);
     Modal.defaultStyles.content.position = previousStyle;
+  });
+
+  it('should remove class from body when no modals opened', () => {
+    const findReactModalOpenClass = () => document.body.className.indexOf('ReactModal__Body--open');
+    renderModal({ isOpen: true });
+    renderModal({ isOpen: true });
+    expect(findReactModalOpenClass() > -1).toBe(true);
+    unmountModal();
+    expect(findReactModalOpenClass() > -1).toBe(true);
+    unmountModal();
+    expect(findReactModalOpenClass() === -1).toBe(true);
   });
 
   it('adds class to body when open', function() {
