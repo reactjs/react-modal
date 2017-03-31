@@ -86,6 +86,7 @@ describe('Modal', () => {
     expect(props.ariaHideApp).toBe(true);
     expect(props.closeTimeoutMS).toBe(0);
     expect(props.shouldCloseOnOverlayClick).toBe(true);
+    expect(props.shouldCloseOnEsc).toBe(true);
     ReactDOM.unmountComponentAtNode(node);
   });
 
@@ -299,6 +300,26 @@ describe('Modal', () => {
     expect(event).toBeTruthy();
     expect(event.constructor).toBeTruthy();
     expect(event.key).toEqual('FakeKeyToTestLater');
+  });
+
+  it('should not close on Esc key event when flagged not to', () => {
+    const requestCloseCallback = sinon.spy();
+    const modal = renderModal({
+      ...getDefaultProps(),
+      shouldCloseOnOverlayClick: true,
+      shouldCloseOnEsc: false,
+      onRequestClose: requestCloseCallback
+    });
+    expect(modal.props.isOpen).toEqual(true);
+    expect(() => {
+      Simulate.keyDown(modal.portal.content, {
+        // The keyCode is all that matters, so this works
+        key: 'FakeKeyToTestLater',
+        keyCode: 27,
+        which: 27
+      });
+    }).toNotThrow();
+    expect(!requestCloseCallback.called).toBeTruthy();
   });
 
   describe('Show/Hide appElement', () => {

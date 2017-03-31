@@ -28,6 +28,7 @@ export default class ModalPortal extends Component {
     onAfterOpen: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     shouldCloseOnOverlayClick: PropTypes.bool,
+    shouldCloseOnEsc: PropTypes.bool,
     onRequestClose: PropTypes.func,
     className: PropTypes.string,
     overlayClassName: PropTypes.string,
@@ -150,7 +151,9 @@ export default class ModalPortal extends Component {
     if (event.keyCode === 9 /* tab*/) scopeTab(this.content, event);
     if (event.keyCode === 27 /* esc*/) {
       event.preventDefault();
-      this.requestClose(event);
+      if (this.props.shouldCloseOnEsc) {
+        this.requestClose(event);
+      }
     }
   }
 
