@@ -147,12 +147,30 @@ describe('Modal', () => {
     Simulate.keyDown(component.portal.refs.content, {key: "Tab", keyCode: 9, which: 9});
   });
 
-  it('keeps focus inside the modal when child has no tabbable elements', function() {
-    var tabPrevented = false;
-    var modal = renderModal({isOpen: true}, 'hello');
-    expect(document.activeElement).toEqual(modal.portal.refs.content);
-    Simulate.keyDown(modal.portal.refs.content, {
-      key: "Tab",
+  it('forward onKeyDown event.', () => {
+    const onKeyDownCallback = sinon.spy();
+    const component = renderModal({ isOpen: true, onKeyDown: onKeyDownCallback }, 'hello');
+    Simulate.keyDown(component.portal.content, { key: 'a', keyCode: 65, which: 65 });
+    expect(onKeyDownCallback.called).toBeTruthy();
+    unmountModal();
+  });
+
+  it('forward onClick event.', () => {
+    const onClickCallback = sinon.spy();
+    const modal = renderModal({ isOpen: true, onClick: onClickCallback }, 'hello');
+    const content = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
+    expect(content.length).toEqual(1);
+    Simulate.click(content[0]);
+    expect(onClickCallback.called).toBeTruthy();
+    unmountModal();
+  });
+
+  it('keeps focus inside the modal when child has no tabbable elements', () => {
+    let tabPrevented = false;
+    const modal = renderModal({ isOpen: true }, 'hello');
+    expect(document.activeElement).toEqual(modal.portal.content);
+    Simulate.keyDown(modal.portal.content, {
+      key: 'Tab',
       keyCode: 9,
       which: 9,
       preventDefault: function() { tabPrevented = true; }
