@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import elementClass from 'element-class';
 import ModalPortal from './ModalPortal';
 import * as ariaAppHider from '../helpers/ariaAppHider';
@@ -15,26 +16,26 @@ export default class Modal extends Component {
 
   /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
-    isOpen: React.PropTypes.bool.isRequired,
-    style: React.PropTypes.shape({
-      content: React.PropTypes.object,
-      overlay: React.PropTypes.object
+    isOpen: PropTypes.bool.isRequired,
+    style: PropTypes.shape({
+      content: PropTypes.object,
+      overlay: PropTypes.object
     }),
-    portalClassName: React.PropTypes.string,
+    portalClassName: PropTypes.string,
     /**
      * A function that returns the appElement that will be aria-hidden
      * when the modal is open. The function should return a DOMElement or
      * an array of DOMElements.
      */
-    getAppElement: React.PropTypes.func.isRequired,
-    onAfterOpen: React.PropTypes.func,
-    onRequestClose: React.PropTypes.func,
-    closeTimeoutMS: React.PropTypes.number,
-    ariaHideApp: React.PropTypes.bool,
-    shouldCloseOnOverlayClick: React.PropTypes.bool,
-    parentSelector: React.PropTypes.func,
-    role: React.PropTypes.string,
-    contentLabel: React.PropTypes.string.isRequired
+    getAppElement: PropTypes.func.isRequired,
+    onAfterOpen: PropTypes.func,
+    onRequestClose: PropTypes.func,
+    closeTimeoutMS: PropTypes.number,
+    ariaHideApp: PropTypes.bool,
+    shouldCloseOnOverlayClick: PropTypes.bool,
+    parentSelector: PropTypes.func,
+    role: PropTypes.string,
+    contentLabel: PropTypes.string.isRequired
   };
   /* eslint-enable react/no-unused-prop-types */
 
