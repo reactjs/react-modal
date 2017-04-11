@@ -64,7 +64,6 @@
     "mocha": "3.2.0",
     "npm-run-all": "^3.1.2",
     "react": "^15.5.0",
-    "react-addons-test-utils": "^15.5.0",
     "react-dom": "^15.5.0",
     "rf-release": "0.4.0",
     "rimraf": "^2.5.4",
