@@ -58,7 +58,8 @@
   "dependencies": {
     "element-class": "^0.2.0",
     "exenv": "1.2.0",
-    "lodash.assign": "^4.2.0"
+    "lodash.assign": "^4.2.0",
+    "prop-types": "^15.5.7"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
