@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Modal from '../../lib/index';
 
 const appElement = document.getElementById('example');
-// Modal.setAppElement('#example');
 
 class App extends React.Component {
   constructor (props) {
@@ -25,7 +24,7 @@ class App extends React.Component {
 
   openSecondModal (event) {
     event.preventDefault();
-    this.setState({ ...this.state, modal2:true });
+    this.setState({ ...this.state, modal2: true });
   }
 
   closeSecondModal () {
@@ -51,7 +50,7 @@ class App extends React.Component {
     return (
       <div>
         <button onClick={() => this.openModal()}>Open Modal A</button>
-        <button onClick={(e) => this.openSecondModal(e)}>Open Modal B</button>
+        <button onClick={e => this.openSecondModal(e)}>Open Modal B</button>
         <Modal
           ref={(c) => { this.mymodal = c; }}
           getAppElement={() => appElement}
@@ -80,7 +79,7 @@ class App extends React.Component {
             <button>hi</button>
             <button>hi</button>
             <button>hi</button>
-            <button onClick={(e) => this.openSecondModal(e)}>Open Modal B</button>
+            <button onClick={e => this.openSecondModal(e)}>Open Modal B</button>
           </form>
         </Modal>
         <Modal
