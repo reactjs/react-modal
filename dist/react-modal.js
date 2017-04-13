@@ -3042,31 +3042,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.add = add;
-	exports.remove = remove;
-	exports.count = count;
 	var modals = [];
 
-	function add(element) {
-	  if (modals.indexOf(element) === -1) {
-	    modals.push(element);
+	module.exports = {
+	  add: function add(element) {
+	    if (modals.indexOf(element) === -1) {
+	      modals.push(element);
+	    }
+	  },
+	  remove: function remove(element) {
+	    var index = modals.indexOf(element);
+	    if (index === -1) {
+	      return;
+	    }
+	    modals.splice(index, 1);
+	  },
+	  count: function count() {
+	    return modals.length;
 	  }
-	}
-
-	function remove(element) {
-	  var index = modals.indexOf(element);
-	  if (index === -1) {
-	    return;
-	  }
-	  modals.splice(index, 1);
-	}
-
-	function count() {
-	  return modals.length;
-	}
+	};
 
 /***/ },
 /* 24 */
