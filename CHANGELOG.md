@@ -1,3 +1,46 @@
+v1.7.6 - Thu, 13 Apr 2017 14:41:16 GMT
+--------------------------------------
+
+- [048ef2d](../../commit/048ef2d) [fixed] remove additional es2015 from refCount
+
+
+v1.7.5 - Thu, 13 Apr 2017 14:20:34 GMT
+--------------------------------------
+
+- [1db0ee1](../../commit/1db0ee1) [fixed] remove es2015 from v1 branch
+
+
+v1.7.4 - Thu, 13 Apr 2017 13:37:19 GMT
+--------------------------------------
+
+- [e579a0d](../../commit/e579a0d) [fix] keep references of modals. (#358)
+- Removes deprecation warnings when used with React 15.5
+
+
+v1.7.3 - Tue, 14 Mar 2017 01:22:00 GMT
+--------------------------------------
+
+- [e1df119](../../commit/e1df119) [fixed] remove portal context in timeout (#353)
+
+
+v1.7.2 - Thu, 09 Mar 2017 03:59:52 GMT
+--------------------------------------
+
+- Fixes issue with backporting to v1 branch
+
+
+v1.7.1 - Thu, 02 Mar 2017 14:49:30 GMT
+--------------------------------------
+
+- [a1d29c6](../../commit/a1d29c6) [fixed] rewrite removePortal as es5 function
+
+
+v1.7.0 - Thu, 02 Mar 2017 03:54:08 GMT
+--------------------------------------
+
+- [ea4f37a](../../commit/ea4f37a) [fixed] respect closeTimeoutMS during unmount
+- [4232477](../../commit/4232477) [fixed] Enable click to close in iOS (#301) (#304) (#313)
+
 v1.6.5 - Sat, 31 Dec 2016 17:14:28 GMT
 --------------------------------------
 
