@@ -1,3 +1,9 @@
+v1.7.7 - Tue, 18 Apr 2017 13:40:29 GMT
+--------------------------------------
+
+- [889ffde](../../commit/889ffde) [fixed] Removed additional es2015 causing problems
+
+
 v1.7.6 - Thu, 13 Apr 2017 14:41:16 GMT
 --------------------------------------
 
