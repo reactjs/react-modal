@@ -79,6 +79,10 @@ export default class Modal extends Component {
   }
 
   componentDidMount () {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+    
     this.node = document.createElement('div');
     this.node.className = this.props.portalClassName;
 
