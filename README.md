@@ -196,7 +196,7 @@ class App extends React.Component {
 
   afterOpenModal() {
     // references are now sync'd and can be accessed.
-    this.refs.subtitle.style.color = '#f00';
+    this.subtitle.style.color = '#f00';
   }
 
   closeModal() {
@@ -215,7 +215,7 @@ class App extends React.Component {
           contentLabel="Example Modal"
         >
 
-          <h2 ref="subtitle">Hello</h2>
+          <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
           <form>
