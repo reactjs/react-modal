@@ -63,9 +63,8 @@
     "karma-webpack": "^1.8.1",
     "mocha": "3.2.0",
     "npm-run-all": "^3.1.2",
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^15.5.0",
+    "react-dom": "^15.5.0",
     "rf-release": "0.4.0",
     "rimraf": "^2.5.4",
     "sinon": "next",
@@ -75,11 +74,12 @@
   },
   "dependencies": {
     "element-class": "^0.2.0",
-    "exenv": "1.2.0"
+    "exenv": "1.2.0",
+    "prop-types": "^15.5.7"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react": "^0.14.0 || ^15.5.0",
+    "react-dom": "^0.14.0 || ^15.5.0"
   },
   "tags": [
     "react",

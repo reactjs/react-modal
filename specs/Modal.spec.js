@@ -5,7 +5,7 @@
 /* eslint react/no-find-dom-node: "warn",
           react/no-render-return-value: "warn"
 */
-import TestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import React from 'react';
 import sinon from 'sinon';
 import expect from 'expect';
@@ -13,7 +13,7 @@ import ReactDOM from 'react-dom';
 import Modal from '../src/components/Modal';
 import { renderModal, unmountModal, emptyDOM } from './helper';
 
-const Simulate = TestUtils.Simulate;
+const Simulate = ReactTestUtils.Simulate;
 
 function getDefaultProps () {
   return {
@@ -397,7 +397,7 @@ describe('Modal', () => {
           shouldCloseOnOverlayClick: false
         });
         expect(modal.props.isOpen).toEqual(true);
-        const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        const overlay = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         expect(overlay.length).toEqual(1);
         Simulate.click(overlay[0]); // click the overlay
         expect(!requestCloseCallback.called).toBeTruthy();
@@ -413,7 +413,7 @@ describe('Modal', () => {
           }
         });
         expect(modal.props.isOpen).toEqual(true);
-        const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        const overlay = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         expect(overlay.length).toEqual(1);
         Simulate.click(overlay[0]); // click the overlay
         expect(requestCloseCallback.called).toBeTruthy();
@@ -427,8 +427,8 @@ describe('Modal', () => {
           onRequestClose: requestCloseCallback
         });
         expect(modal.props.isOpen).toEqual(true);
-        const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
-        const content = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
+        const overlay = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        const content = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
         expect(overlay.length).toEqual(1);
         expect(content.length).toEqual(1);
         Simulate.mouseDown(overlay[0]); // click the overlay
@@ -446,8 +446,8 @@ describe('Modal', () => {
           }
         });
         expect(modal.props.isOpen).toEqual(true);
-        const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
-        const content = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
+        const overlay = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        const content = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Content');
         expect(content.length).toEqual(1);
         expect(overlay.length).toEqual(1);
         Simulate.mouseDown(content[0]); // click the overlay
@@ -461,7 +461,7 @@ describe('Modal', () => {
           ...getDefaultProps(),
           shouldCloseOnOverlayClick: true
         });
-        const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+        const overlay = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
         window.addEventListener('click', () => { hasPropagated = true; });
         // Work around for running the spec in IE 11
         let mouseEvent = null;
@@ -484,7 +484,7 @@ describe('Modal', () => {
         onRequestClose: requestCloseCallback
       });
       expect(modal.props.isOpen).toEqual(true);
-      const overlay = TestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
+      const overlay = ReactTestUtils.scryRenderedDOMComponentsWithClass(modal.portal, 'ReactModal__Overlay');
       expect(overlay.length).toEqual(1);
       // click the overlay
       Simulate.click(overlay[0], {
@@ -510,8 +510,8 @@ describe('Modal', () => {
     modal.portal.closeWithTimeout();
     unmountModal();
 
-    const overlay = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Overlay');
-    const content = TestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Content');
+    const overlay = ReactTestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Overlay');
+    const content = ReactTestUtils.findRenderedDOMComponentWithClass(modal.portal, 'ReactModal__Content');
 
     expect(/ReactModal__Overlay--before-close/.test(overlay.className)).toBe(true);
     expect(/ReactModal__Content--before-close/.test(content.className)).toBe(true);
