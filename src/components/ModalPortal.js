@@ -1,24 +1,24 @@
-import React, { Component, PropTypes } from 'react';
-import scopeTab from '../helpers/scopeTab';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import scopeTab from "../helpers/scopeTab";
 import {
   returnFocus,
   setupScopedFocus,
   teardownScopedFocus,
   markForFocusLater
-} from '../helpers/focusManager';
-
+} from "../helpers/focusManager";
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
   overlay: {
-    base: 'ReactModal__Overlay',
-    afterOpen: 'ReactModal__Overlay--after-open',
-    beforeClose: 'ReactModal__Overlay--before-close'
+    base: "ReactModal__Overlay",
+    afterOpen: "ReactModal__Overlay--after-open",
+    beforeClose: "ReactModal__Overlay--before-close"
   },
   content: {
-    base: 'ReactModal__Content',
-    afterOpen: 'ReactModal__Content--after-open',
-    beforeClose: 'ReactModal__Content--before-close'
+    base: "ReactModal__Content",
+    afterOpen: "ReactModal__Content--after-open",
+    beforeClose: "ReactModal__Content--before-close"
   }
 };
 
@@ -51,7 +51,7 @@ export default class ModalPortal extends Component {
     }
   };
 
-  constructor () {
+  constructor() {
     super();
     this.state = {
       afterOpen: false,
@@ -60,7 +60,7 @@ export default class ModalPortal extends Component {
     this.shouldClose = null;
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // Focus needs to be set when mounting and already open
     if (this.props.isOpen) {
       this.setFocusAfterRender(true);
@@ -68,7 +68,7 @@ export default class ModalPortal extends Component {
     }
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     // Focus only needs to be set once when the modal is being opened
     if (!this.props.isOpen && newProps.isOpen) {
       this.setFocusAfterRender(true);
@@ -78,27 +78,27 @@ export default class ModalPortal extends Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (this.focusAfterRender) {
       this.focusContent();
       this.setFocusAfterRender(false);
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.closeTimer);
   }
 
-  setFocusAfterRender (focus) {
+  setFocusAfterRender(focus) {
     this.focusAfterRender = focus;
   }
 
   afterClose = () => {
     returnFocus();
     teardownScopedFocus();
-  }
+  };
 
-  open () {
+  open() {
     if (this.state.afterOpen && this.state.beforeClose) {
       clearTimeout(this.closeTimer);
       this.setState({ beforeClose: false });
@@ -115,7 +115,7 @@ export default class ModalPortal extends Component {
     }
   }
 
-  close () {
+  close() {
     if (this.props.closeTimeoutMS > 0) {
       this.closeWithTimeout();
     } else {
@@ -123,38 +123,44 @@ export default class ModalPortal extends Component {
     }
   }
 
-  focusContent () {
+  focusContent() {
     // Don't steal focus from inner elements
     if (!this.contentHasFocus()) {
       this.content.focus();
     }
   }
 
-  closeWithTimeout () {
+  closeWithTimeout() {
     const closesAt = Date.now() + this.props.closeTimeoutMS;
     this.setState({ beforeClose: true, closesAt }, () => {
-      this.closeTimer = setTimeout(this.closeWithoutTimeout, this.state.closesAt - Date.now());
+      this.closeTimer = setTimeout(
+        this.closeWithoutTimeout,
+        this.state.closesAt - Date.now()
+      );
     });
   }
 
   closeWithoutTimeout = () => {
-    this.setState({
-      beforeClose: false,
-      isOpen: false,
-      afterOpen: false,
-      closesAt: null
-    }, this.afterClose);
-  }
+    this.setState(
+      {
+        beforeClose: false,
+        isOpen: false,
+        afterOpen: false,
+        closesAt: null
+      },
+      this.afterClose
+    );
+  };
 
-  handleKeyDown = (event) => {
+  handleKeyDown = event => {
     if (event.keyCode === 9 /* tab*/) scopeTab(this.content, event);
-    if (event.keyCode === 27 /* esc*/) {
-      event.preventDefault();
+    if (event.keyCode === 27) {
+      /* esc*/ event.preventDefault();
       this.requestClose(event);
     }
-  }
+  };
 
-  handleOverlayOnClick = (event) => {
+  handleOverlayOnClick = event => {
     if (this.shouldClose === null) {
       this.shouldClose = true;
     }
@@ -166,67 +172,89 @@ export default class ModalPortal extends Component {
       }
     }
     this.shouldClose = null;
-  }
+  };
 
   handleContentOnClick = () => {
     this.shouldClose = false;
-  }
+  };
 
-  requestClose (event) {
+  requestClose(event) {
     if (this.ownerHandlesClose()) {
       this.props.onRequestClose(event);
     }
   }
 
-  ownerHandlesClose () {
+  ownerHandlesClose() {
     return this.props.onRequestClose;
   }
 
-  shouldBeClosed () {
+  shouldBeClosed() {
     return !this.state.isOpen && !this.state.beforeClose;
   }
 
-  contentHasFocus () {
-    return document.activeElement === this.content || this.content.contains(document.activeElement);
+  contentHasFocus() {
+    return document.activeElement === this.content ||
+      this.content.contains(document.activeElement);
   }
 
-  buildClassName (which, additional) {
+  buildClassName(which, additional) {
     let className = CLASS_NAMES[which].base;
-    if (this.state.afterOpen) { className += ` ${CLASS_NAMES[which].afterOpen}`; }
+    if (this.state.afterOpen) {
+      className += ` ${CLASS_NAMES[which].afterOpen}`;
+    }
     if (this.state.beforeClose) {
       className += ` ${CLASS_NAMES[which].beforeClose}`;
     }
     return additional ? `${className} ${additional}` : className;
   }
 
-  render () {
-    const contentStyles = (this.props.className) ? {} : this.props.defaultStyles.content;
-    const overlayStyles = (this.props.overlayClassName) ? {} : this.props.defaultStyles.overlay;
+  render() {
+    const contentStyles = this.props.className
+      ? {}
+      : this.props.defaultStyles.content;
+    const overlayStyles = this.props.overlayClassName
+      ? {}
+      : this.props.defaultStyles.overlay;
 
     // Disabling this rule is okay, since we know what is going on here, that being said
     // longterm we should probably do this better.
     /* eslint-disable jsx-a11y/no-static-element-interactions */
-    return this.shouldBeClosed() ? <div /> : (
-      <div
-        ref={(c) => { this.overlay = c; }}
-        className={this.buildClassName('overlay', this.props.overlayClassName)}
-        style={Object.assign({}, overlayStyles, this.props.style.overlay || {})}
-        onClick={this.handleOverlayOnClick}
-      >
-        <div
-          ref={(c) => { this.content = c; }}
-          style={Object.assign({}, contentStyles, this.props.style.content || {})}
-          className={this.buildClassName('content', this.props.className)}
-          tabIndex={-1}
-          onKeyDown={this.handleKeyDown}
-          onClick={this.handleContentOnClick}
-          role={this.props.role}
-          aria-label={this.props.contentLabel}
+    return this.shouldBeClosed()
+      ? <div />
+      : <div
+          ref={c => {
+            this.overlay = c;
+          }}
+          className={this.buildClassName(
+            "overlay",
+            this.props.overlayClassName
+          )}
+          style={Object.assign(
+            {},
+            overlayStyles,
+            this.props.style.overlay || {}
+          )}
+          onClick={this.handleOverlayOnClick}
         >
-          {this.props.children}
-        </div>
-      </div>
-    );
+          <div
+            ref={c => {
+              this.content = c;
+            }}
+            style={Object.assign(
+              {},
+              contentStyles,
+              this.props.style.content || {}
+            )}
+            className={this.buildClassName("content", this.props.className)}
+            tabIndex={-1}
+            onKeyDown={this.handleKeyDown}
+            onClick={this.handleContentOnClick}
+            role={this.props.role}
+            aria-label={this.props.contentLabel}
+          >
+            {this.props.children}
+          </div>
+        </div>;
     /* eslint-enable jsx-a11y/no-static-element-interactions */
   }
 }
