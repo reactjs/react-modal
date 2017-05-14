@@ -2,88 +2,101 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../../lib/index';
 
-var appElement = document.getElementById('example');
+const appElement = document.getElementById('example');
 
-Modal.setAppElement('#example');
+class App extends React.Component {
+  constructor (props) {
+    super(props);
 
-var App = React.createClass({
+    this.state = {
+      modalIsOpen: false,
+      modal2: false
+    };
+  }
 
-  getInitialState: function() {
-    return { modalIsOpen: false, modal2: false };
-  },
-
-  openModal: function() {
+  openModal () {
     this.setState({ ...this.state, modalIsOpen: true });
-  },
+  }
 
-  closeModal: function() {
+  closeModal () {
     this.setState({ ...this.state, modalIsOpen: false });
-  },
+  }
 
-  openSecondModal: function(event) {
+  openSecondModal (event) {
     event.preventDefault();
-    this.setState({ ...this.state, modal2:true });
-  },
+    this.setState({ ...this.state, modal2: true });
+  }
 
-  closeSecondModal: function() {
-    this.setState({ ...this.state, modal2:false });
-  },
+  closeSecondModal () {
+    this.setState({ ...this.state, modal2: false });
+  }
 
-  handleModalCloseRequest: function() {
+  handleModalCloseRequest () {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
     this.setState({ ...this.state, modalIsOpen: false });
-  },
+  }
 
-  handleInputChange: function() {
+  handleInputChange () {
     this.setState({ foo: 'bar' });
-  },
+  }
 
-  handleOnAfterOpenModal: function() {
+  handleOnAfterOpenModal () {
     // when ready, we can access the available refs.
-    this.refs.title.style.color = '#F00';
-  },
+    this.title.style.color = '#F00';
+  }
 
-  render: function() {
+  render () {
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal A</button>
-        <button onClick={this.openSecondModal}>Open Modal B</button>
+        <button onClick={() => this.openModal()}>Open Modal A</button>
+        <button onClick={e => this.openSecondModal(e)}>Open Modal B</button>
         <Modal
-          ref="mymodal"
+          ref={(c) => { this.mymodal = c; }}
+          getAppElement={() => appElement}
           id="test"
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.handleOnAfterOpenModal}
-          onRequestClose={this.handleModalCloseRequest}>
-          <h1 ref="title">Hello</h1>
-          <button onClick={this.closeModal}>close</button>
+          onAfterOpen={() => this.handleOnAfterOpenModal()}
+          onRequestClose={() => this.handleModalCloseRequest()}
+          contentLabel="Modal"
+        >
+          <h1
+            ref={(c) => { this.title = c; }}
+          >
+            Hello
+          </h1>
+          <button onClick={() => this.closeModal()}>close</button>
           <div>I am a modal</div>
           <form>
-            <input onChange={this.handleInputChange} />
+            <input onChange={() => this.handleInputChange()} />
             <input />
             <input />
             <input />
             <input />
-            <br/>
+            <br />
             <button>hi</button>
             <button>hi</button>
             <button>hi</button>
             <button>hi</button>
-            <button onClick={this.openSecondModal}>Open Modal B</button>
+            <button onClick={e => this.openSecondModal(e)}>Open Modal B</button>
           </form>
         </Modal>
-        <Modal ref="mymodal2"
-               id="test2"
-               closeTimeoutMS={150}
-               isOpen={this.state.modal2}
-               onAfterOpen={() => {}}
-               onRequestClose={this.closeSecondModal}>
+        <Modal
+          ref={(c) => { this.mymodal2 = c; }}
+          getAppElement={() => appElement}
+          id="test2"
+          closeTimeoutMS={150}
+          isOpen={this.state.modal2}
+          onAfterOpen={() => {}}
+          onRequestClose={() => this.closeSecondModal()}
+          contentLabel="Modal"
+        >
           <p>test</p>
         </Modal>
       </div>
     );
   }
-});
+}
 
-ReactDOM.render(<App/>, appElement);
+ReactDOM.render(<App />, appElement);
