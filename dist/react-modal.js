@@ -362,7 +362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  focusContent: function focusContent() {
 	    // Don't steal focus from inner elements
 	    if (!this.contentHasFocus()) {
-	      this.refs.content.focus();
+	      this.refs.content && this.refs.content.focus();
 	    }
 	  },
 
@@ -427,7 +427,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  contentHasFocus: function contentHasFocus() {
-	    return document.activeElement === this.refs.content || this.refs.content.contains(document.activeElement);
+	    return document.activeElement === this.refs.content && this.refs.content.contains(document.activeElement);
 	  },
 
 	  buildClassName: function buildClassName(which, additional) {
