@@ -61,6 +61,10 @@ import ReactModal from 'react-modal';
   */
   shouldCloseOnOverlayClick={true}
   /*
+    Boolean indicating if the 'esc' key should close the modal
+   */
+  shouldCloseOnEsc={true}
+  /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
   */
   role="dialog"

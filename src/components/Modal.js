@@ -33,6 +33,7 @@ export default class Modal extends Component {
     closeTimeoutMS: React.PropTypes.number,
     ariaHideApp: React.PropTypes.bool,
     shouldCloseOnOverlayClick: React.PropTypes.bool,
+    shouldCloseOnEsc: React.PropTypes.bool,
     parentSelector: React.PropTypes.func,
     role: React.PropTypes.string,
     contentLabel: React.PropTypes.string.isRequired
@@ -46,6 +47,7 @@ export default class Modal extends Component {
     ariaHideApp: true,
     closeTimeoutMS: 0,
     shouldCloseOnOverlayClick: true,
+    shouldCloseOnEsc: true,
     parentSelector () { return document.body; }
   };
 
