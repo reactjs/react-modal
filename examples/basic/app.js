@@ -13,26 +13,26 @@ var App = React.createClass({
   },
 
   openModal: function() {
-    this.setState({ ...this.state, modalIsOpen: true });
+    this.setState(Object.assign({}, this.state, { modalIsOpen: true }));
   },
 
   closeModal: function() {
-    this.setState({ ...this.state, modalIsOpen: false });
+    this.setState(Object.assign({}, this.state, { modalIsOpen: false }));
   },
 
   openSecondModal: function(event) {
     event.preventDefault();
-    this.setState({ ...this.state, modal2:true });
+    this.setState(Object.assign ({}, this.state, { modal2: true }));
   },
 
   closeSecondModal: function() {
-    this.setState({ ...this.state, modal2:false });
+    this.setState(Object.assign ({}, this.state, { modal2: false }));
   },
 
   handleModalCloseRequest: function() {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
-    this.setState({ ...this.state, modalIsOpen: false });
+    this.setState(Object.assign ({}, this.state, { modalIsOpen: false }));
   },
 
   handleInputChange: function() {
