@@ -10,10 +10,6 @@ export const bodyOpenClassName = 'ReactModal__Body--open';
 
 const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;
 
-function getParentElement(parentSelector) {
-  return parentSelector();
-}
-
 export default class Modal extends Component {
   static setAppElement(element) {
     ariaAppHider.setElement(element);
@@ -53,7 +49,6 @@ export default class Modal extends Component {
     ariaHideApp: PropTypes.bool,
     shouldFocusAfter: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
-    parentSelector: PropTypes.func,
     aria: PropTypes.object,
     role: PropTypes.string,
     contentLabel: PropTypes.string
@@ -68,7 +63,6 @@ export default class Modal extends Component {
     closeTimeoutMS: 0,
     shouldFocusAfterRender: true,
     shouldCloseOnOverlayClick: true,
-    parentSelector() { return document.body; }
   };
 
   static defaultStyles = {
@@ -97,12 +91,6 @@ export default class Modal extends Component {
   };
 
   componentDidMount() {
-    this.node = document.createElement('div');
-    this.node.className = this.props.portalClassName;
-
-    const parent = getParentElement(this.props.parentSelector);
-    parent.appendChild(this.node);
-
     this.renderPortal(this.props);
   }
 
@@ -110,14 +98,6 @@ export default class Modal extends Component {
     const { isOpen } = newProps;
     // Stop unnecessary renders if modal is remaining closed
     if (!this.props.isOpen && !isOpen) return;
-
-    const currentParent = getParentElement(this.props.parentSelector);
-    const newParent = getParentElement(newProps.parentSelector);
-
-    if (newParent !== currentParent) {
-      currentParent.removeChild(this.node);
-      newParent.appendChild(this.node);
-    }
 
     this.renderPortal(newProps);
   }
@@ -148,10 +128,13 @@ export default class Modal extends Component {
     }
   }
 
+  setNodeRef = ref => {
+    this.node = ref;
+  }
+
   removePortal = () => {
     ReactDOM.unmountComponentAtNode(this.node);
-    const parent = getParentElement(this.props.parentSelector);
-    parent.removeChild(this.node);
+    this.portal = null;
   }
 
   renderPortal = props => {
@@ -161,6 +144,10 @@ export default class Modal extends Component {
   }
 
   render() {
-    return null;
+    return (
+      <div
+        ref={this.setNodeRef}
+        className={this.props.portalClassName} />
+    );
   }
 }

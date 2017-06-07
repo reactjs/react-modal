@@ -61,26 +61,24 @@ export default () => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
-  it('renders into the body, not in context', () => {
-    const node = document.createElement('div');
+  it('renders in context, never in document.body', function() {
+    var node = document.createElement('div');
+    var realRef = null;
     class App extends Component {
       render() {
-        return (
-          <div>
-            <Modal isOpen>
-              <span>hello</span>
-            </Modal>
+	return (
+          <div ref={ref => { realRef = ref; }}>
+	    <Modal isOpen={true}>
+	      <span>hello</span>
+	    </Modal>
           </div>
-        );
+	);
       }
     }
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
-    document.body.querySelector(
-      '.ReactModalPortal'
-    ).parentNode.should.be.eql(
-      document.body
-    );
+    var modalParent = node.querySelector('.ReactModalPortal').parentNode;
+    expect(modalParent).toEqual(realRef);
     ReactDOM.unmountComponentAtNode(node);
   });
 
