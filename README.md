@@ -75,7 +75,7 @@ At this time, media queries will need to be handled by the consumer.
 ### Using CSS Classes
 
 If you prefer not to use inline styles or are unable to do so in your project,
-you can pass `className` and `overlayClassName` props to the Modal.  If you do
+you can pass `classNames` and `overlayClassNames` props to the Modal.  If you do
 this then none of the default styles will apply and you will have full control
 over styling via CSS.
 
