@@ -26,8 +26,12 @@ info:
 	@echo jq version: `$(JQ) --version` "($(JQ))"
 	@echo react-modal version: $(VERSION)
 
-deps:
+deps: deps-project deps-docs
+
+deps-project:
 	@[[ ! -z "$(YARN)" ]] && $(YARN) install || $(NPM) install
+
+deps-docs:
 	@gitbook install
 
 # Rules for development
@@ -52,7 +56,7 @@ build:
 
 build-docs:
 	@echo "[Building documentation]"
-	@rm -rf _book/*
+	@rm -rf _book
 	@gitbook build -g reactjs/react-modal
 
 version:
@@ -78,12 +82,12 @@ publish-version: release-commit release-tag
 	npm publish
 	@rm .version
 
-publish: version build publish-version publish-finished
+publish: version deps-project build publish-version publish-finished
 
-publish-docs: build-docs
+publish-docs: deps-docs build-docs
 	@echo "[Publishing docs]"
+	git init _book
 	cd _book
-	git init
 	git commit --allow-empty -m 'update book'
 	git checkout -b gh-pages
 	touch .nojekyll
