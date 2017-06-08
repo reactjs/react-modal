@@ -2,6 +2,8 @@
 
 Accessible modal dialog component for React.JS
 
+[![Build Status](https://travis-ci.org/reactjs/react-modal.svg?branch=v1)](https://travis-ci.org/reactjs/react-modal)
+
 ## Active Development
 The modal is currently undergoing significant development for a v2 release.  The `master` branch contains that development work.
 If you'd like to see the latest stable version please use the release tags (https://github.com/reactjs/react-modal/releases)
