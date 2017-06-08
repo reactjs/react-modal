@@ -13,15 +13,8 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "NODE_ENV=test karma start",
-    "start": "scripts/dev-examples",
-    "docs": "npm-run-all docs:*",
-    "docs-dev": "npm-run-all docs:clean docs:prepare docs:build:watch",
-    "docs:clean": "rimraf _book",
-    "docs:prepare": "gitbook install",
-    "docs:build": "gitbook build -g reactjs/react-modal",
-    "docs:build:watch": "gitbook serve",
-    "docs:publish": "cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:reactjs/react-modal gh-pages --force"
+    "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
+    "test": "NODE_ENV=test karma start"
   },
   "authors": [
     "Ryan Florence"

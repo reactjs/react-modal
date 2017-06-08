@@ -1,0 +1,20 @@
+#!/bin/sh
+
+JQ=$(which jq)
+
+if [[ -z "$JQ" ]]; then
+    echo "jq is missing."
+fi
+
+echo "Current version is: $1"
+
+read -p "Bump to: " NEW_VERSION
+
+FILES="package.json bower.json"
+
+for F in $FILES; do
+    $JQ ".version = \"${NEW_VERSION}\"" "$F" > up.json
+    cat up.json > "$F"
+done
+
+rm up.json
