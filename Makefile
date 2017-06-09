@@ -3,9 +3,13 @@ NPM=$(shell which npm)
 YARN=$(shell which yarn)
 JQ=$(shell which jq)
 
+REMOTE="git@github.com:reactjs/react-modal"
+
 VERSION=$(shell jq ".version" package.json)
 
 help: info
+	@echo
+	@echo "Current version: $(VERSION)"
 	@echo
 	@echo "List of commands:"
 	@echo
@@ -24,7 +28,6 @@ info:
 	@echo npm version: `$(NPM) --version` "($(NPM))"
 	@echo yarn version: `$(YARN) --version` "($(YARN))"
 	@echo jq version: `$(JQ) --version` "($(JQ))"
-	@echo react-modal version: $(VERSION)
 
 deps: deps-project deps-docs
 
@@ -59,30 +62,33 @@ build-docs:
 	@rm -rf _book
 	@gitbook build -g reactjs/react-modal
 
-version:
+.version:
 	@echo "[Updating react-modal version]"
 	@sh ./scripts/version $(VERSION)
+	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
+
+.branch:
+	git branch | grep '^*' | awk '{ print $$2 }' > .branch
 
 release-commit:
-	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
 	git commit --allow-empty -m "Release v`cat .version`."
-	@rm .version
 	git add .
 	git commit --amend -m "`git log -1 --format=%s`"
 
 release-tag:
-	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
 	git tag "v`cat .version`"
-	@rm .version
 
 publish-version: release-commit release-tag
 	@echo "[Publishing]"
-	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
-	git push git@github.com:reactjs/react-modal "`git branch | grep '^*' | awk '{ print $$2 }'`" "v`cat .version`"
+	git push $(REMOTE) "`cat .branch`" "v`cat .version`"
 	npm publish
-	@rm .version
 
-publish: version deps-project build publish-version publish-finished
+publish-finished:
+	@rm -rf .version .branch
+
+pre-publish: .branch .version deps-project tests-ci build
+
+publish: pre-publish publish-version publish-finished
 
 publish-docs: deps-docs build-docs
 	@echo "[Publishing docs]"
