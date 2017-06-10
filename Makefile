@@ -68,7 +68,9 @@ build-docs:
 	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
 
 .branch:
-	git branch | grep '^*' | awk '{ print $$2 }' > .branch
+	@echo "[Release from branch]"
+	@git branch | grep '^*' | awk '{ print $$2 }' > .branch
+	@echo "Current branch: `cat .branch`"
 
 release-commit:
 	git commit --allow-empty -m "Release v`cat .version`."
@@ -83,10 +85,12 @@ publish-version: release-commit release-tag
 	git push $(REMOTE) "`cat .branch`" "v`cat .version`"
 	npm publish
 
-publish-finished:
+publish-finished: clean
+
+clean:
 	@rm -rf .version .branch
 
-pre-publish: .branch .version deps-project tests-ci build
+pre-publish: clean .branch .version deps-project tests-ci build
 
 publish: pre-publish publish-version publish-finished
 
