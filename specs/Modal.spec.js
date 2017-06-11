@@ -171,6 +171,11 @@ describe('State', () => {
     ).toBeTruthy();
   });
 
+  it('supports overriding react modal open class in document.body.', () => {
+    const modal = renderModal({ isOpen: true, bodyOpenClassName: 'custom-modal-open' });
+    expect(document.body.className.indexOf('custom-modal-open') !== -1).toBeTruthy();
+  });
+
   it('don\'t append class to document.body if modal is not open', () => {
     renderModal({ isOpen: false });
     expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
