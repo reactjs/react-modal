@@ -171,6 +171,32 @@ describe('State', () => {
     ).toBeTruthy();
   });
 
+  it('overrides the default content classes when a custom object className is used', () => {
+    const modal = renderModal({
+      isOpen: true,
+      className: {
+        base: 'myClass',
+        afterOpen: 'myClass_after-open',
+        beforeClose: 'myClass_before-close'
+      }
+    });
+    expect(mcontent(modal).className).toEqual('myClass myClass_after-open');
+    unmountModal();
+  });
+
+  it('overrides the default overlay classes when a custom object overlayClassName is used', () => {
+    const modal = renderModal({
+      isOpen: true,
+      overlayClassName: {
+        base: 'myOverlayClass',
+        afterOpen: 'myOverlayClass_after-open',
+        beforeClose: 'myOverlayClass_before-close'
+      }
+    });
+    expect(moverlay(modal).className).toEqual('myOverlayClass myOverlayClass_after-open');
+    unmountModal();
+  });
+
   it('supports overriding react modal open class in document.body.', () => {
     const modal = renderModal({ isOpen: true, bodyOpenClassName: 'custom-modal-open' });
     expect(document.body.className.indexOf('custom-modal-open') !== -1).toBeTruthy();
