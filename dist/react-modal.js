@@ -102,6 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      overlay: PropTypes.object
 	    }),
 	    portalClassName: PropTypes.string,
+	    bodyOpenClassName: React.PropTypes.string,
 	    appElement: PropTypes.instanceOf(SafeHTMLElement),
 	    onAfterOpen: PropTypes.func,
 	    onRequestClose: PropTypes.func,
@@ -117,6 +118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return {
 	      isOpen: false,
 	      portalClassName: 'ReactModalPortal',
+	      bodyOpenClassName: 'ReactModal__Body--open',
 	      ariaHideApp: true,
 	      closeTimeoutMS: 0,
 	      shouldCloseOnOverlayClick: true,
@@ -180,16 +182,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ReactDOM.unmountComponentAtNode(this.node);
 	    var parent = getParentElement(this.props.parentSelector);
 	    parent.removeChild(this.node);
+
 	    if (refCount.count() === 0) {
-	      elementClass(document.body).remove('ReactModal__Body--open');
+	      elementClass(document.body).remove(this.props.bodyOpenClassName);
 	    }
 	  },
 
 	  renderPortal: function renderPortal(props) {
 	    if (props.isOpen || refCount.count() > 0) {
-	      elementClass(document.body).add('ReactModal__Body--open');
+	      elementClass(document.body).add(this.props.bodyOpenClassName);
 	    } else {
-	      elementClass(document.body).remove('ReactModal__Body--open');
+	      elementClass(document.body).remove(this.props.bodyOpenClassName);
 	    }
 
 	    if (props.ariaHideApp) {
