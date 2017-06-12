@@ -1,63 +1,57 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Modal = require('../../lib/index');
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Modal from '../../lib/index';
 
-var appElement = document.getElementById('example');
+const appElement = document.getElementById('example');
 
 Modal.setAppElement('#example');
 
-var App = React.createClass({
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { modal1: false, modal2: false };
+  }
 
-  getInitialState: function() {
-    return { modalIsOpen: false, modal2: false };
-  },
+  toggleModal_1 = () => {
+    this.setState({ ...this.state, modal1: !this.state.modal1 });
+  }
 
-  openModal: function() {
-    this.setState(Object.assign({}, this.state, { modalIsOpen: true }));
-  },
-
-  closeModal: function() {
-    this.setState(Object.assign({}, this.state, { modalIsOpen: false }));
-  },
-
-  openSecondModal: function(event) {
+  toggleModal_2 = event => {
     event.preventDefault();
-    this.setState(Object.assign ({}, this.state, { modal2: true }));
-  },
+    this.setState({ ...this.state, modal2: !this.state.modal2 });
+  }
 
-  closeSecondModal: function() {
-    this.setState(Object.assign ({}, this.state, { modal2: false }));
-  },
-
-  handleModalCloseRequest: function() {
+  handleModalCloseRequest = () => {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
-    this.setState(Object.assign ({}, this.state, { modalIsOpen: false }));
-  },
+    this.setState({ ...this.state, modal1: false });
+  }
 
-  handleInputChange: function() {
-    this.setState({ foo: 'bar' });
-  },
+  handleInputChange = () => {
+    this.setState({ ...this.state, foo: 'bar' });
+  }
 
-  handleOnAfterOpenModal: function() {
+  handleOnAfterOpenModal = () => {
     // when ready, we can access the available refs.
     this.refs.title.style.color = '#F00';
-  },
+  }
 
-  render: function() {
+  render() {
+    const { modal1, modal2 } = this.state;
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal A</button>
-        <button onClick={this.openSecondModal}>Open Modal B</button>
+        <button onClick={this.toggleModal_1}>Open Modal A</button>
+        <button onClick={this.toggleModal_2}>Open Modal B</button>
         <Modal
           ref="mymodal"
           id="test"
           closeTimeoutMS={150}
-          isOpen={this.state.modalIsOpen}
+          isOpen={modal1}
+          contentLabel="modalA"
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.handleModalCloseRequest}>
           <h1 ref="title">Hello</h1>
-          <button onClick={this.closeModal}>close</button>
+          <button onClick={this.toggleModal_1}>close</button>
           <div>I am a modal</div>
           <form>
             <input onChange={this.handleInputChange} />
@@ -70,20 +64,21 @@ var App = React.createClass({
             <button>hi</button>
             <button>hi</button>
             <button>hi</button>
-            <button onClick={this.openSecondModal}>Open Modal B</button>
+            <button onClick={this.toggleModal_2}>Open Modal B</button>
           </form>
         </Modal>
         <Modal ref="mymodal2"
                id="test2"
                closeTimeoutMS={150}
-               isOpen={this.state.modal2}
+               contentLabel="modalB"
+               isOpen={modal2}
                onAfterOpen={() => {}}
-               onRequestClose={this.closeSecondModal}>
+               onRequestClose={this.toggleModal_2}>
           <p>test</p>
         </Modal>
       </div>
     );
   }
-});
+}
 
 ReactDOM.render(<App/>, appElement);
