@@ -1132,6 +1132,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var React = __webpack_require__(2);
 	var div = React.DOM.div;
 	var focusManager = __webpack_require__(14);
@@ -1141,16 +1143,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// so that our CSS is statically analyzable
 	var CLASS_NAMES = {
-	  overlay: {
-	    base: 'ReactModal__Overlay',
-	    afterOpen: 'ReactModal__Overlay--after-open',
-	    beforeClose: 'ReactModal__Overlay--before-close'
-	  },
-	  content: {
-	    base: 'ReactModal__Content',
-	    afterOpen: 'ReactModal__Content--after-open',
-	    beforeClose: 'ReactModal__Content--before-close'
-	  }
+	  overlay: 'ReactModal__Overlay',
+	  content: 'ReactModal__Content'
 	};
 
 	var ModalPortal = module.exports = createReactClass({
@@ -1296,10 +1290,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  buildClassName: function buildClassName(which, additional) {
-	    var className = CLASS_NAMES[which].base;
-	    if (this.state.afterOpen) className += ' ' + CLASS_NAMES[which].afterOpen;
-	    if (this.state.beforeClose) className += ' ' + CLASS_NAMES[which].beforeClose;
-	    return additional ? className + ' ' + additional : className;
+	    var classNames = (typeof additional === 'undefined' ? 'undefined' : _typeof(additional)) === 'object' ? additional : {
+	      base: CLASS_NAMES[which],
+	      afterOpen: CLASS_NAMES[which] + "--after-open",
+	      beforeClose: CLASS_NAMES[which] + "--before-close"
+	    };
+	    var className = classNames.base;
+	    if (this.state.afterOpen) {
+	      className += " " + classNames.afterOpen;
+	    }
+	    if (this.state.beforeClose) {
+	      className += " " + classNames.beforeClose;
+	    }
+	    return typeof additional === 'string' && additional ? [className, additional].join(" ") : className;
 	  },
 
 	  render: function render() {
