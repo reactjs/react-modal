@@ -102,6 +102,7 @@ export default class Modal extends Component {
   }
 
   componentWillUnmount () {
+    if (!this.node) return;
     if (this.props.ariaHideApp) {
       ariaAppHider.show(this.props.getAppElement());
     }
