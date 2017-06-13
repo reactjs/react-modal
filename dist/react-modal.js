@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      overlay: PropTypes.object
 	    }),
 	    portalClassName: PropTypes.string,
-	    bodyOpenClassName: React.PropTypes.string,
+	    bodyOpenClassName: PropTypes.string,
 	    appElement: PropTypes.instanceOf(SafeHTMLElement),
 	    onAfterOpen: PropTypes.func,
 	    onRequestClose: PropTypes.func,
