@@ -87,8 +87,6 @@ export default class Modal extends Component {
     const parent = getParentElement(this.props.parentSelector);
     parent.appendChild(this.node);
     this.renderPortal(this.props);
-
-    this.mounted = true;
   }
 
   componentWillReceiveProps (newProps) {
@@ -104,8 +102,7 @@ export default class Modal extends Component {
   }
 
   componentWillUnmount () {
-    if (!this.mounted) return;
-
+    if (!this.node) return;
     if (this.props.ariaHideApp) {
       ariaAppHider.show(this.props.getAppElement());
     }
