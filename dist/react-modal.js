@@ -154,6 +154,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
+	    if (!this.node) return;
+
 	    refCount.remove(this);
 
 	    if (this.props.ariaHideApp) {
