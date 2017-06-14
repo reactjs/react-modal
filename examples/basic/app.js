@@ -1,12 +1,13 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('../../lib/index');
+var createReactClass = require('create-react-class');
 
 var appElement = document.getElementById('example');
 
 Modal.setAppElement('#example');
 
-var App = React.createClass({
+var App = createReactClass({
 
   getInitialState: function() {
     return { modalIsOpen: false, modal2: false };

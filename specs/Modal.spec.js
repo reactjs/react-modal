@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import Modal from '../lib/components/Modal';
+import createReactClass from 'create-react-class';
 import * as ariaAppHider from '../lib/helpers/ariaAppHider';
 import {
   isBodyWithReactModalOpenClass, findDOMWithClass,
@@ -62,7 +63,7 @@ describe('State', () => {
 
   it('renders into the body, not in context', () => {
     var node = document.createElement('div');
-    var App = React.createClass({
+    var App = createReactClass({
       render() {
         return (
           <div>
@@ -346,7 +347,7 @@ describe('State', () => {
     var node = document.createElement('div');
     var modal = null;
 
-    var App = React.createClass({
+    var App = createReactClass({
       getInitialState: function () {
         return { testHasChanged: false };
       },
