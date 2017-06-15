@@ -44,7 +44,7 @@ const getModalAttribute = component => (instance, attr) =>
  * @return {DOMElement}
  */
 const modalComponent = component => instance =>
-  instance.portal.refs[component];
+  instance.portal[component];
 
 /**
  * Returns the modal content.
