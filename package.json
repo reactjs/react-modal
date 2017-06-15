@@ -15,7 +15,6 @@
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
-    "test:full": "npm-run-all -p 'test -- --single-run' lint",
     "lint": "eslint lib/"
   },
   "authors": [
@@ -30,6 +29,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.24.1",
     "codeclimate-test-reporter": "^0.4.0",
+    "coveralls": "^2.13.1",
     "cross-env": "^5.0.1",
     "envify": "^3.4.1",
     "eslint": "^3.9.1",

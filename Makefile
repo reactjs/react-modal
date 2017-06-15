@@ -2,10 +2,13 @@ NODE=$(shell which node)
 NPM=$(shell which npm)
 YARN=$(shell which yarn)
 JQ=$(shell which jq)
+COVERALLS=./node_modules/coveralls/bin/coveralls.js
 
 REMOTE="git@github.com:reactjs/react-modal"
 
 VERSION=$(shell jq ".version" package.json)
+
+COVERAGE?=true
 
 help: info
 	@echo
@@ -13,16 +16,18 @@ help: info
 	@echo
 	@echo "List of commands:"
 	@echo
-	@echo "  make info         - display node, npm and yarn versions..."
-	@echo "  make deps         - install all dependencies."
-	@echo "  make serve        - start the server."
-	@echo "  make tests        - run tests."
-	@echo "  make lint         - run lint."
-	@echo "  make docs         - build and serve the docs."
-	@echo "  make build        - build project artifacts."
-	@echo "  make publish      - build and publish version on npm."
-	@echo "  make publish-docs - build the docs and publish to gh-pages."
-	@echo "  make publish-all  - publish version and docs."
+	@echo "  make info             - display node, npm and yarn versions..."
+	@echo "  make deps             - install all dependencies."
+	@echo "  make serve            - start the server."
+	@echo "  make tests            - run tests."
+	@echo "  make tests-single-run - run tests (used by continuous integration)."
+	@echo "  make coveralls        - show coveralls."
+	@echo "  make lint             - run lint."
+	@echo "  make docs             - build and serve the docs."
+	@echo "  make build            - build project artifacts."
+	@echo "  make publish          - build and publish version on npm."
+	@echo "  make publish-docs     - build the docs and publish to gh-pages."
+	@echo "  make publish-all      - publish version and docs."
 
 info:
 	@echo node version: `$(NODE) --version` "($(NODE))"
@@ -46,8 +51,14 @@ serve:
 tests:
 	@npm run test
 
-tests-ci:
+tests-single-run:
 	@npm run test -- --single-run
+
+coveralls:
+	-cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js 2>/dev/null
+
+tests-ci: clean lint
+	@COVERAGE=$(COVERAGE) make tests-single-run coveralls
 
 lint:
 	@npm run lint
@@ -91,9 +102,6 @@ publish-version: release-commit release-tag
 
 publish-finished: clean
 
-clean:
-	@rm -rf .version .branch
-
 pre-publish: clean .branch .version deps-project tests-ci build
 
 publish: pre-publish publish-version publish-finished
@@ -111,3 +119,6 @@ publish-docs: deps-docs build-docs
 	cd ..
 
 publish-all: publish publish-docs
+
+clean:
+	@rm -rf .version .branch ./coverage/*
