@@ -1,4 +1,4 @@
-module.exports = {
+{
   "env": {
     "es6": true,
     "browser": true
@@ -13,13 +13,20 @@ module.exports = {
     "sourceType": "module"
   },
   "parser": "babel-eslint",
-  rules: {
+  "rules": {
+    "quotes": [0],
     "comma-dangle": [2, "only-multiline"],
-    "max-len": [1, {"code": 140}],
+    "max-len": [1, {"code": 80}],
+    "no-unused-expressions": [0],
     "no-continue": [0],
     "no-plusplus": [0],
-    "space-before-function-paren": [2, "always"],
+    "func-names": [0],
+    "arrow-parens": [0],
+    "space-before-function-paren": [0],
     "import/no-extraneous-dependencies": [2, {"devDependencies": true}],
+    "jsx-a11y/no-static-element-interactions": [0],
+    "react/no-find-dom-node": [0],
+    "react/jsx-closing-bracket-location": [0],
     "react/jsx-filename-extension": ["error", {"extensions": [".js"]}]
-  },
-};
+  }
+}

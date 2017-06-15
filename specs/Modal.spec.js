@@ -1,24 +1,21 @@
 /* eslint-env mocha */
-import sinon from 'sinon';
 import expect from 'expect';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import Modal from '../lib/components/Modal';
 import createReactClass from 'create-react-class';
+import Modal from '../lib/components/Modal';
 import * as ariaAppHider from '../lib/helpers/ariaAppHider';
 import {
-  isBodyWithReactModalOpenClass, findDOMWithClass,
-  contentAttribute, overlayAttribute,
+  isBodyWithReactModalOpenClass,
+  contentAttribute,
   mcontent, moverlay,
-  clickAt, mouseDownAt, mouseUpAt, escKeyDown, tabKeyDown,
+  escKeyDown,
   renderModal, unmountModal, emptyDOM
 } from './helper';
 
-import * as events from './Modal.events.spec';
-import * as styles from './Modal.style.spec';
-
-const Simulate = TestUtils.Simulate;
+import './Modal.events.spec';
+import './Modal.style.spec';
 
 describe('State', () => {
   afterEach('check if test cleaned up rendered modals', emptyDOM);
@@ -33,15 +30,15 @@ describe('State', () => {
   });
 
   it('can be closed initially', () => {
-    var modal = renderModal({}, 'hello');
+    const modal = renderModal({}, 'hello');
     expect(ReactDOM.findDOMNode(mcontent(modal))).toNotExist();
   });
 
   it('has default props', () => {
-    var node = document.createElement('div');
+    const node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
-    var modal = ReactDOM.render(<Modal />, node);
-    var props = modal.props;
+    const modal = ReactDOM.render(<Modal />, node);
+    const props = modal.props;
     expect(props.isOpen).toBe(false);
     expect(props.ariaHideApp).toBe(true);
     expect(props.closeTimeoutMS).toBe(0);
@@ -52,8 +49,8 @@ describe('State', () => {
   });
 
   it('accepts appElement as a prop', () => {
-    var el = document.createElement('div');
-    var node = document.createElement('div');
+    const el = document.createElement('div');
+    const node = document.createElement('div');
     ReactDOM.render((
       <Modal isOpen={true} appElement={el} />
     ), node);
@@ -62,12 +59,12 @@ describe('State', () => {
   });
 
   it('renders into the body, not in context', () => {
-    var node = document.createElement('div');
-    var App = createReactClass({
+    const node = document.createElement('div');
+    const App = createReactClass({
       render() {
         return (
           <div>
-            <Modal isOpen={true}>
+            <Modal isOpen>
               <span>hello</span>
             </Modal>
           </div>
@@ -85,19 +82,24 @@ describe('State', () => {
   });
 
   it('renders the modal content with a dialog aria role when provided ', () => {
-    var child = 'I am a child of Modal, and he has sent me here...';
-    var modal = renderModal({ isOpen: true, role: 'dialog' }, child);
+    const child = 'I am a child of Modal, and he has sent me here...';
+    const modal = renderModal({ isOpen: true, role: 'dialog' }, child);
     expect(contentAttribute(modal, 'role')).toEqual('dialog');
   });
 
-  it('renders the modal with a aria-label based on the contentLabel prop', () => {
-    var child = 'I am a child of Modal, and he has sent me here...';
-    var modal = renderModal({ isOpen: true, contentLabel: 'Special Modal' }, child);
-    expect(contentAttribute(modal, 'aria-label')).toEqual('Special Modal');
+  it('set aria-label based on the contentLabel prop', () => {
+    const child = 'I am a child of Modal, and he has sent me here...';
+    const modal = renderModal({
+      isOpen: true,
+      contentLabel: 'Special Modal'
+    }, child);
+    expect(
+      contentAttribute(modal, 'aria-label')
+    ).toEqual('Special Modal');
   });
 
   it('removes the portal node', () => {
-    var modal = renderModal({ isOpen: true }, 'hello');
+    const modal = renderModal({ isOpen: true }, 'hello');
     unmountModal();
     expect(document.querySelector('.ReactModalPortal')).toNotExist();
   });
@@ -115,9 +117,7 @@ describe('State', () => {
     const modalA = renderModal({
       isOpen: true,
       className: 'modal-a',
-      onRequestClose () {
-        cleanup();
-      }
+      onRequestClose: cleanup
     }, null);
 
     const modalContent = mcontent(modalA);
@@ -126,7 +126,7 @@ describe('State', () => {
     const modalB = renderModal({
       isOpen: true,
       className: 'modal-b',
-      onRequestClose: function() {
+      onRequestClose() {
         const modalContent = mcontent(modalB);
         expect(document.activeElement).toEqual(mcontent(modalA));
         escKeyDown(modalContent);
@@ -138,17 +138,17 @@ describe('State', () => {
   });
 
   it('does not steel focus when a descendent is already focused', () => {
-    var content;
-    var input = (
-      <input className="focus_input" ref={(el) => { el && el.focus(); content = el; }} />
+    let content;
+    const input = (
+      <input ref={(el) => { el && el.focus(); content = el; }} />
     );
-    renderModal({ isOpen: true }, input, function () {
+    renderModal({ isOpen: true }, input, () => {
       expect(document.activeElement).toEqual(content);
     });
   });
 
   it('supports portalClassName', () => {
-    var modal = renderModal({
+    const modal = renderModal({
       isOpen: true,
       portalClassName: 'myPortalClass'
     });
@@ -172,7 +172,7 @@ describe('State', () => {
     ).toBeTruthy();
   });
 
-  it('overrides the default content classes when a custom object className is used', () => {
+  it('overrides content classes with custom object className', () => {
     const modal = renderModal({
       isOpen: true,
       className: {
@@ -181,11 +181,15 @@ describe('State', () => {
         beforeClose: 'myClass_before-close'
       }
     });
-    expect(mcontent(modal).className).toEqual('myClass myClass_after-open');
+    expect(
+      mcontent(modal).className
+    ).toEqual(
+      'myClass myClass_after-open'
+    );
     unmountModal();
   });
 
-  it('overrides the default overlay classes when a custom object overlayClassName is used', () => {
+  it('overrides overlay classes with custom object overlayClassName', () => {
     const modal = renderModal({
       isOpen: true,
       overlayClassName: {
@@ -194,13 +198,22 @@ describe('State', () => {
         beforeClose: 'myOverlayClass_before-close'
       }
     });
-    expect(moverlay(modal).className).toEqual('myOverlayClass myOverlayClass_after-open');
+    expect(
+      moverlay(modal).className
+    ).toEqual(
+      'myOverlayClass myOverlayClass_after-open'
+    );
     unmountModal();
   });
 
   it('supports overriding react modal open class in document.body.', () => {
-    const modal = renderModal({ isOpen: true, bodyOpenClassName: 'custom-modal-open' });
-    expect(document.body.className.indexOf('custom-modal-open') !== -1).toBeTruthy();
+    const modal = renderModal({
+      isOpen: true,
+      bodyOpenClassName: 'custom-modal-open'
+    });
+    expect(
+      document.body.className.indexOf('custom-modal-open') > -1
+    ).toBeTruthy();
   });
 
   it('don\'t append class to document.body if modal is not open', () => {
@@ -231,11 +244,11 @@ describe('State', () => {
     expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
   });
 
-  it('removes aria-hidden from appElement when unmounted without closing', () => {
-    var el = document.createElement('div');
-    var node = document.createElement('div');
+  it('removes aria-hidden from appElement when unmounted w/o closing', () => {
+    const el = document.createElement('div');
+    const node = document.createElement('div');
     ReactDOM.render((
-      <Modal isOpen={true} appElement={el}></Modal>
+      <Modal isOpen appElement={el} />
     ), node);
     expect(el.getAttribute('aria-hidden')).toEqual('true');
     ReactDOM.unmountComponentAtNode(node);
@@ -244,7 +257,7 @@ describe('State', () => {
 
   it('adds --after-open for animations', () => {
     const modal = renderModal({ isOpen: true });
-    var rg = /--after-open/i;
+    const rg = /--after-open/i;
     expect(rg.test(mcontent(modal).className)).toBeTruthy();
     expect(rg.test(moverlay(modal).className)).toBeTruthy();
   });
@@ -264,11 +277,11 @@ describe('State', () => {
     modal.portal.closeWithoutTimeout();
   });
 
-  it('check the state of the modal after close with time out and reopen it', () => {
-    var modal = renderModal({
+  it('should not be open after close with time out and reopen it', () => {
+    const modal = renderModal({
       isOpen: true,
       closeTimeoutMS: 2000,
-      onRequestClose: function() {}
+      onRequestClose() {}
     });
     modal.portal.closeWithTimeout();
     modal.portal.open();
@@ -282,8 +295,8 @@ describe('State', () => {
   });
 
   it('verify prop of shouldCloseOnOverlayClick', () => {
-    var modalOpts = { isOpen: true, shouldCloseOnOverlayClick: false };
-    var modal = renderModal(modalOpts);
+    const modalOpts = { isOpen: true, shouldCloseOnOverlayClick: false };
+    const modal = renderModal(modalOpts);
     expect(!modal.props.shouldCloseOnOverlayClick).toBeTruthy();
   });
 
@@ -344,15 +357,15 @@ describe('State', () => {
   });
 
   it('verify that portalClassName is refreshed on component update', () => {
-    var node = document.createElement('div');
-    var modal = null;
+    const node = document.createElement('div');
+    let modal = null;
 
-    var App = createReactClass({
-      getInitialState: function () {
+    const App = createReactClass({
+      getInitialState() {
         return { testHasChanged: false };
       },
 
-      componentDidMount: function() {
+      componentDidMount() {
         expect(modal.node.className).toEqual('myPortalClass');
 
         this.setState({
@@ -360,17 +373,21 @@ describe('State', () => {
         });
       },
 
-      componentDidUpdate: function() {
+      componentDidUpdate() {
         expect(modal.node.className).toEqual('myPortalClass-modifier');
       },
 
-      render: function() {
+      render() {
+        const portalClassName = this.state.testHasChanged === true ?
+          'myPortalClass-modifier' : 'myPortalClass';
+
         return (
           <div>
             <Modal
               ref={modalComponent => { modal = modalComponent; }}
-              isOpen={true}
-              portalClassName={this.state.testHasChanged === true ? 'myPortalClass-modifier' : 'myPortalClass'}>
+              isOpen
+              portalClassName={portalClassName}>
+              <span>Test</span>
             </Modal>
           </div>
         );
