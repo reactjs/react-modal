@@ -14,9 +14,6 @@ import {
   renderModal, unmountModal, emptyDOM
 } from './helper';
 
-import './Modal.events.spec';
-import './Modal.style.spec';
-
 describe('State', () => {
   afterEach('check if test cleaned up rendered modals', emptyDOM);
 

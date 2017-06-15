@@ -1,3 +1,5 @@
+const browsers = [process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome'];
+
 module.exports = function(config) {
   config.set({
 
@@ -10,7 +12,7 @@ module.exports = function(config) {
     ],
 
     preprocessors: {
-      'specs/spec_index.js': [ 'webpack', 'sourcemap' ]
+      'specs/spec_index.js': ['webpack', 'sourcemap']
     },
 
     webpack: require('./webpack.test.config'),
@@ -27,7 +29,8 @@ module.exports = function(config) {
 
     coverageReporter: {
       type : 'lcov',
-      dir : 'coverage/'
+      dir : 'coverage/',
+      subdir: '.'
     },
 
     port: 9876,
@@ -38,9 +41,10 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: [ (process.env.CONTINUOUS_INTEGRATION) ? 'Firefox' : 'Chrome' ],
+    browsers,
 
-    captureTimeout: 60000,
+    // Increase timeouts to prevent the issue with disconnected tests (https://goo.gl/nstA69)
+    captureTimeout: 4 * 60 * 1000,
 
     singleRun: (process.env.CONTINUOUS_INTEGRATION)
   });
