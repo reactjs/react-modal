@@ -103,8 +103,9 @@ publish-version: release-commit release-tag
 publish-finished: clean
 
 pre-publish: clean .branch .version deps-project tests-ci build
-
-publish: pre-publish publish-version publish-finished
+check-working-tree:
+	@sh ./scripts/repo_status
+publish: check-working-tree pre-publish publish-version publish-finished
 
 publish-docs: deps-docs build-docs
 	@echo "[Publishing docs]"
