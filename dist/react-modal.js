@@ -139,6 +139,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.renderPortal(this.props);
 	  },
 
+	  componentWillUpdate: function componentWillUpdate(newProps) {
+	    if (newProps.portalClassName !== this.props.portalClassName) {
+	      this.node.className = newProps.portalClassName;
+	    }
+	  },
+
 	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
 	    if (newProps.isOpen) refCount.add(this);
 	    if (!newProps.isOpen) refCount.remove(this);
