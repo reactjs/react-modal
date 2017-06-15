@@ -8,8 +8,8 @@ Accessible modal dialog component for React.JS
 ![gzip size](http://img.badgesize.io/https://unpkg.com/react-modal/dist/react-modal.min.js?compression=gzip)
 
 ## Active Development
-The modal is currently undergoing significant development for a v2 release.  The `master` branch contains that development work.
-If you'd like to see the latest stable version please use the release tags (https://github.com/reactjs/react-modal/releases)
+`v2.0.0` was released. If you have an old clone of `react-modal` for development, don't forget to update.
+If you want to create a PR, please target the `v1` branch (It will be the master for now, until all commit are moved from `master > v1`.
 
 ### Installation
 
