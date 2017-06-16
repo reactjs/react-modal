@@ -10,7 +10,7 @@ if (process.env.CONTINUOUS_INTEGRATION || process.env.COVERAGE) {
   commonConfig.module.postLoaders = commonConfig.module.postLoaders || [];
   commonConfig.module.postLoaders.push({
     test: /\.js$/,
-    include: path.resolve('lib'),
+    include: path.resolve('src'),
     loader: 'istanbul-instrumenter'
   });
 }
