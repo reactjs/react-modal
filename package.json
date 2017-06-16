@@ -62,7 +62,6 @@
     "webpack-dev-server": "1.11.0"
   },
   "dependencies": {
-    "create-react-class": "^15.5.2",
     "element-class": "^0.2.0",
     "exenv": "1.2.0",
     "lodash.assign": "^4.2.0",
