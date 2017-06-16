@@ -68,7 +68,11 @@ docs: build-docs
 
 # Rules for build and publish
 
-build:
+compile:
+	@echo "[Compiling source]"
+	babel src --out-dir lib
+
+build: compile
 	@echo "[Building dists]"
 	@./node_modules/.bin/webpack --config webpack.dist.config.js
 
@@ -120,5 +124,8 @@ publish-docs: deps-docs build-docs
 
 publish-all: publish publish-docs
 
-clean:
+clean-sources:
+	@rm -rf lib/* dist/* _book
+
+clean: clean-sources
 	@rm -rf .version .branch ./coverage/*
