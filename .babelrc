@@ -1,21 +1,3 @@
 {
-  "presets": ["react"],
-  "env": {
-    "commonjs": {
-      "plugins": [
-        "transform-class-properties", 
-        "transform-object-rest-spread"
-      ],
-      "presets": ["env"]
-    },
-    "es": {
-      "plugins": [
-        "transform-class-properties", 
-        "transform-object-rest-spread"
-      ],
-      "presets": [
-        ["env", { "modules": false }]
-      ]
-    }
-  }
+  "presets": ["es2015", "stage-2", "react"]
 }
