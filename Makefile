@@ -110,22 +110,33 @@ pre-publish: clean .branch .version deps-project tests-ci build
 
 publish: pre-publish publish-version publish-finished
 
-publish-docs: deps-docs build-docs
+init-docs-repo:
+	@mkdir _book
+
+pre-publish-docs: clean-docs init-docs-repo deps-docs
+
+publish-docs: clean pre-publish-docs build-docs
 	@echo "[Publishing docs]"
-	git init _book
-	cd _book
+	@make -C _book -f ../Makefile _publish-docs
+
+_publish-docs:
+	git init .
 	git commit --allow-empty -m 'update book'
 	git checkout -b gh-pages
 	touch .nojekyll
 	git add .
 	git commit -am 'update book'
 	git push git@github.com:reactjs/react-modal gh-pages --force
-	cd ..
 
 publish-all: publish publish-docs
 
-clean-sources:
-	@rm -rf lib/* dist/* _book
+clean-docs:
+	@rm -rf _book
 
-clean: clean-sources
-	@rm -rf .version .branch ./coverage/*
+clean-coverage:
+	@rm -rf ./coverage/*
+
+clean-build:
+	@rm -rf .version .branch lib/*
+
+clean: clean-build clean-docs clean-coverage
