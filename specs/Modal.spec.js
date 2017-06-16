@@ -3,7 +3,6 @@ import expect from 'expect';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import createReactClass from 'create-react-class';
 import Modal from '../src/components/Modal';
 import * as ariaAppHider from '../src/helpers/ariaAppHider';
 import {
@@ -57,7 +56,7 @@ describe('State', () => {
 
   it('renders into the body, not in context', () => {
     const node = document.createElement('div');
-    const App = createReactClass({
+    class App extends Component {
       render() {
         return (
           <div>
@@ -67,7 +66,7 @@ describe('State', () => {
           </div>
         );
       }
-    });
+    }
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
     expect(
@@ -357,10 +356,11 @@ describe('State', () => {
     const node = document.createElement('div');
     let modal = null;
 
-    const App = createReactClass({
-      getInitialState() {
-        return { testHasChanged: false };
-      },
+    class App extends Component {
+      constructor(props) {
+        super(props);
+        this.state = { testHasChanged: false };
+      }
 
       componentDidMount() {
         expect(modal.node.className).toEqual('myPortalClass');
@@ -368,11 +368,11 @@ describe('State', () => {
         this.setState({
           testHasChanged: true
         });
-      },
+      }
 
       componentDidUpdate() {
         expect(modal.node.className).toEqual('myPortalClass-modifier');
-      },
+      }
 
       render() {
         const portalClassName = this.state.testHasChanged === true ?
@@ -389,7 +389,7 @@ describe('State', () => {
           </div>
         );
       }
-    });
+    }
 
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
