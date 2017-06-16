@@ -8,3 +8,7 @@ _book
 *.diff
 examples/__build__
 coverage
+
+## Built folders
+es
+lib
