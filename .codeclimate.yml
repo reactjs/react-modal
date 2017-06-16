@@ -9,7 +9,7 @@ engines:
         javascript:
 ratings:
   paths:
-    - lib/**
+    - src/**
     - "**.js"
 exclude_paths:
   - "specs/"

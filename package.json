@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
-    "test": "cross-env NODE_ENV=test karma start",
+    "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test karma start",
     "lint": "eslint lib/",
     "clean": "rimraf lib es",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",

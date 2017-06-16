@@ -3,8 +3,8 @@ import expect from 'expect';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import Modal from '../lib/components/Modal';
-import * as ariaAppHider from '../lib/helpers/ariaAppHider';
+import Modal from '../src/components/Modal';
+import * as ariaAppHider from '../src/helpers/ariaAppHider';
 import {
   mcontent, moverlay,
   renderModal, emptyDOM

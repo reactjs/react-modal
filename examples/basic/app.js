@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Modal from '../../lib/index';
+import Modal from '../../src/index';
 
 const appElement = document.getElementById('example');
 

@@ -4,7 +4,7 @@ import expect from 'expect';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import Modal from '../lib/components/Modal';
+import Modal from '../src/components/Modal';
 import {
   moverlay, mcontent,
   clickAt, mouseDownAt, mouseUpAt, escKeyDown, tabKeyDown,
