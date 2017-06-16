@@ -8,7 +8,7 @@ _book
 *.diff
 examples/__build__
 coverage
+yarn.lock
 
 ## Built folders
-es
 lib

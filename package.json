@@ -15,7 +15,7 @@
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
-    "lint": "eslint lib/"
+    "lint": "eslint src/"
   },
   "authors": [
     "Ryan Florence"
@@ -56,7 +56,6 @@
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "rf-release": "0.4.0",
-    "rimraf": "^2.6.1",
     "sinon": "next",
     "uglify-js": "2.4.24",
     "webpack": "^1.12.14",
@@ -65,7 +64,6 @@
   "dependencies": {
     "element-class": "^0.2.0",
     "exenv": "1.2.0",
-    "lodash.assign": "^4.2.0",
     "prop-types": "^15.5.7",
     "react-dom-factories": "^1.0.0"
   },
