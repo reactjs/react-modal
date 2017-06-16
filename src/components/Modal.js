@@ -42,11 +42,11 @@ export default class Modal extends Component {
     portalClassName: PropTypes.string,
     bodyOpenClassName: PropTypes.string,
     className: PropTypes.oneOfType([
-      PropTypes.String,
+      PropTypes.string,
       PropTypes.object
     ]),
     overlayClassName: PropTypes.oneOfType([
-      PropTypes.String,
+      PropTypes.string,
       PropTypes.object
     ]),
     appElement: PropTypes.instanceOf(SafeHTMLElement),
