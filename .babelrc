@@ -17,5 +17,5 @@
         ["env", { "modules": false }]
       ]
     }
-  },
+  }
 }
