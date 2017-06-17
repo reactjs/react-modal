@@ -7,11 +7,21 @@ Accessible modal dialog component for React.JS
 [![Coverage Status](https://coveralls.io/repos/github/reactjs/react-modal/badge.svg?branch=master)](https://coveralls.io/github/reactjs/react-modal?branch=master)
 ![gzip size](http://img.badgesize.io/https://unpkg.com/react-modal/dist/react-modal.min.js?compression=gzip)
 
+## Table of Contents
+
+* [Active Development](#active-development)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Styles](#styles)
+* [Examples](#examples)
+* [Testing](#testing)
+* [Demos](#demos)
+
 ## Active Development
 
 `react-modal` repository is now updated. New PRs can target the `master`.
 
-### Installation
+## Installation
 
 To install the stable version:
 
@@ -237,7 +247,7 @@ class App extends React.Component {
 ReactDOM.render(<App />, appElement);
 ```
 
-# Testing
+## Testing
 
 When using React Test Utils with this library, here are some things to keep in mind:
 - You need to set isOpen={true} on the modal component for it to render its children.
@@ -262,6 +272,6 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
 </Modal>
 ```
 
-# Demos
+## Demos
 
 * http://reactjs.github.io/react-modal/
