@@ -91,6 +91,14 @@ export default class ModalPortal extends Component {
     this.focusAfterRender = focus;
   }
 
+  setOverlayRef = (overlay) => {
+    this.overlay = overlay;
+  }
+
+  setContentRef = (content) => {
+    this.content = content;
+  }
+
   afterClose = () => {
     focusManager.returnFocus();
     focusManager.teardownScopedFocus();
@@ -209,12 +217,12 @@ export default class ModalPortal extends Component {
 
     return this.shouldBeClosed() ? <div /> : (
       <div
-        ref={overlay => { this.overlay = overlay; }}
+        ref={this.setOverlayRef}
         className={this.buildClassName('overlay', overlayClassName)}
         style={{ ...overlayStyles, ...this.props.style.overlay }}
         onClick={this.handleOverlayOnClick}>
         <div
-          ref={content => { this.content = content; }}
+          ref={this.setContentRef}
           style={{ ...contentStyles, ...this.props.style.content }}
           className={this.buildClassName('content', className)}
           tabIndex="-1"
