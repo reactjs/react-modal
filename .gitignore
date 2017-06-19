@@ -8,6 +8,8 @@ node_modules/
 _book
 *.patch
 *.diff
+*.orig
+*.rej
 examples/__build__
 coverage
 yarn.lock
