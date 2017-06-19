@@ -52,9 +52,8 @@
     "karma-webpack": "^1.8.1",
     "mocha": "3.2.0",
     "npm-run-all": "^3.1.2",
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "rf-release": "0.4.0",
     "sinon": "next",
     "uglify-js": "2.4.24",
@@ -64,7 +63,7 @@
   "dependencies": {
     "element-class": "^0.2.0",
     "exenv": "1.2.0",
-    "prop-types": "^15.5.7",
+    "prop-types": "^15.5.10",
     "react-dom-factories": "^1.0.0"
   },
   "peerDependencies": {
