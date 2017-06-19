@@ -5,3 +5,4 @@ karma.conf.js
 script
 specs
 .idea/
+src

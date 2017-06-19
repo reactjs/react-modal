@@ -17,8 +17,8 @@ var reactDOMExternal = {
 module.exports = {
 
   entry: {
-    'react-modal': './lib/index.js',
-    'react-modal.min': './lib/index.js'
+    'react-modal': './src/index.js',
+    'react-modal.min': './src/index.js'
   },
 
   externals: {

@@ -2,17 +2,15 @@ NODE=$(shell which node)
 NPM=$(shell which npm)
 YARN=$(shell which yarn)
 JQ=$(shell which jq)
-COVERALLS=./node_modules/coveralls/bin/coveralls.js
 
+COVERALLS="./node_modules/coveralls/bin/coveralls.js"
 REMOTE="git@github.com:reactjs/react-modal"
-
-VERSION=$(shell jq ".version" package.json)
-
+CURRENT_VERSION:=$(shell jq ".version" package.json)
 COVERAGE?=true
 
 help: info
 	@echo
-	@echo "Current version: $(VERSION)"
+	@echo "Current version: $(CURRENT_VERSION)"
 	@echo
 	@echo "List of commands:"
 	@echo
@@ -68,18 +66,12 @@ docs: build-docs
 
 # Rules for build and publish
 
-build:
-	@echo "[Building dists]"
-	@./node_modules/.bin/webpack --config webpack.dist.config.js
-
-build-docs:
-	@echo "[Building documentation]"
-	@rm -rf _book
-	@gitbook build -g reactjs/react-modal
+check-working-tree:
+	@sh ./scripts/repo_status
 
 .version:
 	@echo "[Updating react-modal version]"
-	@sh ./scripts/version $(VERSION)
+	@sh ./scripts/version $(CURRENT_VERSION)
 	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
 
 .branch:
@@ -87,10 +79,23 @@ build-docs:
 	@git branch | grep '^*' | awk '{ print $$2 }' > .branch
 	@echo "Current branch: `cat .branch`"
 
+changelog:
+	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > `cat .version`]"
+	@python3 ./scripts/changelog.py v`cat .version` v$(CURRENT_VERSION) > .changelog_update
+	@cat .changelog_update CHANGELOG.md > tmp && mv tmp CHANGELOG.md
+
+compile:
+	@echo "[Compiling source]"
+	babel src --out-dir lib
+
+build: compile
+	@echo "[Building dists]"
+	@./node_modules/.bin/webpack --config webpack.dist.config.js
+
 release-commit:
 	git commit --allow-empty -m "Release v`cat .version`."
-	git add .
-	git commit --amend -m "`git log -1 --format=%s`"
+	@git add .
+	@git commit --amend -m "`git log -1 --format=%s`"
 
 release-tag:
 	git tag "v`cat .version`"
@@ -100,25 +105,51 @@ publish-version: release-commit release-tag
 	git push $(REMOTE) "`cat .branch`" "v`cat .version`"
 	npm publish
 
+pre-publish: clean .branch .version changelog
+pre-build: deps-project tests-ci build
+
+publish: check-working-tree pre-publish pre-build publish-version publish-finished
+
 publish-finished: clean
 
-pre-publish: clean .branch .version deps-project tests-ci build
+# Rules for documentation
 
-publish: pre-publish publish-version publish-finished
+init-docs-repo:
+	@mkdir _book
 
-publish-docs: deps-docs build-docs
+build-docs:
+	@echo "[Building documentation]"
+	@rm -rf _book
+	@gitbook build -g reactjs/react-modal
+
+pre-publish-docs: clean-docs init-docs-repo deps-docs
+
+publish-docs: clean pre-publish-docs build-docs
 	@echo "[Publishing docs]"
-	git init _book
-	cd _book
+	@make -C _book -f ../Makefile _publish-docs
+
+_publish-docs:
+	git init .
 	git commit --allow-empty -m 'update book'
 	git checkout -b gh-pages
 	touch .nojekyll
 	git add .
 	git commit -am 'update book'
 	git push git@github.com:reactjs/react-modal gh-pages --force
-	cd ..
+
+# Run for a full publish
 
 publish-all: publish publish-docs
 
-clean:
-	@rm -rf .version .branch ./coverage/*
+# Rules for clean up
+
+clean-docs:
+	@rm -rf _book
+
+clean-coverage:
+	@rm -rf ./coverage/*
+
+clean-build:
+	@rm -rf .version .branch lib/*
+
+clean: clean-build clean-docs clean-coverage
