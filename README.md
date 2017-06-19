@@ -8,8 +8,8 @@ Accessible modal dialog component for React.JS
 ![gzip size](http://img.badgesize.io/https://unpkg.com/react-modal/dist/react-modal.min.js?compression=gzip)
 
 ## Active Development
-`v2.0.0` was released. If you have an old clone of `react-modal` for development, don't forget to update.
-If you want to create a PR, please target the `v1` branch (It will be the master for now, until all commit are moved from `master > v1`.
+
+`react-modal` repository is now updated. New PRs can target the `master`.
 
 ### Installation
 
@@ -43,7 +43,9 @@ Example:
 ```
 
 ## Styles
+
 Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
+
 ```js
 {
   overlay : {
@@ -106,10 +108,12 @@ You can also pass a `portalClassName` to change the wrapper's class (*ReactModal
 This doesn't affect styling as no styles are applied to this element by default.
 
 ### Overriding styles globally
+
 The default styles above are available on `Modal.defaultStyles`. Changes to this
 object will apply to all instances of the modal.
 
 ### Appended to custom node
+
 You can choose an element for the modal to be appended to, rather than using
 body tag. To do this, provide a function to `parentSelector` prop that return
 the element to be used.
@@ -130,6 +134,7 @@ function getParent() {
 ```
 
 ### Body class
+
 When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
 You can use this to remove scrolling on the the body while the modal is open.
 
@@ -141,6 +146,7 @@ You can use this to remove scrolling on the the body while the modal is open.
 ```
 
 ## Examples
+
 Inside an app:
 
 ```js
@@ -163,8 +169,6 @@ Modal.setAppElement('#your-app-element');
 */
 const appElement = document.getElementById('your-app-element');
 
-
-
 const customStyles = {
   content : {
     top                   : '50%',
@@ -175,7 +179,6 @@ const customStyles = {
     transform             : 'translate(-50%, -50%)'
   }
 };
-
 
 class App extends React.Component {
   constructor() {
@@ -233,6 +236,7 @@ class App extends React.Component {
 
 ReactDOM.render(<App />, appElement);
 ```
+
 # Testing
 
 When using React Test Utils with this library, here are some things to keep in mind:
@@ -259,4 +263,5 @@ pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
 ```
 
 # Demos
+
 * http://reactjs.github.io/react-modal/
