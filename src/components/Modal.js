@@ -108,8 +108,12 @@ export default class Modal extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.isOpen) refCount.add(this);
-    if (!newProps.isOpen) refCount.remove(this);
+    const { isOpen } = newProps;
+    // Stop unnecessary renders if modal is remaining closed
+    if (!this.props.isOpen && !isOpen) return;
+
+    if (isOpen) refCount.add(this);
+    if (!isOpen) refCount.remove(this);
     const currentParent = getParentElement(this.props.parentSelector);
     const newParent = getParentElement(newProps.parentSelector);
 
