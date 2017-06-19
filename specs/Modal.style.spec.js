@@ -2,7 +2,7 @@
 import expect from 'expect';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import Modal from '../src/components/Modal';
 import * as ariaAppHider from '../src/helpers/ariaAppHider';
 import {
