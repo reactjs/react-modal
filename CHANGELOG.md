@@ -1,3 +1,23 @@
+v2.0.6 - Tue, 20 Jun 2017 11:22:57 UTC
+--------------------------------------
+
+- [07a2753](../../commit/07a2753) [fixed] check if the modal content is available when async update... (#1)
+- [cb6504c](../../commit/cb6504c) [fixed] Use bound ref functions
+- [7da6ec8](../../commit/7da6ec8) [fix] Unnecessary renders when modal is closed
+- [648cc2f](../../commit/648cc2f) [fixed] update script path on bootstrap example.
+- [6c780ae](../../commit/6c780ae) Update react-addons-test-utils to react-dom/test-utils
+- [385a8eb](../../commit/385a8eb) Update react dependencies
+- [8480042](../../commit/8480042) [chore] cache yarn when running on travis-ci.
+- [8d87599](../../commit/8d87599) [chore] added documentation for development.
+- [aaeb310](../../commit/aaeb310) [chore] added patterns on .gitignore.
+- [4ec7184](../../commit/4ec7184) [chode] Add table of contents
+- [96fdb90](../../commit/96fdb90) [chore] don't test on node versions < 6.x.y.
+- [20fcdc3](../../commit/20fcdc3) [chore] update README.md.
+- [4b57b2a](../../commit/4b57b2a) [chore] added script to regenerate all the changelog.
+- [21dc212](../../commit/21dc212) [chore] ask before publishing...
+- [2af9b89](../../commit/2af9b89) chore] improve publish docs commands.
+
+
 v2.0.2 - Fri, 16 Jun 2017 13:10:06 UTC
 --------------------------------------
 

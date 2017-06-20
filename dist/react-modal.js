@@ -188,8 +188,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
-	      if (newProps.isOpen) refCount.add(this);
-	      if (!newProps.isOpen) refCount.remove(this);
+	      var isOpen = newProps.isOpen;
+	      // Stop unnecessary renders if modal is remaining closed
+
+	      if (!this.props.isOpen && !isOpen) return;
+
+	      if (isOpen) refCount.add(this);
+	      if (!isOpen) refCount.remove(this);
 	      var currentParent = getParentElement(this.props.parentSelector);
 	      var newParent = getParentElement(newProps.parentSelector);
 
@@ -1385,6 +1390,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      _this.focusAfterRender = focus;
 	    };
 
+	    _this.setOverlayRef = function (overlay) {
+	      _this.overlay = overlay;
+	    };
+
+	    _this.setContentRef = function (content) {
+	      _this.content = content;
+	    };
+
 	    _this.afterClose = function () {
 	      focusManager.returnFocus();
 	      focusManager.teardownScopedFocus();
@@ -1416,7 +1429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    _this.focusContent = function () {
-	      return !_this.contentHasFocus() && _this.content.focus();
+	      return _this.content && !_this.contentHasFocus() && _this.content.focus();
 	    };
 
 	    _this.closeWithTimeout = function () {
@@ -1544,8 +1557,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-
 	      var _props = this.props,
 	          className = _props.className,
 	          overlayClassName = _props.overlayClassName,
@@ -1557,18 +1568,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.shouldBeClosed() ? _react2.default.createElement('div', null) : _react2.default.createElement(
 	        'div',
 	        {
-	          ref: function ref(overlay) {
-	            _this2.overlay = overlay;
-	          },
+	          ref: this.setOverlayRef,
 	          className: this.buildClassName('overlay', overlayClassName),
 	          style: _extends({}, overlayStyles, this.props.style.overlay),
 	          onClick: this.handleOverlayOnClick },
 	        _react2.default.createElement(
 	          'div',
 	          {
-	            ref: function ref(content) {
-	              _this2.content = content;
-	            },
+	            ref: this.setContentRef,
 	            style: _extends({}, contentStyles, this.props.style.content),
 	            className: this.buildClassName('content', className),
 	            tabIndex: '-1',
