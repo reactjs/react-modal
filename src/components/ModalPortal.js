@@ -130,7 +130,7 @@ export default class ModalPortal extends Component {
   }
 
   // Don't steal focus from inner elements
-  focusContent = () => 
+  focusContent = () =>
     (this.content && !this.contentHasFocus()) && this.content.focus();
 
   closeWithTimeout = () => {
