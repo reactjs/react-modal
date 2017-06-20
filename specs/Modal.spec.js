@@ -30,6 +30,11 @@ describe('State', () => {
     expect(ReactDOM.findDOMNode(mcontent(modal))).toNotExist();
   });
 
+  it('doesn\'t render the portal if modal is closed', () => {
+    const modal = renderModal({}, 'hello');
+    expect(ReactDOM.findDOMNode(modal.portal)).toNotExist();
+  })
+
   it('has default props', () => {
     const node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
