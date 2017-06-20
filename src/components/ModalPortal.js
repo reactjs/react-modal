@@ -265,7 +265,7 @@ export default class ModalPortal extends Component {
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
-    return this.shouldBeClosed() ? <div /> : (
+    return this.shouldBeClosed() ? null : (
       <div
         ref={this.setOverlayRef}
         className={this.buildClassName('overlay', overlayClassName)}
