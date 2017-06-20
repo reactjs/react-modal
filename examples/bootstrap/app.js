@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Modal = require('../../lib/index');
+var Modal = require('../../src/index');
 
 var appElement = document.getElementById('example');
 
