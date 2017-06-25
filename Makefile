@@ -3,7 +3,8 @@ NPM=$(shell which npm)
 YARN=$(shell which yarn)
 JQ=$(shell which jq)
 
-COVERALLS="./node_modules/coveralls/bin/coveralls.js"
+BABEL=./node_modules/.bin/babel
+COVERALLS=./node_modules/coveralls/bin/coveralls.js
 REMOTE="git@github.com:reactjs/react-modal"
 CURRENT_VERSION:=$(shell jq ".version" package.json)
 COVERAGE?=true
@@ -86,7 +87,7 @@ changelog:
 
 compile:
 	@echo "[Compiling source]"
-	babel src --out-dir lib
+	$(BABEL) src --out-dir lib
 
 build: compile
 	@echo "[Building dists]"
