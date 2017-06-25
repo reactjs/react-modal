@@ -1,3 +1,14 @@
+v2.0.7 - Sun, 25 Jun 2017 17:43:35 UTC
+--------------------------------------
+
+- [bb69a91](../../commit/bb69a91) [chore] improvements on readme testing section.
+- [c2f582f](../../commit/c2f582f) [chore] fix typo.
+- [f8edc2b](../../commit/f8edc2b) [fixed] improvements on setAppElement...
+- [5641f40](../../commit/5641f40) [chore] update installation section.
+- [ae258ec](../../commit/ae258ec) [chore] removing active development section.
+- [f5d95e2](../../commit/f5d95e2) Add codesandbox link to the ISSUE_TEMPLATE
+
+
 v2.0.6 - Tue, 20 Jun 2017 11:22:57 UTC
 --------------------------------------
 

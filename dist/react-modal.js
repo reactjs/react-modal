@@ -128,9 +128,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
 
 	var SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
-	var AppElement = EE.canUseDOM ? document.body : {
-	  appendChild: function appendChild() {}
-	};
 
 	function getParentElement(parentSelector) {
 	  return parentSelector();
@@ -249,7 +246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }], [{
 	    key: 'setAppElement',
 	    value: function setAppElement(element) {
-	      ariaAppHider.setElement(element || AppElement);
+	      ariaAppHider.setElement(element);
 	    }
 
 	    /* eslint-disable no-console */
@@ -1809,27 +1806,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.assertNodeList = assertNodeList;
 	exports.setElement = setElement;
+	exports.tryForceFallback = tryForceFallback;
 	exports.validateElement = validateElement;
 	exports.hide = hide;
 	exports.show = show;
 	exports.toggle = toggle;
+	exports.documentNotReadyOrSSRTesting = documentNotReadyOrSSRTesting;
 	exports.resetForTesting = resetForTesting;
-	var globalElement = typeof document !== 'undefined' ? document.body : null;
+	var globalElement = null;
+
+	function assertNodeList(nodeList, selector) {
+	  if (!nodeList || !nodeList.length) {
+	    throw new Error('react-modal: No elements were found for selector ' + selector + '.');
+	  }
+	}
 
 	function setElement(element) {
 	  var useElement = element;
 	  if (typeof useElement === 'string') {
 	    var el = document.querySelectorAll(useElement);
+	    assertNodeList(el, useElement);
 	    useElement = 'length' in el ? el[0] : el;
 	  }
 	  globalElement = useElement || globalElement;
 	  return globalElement;
 	}
 
+	function tryForceFallback() {
+	  if (document && document.body) {
+	    // force fallback to document.body
+	    setElement(document.body);
+	    return true;
+	  }
+	  return false;
+	}
+
 	function validateElement(appElement) {
-	  if (!appElement && !globalElement) {
-	    throw new Error(['react-modal: You must set an element with', '`Modal.setAppElement(el)` to make this accessible']);
+	  if (!appElement && !globalElement && !tryForceFallback()) {
+	    throw new Error(['react-modal: Cannot fallback to `document.body`, because it\'s not ready or available.', 'If you are doing server-side rendering, use this function to defined an element.', '`Modal.setAppElement(el)` to make this accessible']);
 	  }
 	}
 
@@ -1846,6 +1862,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function toggle(shouldHide, appElement) {
 	  var apply = shouldHide ? hide : show;
 	  apply(appElement);
+	}
+
+	function documentNotReadyOrSSRTesting() {
+	  globalElement = null;
 	}
 
 	function resetForTesting() {
