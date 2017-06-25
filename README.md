@@ -59,7 +59,7 @@ your modal.
 It's optional and if not specified it will try to use
 `document.body` as your app element.
 
-If your are doing server-side rendering, you should use
+If you are doing server-side rendering, you should use
 this property.
 
 It can be specified in the following ways:
