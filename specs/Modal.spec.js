@@ -240,6 +240,21 @@ describe('State', () => {
     expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
   });
 
+  it('adding/removing aria-hidden without an appElement will try to fallback to document.body', () => {
+    ariaAppHider.documentNotReadyOrSSRTesting();
+    const node = document.createElement('div');
+    ReactDOM.render((
+      <Modal isOpen />
+    ), node);
+    expect(document.body.getAttribute('aria-hidden')).toEqual('true');
+    ReactDOM.unmountComponentAtNode(node);
+    expect(document.body.getAttribute('aria-hidden')).toEqual(null);
+  });
+
+  it('raise an exception if appElement is a selector and no elements were found.', () => {
+    expect(() => ariaAppHider.setElement('.test')).toThrow();
+  });
+
   it('removes aria-hidden from appElement when unmounted w/o closing', () => {
     const el = document.createElement('div');
     const node = document.createElement('div');

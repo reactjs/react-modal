@@ -48,6 +48,34 @@ Example:
 </Modal>
 ```
 
+### App Element
+
+The app element allows you to specify the portion
+of your app that should be hidden (via aria-hidden)
+to prevent assistive technologies such as screenreaders
+from reading content outside of the content of
+your modal.
+
+It's optional and if not specified it will try to use
+`document.body` as your app element.
+
+If your are doing server-side rendering, you should use
+this property.
+
+It can be specified in the following ways:
+
+- DOMElement
+
+```js
+Modal.setAppElement(appElement);
+```
+
+- query selector - uses the first element found if you pass in a class.
+
+```js
+Modal.setAppElement('#your-app-element');
+```
+
 ## Styles
 
 Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
@@ -159,21 +187,6 @@ Inside an app:
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-
-
-/*
-The app element allows you to specify the portion of your app that should be hidden (via aria-hidden)
-to prevent assistive technologies such as screenreaders from reading content outside of the content of
-your modal.  It can be specified in the following ways:
-
-* element
-Modal.setAppElement(appElement);
-
-* query selector - uses the first element found if you pass in a class.
-Modal.setAppElement('#your-app-element');
-
-*/
-const appElement = document.getElementById('your-app-element');
 
 const customStyles = {
   content : {
