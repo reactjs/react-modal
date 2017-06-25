@@ -9,17 +9,12 @@ Accessible modal dialog component for React.JS
 
 ## Table of Contents
 
-* [Active Development](#active-development)
 * [Installation](#installation)
 * [Usage](#usage)
 * [Styles](#styles)
 * [Examples](#examples)
 * [Testing](#testing)
 * [Demos](#demos)
-
-## Active Development
-
-`react-modal` repository is now updated. New PRs can target the `master`.
 
 ## Installation
 
