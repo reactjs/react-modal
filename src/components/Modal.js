@@ -11,7 +11,6 @@ const EE = ExecutionEnvironment;
 const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;
 
 const SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
-const AppElement = EE.canUseDOM ? document.body : { appendChild() {} };
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -19,7 +18,7 @@ function getParentElement(parentSelector) {
 
 export default class Modal extends Component {
   static setAppElement(element) {
-    ariaAppHider.setElement(element || AppElement);
+    ariaAppHider.setElement(element);
   }
 
   /* eslint-disable no-console */
