@@ -54,7 +54,7 @@ tests-single-run:
 	@npm run test -- --single-run
 
 coveralls:
-	-cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js 2>/dev/null
+	-cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js -v 2>/dev/null
 
 tests-ci: clean lint
 	@COVERAGE=$(COVERAGE) make tests-single-run coveralls
