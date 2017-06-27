@@ -239,7 +239,7 @@ describe('State', () => {
     unmountModal();
     expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
   });
-  
+
   it('should not add classes to document.body for unopened modals', () => {
     renderModal({ isOpen: true });
     expect(isBodyWithReactModalOpenClass()).toBeTruthy();
@@ -257,6 +257,14 @@ describe('State', () => {
     renderModal({ isOpen: false });
     renderModal({ isOpen: false });
     expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+  });
+
+  it('additional aria attributes', () => {
+    const modal = renderModal({ isOpen: true, aria: { labelledby: "a" }}, 'hello');
+    expect(
+      mcontent(modal).getAttribute('aria-labelledby')
+    ).toEqual("a");
+    unmountModal();
   });
 
   it('adding/removing aria-hidden without an appElement will try to fallback to document.body', () => {

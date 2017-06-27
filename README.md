@@ -76,6 +76,28 @@ Modal.setAppElement(appElement);
 Modal.setAppElement('#your-app-element');
 ```
 
+### Additional Aria Attributes
+
+Use the property `aria` to pass any additional aria attributes. It accepts
+an object where the keys are the names of the attributes without the prefix
+`aria-`.
+
+Example:
+
+```js
+<Modal
+  isOpen={modalIsOpen}
+  aria={{
+    labelledby: "heading",
+    describedby: "full_description"
+  }}>
+  <h1 id="heading">H1</h1>
+  <div id="full_description">
+    <p>Description goes here.</p>
+  </div>
+</Modal>
+```
+
 ## Styles
 
 Styles are passed as an object with 2 keys, 'overlay' and 'content' like so
