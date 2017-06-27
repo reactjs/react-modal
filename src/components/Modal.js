@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import ExecutionEnvironment from 'exenv';
-import elementClass from 'element-class';
 import ModalPortal from './ModalPortal';
 import * as ariaAppHider from '../helpers/ariaAppHider';
-import * as refCount from '../helpers/refCount';
+import SafeHTMLElement from '../helpers/safeHTMLElement';
 
-const EE = ExecutionEnvironment;
+export const portalClassName = 'ReactModalPortal';
+export const bodyOpenClassName = 'ReactModal__Body--open';
+
 const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;
-
-const SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -62,8 +60,8 @@ export default class Modal extends Component {
 
   static defaultProps = {
     isOpen: false,
-    portalClassName: 'ReactModalPortal',
-    bodyOpenClassName: 'ReactModal__Body--open',
+    portalClassName,
+    bodyOpenClassName,
     ariaHideApp: true,
     closeTimeoutMS: 0,
     shouldCloseOnOverlayClick: true,
@@ -99,10 +97,9 @@ export default class Modal extends Component {
     this.node = document.createElement('div');
     this.node.className = this.props.portalClassName;
 
-    if (this.props.isOpen) refCount.add(this);
-
     const parent = getParentElement(this.props.parentSelector);
     parent.appendChild(this.node);
+
     this.renderPortal(this.props);
   }
 
@@ -111,8 +108,6 @@ export default class Modal extends Component {
     // Stop unnecessary renders if modal is remaining closed
     if (!this.props.isOpen && !isOpen) return;
 
-    if (isOpen) refCount.add(this);
-    if (!isOpen) refCount.remove(this);
     const currentParent = getParentElement(this.props.parentSelector);
     const newParent = getParentElement(newProps.parentSelector);
 
@@ -132,12 +127,6 @@ export default class Modal extends Component {
 
   componentWillUnmount() {
     if (!this.node) return;
-
-    refCount.remove(this);
-
-    if (this.props.ariaHideApp) {
-      ariaAppHider.show(this.props.appElement);
-    }
 
     const state = this.portal.state;
     const now = Date.now();
@@ -160,23 +149,9 @@ export default class Modal extends Component {
     ReactDOM.unmountComponentAtNode(this.node);
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
-
-    if (refCount.count() === 0) {
-      elementClass(document.body).remove(this.props.bodyOpenClassName);
-    }
   }
 
   renderPortal = props => {
-    if (props.isOpen || refCount.count() > 0) {
-      elementClass(document.body).add(this.props.bodyOpenClassName);
-    } else {
-      elementClass(document.body).remove(this.props.bodyOpenClassName);
-    }
-
-    if (props.ariaHideApp) {
-      ariaAppHider.toggle(props.isOpen, props.appElement);
-    }
-
     this.portal = renderSubtreeIntoContainer(this, (
       <ModalPortal defaultStyles={Modal.defaultStyles} {...props} />
     ), this.node);

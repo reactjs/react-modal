@@ -1,19 +1,23 @@
-const modals = [];
+const modals = {};
 
-export function add(element) {
-  if (modals.indexOf(element) === -1) {
-    modals.push(element);
+export function add(bodyClass) {
+  // Set variable and default if none
+  if (!modals[bodyClass]) {
+    modals[bodyClass] = 0;
+  }
+  modals[bodyClass] += 1;
+}
+
+export function remove(bodyClass) {
+  if (modals[bodyClass]) {
+    modals[bodyClass] -= 1;
   }
 }
 
-export function remove(element) {
-  const index = modals.indexOf(element);
-  if (index === -1) {
-    return;
-  }
-  modals.splice(index, 1);
+export function count(bodyClass) {
+  return modals[bodyClass];
 }
 
-export function count() {
-  return modals.length;
+export function totalCount() {
+  return Object.keys(modals).reduce((acc, curr) => acc + modals[curr], 0);
 }
