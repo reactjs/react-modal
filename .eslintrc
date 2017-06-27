@@ -28,6 +28,7 @@
     "react/no-find-dom-node": [0],
     "react/jsx-closing-bracket-location": [0],
     "react/jsx-filename-extension": ["error", {"extensions": [".js"]}],
+    "react/forbid-prop-types": [1, {"forbid": ["any"]}],
     "react/require-default-props": 0
   }
 }

@@ -53,6 +53,7 @@ export default class Modal extends Component {
     ariaHideApp: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     parentSelector: PropTypes.func,
+    aria: PropTypes.object,
     role: PropTypes.string,
     contentLabel: PropTypes.string.isRequired
   };

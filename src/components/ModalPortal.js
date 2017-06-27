@@ -51,6 +51,7 @@ export default class ModalPortal extends Component {
     shouldCloseOnOverlayClick: PropTypes.bool,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
+    aria: PropTypes.object,
     children: PropTypes.node
   };
 
@@ -254,6 +255,11 @@ export default class ModalPortal extends Component {
       `${className} ${additional}` : className;
   }
 
+  ariaAttributes = items => Object.keys(items).reduce((acc, name) => {
+    acc[`aria-${name}`] = items[name];
+    return acc;
+  }, {});
+
   render() {
     const { className, overlayClassName, defaultStyles } = this.props;
     const contentStyles = className ? {} : defaultStyles.content;
@@ -273,7 +279,8 @@ export default class ModalPortal extends Component {
           onKeyDown={this.handleKeyDown}
           onClick={this.handleContentOnClick}
           role={this.props.role}
-          aria-label={this.props.contentLabel}>
+          aria-label={this.props.contentLabel}
+          {...this.ariaAttributes(this.props.aria || {})}>
           {this.props.children}
         </div>
       </div>

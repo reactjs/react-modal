@@ -82,6 +82,13 @@ import ReactModal from 'react-modal';
     Function that will be called to get the parent element that the modal will be attached to.
   */
   parentSelector={() => document.body}
+  /*
+    Additional aria attributes (optional).
+  */
+  aria={{
+    labelledby: "heading",
+    describedby: "full_description"
+  }}
 />
 ```
 
