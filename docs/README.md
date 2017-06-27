@@ -4,6 +4,15 @@
 
 We maintain that accessibility is a key component of any modern web application.  As such, we have created this modal in such a way that it fulfills the accessibility requirements of the modern web.  We seek to keep the focus on accessibility while providing a functional, capable modal component for general use.
 
+## Installation
+
+To install the stable version you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com):
+
+
+    $ npm install react-modal
+    $ yarn add react-modal
+
+
 ## General Usage
 
 The following is an example of using react-modal specifying all the possible props and options:
@@ -75,15 +84,6 @@ import ReactModal from 'react-modal';
   parentSelector={() => document.body}
 />
 ```
-
-## Install
-
-With [npm](https://npmjs.org/) installed, run
-
-```
-$ npm install react-modal
-```
-
 
 ## License
 
