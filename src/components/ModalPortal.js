@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import elementClass from 'element-class';
 import * as focusManager from '../helpers/focusManager';
 import scopeTab from '../helpers/scopeTab';
+import * as ariaAppHider from '../helpers/ariaAppHider';
+import * as refCount from '../helpers/refCount';
+import SafeHTMLElement from '../helpers/safeHTMLElement';
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
@@ -38,6 +42,9 @@ export default class ModalPortal extends Component {
       PropTypes.string,
       PropTypes.object
     ]),
+    bodyOpenClassName: PropTypes.string,
+    ariaHideApp: PropTypes.bool,
+    appElement: PropTypes.instanceOf(SafeHTMLElement),
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
@@ -67,6 +74,15 @@ export default class ModalPortal extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if (process.env.NODE_ENV !== "production") {
+      if (newProps.bodyOpenClassName !== this.props.bodyOpenClassName) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          'React-Modal: "bodyOpenClassName" prop has been modified. ' +
+          'This may cause unexpected behavior when multiple modals are open.'
+        );
+      }
+    }
     // Focus only needs to be set once when the modal is being opened
     if (!this.props.isOpen && newProps.isOpen) {
       this.setFocusAfterRender(true);
@@ -84,6 +100,7 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
+    this.beforeClose();
     clearTimeout(this.closeTimer);
   }
 
@@ -99,12 +116,37 @@ export default class ModalPortal extends Component {
     this.content = content;
   }
 
+  beforeOpen() {
+    const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
+    refCount.add(bodyOpenClassName);
+    // Add body class
+    elementClass(document.body).add(bodyOpenClassName);
+    // Add aria-hidden to appElement
+    if (ariaHideApp) {
+      ariaAppHider.hide(appElement);
+    }
+  }
+
+  beforeClose() {
+    const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
+    refCount.remove(bodyOpenClassName);
+    // Remove class if no more modals are open
+    if (refCount.count(bodyOpenClassName) === 0) {
+      elementClass(document.body).remove(bodyOpenClassName);
+    }
+    // Reset aria-hidden attribute if all modals have been removed
+    if (ariaHideApp && refCount.totalCount() < 1) {
+      ariaAppHider.show(appElement);
+    }
+  }
+
   afterClose = () => {
     focusManager.returnFocus();
     focusManager.teardownScopedFocus();
   }
 
   open = () => {
+    this.beforeOpen();
     if (this.state.afterOpen && this.state.beforeClose) {
       clearTimeout(this.closeTimer);
       this.setState({ beforeClose: false });
@@ -122,6 +164,7 @@ export default class ModalPortal extends Component {
   }
 
   close = () => {
+    this.beforeClose();
     if (this.props.closeTimeoutMS > 0) {
       this.closeWithTimeout();
     } else {

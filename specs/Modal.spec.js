@@ -239,6 +239,25 @@ describe('State', () => {
     unmountModal();
     expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
   });
+  
+  it('should not add classes to document.body for unopened modals', () => {
+    renderModal({ isOpen: true });
+    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    renderModal({ isOpen: false, bodyOpenClassName: 'testBodyClass' });
+    expect(!isBodyWithReactModalOpenClass('testBodyClass')).toBeTruthy()
+  });
+
+  it('should not remove classes from document.body when rendering unopened modal', () => {
+    renderModal({ isOpen: true });
+    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    renderModal({ isOpen: false, bodyOpenClassName: 'testBodyClass' });
+    renderModal({ isOpen: false });
+    expect(!isBodyWithReactModalOpenClass('testBodyClass')).toBeTruthy()
+    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    renderModal({ isOpen: false });
+    renderModal({ isOpen: false });
+    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+  });
 
   it('adding/removing aria-hidden without an appElement will try to fallback to document.body', () => {
     ariaAppHider.documentNotReadyOrSSRTesting();

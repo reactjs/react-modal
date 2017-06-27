@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Modal from '../src/components/Modal';
+import Modal, { bodyOpenClassName } from '../src/components/Modal';
 import TestUtils from 'react-dom/test-utils';
 
 const divStack = [];
@@ -19,8 +19,8 @@ if (!(String.prototype.hasOwnProperty('includes'))) {
  * open class.
  * @return {Boolean}
  */
-export const isBodyWithReactModalOpenClass = () =>
-  document.body.className.includes('ReactModal__Body--open');
+export const isBodyWithReactModalOpenClass = (bodyClass = bodyOpenClassName) =>
+  document.body.className.includes(bodyClass);
 
 /**
  * Returns a rendered dom element by class.
@@ -109,6 +109,7 @@ export const renderModal = function(props, children, callback) {
   const currentDiv = document.createElement('div');
   divStack.push(currentDiv);
   document.body.appendChild(currentDiv);
+
   return ReactDOM.render(
     <Modal {...props}>{children}</Modal>
   , currentDiv, callback);

@@ -53,7 +53,7 @@ import ReactModal from 'react-modal';
   */
   className="ReactModal__Content"
   /*
-     String className to be applied to the document.body.
+     String className to be applied to the document.body (must be a constant string).
      See the `Styles` section for more details.
   */
   bodyOpenClassName="ReactModal__Body--open"
