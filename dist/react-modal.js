@@ -77,6 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.bodyOpenClassName = exports.portalClassName = undefined;
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -94,25 +95,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _exenv = __webpack_require__(12);
-
-	var _exenv2 = _interopRequireDefault(_exenv);
-
-	var _elementClass = __webpack_require__(13);
-
-	var _elementClass2 = _interopRequireDefault(_elementClass);
-
-	var _ModalPortal = __webpack_require__(14);
+	var _ModalPortal = __webpack_require__(12);
 
 	var _ModalPortal2 = _interopRequireDefault(_ModalPortal);
 
-	var _ariaAppHider = __webpack_require__(18);
+	var _ariaAppHider = __webpack_require__(17);
 
 	var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
 
-	var _refCount = __webpack_require__(19);
+	var _safeHTMLElement = __webpack_require__(19);
 
-	var refCount = _interopRequireWildcard(_refCount);
+	var _safeHTMLElement2 = _interopRequireDefault(_safeHTMLElement);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -124,10 +117,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var EE = _exenv2.default;
-	var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
+	var portalClassName = exports.portalClassName = 'ReactModalPortal';
+	var bodyOpenClassName = exports.bodyOpenClassName = 'ReactModal__Body--open';
 
-	var SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
+	var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
 
 	function getParentElement(parentSelector) {
 	  return parentSelector();
@@ -151,21 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      _reactDom2.default.unmountComponentAtNode(_this.node);
 	      var parent = getParentElement(_this.props.parentSelector);
 	      parent.removeChild(_this.node);
-
-	      if (refCount.count() === 0) {
-	        (0, _elementClass2.default)(document.body).remove(_this.props.bodyOpenClassName);
-	      }
 	    }, _this.renderPortal = function (props) {
-	      if (props.isOpen || refCount.count() > 0) {
-	        (0, _elementClass2.default)(document.body).add(_this.props.bodyOpenClassName);
-	      } else {
-	        (0, _elementClass2.default)(document.body).remove(_this.props.bodyOpenClassName);
-	      }
-
-	      if (props.ariaHideApp) {
-	        ariaAppHider.toggle(props.isOpen, props.appElement);
-	      }
-
 	      _this.portal = renderSubtreeIntoContainer(_this, _react2.default.createElement(_ModalPortal2.default, _extends({ defaultStyles: Modal.defaultStyles }, props)), _this.node);
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
@@ -176,10 +155,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.node = document.createElement('div');
 	      this.node.className = this.props.portalClassName;
 
-	      if (this.props.isOpen) refCount.add(this);
-
 	      var parent = getParentElement(this.props.parentSelector);
 	      parent.appendChild(this.node);
+
 	      this.renderPortal(this.props);
 	    }
 	  }, {
@@ -190,8 +168,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (!this.props.isOpen && !isOpen) return;
 
-	      if (isOpen) refCount.add(this);
-	      if (!isOpen) refCount.remove(this);
 	      var currentParent = getParentElement(this.props.parentSelector);
 	      var newParent = getParentElement(newProps.parentSelector);
 
@@ -215,12 +191,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this2 = this;
 
 	      if (!this.node) return;
-
-	      refCount.remove(this);
-
-	      if (this.props.ariaHideApp) {
-	        ariaAppHider.show(this.props.appElement);
-	      }
 
 	      var state = this.portal.state;
 	      var now = Date.now();
@@ -277,7 +247,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  bodyOpenClassName: _propTypes2.default.string,
 	  className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
 	  overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
-	  appElement: _propTypes2.default.instanceOf(SafeHTMLElement),
+	  appElement: _propTypes2.default.instanceOf(_safeHTMLElement2.default),
 	  onAfterOpen: _propTypes2.default.func,
 	  onRequestClose: _propTypes2.default.func,
 	  closeTimeoutMS: _propTypes2.default.number,
@@ -289,8 +259,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	Modal.defaultProps = {
 	  isOpen: false,
-	  portalClassName: 'ReactModalPortal',
-	  bodyOpenClassName: 'ReactModal__Body--open',
+	  portalClassName: portalClassName,
+	  bodyOpenClassName: bodyOpenClassName,
 	  ariaHideApp: true,
 	  closeTimeoutMS: 0,
 	  shouldCloseOnOverlayClick: true,
@@ -1220,116 +1190,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2015 Jed Watson.
-	  Based on code that is Copyright 2013-2015, Facebook, Inc.
-	  All rights reserved.
-	*/
-
-	(function () {
-		'use strict';
-
-		var canUseDOM = !!(
-			typeof window !== 'undefined' &&
-			window.document &&
-			window.document.createElement
-		);
-
-		var ExecutionEnvironment = {
-
-			canUseDOM: canUseDOM,
-
-			canUseWorkers: typeof Worker !== 'undefined',
-
-			canUseEventListeners:
-				canUseDOM && !!(window.addEventListener || window.attachEvent),
-
-			canUseViewport: canUseDOM && !!window.screen
-
-		};
-
-		if (true) {
-			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return ExecutionEnvironment;
-			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else if (typeof module !== 'undefined' && module.exports) {
-			module.exports = ExecutionEnvironment;
-		} else {
-			window.ExecutionEnvironment = ExecutionEnvironment;
-		}
-
-	}());
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-	module.exports = function(opts) {
-	  return new ElementClass(opts)
-	}
-
-	function indexOf(arr, prop) {
-	  if (arr.indexOf) return arr.indexOf(prop)
-	  for (var i = 0, len = arr.length; i < len; i++)
-	    if (arr[i] === prop) return i
-	  return -1
-	}
-
-	function ElementClass(opts) {
-	  if (!(this instanceof ElementClass)) return new ElementClass(opts)
-	  var self = this
-	  if (!opts) opts = {}
-
-	  // similar doing instanceof HTMLElement but works in IE8
-	  if (opts.nodeType) opts = {el: opts}
-
-	  this.opts = opts
-	  this.el = opts.el || document.body
-	  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
-	}
-
-	ElementClass.prototype.add = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  if (el.className === "") return el.className = className
-	  var classes = el.className.split(' ')
-	  if (indexOf(classes, className) > -1) return classes
-	  classes.push(className)
-	  el.className = classes.join(' ')
-	  return classes
-	}
-
-	ElementClass.prototype.remove = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  if (el.className === "") return
-	  var classes = el.className.split(' ')
-	  var idx = indexOf(classes, className)
-	  if (idx > -1) classes.splice(idx, 1)
-	  el.className = classes.join(' ')
-	  return classes
-	}
-
-	ElementClass.prototype.has = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  var classes = el.className.split(' ')
-	  return indexOf(classes, className) > -1
-	}
-
-	ElementClass.prototype.toggle = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  if (this.has(className)) this.remove(className)
-	  else this.add(className)
-	}
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -1348,13 +1208,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propTypes = __webpack_require__(4);
 
-	var _focusManager = __webpack_require__(15);
+	var _elementClass = __webpack_require__(13);
+
+	var _elementClass2 = _interopRequireDefault(_elementClass);
+
+	var _focusManager = __webpack_require__(14);
 
 	var focusManager = _interopRequireWildcard(_focusManager);
 
-	var _scopeTab = __webpack_require__(17);
+	var _scopeTab = __webpack_require__(16);
 
 	var _scopeTab2 = _interopRequireDefault(_scopeTab);
+
+	var _ariaAppHider = __webpack_require__(17);
+
+	var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
+
+	var _refCount = __webpack_require__(18);
+
+	var refCount = _interopRequireWildcard(_refCount);
+
+	var _safeHTMLElement = __webpack_require__(19);
+
+	var _safeHTMLElement2 = _interopRequireDefault(_safeHTMLElement);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1401,6 +1277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    _this.open = function () {
+	      _this.beforeOpen();
 	      if (_this.state.afterOpen && _this.state.beforeClose) {
 	        clearTimeout(_this.closeTimer);
 	        _this.setState({ beforeClose: false });
@@ -1418,6 +1295,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    _this.close = function () {
+	      _this.beforeClose();
 	      if (_this.props.closeTimeoutMS > 0) {
 	        _this.closeWithTimeout();
 	      } else {
@@ -1527,6 +1405,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
+	      if ((undefined) !== "production") {
+	        if (newProps.bodyOpenClassName !== this.props.bodyOpenClassName) {
+	          // eslint-disable-next-line no-console
+	          console.warn('React-Modal: "bodyOpenClassName" prop has been modified. ' + 'This may cause unexpected behavior when multiple modals are open.');
+	        }
+	      }
 	      // Focus only needs to be set once when the modal is being opened
 	      if (!this.props.isOpen && newProps.isOpen) {
 	        this.setFocusAfterRender(true);
@@ -1546,7 +1430,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
+	      this.beforeClose();
 	      clearTimeout(this.closeTimer);
+	    }
+	  }, {
+	    key: 'beforeOpen',
+	    value: function beforeOpen() {
+	      var _props = this.props,
+	          appElement = _props.appElement,
+	          ariaHideApp = _props.ariaHideApp,
+	          bodyOpenClassName = _props.bodyOpenClassName;
+
+	      refCount.add(bodyOpenClassName);
+	      // Add body class
+	      (0, _elementClass2.default)(document.body).add(bodyOpenClassName);
+	      // Add aria-hidden to appElement
+	      if (ariaHideApp) {
+	        ariaAppHider.hide(appElement);
+	      }
+	    }
+	  }, {
+	    key: 'beforeClose',
+	    value: function beforeClose() {
+	      var _props2 = this.props,
+	          appElement = _props2.appElement,
+	          ariaHideApp = _props2.ariaHideApp,
+	          bodyOpenClassName = _props2.bodyOpenClassName;
+
+	      refCount.remove(bodyOpenClassName);
+	      // Remove class if no more modals are open
+	      if (refCount.count(bodyOpenClassName) === 0) {
+	        (0, _elementClass2.default)(document.body).remove(bodyOpenClassName);
+	      }
+	      // Reset aria-hidden attribute if all modals have been removed
+	      if (ariaHideApp && refCount.totalCount() < 1) {
+	        ariaAppHider.show(appElement);
+	      }
 	    }
 
 	    // Don't steal focus from inner elements
@@ -1554,10 +1473,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _props = this.props,
-	          className = _props.className,
-	          overlayClassName = _props.overlayClassName,
-	          defaultStyles = _props.defaultStyles;
+	      var _props3 = this.props,
+	          className = _props3.className,
+	          overlayClassName = _props3.overlayClassName,
+	          defaultStyles = _props3.defaultStyles;
 
 	      var contentStyles = className ? {} : defaultStyles.content;
 	      var overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
@@ -1607,6 +1526,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }),
 	  className: _propTypes.PropTypes.oneOfType([_propTypes.PropTypes.string, _propTypes.PropTypes.object]),
 	  overlayClassName: _propTypes.PropTypes.oneOfType([_propTypes.PropTypes.string, _propTypes.PropTypes.object]),
+	  bodyOpenClassName: _propTypes.PropTypes.string,
+	  ariaHideApp: _propTypes.PropTypes.bool,
+	  appElement: _propTypes.PropTypes.instanceOf(_safeHTMLElement2.default),
 	  onAfterOpen: _propTypes.PropTypes.func,
 	  onRequestClose: _propTypes.PropTypes.func,
 	  closeTimeoutMS: _propTypes.PropTypes.number,
@@ -1618,7 +1540,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ModalPortal;
 
 /***/ }),
-/* 15 */
+/* 13 */
+/***/ (function(module, exports) {
+
+	module.exports = function(opts) {
+	  return new ElementClass(opts)
+	}
+
+	function indexOf(arr, prop) {
+	  if (arr.indexOf) return arr.indexOf(prop)
+	  for (var i = 0, len = arr.length; i < len; i++)
+	    if (arr[i] === prop) return i
+	  return -1
+	}
+
+	function ElementClass(opts) {
+	  if (!(this instanceof ElementClass)) return new ElementClass(opts)
+	  var self = this
+	  if (!opts) opts = {}
+
+	  // similar doing instanceof HTMLElement but works in IE8
+	  if (opts.nodeType) opts = {el: opts}
+
+	  this.opts = opts
+	  this.el = opts.el || document.body
+	  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
+	}
+
+	ElementClass.prototype.add = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return el.className = className
+	  var classes = el.className.split(' ')
+	  if (indexOf(classes, className) > -1) return classes
+	  classes.push(className)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+
+	ElementClass.prototype.remove = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return
+	  var classes = el.className.split(' ')
+	  var idx = indexOf(classes, className)
+	  if (idx > -1) classes.splice(idx, 1)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+
+	ElementClass.prototype.has = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  var classes = el.className.split(' ')
+	  return indexOf(classes, className) > -1
+	}
+
+	ElementClass.prototype.toggle = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (this.has(className)) this.remove(className)
+	  else this.add(className)
+	}
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1633,7 +1620,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.setupScopedFocus = setupScopedFocus;
 	exports.teardownScopedFocus = teardownScopedFocus;
 
-	var _tabbable = __webpack_require__(16);
+	var _tabbable = __webpack_require__(15);
 
 	var _tabbable2 = _interopRequireDefault(_tabbable);
 
@@ -1710,7 +1697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -1765,7 +1752,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1775,7 +1762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = scopeTab;
 
-	var _tabbable = __webpack_require__(16);
+	var _tabbable = __webpack_require__(15);
 
 	var _tabbable2 = _interopRequireDefault(_tabbable);
 
@@ -1798,7 +1785,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -1812,7 +1799,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.validateElement = validateElement;
 	exports.hide = hide;
 	exports.show = show;
-	exports.toggle = toggle;
 	exports.documentNotReadyOrSSRTesting = documentNotReadyOrSSRTesting;
 	exports.resetForTesting = resetForTesting;
 	var globalElement = null;
@@ -1859,11 +1845,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (appElement || globalElement).removeAttribute('aria-hidden');
 	}
 
-	function toggle(shouldHide, appElement) {
-	  var apply = shouldHide ? hide : show;
-	  apply(appElement);
-	}
-
 	function documentNotReadyOrSSRTesting() {
 	  globalElement = null;
 	}
@@ -1873,7 +1854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -1884,25 +1865,99 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.add = add;
 	exports.remove = remove;
 	exports.count = count;
-	var modals = [];
+	exports.totalCount = totalCount;
+	var modals = {};
 
-	function add(element) {
-	  if (modals.indexOf(element) === -1) {
-	    modals.push(element);
+	function add(bodyClass) {
+	  // Set variable and default if none
+	  if (!modals[bodyClass]) {
+	    modals[bodyClass] = 0;
+	  }
+	  modals[bodyClass] += 1;
+	}
+
+	function remove(bodyClass) {
+	  if (modals[bodyClass]) {
+	    modals[bodyClass] -= 1;
 	  }
 	}
 
-	function remove(element) {
-	  var index = modals.indexOf(element);
-	  if (index === -1) {
-	    return;
-	  }
-	  modals.splice(index, 1);
+	function count(bodyClass) {
+	  return modals[bodyClass];
 	}
 
-	function count() {
-	  return modals.length;
+	function totalCount() {
+	  return Object.keys(modals).reduce(function (acc, curr) {
+	    return acc + modals[curr];
+	  }, 0);
 	}
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _exenv = __webpack_require__(20);
+
+	var _exenv2 = _interopRequireDefault(_exenv);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var EE = _exenv2.default;
+
+	var SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
+
+	exports.default = SafeHTMLElement;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Based on code that is Copyright 2013-2015, Facebook, Inc.
+	  All rights reserved.
+	*/
+
+	(function () {
+		'use strict';
+
+		var canUseDOM = !!(
+			typeof window !== 'undefined' &&
+			window.document &&
+			window.document.createElement
+		);
+
+		var ExecutionEnvironment = {
+
+			canUseDOM: canUseDOM,
+
+			canUseWorkers: typeof Worker !== 'undefined',
+
+			canUseEventListeners:
+				canUseDOM && !!(window.addEventListener || window.attachEvent),
+
+			canUseViewport: canUseDOM && !!window.screen
+
+		};
+
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return ExecutionEnvironment;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module !== 'undefined' && module.exports) {
+			module.exports = ExecutionEnvironment;
+		} else {
+			window.ExecutionEnvironment = ExecutionEnvironment;
+		}
+
+	}());
+
 
 /***/ })
 /******/ ])
