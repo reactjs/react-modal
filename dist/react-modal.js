@@ -254,6 +254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ariaHideApp: _propTypes2.default.bool,
 	  shouldCloseOnOverlayClick: _propTypes2.default.bool,
 	  parentSelector: _propTypes2.default.func,
+	  aria: _propTypes2.default.object,
 	  role: _propTypes2.default.string,
 	  contentLabel: _propTypes2.default.string.isRequired
 	};
@@ -1384,6 +1385,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return typeof additional === 'string' && additional ? className + ' ' + additional : className;
 	    };
 
+	    _this.ariaAttributes = function (items) {
+	      return Object.keys(items).reduce(function (acc, name) {
+	        acc['aria-' + name] = items[name];
+	        return acc;
+	      }, {});
+	    };
+
 	    _this.state = {
 	      afterOpen: false,
 	      beforeClose: false
@@ -1490,7 +1498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          onClick: this.handleOverlayOnClick },
 	        _react2.default.createElement(
 	          'div',
-	          {
+	          _extends({
 	            ref: this.setContentRef,
 	            style: _extends({}, contentStyles, this.props.style.content),
 	            className: this.buildClassName('content', className),
@@ -1498,7 +1506,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: this.handleKeyDown,
 	            onClick: this.handleContentOnClick,
 	            role: this.props.role,
-	            'aria-label': this.props.contentLabel },
+	            'aria-label': this.props.contentLabel
+	          }, this.ariaAttributes(this.props.aria || {})),
 	          this.props.children
 	        )
 	      );
@@ -1535,6 +1544,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  shouldCloseOnOverlayClick: _propTypes.PropTypes.bool,
 	  role: _propTypes.PropTypes.string,
 	  contentLabel: _propTypes.PropTypes.string,
+	  aria: _propTypes.PropTypes.object,
 	  children: _propTypes.PropTypes.node
 	};
 	exports.default = ModalPortal;
