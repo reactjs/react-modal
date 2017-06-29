@@ -140,7 +140,7 @@ export default class Modal extends Component {
         this.portal.closeWithTimeout();
       }
 
-      setTimeout(() => this.removePortal, closesAt - now);
+      setTimeout(this.removePortal, closesAt - now);
     } else {
       this.removePortal();
     }

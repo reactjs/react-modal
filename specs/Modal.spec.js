@@ -100,6 +100,27 @@ describe('State', () => {
     expect(document.querySelector('.ReactModalPortal')).toNotExist();
   });
 
+  it('removes the portal node after closeTimeoutMS', done => {
+    const closeTimeoutMS = 100;
+    renderModal({ isOpen: true, closeTimeoutMS }, 'hello');
+
+    function checkDOM(count) {
+      const portal = document.querySelectorAll('.ReactModalPortal');
+      expect(portal.length).toBe(count);
+    }
+
+    unmountModal();
+
+    // content is still mounted after modal is gone
+    checkDOM(1);
+
+    setTimeout(() => {
+      // content is unmounted after specified timeout
+      checkDOM(0);
+      done();
+    }, closeTimeoutMS);
+  });
+
   it('focuses the modal content', () => {
     const modal = renderModal({ isOpen: true }, null);
     expect(document.activeElement).toBe(mcontent(modal));
