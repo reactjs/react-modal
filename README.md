@@ -30,7 +30,7 @@ To install the stable version you can use [npm](https://npmjs.org/) or [yarn](ht
 The Modal object has two required props:
 
 - `isOpen` to render its children.
-- `contentLabel` to improve a11y, since `v1.6.0`.
+- `contentLabel` to improve accessibility, since `v1.6.0`.
 
 Example:
 
