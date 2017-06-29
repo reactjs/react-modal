@@ -82,6 +82,11 @@ describe('State', () => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
+  it ('default parentSelector should be document.body.', () => {
+    const modal = renderModal({ isOpen: true });
+    expect(modal.props.parentSelector()).toEqual(document.body);
+  });
+
   it('renders the modal content with a dialog aria role when provided ', () => {
     const child = 'I am a child of Modal, and he has sent me here...';
     const modal = renderModal({ isOpen: true, role: 'dialog' }, child);
