@@ -188,8 +188,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      var _this2 = this;
-
 	      if (!this.node) return;
 
 	      var state = this.portal.state;
@@ -201,9 +199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.portal.closeWithTimeout();
 	        }
 
-	        setTimeout(function () {
-	          return _this2.removePortal;
-	        }, closesAt - now);
+	        setTimeout(this.removePortal, closesAt - now);
 	      } else {
 	        this.removePortal();
 	      }
