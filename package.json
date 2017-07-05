@@ -61,7 +61,6 @@
     "webpack-dev-server": "1.11.0"
   },
   "dependencies": {
-    "element-class": "^0.2.0",
     "exenv": "1.2.0",
     "prop-types": "^15.5.10",
     "react-dom-factories": "^1.0.0"

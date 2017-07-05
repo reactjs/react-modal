@@ -271,6 +271,34 @@ describe('State', () => {
     expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
   });
 
+  it('supports adding/removing multiple document.body classes', () => {
+    renderModal({
+      isOpen: true,
+      bodyOpenClassName: 'A B C'
+    });
+    expect(document.body.classList.contains('A', 'B', 'C')).toBeTruthy();
+    unmountModal();
+    expect(!document.body.classList.contains('A', 'B', 'C')).toBeTruthy();
+  });
+
+  it('does not remove shared classes if more than one modal is open', () => {
+    renderModal({
+      isOpen: true,
+      bodyOpenClassName: 'A'
+    });
+    renderModal({
+      isOpen: true,
+      bodyOpenClassName: 'A B'
+    });
+
+    expect(isBodyWithReactModalOpenClass('A B')).toBeTruthy();
+    unmountModal();
+    expect(!isBodyWithReactModalOpenClass('A B')).toBeTruthy();
+    expect(isBodyWithReactModalOpenClass('A')).toBeTruthy();
+    unmountModal();
+    expect(!isBodyWithReactModalOpenClass('A')).toBeTruthy();
+  });
+
   it('should not add classes to document.body for unopened modals', () => {
     renderModal({ isOpen: true });
     expect(isBodyWithReactModalOpenClass()).toBeTruthy();
