@@ -8,9 +8,17 @@ const divStack = [];
 /**
  * Polyfill for String.includes on some node versions.
  */
-if (!(String.prototype.hasOwnProperty('includes'))) {
-  String.prototype.includes = function(item) {
-    return this.length > 0 && this.split(" ").indexOf(item) !== -1;
+if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    if (typeof start !== 'number') {
+      start = 0;
+    }
+
+    if (start + search.length > this.length) {
+      return false;
+    }
+
+    return this.indexOf(search, start) !== -1;
   };
 }
 

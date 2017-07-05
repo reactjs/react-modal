@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import elementClass from 'element-class';
 import * as focusManager from '../helpers/focusManager';
 import scopeTab from '../helpers/scopeTab';
 import * as ariaAppHider from '../helpers/ariaAppHider';
 import * as refCount from '../helpers/refCount';
+import * as bodyClassList from '../helpers/bodyClassList';
 import SafeHTMLElement from '../helpers/safeHTMLElement';
 
 // so that our CSS is statically analyzable
@@ -119,9 +119,8 @@ export default class ModalPortal extends Component {
 
   beforeOpen() {
     const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
-    refCount.add(bodyOpenClassName);
     // Add body class
-    elementClass(document.body).add(bodyOpenClassName);
+    bodyClassList.add(bodyOpenClassName);
     // Add aria-hidden to appElement
     if (ariaHideApp) {
       ariaAppHider.hide(appElement);
@@ -130,11 +129,8 @@ export default class ModalPortal extends Component {
 
   beforeClose() {
     const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
-    refCount.remove(bodyOpenClassName);
     // Remove class if no more modals are open
-    if (refCount.count(bodyOpenClassName) === 0) {
-      elementClass(document.body).remove(bodyOpenClassName);
-    }
+    bodyClassList.remove(bodyOpenClassName);
     // Reset aria-hidden attribute if all modals have been removed
     if (ariaHideApp && refCount.totalCount() < 1) {
       ariaAppHider.show(appElement);

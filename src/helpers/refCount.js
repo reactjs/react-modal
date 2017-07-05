@@ -1,23 +1,26 @@
-const modals = {};
+const classListMap = {};
+
+export function get() {
+  return classListMap;
+}
 
 export function add(bodyClass) {
   // Set variable and default if none
-  if (!modals[bodyClass]) {
-    modals[bodyClass] = 0;
+  if (!classListMap[bodyClass]) {
+    classListMap[bodyClass] = 0;
   }
-  modals[bodyClass] += 1;
+  classListMap[bodyClass] += 1;
+  return bodyClass;
 }
 
 export function remove(bodyClass) {
-  if (modals[bodyClass]) {
-    modals[bodyClass] -= 1;
+  if (classListMap[bodyClass]) {
+    classListMap[bodyClass] -= 1;
   }
-}
-
-export function count(bodyClass) {
-  return modals[bodyClass];
+  return bodyClass;
 }
 
 export function totalCount() {
-  return Object.keys(modals).reduce((acc, curr) => acc + modals[curr], 0);
+  return Object.keys(classListMap)
+    .reduce((acc, curr) => acc + classListMap[curr], 0);
 }
