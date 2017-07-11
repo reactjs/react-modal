@@ -1,3 +1,10 @@
+v2.2.2 - Tue, 11 Jul 2017 14:20:05 UTC
+--------------------------------------
+
+- [581be77](../../commit/581be77) [chore] added test for default parentSelector.
+- [e56c414](../../commit/e56c414) [chore] Return null for portal when modal is closed
+
+
 v2.2.1 - Fri, 30 Jun 2017 09:21:36 UTC
 --------------------------------------
 

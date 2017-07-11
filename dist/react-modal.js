@@ -99,7 +99,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ModalPortal2 = _interopRequireDefault(_ModalPortal);
 
-	var _ariaAppHider = __webpack_require__(17);
+	var _ariaAppHider = __webpack_require__(16);
 
 	var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
 
@@ -1205,25 +1205,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propTypes = __webpack_require__(4);
 
-	var _elementClass = __webpack_require__(13);
-
-	var _elementClass2 = _interopRequireDefault(_elementClass);
-
-	var _focusManager = __webpack_require__(14);
+	var _focusManager = __webpack_require__(13);
 
 	var focusManager = _interopRequireWildcard(_focusManager);
 
-	var _scopeTab = __webpack_require__(16);
+	var _scopeTab = __webpack_require__(15);
 
 	var _scopeTab2 = _interopRequireDefault(_scopeTab);
 
-	var _ariaAppHider = __webpack_require__(17);
+	var _ariaAppHider = __webpack_require__(16);
 
 	var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
 
-	var _refCount = __webpack_require__(18);
+	var _refCount = __webpack_require__(17);
 
 	var refCount = _interopRequireWildcard(_refCount);
+
+	var _bodyClassList = __webpack_require__(18);
+
+	var bodyClassList = _interopRequireWildcard(_bodyClassList);
 
 	var _safeHTMLElement = __webpack_require__(19);
 
@@ -1444,10 +1444,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          appElement = _props.appElement,
 	          ariaHideApp = _props.ariaHideApp,
 	          bodyOpenClassName = _props.bodyOpenClassName;
-
-	      refCount.add(bodyOpenClassName);
 	      // Add body class
-	      (0, _elementClass2.default)(document.body).add(bodyOpenClassName);
+
+	      bodyClassList.add(bodyOpenClassName);
 	      // Add aria-hidden to appElement
 	      if (ariaHideApp) {
 	        ariaAppHider.hide(appElement);
@@ -1460,12 +1459,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          appElement = _props2.appElement,
 	          ariaHideApp = _props2.ariaHideApp,
 	          bodyOpenClassName = _props2.bodyOpenClassName;
-
-	      refCount.remove(bodyOpenClassName);
 	      // Remove class if no more modals are open
-	      if (refCount.count(bodyOpenClassName) === 0) {
-	        (0, _elementClass2.default)(document.body).remove(bodyOpenClassName);
-	      }
+
+	      bodyClassList.remove(bodyOpenClassName);
 	      // Reset aria-hidden attribute if all modals have been removed
 	      if (ariaHideApp && refCount.totalCount() < 1) {
 	        ariaAppHider.show(appElement);
@@ -1485,7 +1481,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var contentStyles = className ? {} : defaultStyles.content;
 	      var overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
-	      return this.shouldBeClosed() ? _react2.default.createElement('div', null) : _react2.default.createElement(
+	      return this.shouldBeClosed() ? null : _react2.default.createElement(
 	        'div',
 	        {
 	          ref: this.setOverlayRef,
@@ -1547,71 +1543,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports) {
-
-	module.exports = function(opts) {
-	  return new ElementClass(opts)
-	}
-
-	function indexOf(arr, prop) {
-	  if (arr.indexOf) return arr.indexOf(prop)
-	  for (var i = 0, len = arr.length; i < len; i++)
-	    if (arr[i] === prop) return i
-	  return -1
-	}
-
-	function ElementClass(opts) {
-	  if (!(this instanceof ElementClass)) return new ElementClass(opts)
-	  var self = this
-	  if (!opts) opts = {}
-
-	  // similar doing instanceof HTMLElement but works in IE8
-	  if (opts.nodeType) opts = {el: opts}
-
-	  this.opts = opts
-	  this.el = opts.el || document.body
-	  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
-	}
-
-	ElementClass.prototype.add = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  if (el.className === "") return el.className = className
-	  var classes = el.className.split(' ')
-	  if (indexOf(classes, className) > -1) return classes
-	  classes.push(className)
-	  el.className = classes.join(' ')
-	  return classes
-	}
-
-	ElementClass.prototype.remove = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  if (el.className === "") return
-	  var classes = el.className.split(' ')
-	  var idx = indexOf(classes, className)
-	  if (idx > -1) classes.splice(idx, 1)
-	  el.className = classes.join(' ')
-	  return classes
-	}
-
-	ElementClass.prototype.has = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  var classes = el.className.split(' ')
-	  return indexOf(classes, className) > -1
-	}
-
-	ElementClass.prototype.toggle = function(className) {
-	  var el = this.el
-	  if (!el) return
-	  if (this.has(className)) this.remove(className)
-	  else this.add(className)
-	}
-
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1626,7 +1557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.setupScopedFocus = setupScopedFocus;
 	exports.teardownScopedFocus = teardownScopedFocus;
 
-	var _tabbable = __webpack_require__(15);
+	var _tabbable = __webpack_require__(14);
 
 	var _tabbable2 = _interopRequireDefault(_tabbable);
 
@@ -1703,7 +1634,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -1758,7 +1689,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1768,7 +1699,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = scopeTab;
 
-	var _tabbable = __webpack_require__(15);
+	var _tabbable = __webpack_require__(14);
 
 	var _tabbable2 = _interopRequireDefault(_tabbable);
 
@@ -1791,7 +1722,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -1860,7 +1791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -1868,34 +1799,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.get = get;
 	exports.add = add;
 	exports.remove = remove;
-	exports.count = count;
 	exports.totalCount = totalCount;
-	var modals = {};
+	var classListMap = {};
+
+	function get() {
+	  return classListMap;
+	}
 
 	function add(bodyClass) {
 	  // Set variable and default if none
-	  if (!modals[bodyClass]) {
-	    modals[bodyClass] = 0;
+	  if (!classListMap[bodyClass]) {
+	    classListMap[bodyClass] = 0;
 	  }
-	  modals[bodyClass] += 1;
+	  classListMap[bodyClass] += 1;
+	  return bodyClass;
 	}
 
 	function remove(bodyClass) {
-	  if (modals[bodyClass]) {
-	    modals[bodyClass] -= 1;
+	  if (classListMap[bodyClass]) {
+	    classListMap[bodyClass] -= 1;
 	  }
-	}
-
-	function count(bodyClass) {
-	  return modals[bodyClass];
+	  return bodyClass;
 	}
 
 	function totalCount() {
-	  return Object.keys(modals).reduce(function (acc, curr) {
-	    return acc + modals[curr];
+	  return Object.keys(classListMap).reduce(function (acc, curr) {
+	    return acc + classListMap[curr];
 	  }, 0);
+	}
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.add = add;
+	exports.remove = remove;
+
+	var _refCount = __webpack_require__(17);
+
+	var refCount = _interopRequireWildcard(_refCount);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function add(bodyClass) {
+	  // Increment class(es) on refCount tracker and add class(es) to body
+	  bodyClass.split(' ').map(refCount.add).forEach(function (className) {
+	    return document.body.classList.add(className);
+	  });
+	}
+
+	function remove(bodyClass) {
+	  var classListMap = refCount.get();
+	  // Decrement class(es) from the refCount tracker
+	  // and remove unused class(es) from body
+	  bodyClass.split(' ').map(refCount.remove).filter(function (className) {
+	    return classListMap[className] === 0;
+	  }).forEach(function (className) {
+	    return document.body.classList.remove(className);
+	  });
 	}
 
 /***/ }),
