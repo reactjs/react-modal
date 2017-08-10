@@ -221,6 +221,10 @@ export default class ModalPortal extends Component {
     this.shouldClose = false;
   }
 
+  handleCountenOnMouseDown = () => {
+    this.shouldClose = false;
+  }
+
   requestClose = event =>
     this.ownerHandlesClose() && this.props.onRequestClose(event);
 
@@ -273,6 +277,7 @@ export default class ModalPortal extends Component {
           className={this.buildClassName('content', className)}
           tabIndex="-1"
           onKeyDown={this.handleKeyDown}
+          onMouseDown={this.handleCountenOnMouseDown}
           onClick={this.handleContentOnClick}
           role={this.props.role}
           aria-label={this.props.contentLabel}
