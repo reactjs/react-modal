@@ -127,7 +127,7 @@ export default class Modal extends Component {
   }
 
   componentWillUnmount() {
-    if (!this.node) return;
+    if (!this.node || !this.portal) return;
 
     const state = this.portal.state;
     const now = Date.now();
