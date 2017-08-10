@@ -188,7 +188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      if (!this.node) return;
+	      if (!this.node || !this.portal) return;
 
 	      var state = this.portal.state;
 	      var now = Date.now();
@@ -1898,6 +1898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Based on code that is Copyright 2013-2015, Facebook, Inc.
 	  All rights reserved.
 	*/
+	/* global define */
 
 	(function () {
 		'use strict';
