@@ -1349,6 +1349,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      _this.shouldClose = false;
 	    };
 
+	    _this.handleContentOnMouseDown = function () {
+	      _this.shouldClose = false;
+	    };
+
 	    _this.requestClose = function (event) {
 	      return _this.ownerHandlesClose() && _this.props.onRequestClose(event);
 	    };
@@ -1496,6 +1500,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            className: this.buildClassName('content', className),
 	            tabIndex: '-1',
 	            onKeyDown: this.handleKeyDown,
+	            onMouseDown: this.handleContentOnMouseDown,
 	            onClick: this.handleContentOnClick,
 	            role: this.props.role,
 	            'aria-label': this.props.contentLabel
