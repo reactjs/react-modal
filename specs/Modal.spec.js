@@ -94,7 +94,7 @@ describe('State', () => {
     expect(contentAttribute(modal, 'role')).toEqual('dialog');
   });
 
-  it('set aria-label based on the contentLabel prop', () => {
+  it('sets aria-label based on the contentLabel prop', () => {
     const child = 'I am a child of Modal, and he has sent me here...';
     const modal = renderModal({
       isOpen: true,
