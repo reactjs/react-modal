@@ -55,7 +55,7 @@ export default class Modal extends Component {
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
     role: PropTypes.string,
-    contentLabel: PropTypes.string.isRequired
+    contentLabel: PropTypes.string
   };
   /* eslint-enable react/no-unused-prop-types */
 

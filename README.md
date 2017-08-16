@@ -27,10 +27,9 @@ To install the stable version you can use [npm](https://npmjs.org/) or [yarn](ht
 
 ## Usage
 
-The Modal object has two required props:
+The Modal object has one required prop:
 
 - `isOpen` to render its children.
-- `contentLabel` to improve accessibility, since `v1.6.0`.
 
 Example:
 
@@ -47,6 +46,8 @@ Example:
   <p>Etc.</p>
 </Modal>
 ```
+
+> Use the prop `contentLabel` which adds `aria-label` to the modal if there is no label text visible on the screen, otherwise specify the element including the label text using `aria-labelledby`
 
 ### App Element
 
