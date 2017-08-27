@@ -42,18 +42,35 @@ export default () => {
     document.activeElement.should.be.eql(content);
   });
 
-  it("should close on Esc key event", () => {
-    const requestCloseCallback = sinon.spy();
-    const modal = renderModal({
-      isOpen: true,
-      shouldCloseOnOverlayClick: true,
-      onRequestClose: requestCloseCallback
+  describe("shouldCloseOnEsc", () => {
+    context("when true", () => {
+      it("should close on Esc key event", () => {
+        const requestCloseCallback = sinon.spy();
+        const modal = renderModal({
+          isOpen: true,
+          shouldCloseOnEsc: true,
+          onRequestClose: requestCloseCallback
+        });
+        escKeyDown(mcontent(modal));
+        requestCloseCallback.called.should.be.ok();
+        // Check if event is passed to onRequestClose callback.
+        const event = requestCloseCallback.getCall(0).args[0];
+        event.should.be.ok();
+      });
     });
-    escKeyDown(mcontent(modal));
-    requestCloseCallback.called.should.be.ok();
-    // Check if event is passed to onRequestClose callback.
-    const ev = requestCloseCallback.getCall(0).args[0];
-    ev.should.be.ok();
+
+    context("when false", () => {
+      it("should not close on Esc key event", () => {
+        const requestCloseCallback = sinon.spy();
+        const modal = renderModal({
+          isOpen: true,
+          shouldCloseOnEsc: false,
+          onRequestClose: requestCloseCallback
+        });
+        escKeyDown(mcontent(modal));
+        requestCloseCallback.called.should.be.false;
+      });
+    });
   });
 
   describe("shouldCloseOnoverlayClick", () => {
