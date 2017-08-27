@@ -34,7 +34,7 @@ The Modal object has two required props:
 
 Example:
 
-```xml
+```jsx
 <Modal
   isOpen={bool}
   onAfterOpen={afterOpenFn}
@@ -84,7 +84,7 @@ an object where the keys are the names of the attributes without the prefix
 
 Example:
 
-```js
+```jsx
 <Modal
   isOpen={modalIsOpen}
   aria={{
@@ -205,7 +205,7 @@ You can use this to remove scrolling on the the body while the modal is open.
 
 Inside an app:
 
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
@@ -288,7 +288,7 @@ When using React Test Utils with this library, here are some things to keep in m
 By default the modal is closed when clicking outside of it (the overlay area). If you want to prevent this behavior you can
 pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
 
-```xml
+```jsx
 <Modal
   isOpen={bool}
   onAfterOpen={afterOpenFn}
