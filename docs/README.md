@@ -80,6 +80,11 @@ import ReactModal from 'react-modal';
   */
   shouldCloseOnOverlayClick={true}
   /*
+    Boolean indicating if pressing the esc key should close the modal
+    Note: By disabling the esc key from closing the modal you may introduce an accessibility issue.
+  */
+  shouldCloseOnEsc={true}
+  /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
   */
   role="dialog"

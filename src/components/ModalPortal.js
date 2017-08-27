@@ -47,7 +47,8 @@ export default class ModalPortal extends Component {
     role: PropTypes.string,
     contentLabel: PropTypes.string,
     aria: PropTypes.object,
-    children: PropTypes.node
+    children: PropTypes.node,
+    shouldCloseOnEsc: PropTypes.bool
   };
 
   constructor(props) {
@@ -195,7 +196,8 @@ export default class ModalPortal extends Component {
     if (event.keyCode === TAB_KEY) {
       scopeTab(this.content, event);
     }
-    if (event.keyCode === ESC_KEY) {
+
+    if (this.props.shouldCloseOnEsc && event.keyCode === ESC_KEY) {
       event.preventDefault();
       this.requestClose(event);
     }
