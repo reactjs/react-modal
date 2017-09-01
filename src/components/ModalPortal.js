@@ -48,6 +48,7 @@ export default class ModalPortal extends Component {
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
+    shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
@@ -105,8 +106,8 @@ export default class ModalPortal extends Component {
     clearTimeout(this.closeTimer);
   }
 
-  setFocusAfterRender = focus => {
-    this.focusAfterRender = focus;
+  setFocusAfterRender = (focus) => {
+    this.focusAfterRender = this.props.shouldFocusAfterRender && focus;
   }
 
   setOverlayRef = (overlay) => {

@@ -38,7 +38,7 @@ import ReactModal from 'react-modal';
   */
   closeTimeoutMS={0}
   /*
-    Object indicating styles to be used for the modal.  
+    Object indicating styles to be used for the modal.
     It has two keys, `overlay` and `content`.  See the `Styles` section for more details.
   */
   style={{ overlay: {}, content: {} }}
@@ -70,6 +70,10 @@ import ReactModal from 'react-modal';
     Boolean indicating if the appElement should be hidden
   */
   ariaHideApp={true}
+  /*
+    Boolean indicating if the modal should be focused after render
+  */
+  shouldFocusAfterRender={true}
   /*
     Boolean indicating if the overlay should close the modal
   */
