@@ -43,6 +43,7 @@ describe('State', () => {
     expect(props.isOpen).toBe(false);
     expect(props.ariaHideApp).toBe(true);
     expect(props.closeTimeoutMS).toBe(0);
+    expect(props.shouldFocusAfterRender).toBe(true);
     expect(props.shouldCloseOnOverlayClick).toBe(true);
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
@@ -131,9 +132,14 @@ describe('State', () => {
     }, closeTimeoutMS);
   });
 
-  it('focuses the modal content', () => {
+  it('focuses the modal content by default', () => {
     const modal = renderModal({ isOpen: true }, null);
     expect(document.activeElement).toBe(mcontent(modal));
+  });
+
+  it('does not focus the modal content when shouldFocusAfterRender is false', () => {
+    const modal = renderModal({ isOpen: true, shouldFocusAfterRender: false }, null);
+    expect(document.activeElement).toNotBe(mcontent(modal));
   });
 
   it('give back focus to previous element or modal.', done => {
