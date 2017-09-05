@@ -248,6 +248,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  onRequestClose: _propTypes2.default.func,
 	  closeTimeoutMS: _propTypes2.default.number,
 	  ariaHideApp: _propTypes2.default.bool,
+	  shouldFocusAfter: _propTypes2.default.bool,
 	  shouldCloseOnOverlayClick: _propTypes2.default.bool,
 	  parentSelector: _propTypes2.default.func,
 	  aria: _propTypes2.default.object,
@@ -260,6 +261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  bodyOpenClassName: bodyOpenClassName,
 	  ariaHideApp: true,
 	  closeTimeoutMS: 0,
+	  shouldFocusAfterRender: true,
 	  shouldCloseOnOverlayClick: true,
 	  parentSelector: function parentSelector() {
 	    return document.body;
@@ -1257,7 +1259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this = _possibleConstructorReturn(this, (ModalPortal.__proto__ || Object.getPrototypeOf(ModalPortal)).call(this, props));
 
 	    _this.setFocusAfterRender = function (focus) {
-	      _this.focusAfterRender = focus;
+	      _this.focusAfterRender = _this.props.shouldFocusAfterRender && focus;
 	    };
 
 	    _this.setOverlayRef = function (overlay) {
@@ -1538,6 +1540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  onAfterOpen: _propTypes.PropTypes.func,
 	  onRequestClose: _propTypes.PropTypes.func,
 	  closeTimeoutMS: _propTypes.PropTypes.number,
+	  shouldFocusAfterRender: _propTypes.PropTypes.bool,
 	  shouldCloseOnOverlayClick: _propTypes.PropTypes.bool,
 	  role: _propTypes.PropTypes.string,
 	  contentLabel: _propTypes.PropTypes.string,
