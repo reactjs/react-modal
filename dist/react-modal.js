@@ -67,6 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = _Modal2.default;
+	module.exports = exports['default'];
 
 /***/ }),
 /* 1 */
@@ -1548,6 +1549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  children: _propTypes.PropTypes.node
 	};
 	exports.default = ModalPortal;
+	module.exports = exports['default'];
 
 /***/ }),
 /* 13 */
@@ -1695,6 +1697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function findTabbableDescendants(element) {
 	  return [].slice.call(element.querySelectorAll('*'), 0).filter(tabbable);
 	}
+	module.exports = exports['default'];
 
 /***/ }),
 /* 15 */
@@ -1728,6 +1731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var target = tabbable[event.shiftKey ? tabbable.length - 1 : 0];
 	  target.focus();
 	}
+	module.exports = exports['default'];
 
 /***/ }),
 /* 16 */
@@ -1896,6 +1900,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
 
 	exports.default = SafeHTMLElement;
+	module.exports = exports['default'];
 
 /***/ }),
 /* 20 */
