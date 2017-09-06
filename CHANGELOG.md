@@ -1,49 +1,54 @@
+v2.3.1 - Tue, 05 Sep 2017 16:18:41 UTC
+--------------------------------------
+
+- [93256e9](../../commit/93256e9) [added] Don't focus after render if we don't want to
+- [2adb45d](../../commit/2adb45d) [chore] update readme syntax flavour to jsx
+
+
 v2.2.4 - Mon, 14 Aug 2017 09:41:39 UTC
 --------------------------------------
 
+- [fafa127](../../commit/fafa127) typo fix
+- [fe1983b](../../commit/fe1983b) fix #466: Dragging inside modal and release outside of modal closes the modal
+- [825fd00](../../commit/825fd00) Release v2.2.3.
+- [1caabed](../../commit/1caabed) [fixed] `Uncaught TypeError: Cannot read property 'state' of null` when unmouting
+- [92c23b5](../../commit/92c23b5) [chore] Mention shouldCloseOnOverlayClick dependency
+- [a2d5c4e](../../commit/a2d5c4e) [chore] allow latest version for exenv dependency
 
 
-
-v2.2.4 - Mon, 14 Aug 2017 09:40:50 UTC
+v2.2.2 - Tue, 11 Jul 2017 14:20:29 UTC
 --------------------------------------
 
-
-
-
-v2.2.3 - Thu, 10 Aug 2017 19:25:44 UTC
---------------------------------------
-
-
-
-
-v2.2.2 - Tue, 11 Jul 2017 14:20:05 UTC
---------------------------------------
-
+- [9076eb7](../../commit/9076eb7) [added] Support using multiple document.body classes
 - [581be77](../../commit/581be77) [chore] added test for default parentSelector.
 - [e56c414](../../commit/e56c414) [chore] Return null for portal when modal is closed
 
 
-v2.2.1 - Fri, 30 Jun 2017 09:21:36 UTC
+v2.2.1 - Fri, 30 Jun 2017 09:22:10 UTC
 --------------------------------------
 
+- [7301aa7](../../commit/7301aa7) [chore] Change 'a11y' to 'accessibility' in README.md
+- [f47e79d](../../commit/f47e79d) [fixed] Modal.removePortal not called when using closeTimeoutMS
+- [f386aa4](../../commit/f386aa4) [chore] added more examples.
 
 
-
-v2.2.0 - Wed, 28 Jun 2017 18:55:23 UTC
+v2.2.0 - Wed, 28 Jun 2017 18:56:24 UTC
 --------------------------------------
 
+- [67ee9f5](../../commit/67ee9f5) [added] allow users to pass aria-* attribute.
 - [6f73764](../../commit/6f73764) [chore] update installation documentation.
+
+
+v2.1.0 - Mon, 26 Jun 2017 22:11:54 UTC
+--------------------------------------
+
+- [1baebf4](../../commit/1baebf4) [change] Track open body className appropriately
 
 
 v2.0.7 - Sun, 25 Jun 2017 17:44:29 UTC
 --------------------------------------
 
-
-
-
-v2.0.7 - Sun, 25 Jun 2017 17:43:35 UTC
---------------------------------------
-
+- [d1fe05e](../../commit/d1fe05e) [chore] use local babel instead of requiring a global installation.
 - [bb69a91](../../commit/bb69a91) [chore] improvements on readme testing section.
 - [c2f582f](../../commit/c2f582f) [chore] fix typo.
 - [f8edc2b](../../commit/f8edc2b) [fixed] improvements on setAppElement...
@@ -52,9 +57,10 @@ v2.0.7 - Sun, 25 Jun 2017 17:43:35 UTC
 - [f5d95e2](../../commit/f5d95e2) Add codesandbox link to the ISSUE_TEMPLATE
 
 
-v2.0.6 - Tue, 20 Jun 2017 11:22:57 UTC
+v2.0.6 - Tue, 20 Jun 2017 11:23:30 UTC
 --------------------------------------
 
+- [1676259](../../commit/1676259) removing trailing space. (#2)
 - [07a2753](../../commit/07a2753) [fixed] check if the modal content is available when async update... (#1)
 - [cb6504c](../../commit/cb6504c) [fixed] Use bound ref functions
 - [7da6ec8](../../commit/7da6ec8) [fix] Unnecessary renders when modal is closed
