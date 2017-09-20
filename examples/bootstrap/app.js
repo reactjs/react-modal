@@ -1,39 +1,39 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Modal = require('../../src/index');
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 var appElement = document.getElementById('example');
 
 Modal.setAppElement(appElement);
 
-var App = React.createClass({
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalIsOpen: false };
+  }
 
-  getInitialState: function() {
-    return { modalIsOpen: false };
-  },
-
-  openModal: function() {
+  openModal = () => {
     this.setState({modalIsOpen: true});
-  },
+  }
 
-  closeModal: function() {
+  closeModal = () => {
     this.setState({modalIsOpen: false});
-  },
+  }
 
-  handleModalCloseRequest: function() {
+  handleModalCloseRequest = () => {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
     this.setState({modalIsOpen: false});
-  },
+  }
 
-  handleSaveClicked: function(e) {
+  handleSaveClicked = (e) => {
     alert('Save button was clicked');
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal</button>
+        <button type="button" className="btn btn-primary" onClick={this.openModal}>Open Modal</button>
         <Modal
           className="Modal__Bootstrap modal-dialog"
           closeTimeoutMS={150}
@@ -63,6 +63,6 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
 
 ReactDOM.render(<App/>, appElement);

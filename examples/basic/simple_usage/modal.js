@@ -1,17 +1,12 @@
 import React from 'react';
-import Modal from '../../src/index';
+import Modal from 'react-modal';
 
-// This way you can provide a correct interface
-// for anyone that will use this modal.
-//
-// NOTE: Code style is just to show the interface.
-// Prefer comment your api.
-export default function ModalA(
-  {
-    title, isOpen, onAfterOpen,
-    onRequestClose, askToClose, onChangeInput
-  }
-) {
+export default props => {
+  const {
+    title, isOpen, askToClose,
+    onAfterOpen, onRequestClose, onChangeInput
+  } = props;
+
   return (
     <Modal
       id="test"

@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import Modal from '../../src/index';
-import ModalA from './modal_a';
+import Modal from 'react-modal';
 
 function List(props) {
-  return (
-    <div>
-      {props.items.map(
-        (x, i) => <div key={i} onClick={props.onItemClick(i)}><a href="javascript:void(0)">{x}</a></div>
-      )}
+  return props.items.map((x, i) => (
+    <div key={i} onClick={props.onItemClick(i)}>
+      <a href="javascript:void(0)">{x}</a>
     </div>
-  );
+  ));
 }
 
-export default class ViewB extends Component {
+class MultipleModals extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,7 +69,7 @@ export default class ViewB extends Component {
     const { listItemsIsOpen } = this.state;
     return (
       <div>
-        <button onClick={this.toggleModal}>Open Modal A</button>
+        <button type="button" className="btn btn-primary" onClick={this.toggleModal}>Open Modal A</button>
         <Modal
           id="test"
           closeTimeoutMS={150}
@@ -108,3 +105,8 @@ export default class ViewB extends Component {
     );
   }
 }
+
+export default {
+  label: "#2. Working with many modal.",
+  app: MultipleModals
+};
