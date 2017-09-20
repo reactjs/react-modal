@@ -1,39 +1,28 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Modal from '../../src/index';
-import ViewA from './view_a';
-import ViewB from './view_b';
+import Modal from 'react-modal';
+import SimpleUsage from './simple_usage';
+import MultipleModals from './multiple_modals';
 
 const appElement = document.getElementById('example');
 
 Modal.setAppElement('#example');
 
-const heading = firstView => {
-  if (firstView) {
-    return "#1. Working with one modal at a time.";
-  }
-  return "#2. Working with many modal.";
-};
+const examples = [
+  SimpleUsage,
+  MultipleModals
+];
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { firstView: true };
-  }
-
-  toggleView = () => {
-    this.setState({ ...this.state, firstView: !this.state.firstView });
-  }
-
-  render() {
+function App(props) {
+  return examples.map((example, key) => {
+    const ExampleApp = example.app;
     return (
-      <div>
-        <button onClick={this.toggleView}>Click to go to the next example!</button>
-        <h2>{heading(this.state.firstView)}</h2>
-        {this.state.firstView ? <ViewA /> : <ViewB />}
+      <div key={key} className="example">
+        <h3>{example.label}</h3>
+        <ExampleApp />
       </div>
     );
-  }
+  });
 }
 
 ReactDOM.render(<App/>, appElement);

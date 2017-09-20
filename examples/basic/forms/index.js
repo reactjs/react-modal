@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Modal from '../../src/index';
-import ModalA from './modal_a';
+import Modal from 'react-modal';
+import MyModal from './modal';
 
 const MODAL_A = 'modal_a';
 const MODAL_B = 'modal_b';
 
 const DEFAULT_TITLE = 'Default title';
 
-export default class ViewA extends Component {
+class SimpleUsage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,12 @@ export default class ViewA extends Component {
       this.handleModalCloseRequest();
       return;
     }
-    this.setState({ ...this.state, currentModal: key, title1: DEFAULT_TITLE });
+
+    this.setState({
+      ...this.state,
+      currentModal: key,
+      title1: DEFAULT_TITLE
+    });
   }
 
   handleModalCloseRequest = () => {
@@ -34,7 +39,7 @@ export default class ViewA extends Component {
     });
   }
 
-  handleInputChange = (e) => {
+  handleInputChange = e => {
     let text = e.target.value;
     if (text == '') {
       text = DEFAULT_TITLE;
@@ -47,13 +52,16 @@ export default class ViewA extends Component {
     this.heading && (this.heading.style.color = '#F00');
   }
 
+  headingRef = h1 => this.heading = h1;
+  
   render() {
     const { currentModal } = this.state;
+
     return (
       <div>
         <button onClick={this.toggleModal(MODAL_A)}>Open Modal A</button>
         <button onClick={this.toggleModal(MODAL_B)}>Open Modal B</button>
-        <ModalA
+        <MyModal
           title={this.state.title1}
           isOpen={currentModal == MODAL_A}
           onAfterOpen={this.handleOnAfterOpenModal}
@@ -72,12 +80,17 @@ export default class ViewA extends Component {
           isOpen={currentModal == MODAL_B}
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.toggleModal(MODAL_B)}>
-          <h1 id="heading" ref={h1 => this.heading = h1}>This is the modal 2!</h1>
+          <h1 id="heading" ref={headingRef}>This is the modal 2!</h1>
           <div id="fulldescription" tabIndex="0" role="document">
             <p>This is a description of what it does: nothing :)</p>
-          </div>
+          </div>p
         </Modal>
       </div>
     );
   }
 }
+
+export default {
+  label: "#1. Working with one modal at a time.",
+  app: SimpleUsage
+};

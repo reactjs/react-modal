@@ -39,6 +39,12 @@ module.exports = {
     ]
   },
 
+  resolve: {
+    alias: {
+      "react-modal": path.resolve(__dirname, "./src")
+    }
+  },
+
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('shared.js')
   ]
