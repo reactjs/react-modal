@@ -3,16 +3,26 @@
     "es6": true,
     "browser": true
   },
-  "extends": "airbnb",
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
       "jsx": true
     },
     "sourceType": "module"
   },
-  "parser": "babel-eslint",
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "15.0"
+    },
+    "propWrapperFunctions": [ "forbidExtraProps" ]
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "globals": {
+    "process": true
+  },
   "rules": {
     "quotes": [0],
     "comma-dangle": [2, "only-multiline"],
@@ -23,12 +33,9 @@
     "func-names": [0],
     "arrow-parens": [0],
     "space-before-function-paren": [0],
-    "import/no-extraneous-dependencies": [2, {"devDependencies": true}],
     "jsx-a11y/no-static-element-interactions": [0],
     "react/no-find-dom-node": [0],
     "react/jsx-closing-bracket-location": [0],
-    "react/jsx-filename-extension": ["error", {"extensions": [".js"]}],
-    "react/forbid-prop-types": [1, {"forbid": ["any"]}],
     "react/require-default-props": 0
   }
 }

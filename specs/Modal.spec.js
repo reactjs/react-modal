@@ -1,10 +1,11 @@
 /* eslint-env mocha */
-import expect from 'expect';
+import 'should';
+import should from 'should';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
-import Modal from '../src/components/Modal';
-import * as ariaAppHider from '../src/helpers/ariaAppHider';
+import Modal from 'react-modal';
+import * as ariaAppHider from 'react-modal/helpers/ariaAppHider';
 import {
   isBodyWithReactModalOpenClass,
   contentAttribute,
@@ -13,7 +14,7 @@ import {
   renderModal, unmountModal, emptyDOM
 } from './helper';
 
-describe('State', () => {
+export default () => {
   afterEach('check if test cleaned up rendered modals', emptyDOM);
 
   it('scopes tab navigation to the modal');
@@ -22,29 +23,29 @@ describe('State', () => {
 
   it('can be open initially', () => {
     const modal = renderModal({ isOpen: true }, 'hello');
-    expect(mcontent(modal)).toExist();
+    mcontent(modal).should.be.ok();
   });
 
   it('can be closed initially', () => {
     const modal = renderModal({}, 'hello');
-    expect(ReactDOM.findDOMNode(mcontent(modal))).toNotExist();
+    should(ReactDOM.findDOMNode(mcontent(modal))).not.be.ok();
   });
 
   it('doesn\'t render the portal if modal is closed', () => {
     const modal = renderModal({}, 'hello');
-    expect(ReactDOM.findDOMNode(modal.portal)).toNotExist();
-  })
+    should(ReactDOM.findDOMNode(modal.portal)).not.be.ok();
+  });
 
   it('has default props', () => {
     const node = document.createElement('div');
     Modal.setAppElement(document.createElement('div'));
     const modal = ReactDOM.render(<Modal />, node);
     const props = modal.props;
-    expect(props.isOpen).toBe(false);
-    expect(props.ariaHideApp).toBe(true);
-    expect(props.closeTimeoutMS).toBe(0);
-    expect(props.shouldFocusAfterRender).toBe(true);
-    expect(props.shouldCloseOnOverlayClick).toBe(true);
+    props.isOpen.should.not.be.ok();
+    props.ariaHideApp.should.be.ok();
+    props.closeTimeoutMS.should.be.eql(0);
+    props.shouldFocusAfterRender.should.be.ok();
+    props.shouldCloseOnOverlayClick.should.be.ok();
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
     Modal.setAppElement(document.body);  // restore default
@@ -56,7 +57,7 @@ describe('State', () => {
     ReactDOM.render((
       <Modal isOpen={true} appElement={el} />
     ), node);
-    expect(el.getAttribute('aria-hidden')).toEqual('true');
+    el.getAttribute('aria-hidden').should.be.eql('true');
     ReactDOM.unmountComponentAtNode(node);
   });
 
@@ -75,9 +76,9 @@ describe('State', () => {
     }
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
-    expect(
-      document.body.querySelector('.ReactModalPortal').parentNode
-    ).toEqual(
+    document.body.querySelector(
+      '.ReactModalPortal'
+    ).parentNode.should.be.eql(
       document.body
     );
     ReactDOM.unmountComponentAtNode(node);
@@ -85,13 +86,13 @@ describe('State', () => {
 
   it ('default parentSelector should be document.body.', () => {
     const modal = renderModal({ isOpen: true });
-    expect(modal.props.parentSelector()).toEqual(document.body);
+    modal.props.parentSelector().should.be.eql(document.body);
   });
 
   it('renders the modal content with a dialog aria role when provided ', () => {
     const child = 'I am a child of Modal, and he has sent me here...';
     const modal = renderModal({ isOpen: true, role: 'dialog' }, child);
-    expect(contentAttribute(modal, 'role')).toEqual('dialog');
+    contentAttribute(modal, 'role').should.be.eql('dialog');
   });
 
   it('sets aria-label based on the contentLabel prop', () => {
@@ -100,15 +101,14 @@ describe('State', () => {
       isOpen: true,
       contentLabel: 'Special Modal'
     }, child);
-    expect(
-      contentAttribute(modal, 'aria-label')
-    ).toEqual('Special Modal');
+
+    contentAttribute(modal, 'aria-label').should.be.eql('Special Modal');
   });
 
   it('removes the portal node', () => {
     const modal = renderModal({ isOpen: true }, 'hello');
     unmountModal();
-    expect(document.querySelector('.ReactModalPortal')).toNotExist();
+    should(document.querySelector('.ReactModalPortal')).not.be.ok();
   });
 
   it('removes the portal node after closeTimeoutMS', done => {
@@ -117,7 +117,7 @@ describe('State', () => {
 
     function checkDOM(count) {
       const portal = document.querySelectorAll('.ReactModalPortal');
-      expect(portal.length).toBe(count);
+      portal.length.should.be.eql(count);
     }
 
     unmountModal();
@@ -134,12 +134,12 @@ describe('State', () => {
 
   it('focuses the modal content by default', () => {
     const modal = renderModal({ isOpen: true }, null);
-    expect(document.activeElement).toBe(mcontent(modal));
+    document.activeElement.should.be.eql(mcontent(modal));
   });
 
   it('does not focus the modal content when shouldFocusAfterRender is false', () => {
     const modal = renderModal({ isOpen: true, shouldFocusAfterRender: false }, null);
-    expect(document.activeElement).toNotBe(mcontent(modal));
+    document.activeElement.should.not.be.eql(mcontent(modal));
   });
 
   it('give back focus to previous element or modal.', done => {
@@ -154,16 +154,16 @@ describe('State', () => {
     }, null);
 
     const modalContent = mcontent(modalA);
-    expect(document.activeElement).toEqual(modalContent);
+    document.activeElement.should.be.eql(modalContent);
 
     const modalB = renderModal({
       isOpen: true,
       className: 'modal-b',
       onRequestClose() {
         const modalContent = mcontent(modalB);
-        expect(document.activeElement).toEqual(mcontent(modalA));
+        document.activeElement.should.be.eql(mcontent(modalA));
         escKeyDown(modalContent);
-        expect(document.activeElement).toEqual(modalContent);
+        document.activeElement.should.be.eql(modalContent);
       }
     }, null);
 
@@ -176,7 +176,7 @@ describe('State', () => {
       <input ref={(el) => { el && el.focus(); content = el; }} />
     );
     renderModal({ isOpen: true }, input, () => {
-      expect(document.activeElement).toEqual(content);
+      document.activeElement.should.be.eql(content);
     });
   });
 
@@ -185,14 +185,12 @@ describe('State', () => {
       isOpen: true,
       portalClassName: 'myPortalClass'
     });
-    expect(modal.node.className.includes('myPortalClass')).toBeTruthy();
+    modal.node.className.includes('myPortalClass').should.be.ok();
   });
 
   it('supports custom className', () => {
     const modal = renderModal({ isOpen: true, className: 'myClass' });
-    expect(
-      mcontent(modal).className.includes('myClass')
-    ).toBeTruthy();
+    mcontent(modal).className.includes('myClass').should.be.ok();
   });
 
   it('supports overlayClassName', () => {
@@ -200,9 +198,7 @@ describe('State', () => {
       isOpen: true,
       overlayClassName: 'myOverlayClass'
     });
-    expect(
-      moverlay(modal).className.includes('myOverlayClass')
-    ).toBeTruthy();
+    moverlay(modal).className.includes('myOverlayClass').should.be.ok();
   });
 
   it('overrides content classes with custom object className', () => {
@@ -214,9 +210,7 @@ describe('State', () => {
         beforeClose: 'myClass_before-close'
       }
     });
-    expect(
-      mcontent(modal).className
-    ).toEqual(
+    mcontent(modal).className.should.be.eql(
       'myClass myClass_after-open'
     );
     unmountModal();
@@ -231,9 +225,7 @@ describe('State', () => {
         beforeClose: 'myOverlayClass_before-close'
       }
     });
-    expect(
-      moverlay(modal).className
-    ).toEqual(
+    moverlay(modal).className.should.be.eql(
       'myOverlayClass myOverlayClass_after-open'
     );
     unmountModal();
@@ -244,37 +236,35 @@ describe('State', () => {
       isOpen: true,
       bodyOpenClassName: 'custom-modal-open'
     });
-    expect(
-      document.body.className.indexOf('custom-modal-open') > -1
-    ).toBeTruthy();
+    (document.body.className.indexOf('custom-modal-open') > -1).should.be.ok();
   });
 
   it('don\'t append class to document.body if modal is not open', () => {
     renderModal({ isOpen: false });
-    expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.not.be.ok();
     unmountModal();
   });
 
   it('append class to document.body if modal is open', () => {
     renderModal({ isOpen: true });
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.be.ok();
     unmountModal();
   });
 
   it('removes class from document.body when unmounted without closing', () => {
     renderModal({ isOpen: true });
     unmountModal();
-    expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.not.be.ok();
   });
 
   it('remove class from document.body when no modals opened', () => {
     renderModal({ isOpen: true });
     renderModal({ isOpen: true });
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.be.ok();
     unmountModal();
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.be.ok();
     unmountModal();
-    expect(!isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.not.be.ok();
   });
 
   it('supports adding/removing multiple document.body classes', () => {
@@ -282,9 +272,9 @@ describe('State', () => {
       isOpen: true,
       bodyOpenClassName: 'A B C'
     });
-    expect(document.body.classList.contains('A', 'B', 'C')).toBeTruthy();
+    document.body.classList.contains('A', 'B', 'C').should.be.ok();
     unmountModal();
-    expect(!document.body.classList.contains('A', 'B', 'C')).toBeTruthy();
+    document.body.classList.contains('A', 'B', 'C').should.not.be.ok();
   });
 
   it('does not remove shared classes if more than one modal is open', () => {
@@ -297,38 +287,36 @@ describe('State', () => {
       bodyOpenClassName: 'A B'
     });
 
-    expect(isBodyWithReactModalOpenClass('A B')).toBeTruthy();
+    isBodyWithReactModalOpenClass('A B').should.be.ok();
     unmountModal();
-    expect(!isBodyWithReactModalOpenClass('A B')).toBeTruthy();
-    expect(isBodyWithReactModalOpenClass('A')).toBeTruthy();
+    isBodyWithReactModalOpenClass('A B').should.not.be.ok();
+    isBodyWithReactModalOpenClass('A').should.be.ok();
     unmountModal();
-    expect(!isBodyWithReactModalOpenClass('A')).toBeTruthy();
+    isBodyWithReactModalOpenClass('A').should.not.be.ok();
   });
 
   it('should not add classes to document.body for unopened modals', () => {
     renderModal({ isOpen: true });
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.be.ok();
     renderModal({ isOpen: false, bodyOpenClassName: 'testBodyClass' });
-    expect(!isBodyWithReactModalOpenClass('testBodyClass')).toBeTruthy()
+    isBodyWithReactModalOpenClass('testBodyClass').should.not.be.ok();
   });
 
   it('should not remove classes from document.body when rendering unopened modal', () => {
     renderModal({ isOpen: true });
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.be.ok();
     renderModal({ isOpen: false, bodyOpenClassName: 'testBodyClass' });
     renderModal({ isOpen: false });
-    expect(!isBodyWithReactModalOpenClass('testBodyClass')).toBeTruthy()
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass('testBodyClass').should.not.be.ok();
+    isBodyWithReactModalOpenClass().should.be.ok();
     renderModal({ isOpen: false });
     renderModal({ isOpen: false });
-    expect(isBodyWithReactModalOpenClass()).toBeTruthy();
+    isBodyWithReactModalOpenClass().should.be.ok();
   });
 
   it('additional aria attributes', () => {
     const modal = renderModal({ isOpen: true, aria: { labelledby: "a" }}, 'hello');
-    expect(
-      mcontent(modal).getAttribute('aria-labelledby')
-    ).toEqual("a");
+    mcontent(modal).getAttribute('aria-labelledby').should.be.eql("a");
     unmountModal();
   });
 
@@ -338,13 +326,13 @@ describe('State', () => {
     ReactDOM.render((
       <Modal isOpen />
     ), node);
-    expect(document.body.getAttribute('aria-hidden')).toEqual('true');
+    document.body.getAttribute('aria-hidden').should.be.eql('true');
     ReactDOM.unmountComponentAtNode(node);
-    expect(document.body.getAttribute('aria-hidden')).toEqual(null);
+    should(document.body.getAttribute('aria-hidden')).not.be.ok();
   });
 
   it('raise an exception if appElement is a selector and no elements were found.', () => {
-    expect(() => ariaAppHider.setElement('.test')).toThrow();
+    should(() => ariaAppHider.setElement('.test')).throw();
   });
 
   it('removes aria-hidden from appElement when unmounted w/o closing', () => {
@@ -353,16 +341,16 @@ describe('State', () => {
     ReactDOM.render((
       <Modal isOpen appElement={el} />
     ), node);
-    expect(el.getAttribute('aria-hidden')).toEqual('true');
+    el.getAttribute('aria-hidden').should.be.eql('true');
     ReactDOM.unmountComponentAtNode(node);
-    expect(el.getAttribute('aria-hidden')).toEqual(null);
+    should(el.getAttribute('aria-hidden')).not.be.ok();
   });
 
   it('adds --after-open for animations', () => {
     const modal = renderModal({ isOpen: true });
     const rg = /--after-open/i;
-    expect(rg.test(mcontent(modal).className)).toBeTruthy();
-    expect(rg.test(moverlay(modal).className)).toBeTruthy();
+    rg.test(mcontent(modal).className).should.be.ok();
+    rg.test(moverlay(modal).className).should.be.ok();
   });
 
   it('adds --before-close for animations', () => {
@@ -374,8 +362,8 @@ describe('State', () => {
     modal.portal.closeWithTimeout();
 
     const rg = /--before-close/i;
-    expect(rg.test(moverlay(modal).className)).toBeTruthy();
-    expect(rg.test(mcontent(modal).className)).toBeTruthy();
+    rg.test(moverlay(modal).className).should.be.ok();
+    rg.test(mcontent(modal).className).should.be.ok();
 
     modal.portal.closeWithoutTimeout();
   });
@@ -389,18 +377,18 @@ describe('State', () => {
     modal.portal.closeWithTimeout();
     modal.portal.open();
     modal.portal.closeWithoutTimeout();
-    expect(!modal.portal.state.isOpen).toBeTruthy();
+    modal.portal.state.isOpen.should.not.be.ok();
   });
 
   it('verify default prop of shouldCloseOnOverlayClick', () => {
     const modal = renderModal({ isOpen: true });
-    expect(modal.props.shouldCloseOnOverlayClick).toBeTruthy();
+    modal.props.shouldCloseOnOverlayClick.should.be.ok();
   });
 
   it('verify prop of shouldCloseOnOverlayClick', () => {
     const modalOpts = { isOpen: true, shouldCloseOnOverlayClick: false };
     const modal = renderModal(modalOpts);
-    expect(!modal.props.shouldCloseOnOverlayClick).toBeTruthy();
+    modal.props.shouldCloseOnOverlayClick.should.not.be.ok();
   });
 
   it('keeps the modal in the DOM until closeTimeoutMS elapses', done => {
@@ -412,8 +400,8 @@ describe('State', () => {
     function checkDOM(count) {
       const overlay = document.querySelectorAll('.ReactModal__Overlay');
       const content = document.querySelectorAll('.ReactModal__Content');
-      expect(overlay.length).toBe(count);
-      expect(content.length).toBe(count);
+      overlay.length.should.be.eql(count);
+      content.length.should.be.eql(count);
     }
 
     // content is still mounted after modal is gone
@@ -454,7 +442,7 @@ describe('State', () => {
     document.body.appendChild(currentDiv);
 
     const mount = () => ReactDOM.render(<TestCase />, currentDiv);
-    expect(mount).toNotThrow();
+    mount.should.not.throw();
 
     document.body.removeChild(currentDiv);
   });
@@ -470,7 +458,7 @@ describe('State', () => {
       }
 
       componentDidMount() {
-        expect(modal.node.className).toEqual('myPortalClass');
+        modal.node.className.should.be.eql('myPortalClass');
 
         this.setState({
           testHasChanged: true
@@ -478,7 +466,7 @@ describe('State', () => {
       }
 
       componentDidUpdate() {
-        expect(modal.node.className).toEqual('myPortalClass-modifier');
+        modal.node.className.should.be.eql('myPortalClass-modifier');
       }
 
       render() {
@@ -501,4 +489,4 @@ describe('State', () => {
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
   });
-});
+};

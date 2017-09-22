@@ -1,34 +1,33 @@
-const browsers = [process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome'];
+let browsers = ['Chrome'];
+let coverageType = 'text';
+
+if (process.env.CONTINUOUS_INTEGRATION) {
+  browsers = ['Firefox'];
+  coverageType = 'lcovonly';
+}
 
 module.exports = function(config) {
   config.set({
-
-    basePath: '',
-
     frameworks: ['mocha'],
 
-    files: [
-      'specs/spec_index.js'
-    ],
-
     preprocessors: {
-      'specs/spec_index.js': ['webpack', 'sourcemap']
+      './src/*.js': ['coverage'],
+      './src/**/*.js': ['coverage'],
+      './specs/index.js': ['webpack', 'sourcemap']
     },
+
+    files: ['./specs/index.js'],
 
     webpack: require('./webpack.test.config'),
 
-    webpackMiddleware: {
-      stats: 'errors-only'
-    },
+    webpackMiddleware: { stats: 'errors-only' },
 
     reporters: ['mocha', 'coverage'],
 
-    mochaReporter: {
-      showDiff: true
-    },
+    mochaReporter: { showDiff: true },
 
     coverageReporter: {
-      type : 'lcov',
+      type : coverageType,
       dir : 'coverage/',
       subdir: '.'
     },
