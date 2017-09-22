@@ -34,8 +34,8 @@ module.exports = {
   },
 
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, use: { loader: 'babel-loader' } }
     ]
   },
 
@@ -46,7 +46,8 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('shared.js')
+    new webpack.optimize.CommonsChunkPlugin('shared.js'),
+    new webpack.LoaderOptionsPlugin({ debug: true })
   ]
 
 };

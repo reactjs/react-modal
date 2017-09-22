@@ -1,21 +1,21 @@
 /* eslint-env mocha */
-import expect from 'expect';
+import 'should';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
-import Modal from '../src/components/Modal';
-import * as ariaAppHider from '../src/helpers/ariaAppHider';
+import Modal from 'react-modal';
+import * as ariaAppHider from 'react-modal/helpers/ariaAppHider';
 import {
   mcontent, moverlay,
   renderModal, emptyDOM
 } from './helper';
 
-describe('Style', () => {
+export default () => {
   afterEach('Unmount modal', emptyDOM);
 
   it('overrides the default styles when a custom classname is used', () => {
     const modal = renderModal({ isOpen: true, className: 'myClass' });
-    expect(mcontent(modal).style.top).toEqual('');
+    mcontent(modal).style.top.should.be.eql('');
   });
 
   it('overrides the default styles when a custom overlayClassName is used',
@@ -24,32 +24,32 @@ describe('Style', () => {
         isOpen: true,
         overlayClassName: 'myOverlayClass'
       });
-      expect(moverlay(modal).style.backgroundColor).toEqual('');
+      moverlay(modal).style.backgroundColor.should.be.eql('');
     }
   );
 
   it('supports adding style to the modal contents', () => {
     const style = { content: { width: '20px' } };
     const modal = renderModal({ isOpen: true, style });
-    expect(mcontent(modal).style.width).toEqual('20px');
+    mcontent(modal).style.width.should.be.eql('20px');
   });
 
   it('supports overriding style on the modal contents', () => {
     const style = { content: { position: 'static' } };
     const modal = renderModal({ isOpen: true, style });
-    expect(mcontent(modal).style.position).toEqual('static');
+    mcontent(modal).style.position.should.be.eql('static');
   });
 
   it('supports adding style on the modal overlay', () => {
     const style = { overlay: { width: '75px' } };
     const modal = renderModal({ isOpen: true, style });
-    expect(moverlay(modal).style.width).toEqual('75px');
+    moverlay(modal).style.width.should.be.eql('75px');
   });
 
   it('supports overriding style on the modal overlay', () => {
     const style = { overlay: { position: 'static' } };
     const modal = renderModal({ isOpen: true, style });
-    expect(moverlay(modal).style.position).toEqual('static');
+    moverlay(modal).style.position.should.be.eql('static');
   });
 
   it('supports overriding the default styles', () => {
@@ -59,7 +59,7 @@ describe('Style', () => {
     const newStyle = previousStyle === 'relative' ? 'static' : 'relative';
     Modal.defaultStyles.content.position = newStyle;
     const modal = renderModal({ isOpen: true });
-    expect(modal.portal.content.style.position).toEqual(newStyle);
+    modal.portal.content.style.position.should.be.eql(newStyle);
     Modal.defaultStyles.content.position = previousStyle;
   });
-});
+};
