@@ -1,3 +1,7 @@
+h1, h2, h3 {
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-weight: 200;
+}
 
 /* From http://instructure-react.github.io/library/shared.css */
 
@@ -7,4 +11,12 @@
 
 .branding {
   border-bottom: 1px solid hsl(200, 0%, 90%);
+}
+
+.btn:not(:last-child) {
+    margin-right: 20px;
+}
+
+.example:not(:last-child) {
+  margin-bottom: 40px;
 }
