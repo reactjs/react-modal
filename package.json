@@ -48,6 +48,8 @@
     "npm-run-all": "^4.1.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "should": "^13.1.0",
     "sinon": "next",
     "uglify-js": "3.1.1",

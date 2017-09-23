@@ -29,7 +29,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
-    path: 'examples/__build__',
+    path: path.resolve(__dirname, './examples/__build__'),
     publicPath: '/__build__/'
   },
 
@@ -46,7 +46,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('shared.js'),
+    new webpack.optimize.CommonsChunkPlugin('shared'),
     new webpack.LoaderOptionsPlugin({ debug: true })
   ]
 
