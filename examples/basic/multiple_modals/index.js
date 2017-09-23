@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 
-function List(props) {
-  return props.items.map((x, i) => (
-    <div key={i} onClick={props.onItemClick(i)}>
-      <a href="javascript:void(0)">{x}</a>
-    </div>
-  ));
+class List extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.props.items.map((x, i) => (
+          <div key={i} onClick={this.props.onItemClick(i)}>
+            <a href="javascript:void(0)">{x}</a>
+          </div>))}
+      </div>
+    );
+  }
 }
 
 class MultipleModals extends Component {
@@ -27,7 +32,6 @@ class MultipleModals extends Component {
       return;
     }
     this.setState({
-      ...this.state,
       items: [],
       listItemsIsOpen: true,
       loading: true
@@ -38,7 +42,6 @@ class MultipleModals extends Component {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
     this.setState({
-      ...this.state,
       listItemsIsOpen: false,
       loading: false
     });
@@ -47,10 +50,9 @@ class MultipleModals extends Component {
   handleOnAfterOpenModal = () => {
     // when ready, we can access the available refs.
     (new Promise((resolve, reject) => {
-      setTimeout(() => resolve(true), 1000);
+      setTimeout(() => resolve(true), 500);
     })).then(res => {
       this.setState({
-        ...this.state,
         items: [1, 2, 3, 4, 5].map(x => `Item ${x}`),
         loading: false
       });
@@ -58,11 +60,11 @@ class MultipleModals extends Component {
   }
 
   onItemClick = index => event => {
-    this.setState({ ...this.state, currentItem: index });
+    this.setState({ currentItem: index });
   }
 
   cleanCurrentItem = () => {
-    this.setState({ ...this.state, currentItem: -1 });
+    this.setState({ currentItem: -1 });
   }
 
   render() {
