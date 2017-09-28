@@ -159,7 +159,9 @@ export default class Modal extends Component {
   portalRef = (portal) => this.portal = portal;
 
   removePortal = () => {
-    ReactDOM.unmountComponentAtNode(this.node);
+    if (!useReactPortal) {
+      ReactDOM.unmountComponentAtNode(this.node);
+    }
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
   }
