@@ -8,13 +8,16 @@ import SafeHTMLElement from '../helpers/safeHTMLElement';
 export const portalClassName = 'ReactModalPortal';
 export const bodyOpenClassName = 'ReactModal__Body--open';
 
-const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;
-
 function getParentElement(parentSelector) {
   return parentSelector();
 }
 
 export default class Modal extends Component {
+  constructor(props) {
+    super(props);
+    this.node = document.createElement('div');
+  }
+
   static setAppElement(element) {
     ariaAppHider.setElement(element);
   }
@@ -97,13 +100,10 @@ export default class Modal extends Component {
   };
 
   componentDidMount() {
-    this.node = document.createElement('div');
     this.node.className = this.props.portalClassName;
 
     const parent = getParentElement(this.props.parentSelector);
     parent.appendChild(this.node);
-
-    this.renderPortal(this.props);
   }
 
   componentWillReceiveProps(newProps) {
@@ -118,8 +118,6 @@ export default class Modal extends Component {
       currentParent.removeChild(this.node);
       newParent.appendChild(this.node);
     }
-
-    this.renderPortal(newProps);
   }
 
   componentWillUpdate(newProps) {
@@ -148,19 +146,18 @@ export default class Modal extends Component {
     }
   }
 
+  portalRef = portal => this.portal = portal;
+
   removePortal = () => {
     ReactDOM.unmountComponentAtNode(this.node);
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
   }
 
-  renderPortal = props => {
-    this.portal = renderSubtreeIntoContainer(this, (
-      <ModalPortal defaultStyles={Modal.defaultStyles} {...props} />
-    ), this.node);
-  }
-
   render() {
-    return null;
+    return ReactDOM.createPortal(
+      <ModalPortal defaultStyles={Modal.defaultStyles} ref={this.portalRef} {...this.props} />,
+      this.node
+    );
   }
 }
