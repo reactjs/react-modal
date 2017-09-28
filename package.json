@@ -58,8 +58,7 @@
   },
   "dependencies": {
     "exenv": "^1.2.0",
-    "prop-types": "^15.5.10",
-    "react-dom-factories": "^1.0.0"
+    "prop-types": "^15.5.10"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
