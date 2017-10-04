@@ -530,6 +530,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -567,7 +569,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var portalClassName = exports.portalClassName = 'ReactModalPortal';
 var bodyOpenClassName = exports.bodyOpenClassName = 'ReactModal__Body--open';
 
-var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
+var canUseDOM = (typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== undefined;
+var isReact16 = _reactDom2.default.createPortal !== undefined;
+var createPortal = isReact16 ? _reactDom2.default.createPortal : _reactDom2.default.unstable_renderSubtreeIntoContainer;
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -588,28 +592,32 @@ var Modal = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.removePortal = function () {
-      _reactDom2.default.unmountComponentAtNode(_this.node);
+      !isReact16 && _reactDom2.default.unmountComponentAtNode(_this.node);
       var parent = getParentElement(_this.props.parentSelector);
       parent.removeChild(_this.node);
+    }, _this.portalRef = function (ref) {
+      _this.portal = ref;
     }, _this.renderPortal = function (props) {
-      _this.portal = renderSubtreeIntoContainer(_this, _react2.default.createElement(_ModalPortal2.default, _extends({ defaultStyles: Modal.defaultStyles }, props)), _this.node);
+      var portal = createPortal(_this, _react2.default.createElement(_ModalPortal2.default, _extends({ defaultStyles: Modal.defaultStyles }, props)), _this.node);
+      _this.portalRef(portal);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Modal, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.node = document.createElement('div');
+      if (!canUseDOM) return;
       this.node.className = this.props.portalClassName;
 
       var parent = getParentElement(this.props.parentSelector);
       parent.appendChild(this.node);
 
-      this.renderPortal(this.props);
+      !isReact16 && this.renderPortal(this.props);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
+      if (!canUseDOM) return;
       var isOpen = newProps.isOpen;
       // Stop unnecessary renders if modal is remaining closed
 
@@ -623,11 +631,12 @@ var Modal = function (_Component) {
         newParent.appendChild(this.node);
       }
 
-      this.renderPortal(newProps);
+      !isReact16 && this.renderPortal(newProps);
     }
   }, {
     key: 'componentWillUpdate',
     value: function componentWillUpdate(newProps) {
+      if (!canUseDOM) return;
       if (newProps.portalClassName !== this.props.portalClassName) {
         this.node.className = newProps.portalClassName;
       }
@@ -635,7 +644,7 @@ var Modal = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      if (!this.node || !this.portal) return;
+      if (!canUseDOM || !this.node || !this.portal) return;
 
       var state = this.portal.state;
       var now = Date.now();
@@ -654,7 +663,17 @@ var Modal = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return null;
+      if (!canUseDOM || !isReact16) {
+        return null;
+      }
+
+      if (!this.node) {
+        this.node = document.createElement('div');
+      }
+
+      return createPortal(_react2.default.createElement(_ModalPortal2.default, _extends({ ref: this.portalRef,
+        defaultStyles: Modal.defaultStyles
+      }, this.props)), this.node);
     }
   }], [{
     key: 'setAppElement',
