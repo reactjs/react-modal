@@ -105,6 +105,10 @@ export default class Modal extends Component {
 
   componentDidMount() {
     if (!canUseDOM) return;
+
+    if (!isReact16) {
+      this.node = document.createElement('div');
+    }
     this.node.className = this.props.portalClassName;
 
     const parent = getParentElement(this.props.parentSelector);
@@ -164,7 +168,7 @@ export default class Modal extends Component {
   }
 
   portalRef = ref => { this.portal = ref; }
-  
+
   renderPortal = props => {
     const portal = createPortal(this, (
       <ModalPortal defaultStyles={Modal.defaultStyles} {...props} />
@@ -177,10 +181,10 @@ export default class Modal extends Component {
       return null;
     }
 
-    if (!this.node) {
+    if (!this.node && isReact16) {
       this.node = document.createElement('div');
     }
-    
+
     return createPortal(
       <ModalPortal ref={this.portalRef}
                    defaultStyles={Modal.defaultStyles}
