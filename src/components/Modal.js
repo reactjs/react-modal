@@ -8,7 +8,11 @@ import SafeHTMLElement from '../helpers/safeHTMLElement';
 export const portalClassName = 'ReactModalPortal';
 export const bodyOpenClassName = 'ReactModal__Body--open';
 
-const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;
+const canUseDOM = typeof window !== undefined;
+const isReact16 = ReactDOM.createPortal !== undefined;
+const createPortal = isReact16 ?
+  ReactDOM.createPortal :
+  ReactDOM.unstable_renderSubtreeIntoContainer;
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -97,16 +101,17 @@ export default class Modal extends Component {
   };
 
   componentDidMount() {
-    this.node = document.createElement('div');
+    if (!canUseDOM) return;
     this.node.className = this.props.portalClassName;
 
     const parent = getParentElement(this.props.parentSelector);
     parent.appendChild(this.node);
 
-    this.renderPortal(this.props);
+    (!isReact16) && this.renderPortal(this.props);
   }
 
   componentWillReceiveProps(newProps) {
+    if (!canUseDOM) return;
     const { isOpen } = newProps;
     // Stop unnecessary renders if modal is remaining closed
     if (!this.props.isOpen && !isOpen) return;
@@ -119,17 +124,18 @@ export default class Modal extends Component {
       newParent.appendChild(this.node);
     }
 
-    this.renderPortal(newProps);
+    (!isReact16) && this.renderPortal(newProps);
   }
 
   componentWillUpdate(newProps) {
+    if (!canUseDOM) return;
     if (newProps.portalClassName !== this.props.portalClassName) {
       this.node.className = newProps.portalClassName;
     }
   }
 
   componentWillUnmount() {
-    if (!this.node || !this.portal) return;
+    if (!canUseDOM || !this.node || !this.portal) return;
 
     const state = this.portal.state;
     const now = Date.now();
@@ -149,18 +155,34 @@ export default class Modal extends Component {
   }
 
   removePortal = () => {
-    ReactDOM.unmountComponentAtNode(this.node);
+    (!isReact16) && ReactDOM.unmountComponentAtNode(this.node);
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
   }
 
+  portalRef = ref => { this.portal = ref; }
+  
   renderPortal = props => {
-    this.portal = renderSubtreeIntoContainer(this, (
+    const portal = createPortal(this, (
       <ModalPortal defaultStyles={Modal.defaultStyles} {...props} />
     ), this.node);
+    this.portalRef(portal);
   }
 
   render() {
-    return null;
+    if (!canUseDOM || !isReact16) {
+      return null;
+    }
+
+    if (!this.node) {
+      this.node = document.createElement('div');
+    }
+    
+    return createPortal(
+      <ModalPortal ref={this.portalRef}
+                   defaultStyles={Modal.defaultStyles}
+                   {...this.props} />,
+      this.node
+    );
   }
 }
