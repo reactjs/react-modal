@@ -1,3 +1,17 @@
+v2.3.3 - Wed, 04 Oct 2017 01:59:30 UTC
+--------------------------------------
+
+- [876972b](../../commit/876972b) [chore] removed depencendy 'react-dom-factory'.
+- [73db6dd](../../commit/73db6dd) [chore] improve examples style.
+- [8970956](../../commit/8970956) [chore] remove code climate yml.
+- [d896241](../../commit/d896241) [chore] fix multiple modal example.
+- [ce2b34e](../../commit/ce2b34e) [chore] added example with react-router.
+- [16c3dce](../../commit/16c3dce) [chore] update dependencies, lint rules and refactor tests.
+- [13dfc4e](../../commit/13dfc4e) [chore] update tests.
+- [ba81894](../../commit/ba81894) Remove required flag from contentLabel propType in Modal
+- [f007aeb](../../commit/f007aeb) [chore] Update description for onRequestClose.
+
+
 v2.3.2 - Wed, 06 Sep 2017 16:09:58 UTC
 --------------------------------------
 
