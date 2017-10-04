@@ -26,8 +26,14 @@ Note that it can be unstable.
 
 ## Installation
 
-To install the stable version you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com):
+To install, you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com):
 
+    With React 16 support:
+
+    $ npm install react-modal@next
+    $ yarn add react-modal@next
+
+    To install the stable version
 
     $ npm install react-modal
     $ yarn add react-modal
