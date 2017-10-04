@@ -8,7 +8,10 @@ import SafeHTMLElement from '../helpers/safeHTMLElement';
 export const portalClassName = 'ReactModalPortal';
 export const bodyOpenClassName = 'ReactModal__Body--open';
 
-const canUseDOM = typeof window !== undefined;
+const canUseDOM = typeof window !== 'undefined' || (
+  typeof document !== 'undefined' && document.createElement
+);
+
 const isReact16 = ReactDOM.createPortal !== undefined;
 const createPortal = isReact16 ?
   ReactDOM.createPortal :
