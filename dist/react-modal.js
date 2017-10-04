@@ -618,6 +618,10 @@ var Modal = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (!canUseDOM) return;
+
+      if (!isReact16) {
+        this.node = document.createElement('div');
+      }
       this.node.className = this.props.portalClassName;
 
       var parent = getParentElement(this.props.parentSelector);
@@ -678,7 +682,7 @@ var Modal = function (_Component) {
         return null;
       }
 
-      if (!this.node) {
+      if (!this.node && isReact16) {
         this.node = document.createElement('div');
       }
 
