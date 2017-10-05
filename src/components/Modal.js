@@ -24,16 +24,6 @@ export default class Modal extends Component {
     ariaAppHider.setElement(element);
   }
 
-  /* eslint-disable no-console */
-  static injectCSS() {
-    (process.env.NODE_ENV !== "production")
-      && console.warn(
-        'React-Modal: injectCSS has been deprecated ' +
-          'and no longer has any effect. It will be removed in a later version'
-      );
-  }
-  /* eslint-enable no-console */
-
   /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
