@@ -65,6 +65,7 @@ export default class ModalPortal extends Component {
     };
 
     this.shouldClose = null;
+    this.moveFromContentToOverlay = null;
   }
 
   componentDidMount() {
@@ -216,6 +217,21 @@ export default class ModalPortal extends Component {
       }
     }
     this.shouldClose = null;
+    this.moveFromContentToOverlay = null;
+  }
+
+  handleOverlayOnMouseUp = () => {
+    if (this.moveFromContentToOverlay === null) {
+      this.shouldClose = false;
+    }
+  }
+
+  handleContentOnMouseUp = () => {
+    this.shouldClose = false;
+  }
+
+  handleOverlayOnMouseDown = () => {
+    this.moveFromContentToOverlay = false;
   }
 
   handleContentOnClick = () => {
@@ -224,6 +240,7 @@ export default class ModalPortal extends Component {
 
   handleContentOnMouseDown = () => {
     this.shouldClose = false;
+    this.moveFromContentToOverlay = false;
   }
 
   requestClose = event =>
@@ -271,7 +288,9 @@ export default class ModalPortal extends Component {
         ref={this.setOverlayRef}
         className={this.buildClassName('overlay', overlayClassName)}
         style={{ ...overlayStyles, ...this.props.style.overlay }}
-        onClick={this.handleOverlayOnClick}>
+        onClick={this.handleOverlayOnClick}
+        onMouseDown={this.handleOverlayOnMouseDown}
+        onMouseUp={this.handleOverlayOnMouseUp}>
         <div
           ref={this.setContentRef}
           style={{ ...contentStyles, ...this.props.style.content }}
@@ -279,6 +298,7 @@ export default class ModalPortal extends Component {
           tabIndex="-1"
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleContentOnMouseDown}
+          onMouseUp={this.handleContentOnMouseUp}
           onClick={this.handleContentOnClick}
           role={this.props.role}
           aria-label={this.props.contentLabel}
