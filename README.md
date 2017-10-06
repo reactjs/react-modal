@@ -7,14 +7,6 @@ Accessible modal dialog component for React.JS
 [![Coverage Status](https://coveralls.io/repos/github/reactjs/react-modal/badge.svg?branch=master)](https://coveralls.io/github/reactjs/react-modal?branch=master)
 ![gzip size](http://img.badgesize.io/https://unpkg.com/react-modal/dist/react-modal.min.js?compression=gzip)
 
-## React 16
-
-A initial support for React 16 is available under the branch `next`.
-
-Please, when open a new PR set the target branch `next` for `react-modal@3.x` and `master` for `2.x`.
-
-Note that it can be unstable.
-
 ## Table of Contents
 
 * [Installation](#installation)
@@ -28,12 +20,6 @@ Note that it can be unstable.
 
 To install, you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com):
 
-    With React 16 support (3.0.0-rc2):
-
-    $ npm install react-modal@next
-    $ yarn add react-modal@next
-
-    To install the stable version (2.4.1):
 
     $ npm install react-modal
     $ yarn add react-modal

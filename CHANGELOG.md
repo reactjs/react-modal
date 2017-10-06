@@ -1,3 +1,11 @@
+v2.4.1 - Fri, 06 Oct 2017 13:23:42 UTC
+--------------------------------------
+
+- [4fa5628](../../commit/4fa5628) [fixed] Drag stop (mouseup) on Overlay closes Modal
+- [a712d88](../../commit/a712d88) [chore] update README.md installation for react 16 support.
+- [f9a2f3f](../../commit/f9a2f3f) [chore] update README.md.
+
+
 v2.3.3 - Wed, 04 Oct 2017 01:59:30 UTC
 --------------------------------------
 

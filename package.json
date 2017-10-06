@@ -47,8 +47,8 @@
     "karma-webpack": "^2.0.4",
     "mocha": "3.5.3",
     "npm-run-all": "^4.1.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "should": "^13.1.0",
@@ -62,8 +62,8 @@
     "prop-types": "^15.5.10"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16",
+    "react-dom": "^0.14.0 || ^15.0.0 || ^16"
   },
   "tags": [
     "react",

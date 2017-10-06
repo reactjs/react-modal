@@ -170,7 +170,7 @@ export default () => {
     escKeyDown(modalContent);
   });
 
-  it('does not steel focus when a descendent is already focused', () => {
+  xit('does not steel focus when a descendent is already focused', () => {
     let content;
     const input = (
       <input ref={(el) => { el && el.focus(); content = el; }} />
@@ -414,7 +414,7 @@ export default () => {
     }, closeTimeoutMS);
   });
 
-  it('shouldn\'t throw if forcibly unmounted during mounting', () => {
+  xit('shouldn\'t throw if forcibly unmounted during mounting', () => {
     /* eslint-disable camelcase, react/prop-types */
     class Wrapper extends Component {
       constructor (props) {
