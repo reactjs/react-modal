@@ -492,6 +492,7 @@ function totalCount() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.canUseDOM = undefined;
 
 var _exenv = __webpack_require__(20);
 
@@ -503,8 +504,9 @@ var EE = _exenv2.default;
 
 var SafeHTMLElement = EE.canUseDOM ? window.HTMLElement : {};
 
+var canUseDOM = exports.canUseDOM = EE.canUseDOM;
+
 exports.default = SafeHTMLElement;
-module.exports = exports['default'];
 
 /***/ }),
 /* 10 */
@@ -579,7 +581,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var portalClassName = exports.portalClassName = 'ReactModalPortal';
 var bodyOpenClassName = exports.bodyOpenClassName = 'ReactModal__Body--open';
 
-var renderSubtreeIntoContainer = _reactDom2.default.unstable_renderSubtreeIntoContainer;
+var isReact16 = _reactDom2.default.createPortal !== undefined;
+var createPortal = isReact16 ? _reactDom2.default.createPortal : _reactDom2.default.unstable_renderSubtreeIntoContainer;
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -600,28 +603,36 @@ var Modal = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.removePortal = function () {
-      _reactDom2.default.unmountComponentAtNode(_this.node);
+      !isReact16 && _reactDom2.default.unmountComponentAtNode(_this.node);
       var parent = getParentElement(_this.props.parentSelector);
       parent.removeChild(_this.node);
+    }, _this.portalRef = function (ref) {
+      _this.portal = ref;
     }, _this.renderPortal = function (props) {
-      _this.portal = renderSubtreeIntoContainer(_this, _react2.default.createElement(_ModalPortal2.default, _extends({ defaultStyles: Modal.defaultStyles }, props)), _this.node);
+      var portal = createPortal(_this, _react2.default.createElement(_ModalPortal2.default, _extends({ defaultStyles: Modal.defaultStyles }, props)), _this.node);
+      _this.portalRef(portal);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Modal, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.node = document.createElement('div');
+      if (!_safeHTMLElement.canUseDOM) return;
+
+      if (!isReact16) {
+        this.node = document.createElement('div');
+      }
       this.node.className = this.props.portalClassName;
 
       var parent = getParentElement(this.props.parentSelector);
       parent.appendChild(this.node);
 
-      this.renderPortal(this.props);
+      !isReact16 && this.renderPortal(this.props);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
+      if (!_safeHTMLElement.canUseDOM) return;
       var isOpen = newProps.isOpen;
       // Stop unnecessary renders if modal is remaining closed
 
@@ -635,11 +646,12 @@ var Modal = function (_Component) {
         newParent.appendChild(this.node);
       }
 
-      this.renderPortal(newProps);
+      !isReact16 && this.renderPortal(newProps);
     }
   }, {
     key: 'componentWillUpdate',
     value: function componentWillUpdate(newProps) {
+      if (!_safeHTMLElement.canUseDOM) return;
       if (newProps.portalClassName !== this.props.portalClassName) {
         this.node.className = newProps.portalClassName;
       }
@@ -647,7 +659,7 @@ var Modal = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      if (!this.node || !this.portal) return;
+      if (!_safeHTMLElement.canUseDOM || !this.node || !this.portal) return;
 
       var state = this.portal.state;
       var now = Date.now();
@@ -666,22 +678,23 @@ var Modal = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return null;
+      if (!_safeHTMLElement.canUseDOM || !isReact16) {
+        return null;
+      }
+
+      if (!this.node && isReact16) {
+        this.node = document.createElement('div');
+      }
+
+      return createPortal(_react2.default.createElement(_ModalPortal2.default, _extends({ ref: this.portalRef,
+        defaultStyles: Modal.defaultStyles
+      }, this.props)), this.node);
     }
   }], [{
     key: 'setAppElement',
     value: function setAppElement(element) {
       ariaAppHider.setElement(element);
     }
-
-    /* eslint-disable no-console */
-
-  }, {
-    key: 'injectCSS',
-    value: function injectCSS() {
-      undefined !== "production" && console.warn('React-Modal: injectCSS has been deprecated ' + 'and no longer has any effect. It will be removed in a later version');
-    }
-    /* eslint-enable no-console */
 
     /* eslint-disable react/no-unused-prop-types */
 
