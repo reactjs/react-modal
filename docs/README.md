@@ -84,10 +84,6 @@ import ReactModal from 'react-modal';
   */
   role="dialog"
   /*
-    Function that will be called to get the parent element that the modal will be attached to.
-  */
-  parentSelector={() => document.body}
-  /*
     Additional aria attributes (optional).
   */
   aria={{
