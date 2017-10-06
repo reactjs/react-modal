@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import SimpleUsage from './simple_usage';
 import MultipleModals from './multiple_modals';
+import Forms from './forms';
 import ReactRouter from './react-router';
 
 const appElement = document.getElementById('example');
@@ -11,6 +12,7 @@ Modal.setAppElement('#example');
 
 const examples = [
   SimpleUsage,
+  Forms,
   MultipleModals,
   ReactRouter
 ];
