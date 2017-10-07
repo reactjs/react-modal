@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import * as focusManager from '../helpers/focusManager';
-import scopeTab from '../helpers/scopeTab';
-import * as ariaAppHider from '../helpers/ariaAppHider';
-import * as refCount from '../helpers/refCount';
-import * as bodyClassList from '../helpers/bodyClassList';
-import SafeHTMLElement from '../helpers/safeHTMLElement';
+import React, { Component } from "react";
+import { PropTypes } from "prop-types";
+import * as focusManager from "../helpers/focusManager";
+import scopeTab from "../helpers/scopeTab";
+import * as ariaAppHider from "../helpers/ariaAppHider";
+import * as refCount from "../helpers/refCount";
+import * as bodyClassList from "../helpers/bodyClassList";
+import SafeHTMLElement from "../helpers/safeHTMLElement";
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
-  overlay: 'ReactModal__Overlay',
-  content: 'ReactModal__Content'
+  overlay: "ReactModal__Overlay",
+  content: "ReactModal__Content"
 };
 
 const TAB_KEY = 9;
@@ -34,14 +34,8 @@ export default class ModalPortal extends Component {
       content: PropTypes.object,
       overlay: PropTypes.object
     }),
-    className: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
-    overlayClassName: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
+    className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    overlayClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     bodyOpenClassName: PropTypes.string,
     ariaHideApp: PropTypes.bool,
     appElement: PropTypes.instanceOf(SafeHTMLElement),
@@ -82,7 +76,7 @@ export default class ModalPortal extends Component {
         // eslint-disable-next-line no-console
         console.warn(
           'React-Modal: "bodyOpenClassName" prop has been modified. ' +
-          'This may cause unexpected behavior when multiple modals are open.'
+            "This may cause unexpected behavior when multiple modals are open."
         );
       }
     }
@@ -107,17 +101,17 @@ export default class ModalPortal extends Component {
     clearTimeout(this.closeTimer);
   }
 
-  setFocusAfterRender = (focus) => {
+  setFocusAfterRender = focus => {
     this.focusAfterRender = this.props.shouldFocusAfterRender && focus;
-  }
+  };
 
-  setOverlayRef = (overlay) => {
+  setOverlayRef = overlay => {
     this.overlay = overlay;
-  }
+  };
 
-  setContentRef = (content) => {
+  setContentRef = content => {
     this.content = content;
-  }
+  };
 
   beforeOpen() {
     const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
@@ -142,7 +136,7 @@ export default class ModalPortal extends Component {
   afterClose = () => {
     focusManager.returnFocus();
     focusManager.teardownScopedFocus();
-  }
+  };
 
   open = () => {
     this.beforeOpen();
@@ -160,7 +154,7 @@ export default class ModalPortal extends Component {
         }
       });
     }
-  }
+  };
 
   close = () => {
     this.beforeClose();
@@ -169,11 +163,11 @@ export default class ModalPortal extends Component {
     } else {
       this.closeWithoutTimeout();
     }
-  }
+  };
 
   // Don't steal focus from inner elements
   focusContent = () =>
-    (this.content && !this.contentHasFocus()) && this.content.focus();
+    this.content && !this.contentHasFocus() && this.content.focus();
 
   closeWithTimeout = () => {
     const closesAt = Date.now() + this.props.closeTimeoutMS;
@@ -183,16 +177,19 @@ export default class ModalPortal extends Component {
         this.state.closesAt - Date.now()
       );
     });
-  }
+  };
 
   closeWithoutTimeout = () => {
-    this.setState({
-      beforeClose: false,
-      isOpen: false,
-      afterOpen: false,
-      closesAt: null
-    }, this.afterClose);
-  }
+    this.setState(
+      {
+        beforeClose: false,
+        isOpen: false,
+        afterOpen: false,
+        closesAt: null
+      },
+      this.afterClose
+    );
+  };
 
   handleKeyDown = event => {
     if (event.keyCode === TAB_KEY) {
@@ -202,7 +199,7 @@ export default class ModalPortal extends Component {
       event.preventDefault();
       this.requestClose(event);
     }
-  }
+  };
 
   handleOverlayOnClick = event => {
     if (this.shouldClose === null) {
@@ -218,50 +215,51 @@ export default class ModalPortal extends Component {
     }
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
-  }
+  };
 
   handleOverlayOnMouseUp = () => {
     if (this.moveFromContentToOverlay === null) {
       this.shouldClose = false;
     }
-  }
+  };
 
   handleContentOnMouseUp = () => {
     this.shouldClose = false;
-  }
+  };
 
   handleOverlayOnMouseDown = () => {
     this.moveFromContentToOverlay = false;
-  }
+  };
 
   handleContentOnClick = () => {
     this.shouldClose = false;
-  }
+  };
 
   handleContentOnMouseDown = () => {
     this.shouldClose = false;
     this.moveFromContentToOverlay = false;
-  }
+  };
 
   requestClose = event =>
     this.ownerHandlesClose() && this.props.onRequestClose(event);
 
-  ownerHandlesClose = () =>
-    this.props.onRequestClose;
+  ownerHandlesClose = () => this.props.onRequestClose;
 
-  shouldBeClosed = () =>
-    !this.state.isOpen && !this.state.beforeClose;
+  shouldBeClosed = () => !this.state.isOpen && !this.state.beforeClose;
 
   contentHasFocus = () =>
     document.activeElement === this.content ||
     this.content.contains(document.activeElement);
 
   buildClassName = (which, additional) => {
-    const classNames = (typeof additional === 'object') ? additional : {
-      base: CLASS_NAMES[which],
-      afterOpen: `${CLASS_NAMES[which]}--after-open`,
-      beforeClose: `${CLASS_NAMES[which]}--before-close`
-    };
+    const classNames =
+      typeof additional === "object"
+        ? additional
+        : {
+            base: CLASS_NAMES[which],
+            afterOpen: `${CLASS_NAMES[which]}--after-open`,
+            beforeClose: `${CLASS_NAMES[which]}--before-close`
+          };
     let className = classNames.base;
     if (this.state.afterOpen) {
       className = `${className} ${classNames.afterOpen}`;
@@ -269,14 +267,16 @@ export default class ModalPortal extends Component {
     if (this.state.beforeClose) {
       className = `${className} ${classNames.beforeClose}`;
     }
-    return (typeof additional === 'string' && additional) ?
-      `${className} ${additional}` : className;
-  }
+    return typeof additional === "string" && additional
+      ? `${className} ${additional}`
+      : className;
+  };
 
-  ariaAttributes = items => Object.keys(items).reduce((acc, name) => {
-    acc[`aria-${name}`] = items[name];
-    return acc;
-  }, {});
+  ariaAttributes = items =>
+    Object.keys(items).reduce((acc, name) => {
+      acc[`aria-${name}`] = items[name];
+      return acc;
+    }, {});
 
   render() {
     const { className, overlayClassName, defaultStyles } = this.props;
@@ -286,15 +286,16 @@ export default class ModalPortal extends Component {
     return this.shouldBeClosed() ? null : (
       <div
         ref={this.setOverlayRef}
-        className={this.buildClassName('overlay', overlayClassName)}
+        className={this.buildClassName("overlay", overlayClassName)}
         style={{ ...overlayStyles, ...this.props.style.overlay }}
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
-        onMouseUp={this.handleOverlayOnMouseUp}>
+        onMouseUp={this.handleOverlayOnMouseUp}
+      >
         <div
           ref={this.setContentRef}
           style={{ ...contentStyles, ...this.props.style.content }}
-          className={this.buildClassName('content', className)}
+          className={this.buildClassName("content", className)}
           tabIndex="-1"
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleContentOnMouseDown}
@@ -302,7 +303,8 @@ export default class ModalPortal extends Component {
           onClick={this.handleContentOnClick}
           role={this.props.role}
           aria-label={this.props.contentLabel}
-          {...this.ariaAttributes(this.props.aria || {})}>
+          {...this.ariaAttributes(this.props.aria || {})}
+        >
           {this.props.children}
         </div>
       </div>

@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Modal, { bodyOpenClassName } from '../src/components/Modal';
-import TestUtils from 'react-dom/test-utils';
+import React from "react";
+import ReactDOM from "react-dom";
+import Modal, { bodyOpenClassName } from "../src/components/Modal";
+import TestUtils from "react-dom/test-utils";
 
 const divStack = [];
 
@@ -10,7 +10,7 @@ const divStack = [];
  */
 if (!String.prototype.includes) {
   String.prototype.includes = function(search, start) {
-    if (typeof start !== 'number') {
+    if (typeof start !== "number") {
       start = 0;
     }
 
@@ -51,43 +51,51 @@ const getModalAttribute = component => (instance, attr) =>
  * @param {React} A react instance.
  * @return {DOMElement}
  */
-const modalComponent = component => instance =>
-  instance.portal[component];
+const modalComponent = component => instance => instance.portal[component];
 
 /**
  * Returns the modal content.
  * @param {Modal} modal Modal instance.
  * @return {DOMElement}
  */
-export const mcontent = modalComponent('content');
+export const mcontent = modalComponent("content");
 
 /**
  * Returns the modal overlay.
  * @param {Modal} modal Modal instance.
  * @return {DOMElement}
  */
-export const moverlay = modalComponent('overlay');
+export const moverlay = modalComponent("overlay");
 
 /**
  * Return an attribute of modal content.
  * @param {Modal} modal Modal instance.
  * @return {String}
  */
-export const contentAttribute = getModalAttribute('content');
+export const contentAttribute = getModalAttribute("content");
 
 /**
  * Return an attribute of modal overlay.
  * @param {Modal} modal Modal instance.
  * @return {String}
  */
-export const overlayAttribute = getModalAttribute('overlay');
+export const overlayAttribute = getModalAttribute("overlay");
 
 const Simulate = TestUtils.Simulate;
 
 const dispatchMockEvent = eventCtor => (key, code) => (element, opts) =>
-  eventCtor(element, Object.assign({}, {
-    key: key, keyCode: code, which: code
-  }, opts));
+  eventCtor(
+    element,
+    Object.assign(
+      {},
+      {
+        key: key,
+        keyCode: code,
+        which: code
+      },
+      opts
+    )
+  );
 
 const dispatchMockKeyDownEvent = dispatchMockEvent(Simulate.keyDown);
 
@@ -114,13 +122,16 @@ export const mouseDownAt = Simulate.mouseDown;
 
 export const renderModal = function(props, children, callback) {
   props.ariaHideApp = false;
-  const currentDiv = document.createElement('div');
+  const currentDiv = document.createElement("div");
   divStack.push(currentDiv);
   document.body.appendChild(currentDiv);
 
+  // eslint-disable-next-line react/no-render-return-value
   return ReactDOM.render(
-    <Modal {...props}>{children}</Modal>
-  , currentDiv, callback);
+    <Modal {...props}>{children}</Modal>,
+    currentDiv,
+    callback
+  );
 };
 
 export const unmountModal = function() {

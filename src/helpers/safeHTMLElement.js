@@ -1,4 +1,4 @@
-import ExecutionEnvironment from 'exenv';
+import ExecutionEnvironment from "exenv";
 
 const EE = ExecutionEnvironment;
 
