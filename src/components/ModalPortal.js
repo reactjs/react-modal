@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import * as focusManager from '../helpers/focusManager';
 import scopeTab from '../helpers/scopeTab';
 import * as ariaAppHider from '../helpers/ariaAppHider';
