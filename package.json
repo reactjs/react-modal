@@ -15,7 +15,7 @@
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
-    "lint": "eslint src/ spec/"
+    "lint": "eslint src/ specs/"
   },
   "authors": [
     "Ryan Florence"
@@ -33,7 +33,9 @@
     "coveralls": "^2.13.1",
     "cross-env": "^5.0.1",
     "eslint": "^4.8.0",
+    "eslint-config-prettier": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.4.0",
     "gitbook-cli": "^2.3.0",
     "istanbul-instrumenter-loader": "^3.0.0",
@@ -47,6 +49,7 @@
     "karma-webpack": "^2.0.4",
     "mocha": "3.5.3",
     "npm-run-all": "^4.1.1",
+    "prettier": "^1.7.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",

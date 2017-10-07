@@ -21,6 +21,8 @@ export function remove(bodyClass) {
 }
 
 export function totalCount() {
-  return Object.keys(classListMap)
-    .reduce((acc, curr) => acc + classListMap[curr], 0);
+  return Object.keys(classListMap).reduce(
+    (acc, curr) => acc + classListMap[curr],
+    0
+  );
 }

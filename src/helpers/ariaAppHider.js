@@ -10,10 +10,10 @@ export function assertNodeList(nodeList, selector) {
 
 export function setElement(element) {
   let useElement = element;
-  if (typeof useElement === 'string') {
+  if (typeof useElement === "string") {
     const el = document.querySelectorAll(useElement);
     assertNodeList(el, useElement);
-    useElement = 'length' in el ? el[0] : el;
+    useElement = "length" in el ? el[0] : el;
   }
   globalElement = useElement || globalElement;
   return globalElement;
@@ -41,12 +41,12 @@ export function validateElement(appElement) {
 
 export function hide(appElement) {
   validateElement(appElement);
-  (appElement || globalElement).setAttribute('aria-hidden', 'true');
+  (appElement || globalElement).setAttribute("aria-hidden", "true");
 }
 
 export function show(appElement) {
   validateElement(appElement);
-  (appElement || globalElement).removeAttribute('aria-hidden');
+  (appElement || globalElement).removeAttribute("aria-hidden");
 }
 
 export function documentNotReadyOrSSRTesting() {

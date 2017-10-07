@@ -1,4 +1,4 @@
-import findTabbable from '../helpers/tabbable';
+import findTabbable from "../helpers/tabbable";
 
 const focusLaterElements = [];
 let modalElement = null;
@@ -23,7 +23,7 @@ export function handleFocus() {
       if (modalElement.contains(document.activeElement)) {
         return;
       }
-      const el = (findTabbable(modalElement)[0] || modalElement);
+      const el = findTabbable(modalElement)[0] || modalElement;
       el.focus();
     }, 0);
   }
@@ -41,11 +41,13 @@ export function returnFocus() {
     toFocus.focus();
     return;
   } catch (e) {
-    console.warn([
-      'You tried to return focus to',
-      toFocus,
-      'but it is not in the DOM anymore'
-    ].join(" "));
+    console.warn(
+      [
+        "You tried to return focus to",
+        toFocus,
+        "but it is not in the DOM anymore"
+      ].join(" ")
+    );
   }
 }
 /* eslint-enable no-console */
@@ -54,11 +56,11 @@ export function setupScopedFocus(element) {
   modalElement = element;
 
   if (window.addEventListener) {
-    window.addEventListener('blur', handleBlur, false);
-    document.addEventListener('focus', handleFocus, true);
+    window.addEventListener("blur", handleBlur, false);
+    document.addEventListener("focus", handleFocus, true);
   } else {
-    window.attachEvent('onBlur', handleBlur);
-    document.attachEvent('onFocus', handleFocus);
+    window.attachEvent("onBlur", handleBlur);
+    document.attachEvent("onFocus", handleFocus);
   }
 }
 
@@ -66,10 +68,10 @@ export function teardownScopedFocus() {
   modalElement = null;
 
   if (window.addEventListener) {
-    window.removeEventListener('blur', handleBlur);
-    document.removeEventListener('focus', handleFocus);
+    window.removeEventListener("blur", handleBlur);
+    document.removeEventListener("focus", handleFocus);
   } else {
-    window.detachEvent('onBlur', handleBlur);
-    document.detachEvent('onFocus', handleFocus);
+    window.detachEvent("onBlur", handleBlur);
+    document.detachEvent("onFocus", handleFocus);
   }
 }

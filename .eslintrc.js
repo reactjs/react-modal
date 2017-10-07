@@ -1,9 +1,11 @@
-{
+module.exports = {
   "env": {
     "es6": true,
     "browser": true
   },
+
   "parser": "babel-eslint",
+
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
@@ -11,6 +13,7 @@
     },
     "sourceType": "module"
   },
+
   "settings": {
     "react": {
       "createClass": "createReactClass",
@@ -19,10 +22,15 @@
     },
     "propWrapperFunctions": [ "forbidExtraProps" ]
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+
+  "plugins": ["prettier"],
+
   "globals": {
     "process": true
   },
+
   "rules": {
     "quotes": [0],
     "comma-dangle": [2, "only-multiline"],
@@ -34,6 +42,7 @@
     "arrow-parens": [0],
     "space-before-function-paren": [0],
     "jsx-a11y/no-static-element-interactions": [0],
+    "prettier/prettier": "error",
     "react/no-find-dom-node": [0],
     "react/jsx-closing-bracket-location": [0],
     "react/require-default-props": 0

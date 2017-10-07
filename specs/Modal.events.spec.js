@@ -1,44 +1,48 @@
 /* eslint-env mocha */
-import 'should';
-import sinon from 'sinon';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
-import Modal from '../src/components/Modal.js';
+import "should";
+import sinon from "sinon";
 import {
-  moverlay, mcontent,
-  clickAt, mouseDownAt, mouseUpAt, escKeyDown, tabKeyDown,
-  renderModal, emptyDOM
-} from './helper';
+  moverlay,
+  mcontent,
+  clickAt,
+  mouseDownAt,
+  mouseUpAt,
+  escKeyDown,
+  tabKeyDown,
+  renderModal,
+  emptyDOM
+} from "./helper";
 
 export default () => {
-  afterEach('Unmount modal', emptyDOM);
+  afterEach("Unmount modal", emptyDOM);
 
-  it('should trigger the onAfterOpen callback', () => {
+  it("should trigger the onAfterOpen callback", () => {
     const afterOpenCallback = sinon.spy();
     renderModal({ isOpen: true, onAfterOpen: afterOpenCallback });
     afterOpenCallback.called.should.be.ok();
   });
 
-  it('keeps focus inside the modal when child has no tabbable elements', () => {
+  it("keeps focus inside the modal when child has no tabbable elements", () => {
     let tabPrevented = false;
-    const modal = renderModal({ isOpen: true }, 'hello');
+    const modal = renderModal({ isOpen: true }, "hello");
     const content = mcontent(modal);
     document.activeElement.should.be.eql(content);
     tabKeyDown(content, {
-      preventDefault() { tabPrevented = true; }
+      preventDefault() {
+        tabPrevented = true;
+      }
     });
     tabPrevented.should.be.eql(true);
   });
 
-  it('handles case when child has no tabbable elements', () => {
-    const modal = renderModal({ isOpen: true }, 'hello');
+  it("handles case when child has no tabbable elements", () => {
+    const modal = renderModal({ isOpen: true }, "hello");
     const content = mcontent(modal);
     tabKeyDown(content);
     document.activeElement.should.be.eql(content);
   });
 
-  it('should close on Esc key event', () => {
+  it("should close on Esc key event", () => {
     const requestCloseCallback = sinon.spy();
     const modal = renderModal({
       isOpen: true,
@@ -52,8 +56,8 @@ export default () => {
     ev.should.be.ok();
   });
 
-  describe('shouldCloseOnoverlayClick', () => {
-    it('when false, click on overlay should not close', () => {
+  describe("shouldCloseOnoverlayClick", () => {
+    it("when false, click on overlay should not close", () => {
       const requestCloseCallback = sinon.spy();
       const modal = renderModal({
         isOpen: true,
@@ -64,7 +68,7 @@ export default () => {
       requestCloseCallback.called.should.not.be.ok();
     });
 
-    it('when true, click on overlay must close', () => {
+    it("when true, click on overlay must close", () => {
       const requestCloseCallback = sinon.spy();
       const modal = renderModal({
         isOpen: true,
@@ -75,7 +79,7 @@ export default () => {
       requestCloseCallback.called.should.be.ok();
     });
 
-    it('overlay mouse down and content mouse up, should not close', () => {
+    it("overlay mouse down and content mouse up, should not close", () => {
       const requestCloseCallback = sinon.spy();
       const modal = renderModal({
         isOpen: true,
@@ -87,7 +91,7 @@ export default () => {
       requestCloseCallback.called.should.not.be.ok();
     });
 
-    it('content mouse down and overlay mouse up, should not close', () => {
+    it("content mouse down and overlay mouse up, should not close", () => {
       const requestCloseCallback = sinon.spy();
       const modal = renderModal({
         isOpen: true,
@@ -100,20 +104,20 @@ export default () => {
     });
   });
 
-  it('should not stop event propagation', () => {
+  it("should not stop event propagation", () => {
     let hasPropagated = false;
     const modal = renderModal({
       isOpen: true,
       shouldCloseOnOverlayClick: true
     });
-    window.addEventListener('click', () => {
+    window.addEventListener("click", () => {
       hasPropagated = true;
     });
-    moverlay(modal).dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    moverlay(modal).dispatchEvent(new MouseEvent("click", { bubbles: true }));
     hasPropagated.should.be.ok();
   });
 
-  it('verify event passing on overlay click', () => {
+  it("verify event passing on overlay click", () => {
     const requestCloseCallback = sinon.spy();
     const modal = renderModal({
       isOpen: true,
@@ -123,7 +127,7 @@ export default () => {
     // click the overlay
     clickAt(moverlay(modal), {
       // Used to test that this was the event received
-      fakeData: 'ABC'
+      fakeData: "ABC"
     });
     requestCloseCallback.called.should.be.ok();
     // Check if event is passed to onRequestClose callback.

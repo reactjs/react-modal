@@ -13,8 +13,9 @@
 const tabbableNode = /input|select|textarea|button|object/;
 
 function hidden(el) {
-  return (el.offsetWidth <= 0 && el.offsetHeight <= 0) ||
-    el.style.display === 'none';
+  return (
+    (el.offsetWidth <= 0 && el.offsetHeight <= 0) || el.style.display === "none"
+  );
 }
 
 function visible(element) {
@@ -29,20 +30,19 @@ function visible(element) {
 
 function focusable(element, isTabIndexNotNaN) {
   const nodeName = element.nodeName.toLowerCase();
-  const res = ((tabbableNode.test(nodeName)) && !element.disabled) ||
-      (nodeName === "a" ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
+  const res =
+    (tabbableNode.test(nodeName) && !element.disabled) ||
+    (nodeName === "a" ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
   return res && visible(element);
 }
 
 function tabbable(element) {
-  let tabIndex = element.getAttribute('tabindex');
+  let tabIndex = element.getAttribute("tabindex");
   if (tabIndex === null) tabIndex = undefined;
   const isTabIndexNaN = isNaN(tabIndex);
   return (isTabIndexNaN || tabIndex >= 0) && focusable(element, !isTabIndexNaN);
 }
 
 export default function findTabbableDescendants(element) {
-  return [].slice.call(
-    element.querySelectorAll('*'), 0
-  ).filter(tabbable);
+  return [].slice.call(element.querySelectorAll("*"), 0).filter(tabbable);
 }
