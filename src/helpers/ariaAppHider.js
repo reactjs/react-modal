@@ -30,12 +30,14 @@ export function tryForceFallback() {
 
 export function validateElement(appElement) {
   if (!appElement && !globalElement && !tryForceFallback()) {
-    throw new Error([
-      'react-modal: Cannot fallback to `document.body`, because it is not',
-      'ready or available. If you are doing server-side rendering, use this',
-      'function to defined an element. `Modal.setAppElement(el)` to make',
-      'this accessible',
-    ].join(' '));
+    throw new Error(
+      [
+        "react-modal: Cannot fallback to `document.body`, because it is not",
+        "ready or available. If you are doing server-side rendering, use this",
+        "function to defined an element. `Modal.setAppElement(el)` to make",
+        "this accessible"
+      ].join(" ")
+    );
   }
 }
 
