@@ -1,7 +1,17 @@
-v2.4.1 - Fri, 06 Oct 2017 12:09:11 UTC
+v3.0.0 - Fri, 06 Oct 2017 13:29:20 UTC
 --------------------------------------
 
-
+- [a2a7128](../../commit/a2a7128) Release v3.0.0.
+- [d0f242b](../../commit/d0f242b) Merged next into master.
+- [de3c039](../../commit/de3c039) [chore] remove warning about injectCSS.
+- [f77b53e](../../commit/f77b53e) [chore] use canUseDOM from exenv.
+- [cc4577c](../../commit/cc4577c) Release 3.0.0-rc2.
+- [1260850](../../commit/1260850) [fixed] backward compatibility with previous react versions.
+- [45ca9d4](../../commit/45ca9d4) Release v3.0.0-rc1.
+- [d25563c](../../commit/d25563c) [fixed] check for both window and document.createElement.
+- [2b835d6](../../commit/2b835d6) [fixed] typeof returns a string (canUseDOM).
+- [cd10612](../../commit/cd10612) Release v3.0.0-alpha.
+- [b942504](../../commit/b942504) [feature] initial support for react 16.
 
 
 v2.4.1 - Fri, 06 Oct 2017 13:23:42 UTC
