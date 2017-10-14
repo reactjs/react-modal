@@ -1,3 +1,14 @@
+v3.0.2 - Sat, 14 Oct 2017 12:03:32 UTC
+--------------------------------------
+
+- [d98f091](../../commit/d98f091) [chore] update CHANGELOG.md
+- [95f628a](../../commit/95f628a) [chore] fix prettier linting after merge issue
+- [47d0d87](../../commit/47d0d87) [chore] prettier all the things
+- [c0620e0](../../commit/c0620e0) [chore] Use babel-preset-env instead of babel-preset-es2015
+- [2a05bd8](../../commit/2a05bd8) [chore] Updated eslint and a few related deps
+- [b3701f6](../../commit/b3701f6) [fixed] Issue #526 Import PropTypes as default import.
+
+
 v3.0.0 - Fri, 06 Oct 2017 13:29:20 UTC
 --------------------------------------
 
