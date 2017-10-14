@@ -1562,6 +1562,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(4);
 
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _focusManager = __webpack_require__(18);
 
 var focusManager = _interopRequireWildcard(_focusManager);
@@ -1900,30 +1902,30 @@ ModalPortal.defaultProps = {
   }
 };
 ModalPortal.propTypes = {
-  isOpen: _propTypes.PropTypes.bool.isRequired,
-  defaultStyles: _propTypes.PropTypes.shape({
-    content: _propTypes.PropTypes.object,
-    overlay: _propTypes.PropTypes.object
+  isOpen: _propTypes2.default.bool.isRequired,
+  defaultStyles: _propTypes2.default.shape({
+    content: _propTypes2.default.object,
+    overlay: _propTypes2.default.object
   }),
-  style: _propTypes.PropTypes.shape({
-    content: _propTypes.PropTypes.object,
-    overlay: _propTypes.PropTypes.object
+  style: _propTypes2.default.shape({
+    content: _propTypes2.default.object,
+    overlay: _propTypes2.default.object
   }),
-  className: _propTypes.PropTypes.oneOfType([_propTypes.PropTypes.string, _propTypes.PropTypes.object]),
-  overlayClassName: _propTypes.PropTypes.oneOfType([_propTypes.PropTypes.string, _propTypes.PropTypes.object]),
-  bodyOpenClassName: _propTypes.PropTypes.string,
-  ariaHideApp: _propTypes.PropTypes.bool,
-  appElement: _propTypes.PropTypes.instanceOf(_safeHTMLElement2.default),
-  onAfterOpen: _propTypes.PropTypes.func,
-  onRequestClose: _propTypes.PropTypes.func,
-  closeTimeoutMS: _propTypes.PropTypes.number,
-  shouldFocusAfterRender: _propTypes.PropTypes.bool,
-  shouldCloseOnOverlayClick: _propTypes.PropTypes.bool,
-  role: _propTypes.PropTypes.string,
-  contentLabel: _propTypes.PropTypes.string,
-  aria: _propTypes.PropTypes.object,
-  children: _propTypes.PropTypes.node,
-  shouldCloseOnEsc: _propTypes.PropTypes.bool
+  className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+  overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+  bodyOpenClassName: _propTypes2.default.string,
+  ariaHideApp: _propTypes2.default.bool,
+  appElement: _propTypes2.default.instanceOf(_safeHTMLElement2.default),
+  onAfterOpen: _propTypes2.default.func,
+  onRequestClose: _propTypes2.default.func,
+  closeTimeoutMS: _propTypes2.default.number,
+  shouldFocusAfterRender: _propTypes2.default.bool,
+  shouldCloseOnOverlayClick: _propTypes2.default.bool,
+  role: _propTypes2.default.string,
+  contentLabel: _propTypes2.default.string,
+  aria: _propTypes2.default.object,
+  children: _propTypes2.default.node,
+  shouldCloseOnEsc: _propTypes2.default.bool
 };
 exports.default = ModalPortal;
 module.exports = exports["default"];
