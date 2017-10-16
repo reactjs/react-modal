@@ -98,6 +98,8 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
+    // Remove body class
+    bodyClassList.remove(this.props.bodyOpenClassName);
     this.beforeClose();
     clearTimeout(this.closeTimer);
   }
@@ -125,9 +127,7 @@ export default class ModalPortal extends Component {
   }
 
   beforeClose() {
-    const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
-    // Remove class if no more modals are open
-    bodyClassList.remove(bodyOpenClassName);
+    const { appElement, ariaHideApp } = this.props;
     // Reset aria-hidden attribute if all modals have been removed
     if (ariaHideApp && refCount.totalCount() < 1) {
       ariaAppHider.show(appElement);
@@ -135,6 +135,8 @@ export default class ModalPortal extends Component {
   }
 
   afterClose = () => {
+    // Remove body class
+    bodyClassList.remove(this.props.bodyOpenClassName);
     focusManager.returnFocus();
     focusManager.teardownScopedFocus();
   };
