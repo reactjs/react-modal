@@ -31,8 +31,22 @@ export default class Modal extends Component {
     }),
     portalClassName: PropTypes.string,
     bodyOpenClassName: PropTypes.string,
-    className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    overlayClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    className: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        base: PropTypes.string.isRequired,
+        afterOpen: PropTypes.string.isRequired,
+        beforeClose: PropTypes.string.isRequired
+      })
+    ]),
+    overlayClassName: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        base: PropTypes.string.isRequired,
+        afterOpen: PropTypes.string.isRequired,
+        beforeClose: PropTypes.string.isRequired
+      })
+    ]),
     appElement: PropTypes.instanceOf(SafeHTMLElement),
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
