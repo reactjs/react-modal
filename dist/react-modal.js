@@ -702,8 +702,16 @@ Modal.propTypes = {
   }),
   portalClassName: _propTypes2.default.string,
   bodyOpenClassName: _propTypes2.default.string,
-  className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
-  overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+  className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.shape({
+    base: _propTypes2.default.string.isRequired,
+    afterOpen: _propTypes2.default.string.isRequired,
+    beforeClose: _propTypes2.default.string.isRequired
+  })]),
+  overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.shape({
+    base: _propTypes2.default.string.isRequired,
+    afterOpen: _propTypes2.default.string.isRequired,
+    beforeClose: _propTypes2.default.string.isRequired
+  })]),
   appElement: _propTypes2.default.instanceOf(_safeHTMLElement2.default),
   onAfterOpen: _propTypes2.default.func,
   onRequestClose: _propTypes2.default.func,
@@ -1628,6 +1636,8 @@ var ModalPortal = function (_Component) {
     };
 
     _this.afterClose = function () {
+      // Remove body class
+      bodyClassList.remove(_this.props.bodyOpenClassName);
       focusManager.returnFocus();
       focusManager.teardownScopedFocus();
     };
@@ -1815,6 +1825,8 @@ var ModalPortal = function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
+      // Remove body class
+      bodyClassList.remove(this.props.bodyOpenClassName);
       this.beforeClose();
       clearTimeout(this.closeTimer);
     }
@@ -1838,12 +1850,9 @@ var ModalPortal = function (_Component) {
     value: function beforeClose() {
       var _props2 = this.props,
           appElement = _props2.appElement,
-          ariaHideApp = _props2.ariaHideApp,
-          bodyOpenClassName = _props2.bodyOpenClassName;
-      // Remove class if no more modals are open
-
-      bodyClassList.remove(bodyOpenClassName);
+          ariaHideApp = _props2.ariaHideApp;
       // Reset aria-hidden attribute if all modals have been removed
+
       if (ariaHideApp && refCount.totalCount() < 1) {
         ariaAppHider.show(appElement);
       }
