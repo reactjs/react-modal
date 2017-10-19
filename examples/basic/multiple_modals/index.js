@@ -78,7 +78,8 @@ class MultipleModals extends Component {
           contentLabel="modalA"
           isOpen={listItemsIsOpen}
           onAfterOpen={this.handleOnAfterOpenModal}
-          onRequestClose={this.toggleModal}>
+          onRequestClose={this.toggleModal}
+          shouldFocusOnClose={false}>
           <h1>List of items</h1>
           {this.state.loading ? (
             <p>Loading...</p>
@@ -92,6 +93,7 @@ class MultipleModals extends Component {
           contentLabel="modalB"
           isOpen={this.state.currentItem > -1}
           onRequestClose={this.cleanCurrentItem}
+          shouldFocusOnClose={false}>
           aria={{
             labelledby: "item_title",
             describedby: "item_info"

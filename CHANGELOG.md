@@ -1,3 +1,15 @@
+v3.1.1 - Sat, 18 Oct 2017 17:37:10 UTC
+--------------------------------------
+
+- Make build run to have lib directory
+
+
+v3.1.0 - Sat, 18 Oct 2017 17:37:10 UTC
+--------------------------------------
+
+- Added prop to not focus after closing modal
+
+
 v3.0.3 - Sat, 14 Oct 2017 17:37:10 UTC
 --------------------------------------
 
@@ -623,6 +635,3 @@ v0.0.1 - Wed, 24 Sep 2014 16:26:40 UTC
 --------------------------------------
 
 - [f0727db](../../commit/f0727db) add built files
-
-
-

@@ -38,13 +38,14 @@ export default class Modal extends Component {
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     ariaHideApp: PropTypes.bool,
-    shouldFocusAfter: PropTypes.bool,
+    shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
-    shouldCloseOnEsc: PropTypes.bool
+    shouldCloseOnEsc: PropTypes.bool,
+    shouldFocusOnClose: PropTypes.bool
   };
   /* eslint-enable react/no-unused-prop-types */
 
@@ -54,12 +55,13 @@ export default class Modal extends Component {
     bodyOpenClassName,
     ariaHideApp: true,
     closeTimeoutMS: 0,
-    shouldFocusAfterRender: true,
+    shouldFocusAfterRender: false,
     shouldCloseOnEsc: true,
     shouldCloseOnOverlayClick: true,
     parentSelector() {
       return document.body;
-    }
+    },
+    shouldFocusOnClose: true
   };
 
   static defaultStyles = {

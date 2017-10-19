@@ -86,7 +86,7 @@ return /******/ (function(modules) { // webpackBootstrap
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * 
+ *
  */
 
 function makeEmptyFunction(arg) {
@@ -709,13 +709,14 @@ Modal.propTypes = {
   onRequestClose: _propTypes2.default.func,
   closeTimeoutMS: _propTypes2.default.number,
   ariaHideApp: _propTypes2.default.bool,
-  shouldFocusAfter: _propTypes2.default.bool,
+  shouldFocusAfterRender: _propTypes2.default.bool,
   shouldCloseOnOverlayClick: _propTypes2.default.bool,
   parentSelector: _propTypes2.default.func,
   aria: _propTypes2.default.object,
   role: _propTypes2.default.string,
   contentLabel: _propTypes2.default.string,
-  shouldCloseOnEsc: _propTypes2.default.bool
+  shouldCloseOnEsc: _propTypes2.default.bool,
+  shouldFocusOnClose: _propTypes2.default.bool
 };
 Modal.defaultProps = {
   isOpen: false,
@@ -728,7 +729,9 @@ Modal.defaultProps = {
   shouldCloseOnOverlayClick: true,
   parentSelector: function parentSelector() {
     return document.body;
-  }
+  },
+
+  shouldFocusOnClose: true
 };
 Modal.defaultStyles = {
   overlay: {
@@ -1628,7 +1631,9 @@ var ModalPortal = function (_Component) {
     };
 
     _this.afterClose = function () {
-      focusManager.returnFocus();
+      if (_this.props.shouldFocusOnClose) {
+        focusManager.returnFocus();
+      }
       focusManager.teardownScopedFocus();
     };
 
@@ -1639,7 +1644,9 @@ var ModalPortal = function (_Component) {
         _this.setState({ beforeClose: false });
       } else {
         focusManager.setupScopedFocus(_this.node);
-        focusManager.markForFocusLater();
+        if (_this.props.shouldFocusOnClose) {
+          focusManager.markForFocusLater();
+        }
         _this.setState({ isOpen: true }, function () {
           _this.setState({ afterOpen: true });
 
@@ -1925,7 +1932,8 @@ ModalPortal.propTypes = {
   contentLabel: _propTypes2.default.string,
   aria: _propTypes2.default.object,
   children: _propTypes2.default.node,
-  shouldCloseOnEsc: _propTypes2.default.bool
+  shouldCloseOnEsc: _propTypes2.default.bool,
+  shouldFocusOnClose: _propTypes2.default.bool
 };
 exports.default = ModalPortal;
 module.exports = exports["default"];

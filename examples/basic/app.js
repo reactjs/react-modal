@@ -12,7 +12,13 @@ Modal.setAppElement('#example');
 const examples = [
   SimpleUsage,
   MultipleModals,
-  ReactRouter
+  ReactRouter,
+  SimpleUsage,
+  MultipleModals,
+  ReactRouter,
+  SimpleUsage,
+  SimpleUsage,
+  SimpleUsage
 ];
 
 class App extends Component {
