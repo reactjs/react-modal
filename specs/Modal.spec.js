@@ -49,6 +49,7 @@ export default () => {
     props.closeTimeoutMS.should.be.eql(0);
     props.shouldFocusAfterRender.should.be.ok();
     props.shouldCloseOnOverlayClick.should.be.ok();
+    props.shouldFocusOnClose.should.be.ok();
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
     Modal.setAppElement(document.body); // restore default
@@ -147,6 +148,18 @@ export default () => {
     document.activeElement.should.not.be.eql(mcontent(modal));
   });
 
+  it("should give back focus to the body after closing when shouldFocusOnClose is false", () => {
+    const modal = renderModal(
+      {
+        isOpen: true,
+        shouldFocusOnClose: false
+      },
+      null
+    );
+    modal.portal.close();
+    document.activeElement.should.be.eql(document.body);
+  });
+
   it("give back focus to previous element or modal.", done => {
     function cleanup() {
       unmountModal();
@@ -181,7 +194,7 @@ export default () => {
     escKeyDown(modalContent);
   });
 
-  xit("does not steel focus when a descendent is already focused", () => {
+  xit("does not steal focus when a descendant is already focused", () => {
     let content;
     const input = (
       <input

@@ -55,7 +55,7 @@ export default class Modal extends Component {
     bodyOpenClassName,
     ariaHideApp: true,
     closeTimeoutMS: 0,
-    shouldFocusAfterRender: false,
+    shouldFocusAfterRender: true,
     shouldCloseOnEsc: true,
     shouldCloseOnOverlayClick: true,
     parentSelector() {
