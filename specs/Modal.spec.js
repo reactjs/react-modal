@@ -149,6 +149,7 @@ export default () => {
   });
 
   it("should give back focus to the body after closing when shouldFocusOnClose is false", () => {
+    renderModal({ isOpen: true }, null);
     const modal = renderModal(
       {
         isOpen: true,
