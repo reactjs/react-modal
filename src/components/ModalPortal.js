@@ -48,7 +48,8 @@ export default class ModalPortal extends Component {
     contentLabel: PropTypes.string,
     aria: PropTypes.object,
     children: PropTypes.node,
-    shouldCloseOnEsc: PropTypes.bool
+    shouldCloseOnEsc: PropTypes.bool,
+    shouldFocusOnClose: PropTypes.bool
   };
 
   constructor(props) {
@@ -137,6 +138,9 @@ export default class ModalPortal extends Component {
   afterClose = () => {
     // Remove body class
     bodyClassList.remove(this.props.bodyOpenClassName);
+    if (this.props.shouldFocusOnClose) {
+      focusManager.returnFocus();
+    }
     focusManager.returnFocus();
     focusManager.teardownScopedFocus();
   };
@@ -148,7 +152,9 @@ export default class ModalPortal extends Component {
       this.setState({ beforeClose: false });
     } else {
       focusManager.setupScopedFocus(this.node);
-      focusManager.markForFocusLater();
+      if (this.props.shouldFocusOnClose) {
+        focusManager.markForFocusLater();
+      }
       this.setState({ isOpen: true }, () => {
         this.setState({ afterOpen: true });
 

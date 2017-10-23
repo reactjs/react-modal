@@ -58,7 +58,8 @@ export default class Modal extends Component {
     aria: PropTypes.object,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
-    shouldCloseOnEsc: PropTypes.bool
+    shouldCloseOnEsc: PropTypes.bool,
+    shouldFocusOnClose: PropTypes.bool
   };
   /* eslint-enable react/no-unused-prop-types */
 
@@ -73,7 +74,8 @@ export default class Modal extends Component {
     shouldCloseOnOverlayClick: true,
     parentSelector() {
       return document.body;
-    }
+    },
+    shouldFocusOnClose: true
   };
 
   static defaultStyles = {

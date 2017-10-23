@@ -53,7 +53,6 @@ class SimpleUsage extends Component {
   }
 
   headingRef = h1 => this.heading = h1;
-  
   render() {
     const { currentModal } = this.state;
 
@@ -79,7 +78,8 @@ class SimpleUsage extends Component {
           contentLabel="modalB"
           isOpen={currentModal == MODAL_B}
           onAfterOpen={this.handleOnAfterOpenModal}
-          onRequestClose={this.toggleModal(MODAL_B)}>
+          onRequestClose={this.toggleModal(MODAL_B)}
+          shouldFocusOnClose={false}>
           <h1 id="heading" ref={headingRef}>This is the modal 2!</h1>
           <div id="fulldescription" tabIndex="0" role="document">
             <p>This is a description of what it does: nothing :)</p>
