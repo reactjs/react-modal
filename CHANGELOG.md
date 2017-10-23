@@ -1,10 +1,4 @@
-v3.1.1 - Sat, 18 Oct 2017 17:37:10 UTC
---------------------------------------
-
-- Make build run to have lib directory
-
-
-v3.1.0 - Sat, 18 Oct 2017 17:37:10 UTC
+v3.1.0 - Sun, 22 Oct 2017 17:37:10 UTC
 --------------------------------------
 
 - Added prop to not focus after closing modal
