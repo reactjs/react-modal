@@ -53,7 +53,6 @@ class SimpleUsage extends Component {
   }
 
   headingRef = h1 => this.heading = h1;
-
   render() {
     const { currentModal } = this.state;
 
