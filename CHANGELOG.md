@@ -3,6 +3,12 @@ v3.1.0 - Sun, 22 Oct 2017 17:37:10 UTC
 
 - Added prop to not focus after closing modal
 
+v3.0.4 - Wed, 18 Oct 2017 19:52:46 UTC
+--------------------------------------
+
+- [1fb33d9](../../commit/1fb33d9) [chore] run tests only on node 8.
+- [59fbdb3](../../commit/59fbdb3) [chore] specifiy the object when overriding class names.
+
 
 v3.0.3 - Sat, 14 Oct 2017 17:37:10 UTC
 --------------------------------------
