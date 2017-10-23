@@ -702,21 +702,28 @@ Modal.propTypes = {
   }),
   portalClassName: _propTypes2.default.string,
   bodyOpenClassName: _propTypes2.default.string,
-  className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
-  overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+  className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.shape({
+    base: _propTypes2.default.string.isRequired,
+    afterOpen: _propTypes2.default.string.isRequired,
+    beforeClose: _propTypes2.default.string.isRequired
+  })]),
+  overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.shape({
+    base: _propTypes2.default.string.isRequired,
+    afterOpen: _propTypes2.default.string.isRequired,
+    beforeClose: _propTypes2.default.string.isRequired
+  })]),
   appElement: _propTypes2.default.instanceOf(_safeHTMLElement2.default),
   onAfterOpen: _propTypes2.default.func,
   onRequestClose: _propTypes2.default.func,
   closeTimeoutMS: _propTypes2.default.number,
   ariaHideApp: _propTypes2.default.bool,
-  shouldFocusAfterRender: _propTypes2.default.bool,
+  shouldFocusAfter: _propTypes2.default.bool,
   shouldCloseOnOverlayClick: _propTypes2.default.bool,
   parentSelector: _propTypes2.default.func,
   aria: _propTypes2.default.object,
   role: _propTypes2.default.string,
   contentLabel: _propTypes2.default.string,
-  shouldCloseOnEsc: _propTypes2.default.bool,
-  shouldFocusOnClose: _propTypes2.default.bool
+  shouldCloseOnEsc: _propTypes2.default.bool
 };
 Modal.defaultProps = {
   isOpen: false,
@@ -727,7 +734,6 @@ Modal.defaultProps = {
   shouldFocusAfterRender: true,
   shouldCloseOnEsc: true,
   shouldCloseOnOverlayClick: true,
-  shouldFocusOnClose: true,
   parentSelector: function parentSelector() {
     return document.body;
   }
@@ -1630,9 +1636,9 @@ var ModalPortal = function (_Component) {
     };
 
     _this.afterClose = function () {
-      if (_this.props.shouldFocusOnClose) {
-        focusManager.returnFocus();
-      }
+      // Remove body class
+      bodyClassList.remove(_this.props.bodyOpenClassName);
+      focusManager.returnFocus();
       focusManager.teardownScopedFocus();
     };
 
@@ -1643,9 +1649,7 @@ var ModalPortal = function (_Component) {
         _this.setState({ beforeClose: false });
       } else {
         focusManager.setupScopedFocus(_this.node);
-        if (_this.props.shouldFocusOnClose) {
-          focusManager.markForFocusLater();
-        }
+        focusManager.markForFocusLater();
         _this.setState({ isOpen: true }, function () {
           _this.setState({ afterOpen: true });
 
@@ -1821,6 +1825,8 @@ var ModalPortal = function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
+      // Remove body class
+      bodyClassList.remove(this.props.bodyOpenClassName);
       this.beforeClose();
       clearTimeout(this.closeTimer);
     }
@@ -1844,12 +1850,9 @@ var ModalPortal = function (_Component) {
     value: function beforeClose() {
       var _props2 = this.props,
           appElement = _props2.appElement,
-          ariaHideApp = _props2.ariaHideApp,
-          bodyOpenClassName = _props2.bodyOpenClassName;
-      // Remove class if no more modals are open
-
-      bodyClassList.remove(bodyOpenClassName);
+          ariaHideApp = _props2.ariaHideApp;
       // Reset aria-hidden attribute if all modals have been removed
+
       if (ariaHideApp && refCount.totalCount() < 1) {
         ariaAppHider.show(appElement);
       }
@@ -1931,8 +1934,7 @@ ModalPortal.propTypes = {
   contentLabel: _propTypes2.default.string,
   aria: _propTypes2.default.object,
   children: _propTypes2.default.node,
-  shouldCloseOnEsc: _propTypes2.default.bool,
-  shouldFocusOnClose: _propTypes2.default.bool
+  shouldCloseOnEsc: _propTypes2.default.bool
 };
 exports.default = ModalPortal;
 module.exports = exports["default"];
