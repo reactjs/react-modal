@@ -11,7 +11,7 @@ export default () => {
     mcontent(modal).style.top.should.be.eql("");
   });
 
-  it("overrides the default styles when a custom overlayClassName is used", () => {
+  it("overrides the default styles when using custom overlayClassName", () => {
     const modal = renderModal({
       isOpen: true,
       overlayClassName: "myOverlayClass"
