@@ -52,7 +52,7 @@ export default class Modal extends Component {
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     ariaHideApp: PropTypes.bool,
-    shouldFocusAfter: PropTypes.bool,
+    shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
