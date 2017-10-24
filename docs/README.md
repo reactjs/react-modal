@@ -85,6 +85,11 @@ import ReactModal from 'react-modal';
   */
   shouldCloseOnEsc={true}
   /*
+    Boolean indicating if the modal should restore focus to the element that
+    had focus prior to its display.
+  */
+  shouldReturnFocusAfterClose={true}  
+  /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
   */
   role="dialog"
