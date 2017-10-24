@@ -54,6 +54,7 @@ export default class Modal extends Component {
     ariaHideApp: PropTypes.bool,
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
+    shouldReturnFocusAfterClose: PropTypes.bool,
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
     role: PropTypes.string,
@@ -71,6 +72,7 @@ export default class Modal extends Component {
     shouldFocusAfterRender: true,
     shouldCloseOnEsc: true,
     shouldCloseOnOverlayClick: true,
+    shouldReturnFocusAfterClose: true,
     parentSelector() {
       return document.body;
     }
