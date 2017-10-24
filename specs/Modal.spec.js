@@ -139,7 +139,7 @@ export default () => {
     document.activeElement.should.be.eql(mcontent(modal));
   });
 
-  it("does not focus the modal content when shouldFocusAfterRender is false", () => {
+  it("does not focus modal content if shouldFocusAfterRender is false", () => {
     const modal = renderModal(
       { isOpen: true, shouldFocusAfterRender: false },
       null
@@ -317,7 +317,7 @@ export default () => {
     isBodyWithReactModalOpenClass("testBodyClass").should.not.be.ok();
   });
 
-  it("should not remove classes from document.body when rendering unopened modal", () => {
+  it("should not remove classes from document.body if modal is closed", () => {
     renderModal({ isOpen: true });
     isBodyWithReactModalOpenClass().should.be.ok();
     renderModal({ isOpen: false, bodyOpenClassName: "testBodyClass" });
@@ -340,7 +340,7 @@ export default () => {
     unmountModal();
   });
 
-  it("adding/removing aria-hidden without an appElement will try to fallback to document.body", () => {
+  it("uses document.body for aria-hidden if no appElement", () => {
     ariaAppHider.documentNotReadyOrSSRTesting();
     const node = document.createElement("div");
     ReactDOM.render(<Modal isOpen />, node);
@@ -349,7 +349,7 @@ export default () => {
     should(document.body.getAttribute("aria-hidden")).not.be.ok();
   });
 
-  it("raise an exception if appElement is a selector and no elements were found.", () => {
+  it("raises an exception if the appElement selector does not match", () => {
     should(() => ariaAppHider.setElement(".test")).throw();
   });
 
