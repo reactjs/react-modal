@@ -82,7 +82,7 @@ check-working-tree:
 
 changelog:
 	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > `cat .version`]"
-	@python3 ./scripts/changelog.py v`cat .version` v$(CURRENT_VERSION) > .changelog_update
+	@python3 ./scripts/changelog.py v$(CURRENT_VERSION) v`cat .version` > .changelog_update
 	@cat .changelog_update CHANGELOG.md > tmp && mv tmp CHANGELOG.md
 
 compile:

@@ -1,7 +1,9 @@
-v3.0.4 - Wed, 18 Oct 2017 19:55:15 UTC
+v3.1.0 - Wed, 25 Oct 2017 14:26:17 UTC
 --------------------------------------
 
-
+- [42d724c](../../commit/42d724c) [added] shouldReturnFocusAfterClose to control focus.
+- [400ac13](../../commit/400ac13) [chore] make sure all tests meet line-length requirement.
+- [18a15eb](../../commit/18a15eb) [fixed] correct property name shouldFocusAfterRender.
 
 
 v3.0.4 - Wed, 18 Oct 2017 19:52:46 UTC
