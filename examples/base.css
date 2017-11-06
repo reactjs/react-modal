@@ -14,7 +14,7 @@ h1, h2, h3 {
 }
 
 .btn:not(:last-child) {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .example:not(:last-child) {

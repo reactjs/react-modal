@@ -3,8 +3,12 @@ import Modal from 'react-modal';
 
 export default props => {
   const {
-    title, isOpen, askToClose,
-    onAfterOpen, onRequestClose, onChangeInput
+    title,
+    isOpen,
+    askToClose,
+    onAfterOpen,
+    onRequestClose,
+    onChangeInput
   } = props;
 
   return (
