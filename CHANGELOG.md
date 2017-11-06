@@ -1,3 +1,11 @@
+v3.1.2 - Mon, 06 Nov 2017 19:52:38 UTC
+--------------------------------------
+
+- [0f2bf9e](../../commit/0f2bf9e) [fixed] corretly walk when using TAB.
+- [5cf9326](../../commit/5cf9326) Update README.md
+- [cdcc1cb](../../commit/cdcc1cb) [chore]: fixed changelog generator.
+
+
 v3.1.0 - Wed, 25 Oct 2017 14:26:17 UTC
 --------------------------------------
 
