@@ -139,22 +139,14 @@ export default class ModalPortal extends Component {
     // Remove body class
     bodyClassList.remove(this.props.bodyOpenClassName);
 
-    if (this.shouldReturnFocus()) {
-      focusManager.returnFocus();
-      focusManager.teardownScopedFocus();
+    if (this.props.shouldFocusAfterRender) {
+      if (this.props.shouldReturnFocusAfterClose) {
+        focusManager.returnFocus();
+        focusManager.teardownScopedFocus();
+      } else {
+        focusManager.popWithoutFocus();
+      }
     }
-  };
-
-  shouldReturnFocus = () => {
-    // Don't restore focus to the element that had focus prior to
-    // the modal's display if:
-    // 1. Focus was never shifted to the modal in the first place
-    //    (shouldFocusAfterRender = false)
-    // 2. Explicit direction to not restore focus
-    return (
-      this.props.shouldFocusAfterRender ||
-      this.props.shouldReturnFocusAfterClose
-    );
   };
 
   open = () => {
@@ -163,7 +155,7 @@ export default class ModalPortal extends Component {
       clearTimeout(this.closeTimer);
       this.setState({ beforeClose: false });
     } else {
-      if (this.shouldReturnFocus()) {
+      if (this.props.shouldFocusAfterRender) {
         focusManager.setupScopedFocus(this.node);
         focusManager.markForFocusLater();
       }

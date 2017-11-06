@@ -52,6 +52,10 @@ export function returnFocus() {
 }
 /* eslint-enable no-console */
 
+export function popWithoutFocus() {
+  focusLaterElements.length > 0 && focusLaterElements.pop();
+}
+
 export function setupScopedFocus(element) {
   modalElement = element;
 
