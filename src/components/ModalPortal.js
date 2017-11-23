@@ -242,7 +242,10 @@ export default class ModalPortal extends Component {
     this.shouldClose = false;
   };
 
-  handleOverlayOnMouseDown = () => {
+  handleOverlayOnMouseDown = event => {
+    if (!this.props.shouldCloseOnOverlayClick) {
+      event.preventDefault();
+    }
     this.moveFromContentToOverlay = false;
   };
 

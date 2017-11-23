@@ -76,6 +76,7 @@ class SimpleUsage extends Component {
           closeTimeoutMS={150}
           contentLabel="modalB"
           isOpen={currentModal == MODAL_B}
+          shouldCloseOnOverlayClick={false}
           onAfterOpen={this.handleOnAfterOpenModal}
           onRequestClose={this.toggleModal(MODAL_B)}>
           <h1 id="heading" ref={h1 => this.heading = h1}>This is the modal 2!</h1>
