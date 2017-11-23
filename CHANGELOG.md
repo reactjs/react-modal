@@ -1,12 +1,13 @@
-v3.1.3 - Wed, 22 Nov 2017 16:37:37 UTC
+v3.1.3 - Wed, 22 Nov 2017 16:38:06 UTC
 --------------------------------------
 
--
+- [c434e84](../../commit/c434e84) [fixed] Respect overflow css property when determining whether or not a tabbable node is hidden
 
 
-v3.1.2 - Mon, 06 Nov 2017 19:52:38 UTC
+v3.1.2 - Mon, 06 Nov 2017 19:56:00 UTC
 --------------------------------------
 
+- [3c86e2d](../../commit/3c86e2d) [fixed] shouldFocusAfterRender and shouldReturnFocusAfterClose flags.
 - [0f2bf9e](../../commit/0f2bf9e) [fixed] corretly walk when using TAB.
 - [5cf9326](../../commit/5cf9326) Update README.md
 - [cdcc1cb](../../commit/cdcc1cb) [chore]: fixed changelog generator.
@@ -20,22 +21,24 @@ v3.1.0 - Wed, 25 Oct 2017 14:26:17 UTC
 - [18a15eb](../../commit/18a15eb) [fixed] correct property name shouldFocusAfterRender.
 
 
-v3.0.4 - Wed, 18 Oct 2017 19:52:46 UTC
+v3.0.4 - Wed, 18 Oct 2017 19:55:15 UTC
 --------------------------------------
 
+- [5ec0f7f](../../commit/5ec0f7f) [fixed] Removes body classNames after the modal is closed.
 - [1fb33d9](../../commit/1fb33d9) [chore] run tests only on node 8.
 - [59fbdb3](../../commit/59fbdb3) [chore] specifiy the object when overriding class names.
 
 
-v3.0.3 - Sat, 14 Oct 2017 17:37:10 UTC
+v3.0.3 - Sat, 14 Oct 2017 17:38:38 UTC
 --------------------------------------
 
--
+- [32441c3](../../commit/32441c3) [fixed] Issue #526 Import PropTypes as default import.
 
 
-v3.0.2 - Sat, 14 Oct 2017 12:03:32 UTC
+v3.0.2 - Sat, 14 Oct 2017 12:04:40 UTC
 --------------------------------------
 
+- [1d495a6](../../commit/1d495a6) [fixed] Add shouldCloseOnEsc prop
 - [d98f091](../../commit/d98f091) [chore] update CHANGELOG.md
 - [95f628a](../../commit/95f628a) [chore] fix prettier linting after merge issue
 - [47d0d87](../../commit/47d0d87) [chore] prettier all the things
@@ -47,20 +50,17 @@ v3.0.2 - Sat, 14 Oct 2017 12:03:32 UTC
 v3.0.0 - Fri, 06 Oct 2017 13:29:20 UTC
 --------------------------------------
 
-- [a2a7128](../../commit/a2a7128) Release v3.0.0.
 - [d0f242b](../../commit/d0f242b) Merged next into master.
 - [de3c039](../../commit/de3c039) [chore] remove warning about injectCSS.
 - [f77b53e](../../commit/f77b53e) [chore] use canUseDOM from exenv.
 - [cc4577c](../../commit/cc4577c) Release 3.0.0-rc2.
 - [1260850](../../commit/1260850) [fixed] backward compatibility with previous react versions.
-- [45ca9d4](../../commit/45ca9d4) Release v3.0.0-rc1.
 - [d25563c](../../commit/d25563c) [fixed] check for both window and document.createElement.
 - [2b835d6](../../commit/2b835d6) [fixed] typeof returns a string (canUseDOM).
-- [cd10612](../../commit/cd10612) Release v3.0.0-alpha.
 - [b942504](../../commit/b942504) [feature] initial support for react 16.
 
 
-v2.4.1 - Fri, 06 Oct 2017 13:23:42 UTC
+v2.4.1 - Fri, 06 Oct 2017 12:09:11 UTC
 --------------------------------------
 
 - [4fa5628](../../commit/4fa5628) [fixed] Drag stop (mouseup) on Overlay closes Modal
@@ -68,9 +68,10 @@ v2.4.1 - Fri, 06 Oct 2017 13:23:42 UTC
 - [f9a2f3f](../../commit/f9a2f3f) [chore] update README.md.
 
 
-v2.3.3 - Wed, 04 Oct 2017 01:59:30 UTC
+v2.3.3 - Wed, 04 Oct 2017 01:59:57 UTC
 --------------------------------------
 
+- [ace2bf0](../../commit/ace2bf0) [chore] added babel-cli to compile and fix dist configuration.
 - [876972b](../../commit/876972b) [chore] removed depencendy 'react-dom-factory'.
 - [73db6dd](../../commit/73db6dd) [chore] improve examples style.
 - [8970956](../../commit/8970956) [chore] remove code climate yml.
@@ -82,9 +83,10 @@ v2.3.3 - Wed, 04 Oct 2017 01:59:30 UTC
 - [f007aeb](../../commit/f007aeb) [chore] Update description for onRequestClose.
 
 
-v2.3.2 - Wed, 06 Sep 2017 16:09:58 UTC
+v2.3.2 - Wed, 06 Sep 2017 16:10:27 UTC
 --------------------------------------
 
+- [54c59c5](../../commit/54c59c5) Export default property in CommonJS and global object
 - [ba526cf](../../commit/ba526cf) [chore] fix changelog generator.
 
 
@@ -100,7 +102,11 @@ v2.2.4 - Mon, 14 Aug 2017 09:41:39 UTC
 
 - [fafa127](../../commit/fafa127) typo fix
 - [fe1983b](../../commit/fe1983b) fix #466: Dragging inside modal and release outside of modal closes the modal
-- [825fd00](../../commit/825fd00) Release v2.2.3.
+
+
+v2.2.3 - Thu, 10 Aug 2017 19:27:47 UTC
+--------------------------------------
+
 - [1caabed](../../commit/1caabed) [fixed] `Uncaught TypeError: Cannot read property 'state' of null` when unmouting
 - [92c23b5](../../commit/92c23b5) [chore] Mention shouldCloseOnOverlayClick dependency
 - [a2d5c4e](../../commit/a2d5c4e) [chore] allow latest version for exenv dependency

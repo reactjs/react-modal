@@ -2,6 +2,7 @@
 
 import sys
 import os
+import re
 import json
 from datetime import datetime
 import pytz
@@ -10,10 +11,7 @@ from subprocess import Popen, PIPE, STDOUT
 
 class Version(object):
     def __init__(self, version):
-        v = version
-        if v.startswith('v'):
-            v = v[1:].split('\n')[0]
-        fix = v.split('.')
+        fix = re.search('[v]?(\d+)\.(\d+).(\d+).*', version).groups()
         self.major = int(fix[0])
         self.minor = int(fix[1])
         self.patch = int(fix[2])
@@ -34,6 +32,9 @@ class Changelog(object):
         self.a = a
         self.b = b
 
+    def denyReleases(self, log):
+        return not ('release v' in log or 'Release v' in log)
+
     def log_in_between_versions(self):
         hash = self.log.split(' ')[0]
 
@@ -51,12 +52,12 @@ class Changelog(object):
         log = str(self.a) + " - " + dt + " UTC\n"
         log = log + ("-" * (len(log) - 1)) + "\n\n"
 
-        actual_log = self.log.splitlines()
+        actual_log = list(filter(self.denyReleases, self.log.splitlines()))
 
-        if len(actual_log) == 1:
-            entries = "-\n\n"
+        if len(actual_log) == 0:
+            entries = '-\n\n'
         else:
-            entries = "\n".join(map(url_entry, actual_log[1:])) + "\n\n"
+            entries = "\n".join(map(url_entry, actual_log)) + "\n\n"
 
         log = log + entries
 
@@ -136,7 +137,8 @@ def changelog(with_versions):
         process = lines.splitlines()
 
     for item in process:
-        versions.append(Version(item))
+        if not ('rc' in item or 'alpha' in item):
+            versions.append(Version(item))
 
     versions = sorted(versions, key=compareversions, reverse=True)
 
