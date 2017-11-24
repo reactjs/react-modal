@@ -1,3 +1,11 @@
+v3.1.4 - Fri, 24 Nov 2017 14:26:59 UTC
+--------------------------------------
+
+- [c1e535f](../../commit/c1e535f) [chore] changelog writer.
+- [a296627](../../commit/a296627) fix: prevent mouse event when shouldCloseOnOverlayClick = false.
+- [cba31dd](../../commit/cba31dd) Update on_request_close.md
+
+
 v3.1.3 - Wed, 22 Nov 2017 16:38:06 UTC
 --------------------------------------
 

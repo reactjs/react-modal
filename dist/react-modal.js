@@ -1633,7 +1633,10 @@ var ModalPortal = function (_Component) {
       _this.shouldClose = false;
     };
 
-    _this.handleOverlayOnMouseDown = function () {
+    _this.handleOverlayOnMouseDown = function (event) {
+      if (!_this.props.shouldCloseOnOverlayClick) {
+        event.preventDefault();
+      }
       _this.moveFromContentToOverlay = false;
     };
 
