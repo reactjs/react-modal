@@ -1,3 +1,9 @@
+v3.1.5 - Mon, 27 Nov 2017 19:56:19 UTC
+--------------------------------------
+
+- [cae99d9](../../commit/cae99d9) [fixed] shouldCloseOnOverlayClick conflict with text inputs.
+
+
 v3.1.4 - Fri, 24 Nov 2017 14:26:59 UTC
 --------------------------------------
 
