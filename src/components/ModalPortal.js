@@ -99,9 +99,7 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
-    // Remove body class
-    bodyClassList.remove(this.props.bodyOpenClassName);
-    this.beforeClose();
+    this.afterClose();
     clearTimeout(this.closeTimer);
   }
 
@@ -127,17 +125,16 @@ export default class ModalPortal extends Component {
     }
   }
 
-  beforeClose() {
+  afterClose = () => {
     const { appElement, ariaHideApp } = this.props;
+
+    // Remove body class
+    bodyClassList.remove(this.props.bodyOpenClassName);
+
     // Reset aria-hidden attribute if all modals have been removed
     if (ariaHideApp && refCount.totalCount() < 1) {
       ariaAppHider.show(appElement);
     }
-  }
-
-  afterClose = () => {
-    // Remove body class
-    bodyClassList.remove(this.props.bodyOpenClassName);
 
     if (this.props.shouldFocusAfterRender) {
       if (this.props.shouldReturnFocusAfterClose) {
@@ -171,7 +168,6 @@ export default class ModalPortal extends Component {
   };
 
   close = () => {
-    this.beforeClose();
     if (this.props.closeTimeoutMS > 0) {
       this.closeWithTimeout();
     } else {
@@ -309,6 +305,7 @@ export default class ModalPortal extends Component {
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
         onMouseUp={this.handleOverlayOnMouseUp}
+        aria-modal="true"
       >
         <div
           ref={this.setContentRef}
