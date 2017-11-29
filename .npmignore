@@ -4,5 +4,6 @@ examples
 karma.conf.js
 script
 specs
+.babelrc
 .idea/
 src
