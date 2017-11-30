@@ -57,9 +57,6 @@ to prevent assistive technologies such as screenreaders
 from reading content outside of the content of
 your modal.
 
-It's optional and if not specified it will try to use
-`document.body` as your app element.
-
 If you are doing server-side rendering, you should use
 this property.
 

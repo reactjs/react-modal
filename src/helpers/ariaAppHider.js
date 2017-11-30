@@ -1,3 +1,5 @@
+import warning from "warning";
+
 let globalElement = null;
 
 export function assertNodeList(nodeList, selector) {
@@ -19,36 +21,35 @@ export function setElement(element) {
   return globalElement;
 }
 
-export function tryForceFallback() {
-  if (document && document.body) {
-    // force fallback to document.body
-    setElement(document.body);
-    return true;
-  }
-  return false;
-}
-
 export function validateElement(appElement) {
-  if (!appElement && !globalElement && !tryForceFallback()) {
-    throw new Error(
+  if (!appElement && !globalElement) {
+    warning(
+      false,
       [
-        "react-modal: Cannot fallback to `document.body`, because it is not",
-        "ready or available. If you are doing server-side rendering, use this",
-        "function to defined an element. `Modal.setAppElement(el)` to make",
-        "this accessible"
+        "react-modal: App element is not defined.",
+        "Please use `Modal.setAppElement(el)` or set `appElement={el}`.",
+        "This is needed so screen reades don't see main content",
+        "when modal is opened. It is not recommended, but you can opt-out",
+        "by setting `ariaHideApp={false}`."
       ].join(" ")
     );
+
+    return false;
   }
+
+  return true;
 }
 
 export function hide(appElement) {
-  validateElement(appElement);
-  (appElement || globalElement).setAttribute("aria-hidden", "true");
+  if (validateElement(appElement)) {
+    (appElement || globalElement).setAttribute("aria-hidden", "true");
+  }
 }
 
 export function show(appElement) {
-  validateElement(appElement);
-  (appElement || globalElement).removeAttribute("aria-hidden");
+  if (validateElement(appElement)) {
+    (appElement || globalElement).removeAttribute("aria-hidden");
+  }
 }
 
 export function documentNotReadyOrSSRTesting() {
@@ -56,5 +57,5 @@ export function documentNotReadyOrSSRTesting() {
 }
 
 export function resetForTesting() {
-  globalElement = document.body;
+  globalElement = null;
 }

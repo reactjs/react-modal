@@ -339,15 +339,6 @@ export default () => {
     unmountModal();
   });
 
-  it("uses document.body for aria-hidden if no appElement", () => {
-    ariaAppHider.documentNotReadyOrSSRTesting();
-    const node = document.createElement("div");
-    ReactDOM.render(<Modal isOpen />, node);
-    document.body.getAttribute("aria-hidden").should.be.eql("true");
-    ReactDOM.unmountComponentAtNode(node);
-    should(document.body.getAttribute("aria-hidden")).not.be.ok();
-  });
-
   it("raises an exception if the appElement selector does not match", () => {
     should(() => ariaAppHider.setElement(".test")).throw();
   });
