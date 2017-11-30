@@ -1,3 +1,11 @@
+v3.1.6 - Thu, 30 Nov 2017 10:24:00 UTC
+--------------------------------------
+
+- [0122238](../../commit/0122238) [chore] added badge to react-modal gitter channel.
+- [c925763](../../commit/c925763) remove code climate badge from readme.
+- [38dc8f9](../../commit/38dc8f9) [fixes] don't set aria-hidden if appElement is not defined.
+
+
 v3.1.5 - Mon, 27 Nov 2017 19:56:19 UTC
 --------------------------------------
 
