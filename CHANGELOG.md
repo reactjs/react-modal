@@ -1,3 +1,10 @@
+v3.1.7 - Mon, 04 Dec 2017 14:22:29 UTC
+--------------------------------------
+
+- [22e8b23](../../commit/22e8b23) [fixed] ignore .babelrc when publishing to npm.
+- [5693a40](../../commit/5693a40) [chore] typo on word (#574)
+
+
 v3.1.6 - Thu, 30 Nov 2017 10:24:00 UTC
 --------------------------------------
 
