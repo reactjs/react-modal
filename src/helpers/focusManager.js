@@ -37,8 +37,10 @@ export function markForFocusLater() {
 export function returnFocus() {
   let toFocus = null;
   try {
-    toFocus = focusLaterElements.pop();
-    toFocus.focus();
+    if (focusLaterElements.length !== 0) {
+      toFocus = focusLaterElements.pop();
+      toFocus.focus();
+    }
     return;
   } catch (e) {
     console.warn(
