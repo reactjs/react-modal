@@ -42,6 +42,6 @@ class App extends Component {
 }
 
 export default {
-  label: "#3. react-modal and react-router.",
+  label: "react-modal and react-router.",
   app: App
 };

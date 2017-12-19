@@ -109,6 +109,6 @@ class MultipleModals extends Component {
 }
 
 export default {
-  label: "#2. Working with many modal.",
+  label: "Working with many modal.",
   app: MultipleModals
 };

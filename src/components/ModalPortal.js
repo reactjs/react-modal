@@ -207,7 +207,7 @@ export default class ModalPortal extends Component {
     }
 
     if (this.props.shouldCloseOnEsc && event.keyCode === ESC_KEY) {
-      event.preventDefault();
+      event.stopPropagation();
       this.requestClose(event);
     }
   };

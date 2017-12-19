@@ -1,6 +1,8 @@
 /* eslint-env mocha */
+import React from "react";
 import "should";
 import sinon from "sinon";
+import Modal from "react-modal";
 import {
   moverlay,
   mcontent,
@@ -150,5 +152,33 @@ export default () => {
     // Check if event is passed to onRequestClose callback.
     const event = requestCloseCallback.getCall(0).args[0];
     event.should.be.ok();
+  });
+
+  it("on nested modals, only the topmost should handle ESC key.", () => {
+    const requestCloseCallback = sinon.spy();
+    const innerRequestCloseCallback = sinon.spy();
+    let innerModal = null;
+    let innerModalRef = ref => {
+      innerModal = ref;
+    };
+
+    renderModal(
+      {
+        isOpen: true,
+        onRequestClose: requestCloseCallback
+      },
+      <Modal
+        isOpen
+        onRequestClose={innerRequestCloseCallback}
+        ref={innerModalRef}
+      >
+        <span>Test</span>
+      </Modal>
+    );
+
+    const content = mcontent(innerModal);
+    escKeyDown(content);
+    innerRequestCloseCallback.called.should.be.ok();
+    requestCloseCallback.called.should.not.be.ok();
   });
 };

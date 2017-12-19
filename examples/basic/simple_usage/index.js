@@ -90,6 +90,6 @@ class SimpleUsage extends Component {
 }
 
 export default {
-  label: "#1. Working with one modal at a time.",
+  label: "Working with one modal at a time.",
   app: SimpleUsage
 };
