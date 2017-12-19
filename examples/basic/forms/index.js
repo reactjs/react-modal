@@ -39,7 +39,6 @@ class Forms extends Component {
           <h1 id="heading">Forms!</h1>
           <div id="fulldescription" tabIndex="0" role="document">
             <p>This is a description of what it does: nothing :)</p>
-
             <form>
               <fieldset>
                 <input type="text"  />
@@ -73,6 +72,6 @@ class Forms extends Component {
 }
 
 export default {
-  label: "#3. Modal with forms fields.",
+  label: "Modal with forms fields.",
   app: Forms
 };
