@@ -7,6 +7,7 @@ import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
 
 export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";
+export const htmlOpenClassName = "ReactModal__Html--open";
 
 const isReact16 = ReactDOM.createPortal !== undefined;
 const createPortal = isReact16
@@ -31,6 +32,7 @@ export default class Modal extends Component {
     }),
     portalClassName: PropTypes.string,
     bodyOpenClassName: PropTypes.string,
+    htmlOpenClassName: PropTypes.string,
     className: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({
@@ -69,6 +71,7 @@ export default class Modal extends Component {
     isOpen: false,
     portalClassName,
     bodyOpenClassName,
+    htmlOpenClassName,
     ariaHideApp: true,
     closeTimeoutMS: 0,
     shouldFocusAfterRender: true,

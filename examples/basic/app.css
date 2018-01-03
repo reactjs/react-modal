@@ -29,3 +29,8 @@
   transform: scale(0.5) rotateX(30deg);
   transition: all 150ms ease-in;
 }
+
+.ReactModal__Body--open,
+.ReactModal__Html--open {
+  overflow: hidden;
+}
