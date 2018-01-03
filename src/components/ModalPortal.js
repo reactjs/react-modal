@@ -38,6 +38,7 @@ export default class ModalPortal extends Component {
     className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     overlayClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     bodyOpenClassName: PropTypes.string,
+    htmlOpenClassName: PropTypes.string,
     ariaHideApp: PropTypes.bool,
     appElement: PropTypes.instanceOf(SafeHTMLElement),
     onAfterOpen: PropTypes.func,
@@ -84,6 +85,13 @@ export default class ModalPortal extends Component {
             "This may cause unexpected behavior when multiple modals are open."
         );
       }
+      if (newProps.htmlOpenClassName !== this.props.htmlOpenClassName) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          'React-Modal: "htmlOpenClassName" prop has been modified. ' +
+            "This may cause unexpected behavior when multiple modals are open."
+        );
+      }
     }
     // Focus only needs to be set once when the modal is being opened
     if (!this.props.isOpen && newProps.isOpen) {
@@ -121,9 +129,15 @@ export default class ModalPortal extends Component {
   };
 
   beforeOpen() {
-    const { appElement, ariaHideApp, bodyOpenClassName } = this.props;
-    // Add body class
-    bodyClassList.add(bodyOpenClassName);
+    const {
+      appElement,
+      ariaHideApp,
+      bodyOpenClassName,
+      htmlOpenClassName
+    } = this.props;
+    // Add body and html class
+    bodyClassList.add(document.body, bodyOpenClassName);
+    classList.add(document.getElementsByTagName("html")[0], htmlOpenClassName);
     // Add aria-hidden to appElement
     if (ariaHideApp) {
       ariaHiddenInstances += 1;
@@ -136,6 +150,10 @@ export default class ModalPortal extends Component {
 
     // Remove body class
     bodyClassList.remove(this.props.bodyOpenClassName);
+    classList.remove(
+      document.getElementsByTagName("html")[0],
+      this.props.htmlOpenClassName
+    );
 
     // Reset aria-hidden attribute if all modals have been removed
     if (ariaHideApp && ariaHiddenInstances > 0) {

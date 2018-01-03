@@ -70,6 +70,11 @@ import ReactModal from 'react-modal';
   */
   bodyOpenClassName="ReactModal__Body--open"
   /*
+     String className to be applied to the document.html (must be a constant string).
+     See the `Styles` section for more details.
+  */
+  htmlOpenClassName="ReactModal__Html--open"
+  /*
     Boolean indicating if the appElement should be hidden
   */
   ariaHideApp={true}
