@@ -4,20 +4,20 @@ export function get() {
   return classListMap;
 }
 
-export function add(bodyClass) {
+export function add(className) {
   // Set variable and default if none
-  if (!classListMap[bodyClass]) {
-    classListMap[bodyClass] = 0;
+  if (!classListMap[className]) {
+    classListMap[className] = 0;
   }
-  classListMap[bodyClass] += 1;
-  return bodyClass;
+  classListMap[className] += 1;
+  return className;
 }
 
-export function remove(bodyClass) {
-  if (classListMap[bodyClass]) {
-    classListMap[bodyClass] -= 1;
+export function remove(className) {
+  if (classListMap[className]) {
+    classListMap[className] -= 1;
   }
-  return bodyClass;
+  return className;
 }
 
 export function totalCount() {

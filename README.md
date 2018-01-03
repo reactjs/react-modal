@@ -187,14 +187,17 @@ function getParent() {
 </Modal>
 ```
 
-### Body class
+### Body and Html class
 
 When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
-You can use this to remove scrolling on the body while the modal is open.
+and a `ReactModal__Html--open` class is added to the `html` tag.
+You can use these to remove scrolling on the body while the modal is open.
 
 ```CSS
 /* Remove scroll on the body when react-modal is open */
-.ReactModal__Body--open {
+.ReactModal__Body--open,
+.ReactModal__Html--open {
+{
     overflow: hidden;
 }
 ```

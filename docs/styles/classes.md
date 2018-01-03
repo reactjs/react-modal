@@ -8,12 +8,15 @@ class for each of those.
 You can override the default class that is added to `document.body` when the
 modal is open by defining a property `bodyOpenClassName`.
 
-It's required that `bodyOpenClassName` must be `constant string`, otherwise we
+You can override the default class that is added to `html` when the
+modal is open by defining a property `htmlOpenClassName`.
+
+It's required that `bodyOpenClassName` and `htmlOpenClassName` must be `constant string`, otherwise we
 would end up with a complex system to manage which class name should appear or
-be removed from `document.body` from which modal (if using multiple modals
+be removed from `document.body` and `html` from which modal (if using multiple modals
 simultaneously).
 
-`bodyOpenClassName` can support adding multiple classes to `document.body` when
+`bodyOpenClassName` and `htmlOpenClassName` can support adding multiple classes to `document.body` and `html` when
 the modal is open. Add as many class names as you desire, delineated by spaces.
 
 Note: If you provide those props all default styles will not be applied, leaving
