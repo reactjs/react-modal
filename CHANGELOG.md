@@ -1,3 +1,9 @@
+v3.1.11 - Tue, 16 Jan 2018 12:45:05 UTC
+---------------------------------------
+
+- [3256671](../../commit/3256671) [fixed] when ModalPortal is clicked, shouldClose is true if shouldCloseOnOverlayClick is true.
+
+
 v3.1.10 - Tue, 19 Dec 2017 17:42:03 UTC
 ---------------------------------------
 
