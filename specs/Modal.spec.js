@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import * as ariaAppHider from "react-modal/helpers/ariaAppHider";
 import {
   isBodyWithReactModalOpenClass,
+  isHtmlWithReactModalOpenClass,
   contentAttribute,
   mcontent,
   moverlay,
@@ -253,32 +254,49 @@ export default () => {
     (document.body.className.indexOf("custom-modal-open") > -1).should.be.ok();
   });
 
-  it("don't append class to document.body if modal is not open", () => {
+  it("supports overriding react modal open class in html.", () => {
+    renderModal({ isOpen: true, htmlOpenClassName: "custom-modal-open" });
+    (
+      document
+        .getElementsByTagName("html")[0]
+        .className.indexOf("custom-modal-open") > -1
+    ).should.be.ok();
+  });
+
+  // eslint-disable-next-line max-len
+  it("don't append class to document.body and html if modal is not open", () => {
     renderModal({ isOpen: false });
     isBodyWithReactModalOpenClass().should.not.be.ok();
+    isHtmlWithReactModalOpenClass().should.not.be.ok();
     unmountModal();
   });
 
-  it("append class to document.body if modal is open", () => {
+  it("append class to document.body and html if modal is open", () => {
     renderModal({ isOpen: true });
     isBodyWithReactModalOpenClass().should.be.ok();
+    isHtmlWithReactModalOpenClass().should.be.ok();
     unmountModal();
   });
 
-  it("removes class from document.body when unmounted without closing", () => {
+  // eslint-disable-next-line max-len
+  it("removes class from document.body and html when unmounted without closing", () => {
     renderModal({ isOpen: true });
     unmountModal();
     isBodyWithReactModalOpenClass().should.not.be.ok();
+    isHtmlWithReactModalOpenClass().should.not.be.ok();
   });
 
-  it("remove class from document.body when no modals opened", () => {
+  it("remove class from document.body and html when no modals opened", () => {
     renderModal({ isOpen: true });
     renderModal({ isOpen: true });
     isBodyWithReactModalOpenClass().should.be.ok();
+    isHtmlWithReactModalOpenClass().should.be.ok();
     unmountModal();
     isBodyWithReactModalOpenClass().should.be.ok();
+    isHtmlWithReactModalOpenClass().should.be.ok();
     unmountModal();
     isBodyWithReactModalOpenClass().should.not.be.ok();
+    isHtmlWithReactModalOpenClass().should.not.be.ok();
   });
 
   it("supports adding/removing multiple document.body classes", () => {
@@ -326,6 +344,59 @@ export default () => {
     renderModal({ isOpen: false });
     renderModal({ isOpen: false });
     isBodyWithReactModalOpenClass().should.be.ok();
+  });
+
+  it("supports adding/removing multiple html classes", () => {
+    renderModal({
+      isOpen: true,
+      htmlOpenClassName: "A B C"
+    });
+    document
+      .getElementsByTagName("html")[0]
+      .classList.contains("A", "B", "C")
+      .should.be.ok();
+    unmountModal();
+    document
+      .getElementsByTagName("html")[0]
+      .classList.contains("A", "B", "C")
+      .should.not.be.ok();
+  });
+
+  it("does not remove shared classes if more than one modal is open", () => {
+    renderModal({
+      isOpen: true,
+      htmlOpenClassName: "A"
+    });
+    renderModal({
+      isOpen: true,
+      htmlOpenClassName: "A B"
+    });
+
+    isHtmlWithReactModalOpenClass("A B").should.be.ok();
+    unmountModal();
+    isHtmlWithReactModalOpenClass("A B").should.not.be.ok();
+    isHtmlWithReactModalOpenClass("A").should.be.ok();
+    unmountModal();
+    isHtmlWithReactModalOpenClass("A").should.not.be.ok();
+  });
+
+  it("should not add classes to html for unopened modals", () => {
+    renderModal({ isOpen: true });
+    isHtmlWithReactModalOpenClass().should.be.ok();
+    renderModal({ isOpen: false, htmlOpenClassName: "testHtmlClass" });
+    isHtmlWithReactModalOpenClass("testHtmlClass").should.not.be.ok();
+  });
+
+  it("should not remove classes from html if modal is closed", () => {
+    renderModal({ isOpen: true });
+    isHtmlWithReactModalOpenClass().should.be.ok();
+    renderModal({ isOpen: false, htmlOpenClassName: "testHtmlClass" });
+    renderModal({ isOpen: false });
+    isHtmlWithReactModalOpenClass("testHtmlClass").should.not.be.ok();
+    isHtmlWithReactModalOpenClass().should.be.ok();
+    renderModal({ isOpen: false });
+    renderModal({ isOpen: false });
+    isHtmlWithReactModalOpenClass().should.be.ok();
   });
 
   it("additional aria attributes", () => {
