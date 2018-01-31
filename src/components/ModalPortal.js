@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
 import scopeTab from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
-import * as refCount from "../helpers/refCount";
 import * as bodyClassList from "../helpers/bodyClassList";
 import SafeHTMLElement from "../helpers/safeHTMLElement";
 
@@ -15,6 +14,8 @@ const CLASS_NAMES = {
 
 const TAB_KEY = 9;
 const ESC_KEY = 27;
+
+let ariaHiddenInstances = 0;
 
 export default class ModalPortal extends Component {
   static defaultProps = {
@@ -121,6 +122,7 @@ export default class ModalPortal extends Component {
     bodyClassList.add(bodyOpenClassName);
     // Add aria-hidden to appElement
     if (ariaHideApp) {
+      ariaHiddenInstances += 1;
       ariaAppHider.hide(appElement);
     }
   }
@@ -132,8 +134,12 @@ export default class ModalPortal extends Component {
     bodyClassList.remove(this.props.bodyOpenClassName);
 
     // Reset aria-hidden attribute if all modals have been removed
-    if (ariaHideApp && refCount.totalCount() < 1) {
-      ariaAppHider.show(appElement);
+    if (ariaHideApp && ariaHiddenInstances > 0) {
+      ariaHiddenInstances -= 1;
+
+      if (ariaHiddenInstances === 0) {
+        ariaAppHider.show(appElement);
+      }
     }
 
     if (this.props.shouldFocusAfterRender) {

@@ -121,14 +121,15 @@ export const mouseUpAt = Simulate.mouseUp;
 export const mouseDownAt = Simulate.mouseDown;
 
 export const renderModal = function(props, children, callback) {
-  props.ariaHideApp = false;
+  const modalProps = { ariaHideApp: false, ...props };
+
   const currentDiv = document.createElement("div");
   divStack.push(currentDiv);
   document.body.appendChild(currentDiv);
 
   // eslint-disable-next-line react/no-render-return-value
   return ReactDOM.render(
-    <Modal {...props}>{children}</Modal>,
+    <Modal {...modalProps}>{children}</Modal>,
     currentDiv,
     callback
   );

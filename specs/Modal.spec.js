@@ -16,7 +16,7 @@ import {
 } from "./helper";
 
 export default () => {
-  afterEach("check if test cleaned up rendered modals", emptyDOM);
+  afterEach("cleaned up all rendered modals", emptyDOM);
 
   it("scopes tab navigation to the modal");
   it("focuses the last focused element when tabbing in from browser chrome");
@@ -350,6 +350,104 @@ export default () => {
     el.getAttribute("aria-hidden").should.be.eql("true");
     ReactDOM.unmountComponentAtNode(node);
     should(el.getAttribute("aria-hidden")).not.be.ok();
+  });
+
+  // eslint-disable-next-line max-len
+  it("removes aria-hidden when closed and another modal with ariaHideApp set to false is open", () => {
+    const rootNode = document.createElement("div");
+    document.body.appendChild(rootNode);
+
+    const appElement = document.createElement("div");
+    document.body.appendChild(appElement);
+
+    Modal.setAppElement(appElement);
+
+    const initialState = (
+      <div>
+        <Modal isOpen={true} ariaHideApp={false} id="test-1-modal-1" />
+        <Modal isOpen={true} ariaHideApp={true} id="test-1-modal-2" />
+      </div>
+    );
+
+    ReactDOM.render(initialState, rootNode);
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
+
+    const updatedState = (
+      <div>
+        <Modal isOpen={true} ariaHideApp={false} id="test-1-modal-1" />
+        <Modal isOpen={false} ariaHideApp={true} id="test-1-modal-2" />
+      </div>
+    );
+
+    ReactDOM.render(updatedState, rootNode);
+    should(appElement.getAttribute("aria-hidden")).not.be.ok();
+
+    ReactDOM.unmountComponentAtNode(rootNode);
+  });
+
+  // eslint-disable-next-line max-len
+  it("maintains aria-hidden when closed and another modal with ariaHideApp set to true is open", () => {
+    const rootNode = document.createElement("div");
+    document.body.appendChild(rootNode);
+
+    const appElement = document.createElement("div");
+    document.body.appendChild(appElement);
+
+    Modal.setAppElement(appElement);
+
+    const initialState = (
+      <div>
+        <Modal isOpen={true} ariaHideApp={true} id="test-1-modal-1" />
+        <Modal isOpen={true} ariaHideApp={true} id="test-1-modal-2" />
+      </div>
+    );
+
+    ReactDOM.render(initialState, rootNode);
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
+
+    const updatedState = (
+      <div>
+        <Modal isOpen={true} ariaHideApp={true} id="test-1-modal-1" />
+        <Modal isOpen={false} ariaHideApp={true} id="test-1-modal-2" />
+      </div>
+    );
+
+    ReactDOM.render(updatedState, rootNode);
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
+
+    ReactDOM.unmountComponentAtNode(rootNode);
+  });
+
+  // eslint-disable-next-line max-len
+  it("removes aria-hidden when unmounted without close and second modal with ariaHideApp=false is open", () => {
+    const appElement = document.createElement("div");
+    document.body.appendChild(appElement);
+    Modal.setAppElement(appElement);
+
+    renderModal({ isOpen: true, ariaHideApp: false, id: "test-2-modal-1" });
+    should(appElement.getAttribute("aria-hidden")).not.be.ok();
+
+    renderModal({ isOpen: true, ariaHideApp: true, id: "test-2-modal-2" });
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
+
+    unmountModal();
+    should(appElement.getAttribute("aria-hidden")).not.be.ok();
+  });
+
+  // eslint-disable-next-line max-len
+  it("maintains aria-hidden when unmounted without close and second modal with ariaHideApp=true is open", () => {
+    const appElement = document.createElement("div");
+    document.body.appendChild(appElement);
+    Modal.setAppElement(appElement);
+
+    renderModal({ isOpen: true, ariaHideApp: true, id: "test-3-modal-1" });
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
+
+    renderModal({ isOpen: true, ariaHideApp: true, id: "test-3-modal-2" });
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
+
+    unmountModal();
+    appElement.getAttribute("aria-hidden").should.be.eql("true");
   });
 
   it("adds --after-open for animations", () => {
