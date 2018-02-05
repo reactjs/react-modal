@@ -1,3 +1,13 @@
+v3.1.12 - Mon, 05 Feb 2018 08:34:57 UTC
+---------------------------------------
+
+- [6c4d4ad](../../commit/6c4d4ad) [fixed] management of aria-hidden attribute decoupled from the management of the body open class
+- [93b2c05](../../commit/93b2c05) [chore] Bump bootstrap example to use 4.0 release
+- [0bd1505](../../commit/0bd1505) [chore] edits style doc
+- [c7c928c](../../commit/c7c928c) [chore] updates style page
+- [f5b9c11](../../commit/f5b9c11) [chore] updates README - styles
+
+
 v3.1.11 - Tue, 16 Jan 2018 12:45:05 UTC
 ---------------------------------------
 
