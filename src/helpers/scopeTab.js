@@ -13,9 +13,11 @@ export default function scopeTab(node, event) {
   const head = tabbable[0];
   const tail = tabbable[tabbable.length - 1];
 
-  // proceed with default browser behavior
+  // proceed with default browser behavior on tab.
+  // Focus on last element on shift + tab.
   if (node === document.activeElement) {
-    return;
+    if (!shiftKey) return;
+    target = tail;
   }
 
   var target;

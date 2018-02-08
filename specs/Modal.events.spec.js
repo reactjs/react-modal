@@ -44,6 +44,21 @@ export default () => {
     document.activeElement.should.be.eql(content);
   });
 
+  it("Traps tab in the modal one shift + tab", () => {
+    const topButton = <button>top</button>;
+    const bottomButton = <button>bottom</button>;
+    const modalContent = (
+      <div>
+        {topButton}
+        {bottomButton}
+      </div>
+    );
+    const modal = renderModal({ isOpen: true }, modalContent);
+    const content = mcontent(modal);
+    tabKeyDown(content, { shiftKey: true });
+    document.activeElement.textContent.should.be.eql("bottom");
+  });
+
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
