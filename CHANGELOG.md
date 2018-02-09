@@ -1,3 +1,9 @@
+v3.1.13 - Fri, 09 Feb 2018 10:27:15 UTC
+---------------------------------------
+
+- [700a28a](../../commit/700a28a) [fixed] Tab focus escapes modal on shift + tab after opening
+
+
 v3.1.12 - Mon, 05 Feb 2018 08:34:57 UTC
 ---------------------------------------
 
