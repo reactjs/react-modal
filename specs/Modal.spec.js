@@ -601,4 +601,20 @@ export default () => {
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
   });
+
+  it("use overlayRef and contentRef", () => {
+    let overlay = null;
+    let content = null;
+
+    renderModal({
+      isOpen: true,
+      overlayRef: node => (overlay = node),
+      contentRef: node => (content = node)
+    });
+
+    overlay.should.be.instanceOf(HTMLElement);
+    content.should.be.instanceOf(HTMLElement);
+    overlay.classList.contains("ReactModal__Overlay");
+    content.classList.contains("ReactModal__Content");
+  });
 };

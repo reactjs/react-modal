@@ -59,7 +59,9 @@ export default class Modal extends Component {
     aria: PropTypes.object,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
-    shouldCloseOnEsc: PropTypes.bool
+    shouldCloseOnEsc: PropTypes.bool,
+    overlayRef: PropTypes.func,
+    contentRef: PropTypes.func
   };
   /* eslint-enable react/no-unused-prop-types */
 

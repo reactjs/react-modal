@@ -104,6 +104,14 @@ import ReactModal from 'react-modal';
     labelledby: "heading",
     describedby: "full_description"
   }}
+  /* 
+    Overlay ref callback.
+  */
+  overlayRef={setOverlayRef}
+  /* 
+    Content ref callback.
+  */
+  contentRef={setContentRef}
 />
 ```
 
