@@ -202,6 +202,21 @@ You can use this to remove scrolling on the body while the modal is open.
 }
 ```
 
+### Refs
+
+You can use ref callbacks to get overlay and content DOM nodes:
+
+```jsx
+<Modal
+  ...
+  overlayRef={node => this.overlayRef = node}
+  contentRef={node => this.contentRef = node}
+  ...
+>
+  <p>Modal Content.</p>
+</Modal>
+```
+
 ## Examples
 
 Inside an app:

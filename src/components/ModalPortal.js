@@ -50,7 +50,9 @@ export default class ModalPortal extends Component {
     contentLabel: PropTypes.string,
     aria: PropTypes.object,
     children: PropTypes.node,
-    shouldCloseOnEsc: PropTypes.bool
+    shouldCloseOnEsc: PropTypes.bool,
+    overlayRef: PropTypes.func,
+    contentRef: PropTypes.func
   };
 
   constructor(props) {
@@ -110,10 +112,12 @@ export default class ModalPortal extends Component {
 
   setOverlayRef = overlay => {
     this.overlay = overlay;
+    this.props.overlayRef && this.props.overlayRef(overlay);
   };
 
   setContentRef = content => {
     this.content = content;
+    this.props.contentRef && this.props.contentRef(content);
   };
 
   beforeOpen() {
