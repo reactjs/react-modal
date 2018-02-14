@@ -44,7 +44,7 @@ export default () => {
     document.activeElement.should.be.eql(content);
   });
 
-  it("Traps tab in the modal one shift + tab", () => {
+  it("traps tab in the modal on shift + tab", () => {
     const topButton = <button>top</button>;
     const bottomButton = <button>bottom</button>;
     const modalContent = (
