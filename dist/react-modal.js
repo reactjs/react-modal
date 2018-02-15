@@ -704,7 +704,9 @@ Modal.propTypes = {
   aria: _propTypes2.default.object,
   role: _propTypes2.default.string,
   contentLabel: _propTypes2.default.string,
-  shouldCloseOnEsc: _propTypes2.default.bool
+  shouldCloseOnEsc: _propTypes2.default.bool,
+  overlayRef: _propTypes2.default.func,
+  contentRef: _propTypes2.default.func
 };
 Modal.defaultProps = {
   isOpen: false,
@@ -1485,10 +1487,12 @@ var ModalPortal = function (_Component) {
 
     _this.setOverlayRef = function (overlay) {
       _this.overlay = overlay;
+      _this.props.overlayRef && _this.props.overlayRef(overlay);
     };
 
     _this.setContentRef = function (content) {
       _this.content = content;
+      _this.props.contentRef && _this.props.contentRef(content);
     };
 
     _this.afterClose = function () {
@@ -1808,7 +1812,9 @@ ModalPortal.propTypes = {
   contentLabel: _propTypes2.default.string,
   aria: _propTypes2.default.object,
   children: _propTypes2.default.node,
-  shouldCloseOnEsc: _propTypes2.default.bool
+  shouldCloseOnEsc: _propTypes2.default.bool,
+  overlayRef: _propTypes2.default.func,
+  contentRef: _propTypes2.default.func
 };
 exports.default = ModalPortal;
 module.exports = exports["default"];

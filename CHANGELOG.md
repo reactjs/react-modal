@@ -1,3 +1,10 @@
+v3.2.1 - Thu, 15 Feb 2018 09:07:28 UTC
+--------------------------------------
+
+- [0809958](../../commit/0809958) [added] ref for overlay and content
+- [61b141d](../../commit/61b141d) Fix minor typos in spec
+
+
 v3.1.13 - Fri, 09 Feb 2018 10:27:15 UTC
 ---------------------------------------
 
