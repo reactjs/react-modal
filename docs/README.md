@@ -4,7 +4,7 @@
 
 We maintain that accessibility is a key component of any modern web application.  As such, we have created this modal in such a way that it fulfills the accessibility requirements of the modern web.  We seek to keep the focus on accessibility while providing a functional, capable modal component for general use.
 
-## Installation
+## Installation {#installation}
 
 To install the stable version you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com):
 
@@ -13,7 +13,7 @@ To install the stable version you can use [npm](https://npmjs.org/) or [yarn](ht
     $ yarn add react-modal
 
 
-## General Usage
+## General Usage {#usage}
 
 The following is an example of using react-modal specifying all the possible props and options:
 
@@ -88,7 +88,7 @@ import ReactModal from 'react-modal';
     Boolean indicating if the modal should restore focus to the element that
     had focus prior to its display.
   */
-  shouldReturnFocusAfterClose={true}  
+  shouldReturnFocusAfterClose={true}
   /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
   */
@@ -104,17 +104,17 @@ import ReactModal from 'react-modal';
     labelledby: "heading",
     describedby: "full_description"
   }}
-  /* 
+  /*
     Overlay ref callback.
   */
   overlayRef={setOverlayRef}
-  /* 
+  /*
     Content ref callback.
   */
   contentRef={setContentRef}
 />
 ```
 
-## License
+## License {#license}
 
 MIT

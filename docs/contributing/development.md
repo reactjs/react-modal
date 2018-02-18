@@ -1,4 +1,4 @@
-# Development
+### Development setup
 
 `react-modal` uses `make` to build and publish new versions and documentation.
 
@@ -7,7 +7,7 @@ It works as a checklist for the future releases to keep everything updated such 
 
 The minimun works as a normal `npm script`.
 
-## Usage
+#### Usage
 
 Once you clone `react-modal`, you can run `sh bootstrap.sh` to check
 and download dependencies not managed by `react-modal` such as `gitbook-cli`.
@@ -15,13 +15,13 @@ and download dependencies not managed by `react-modal` such as `gitbook-cli`.
 It will also show information about the current versions of `node`, `npm`,
 `yarn` and `jq` available.
 
-## List of `npm` commands:
+#### List of `npm` commands:
 
     $ npm start -s or yarn start  # to run examples
     $ npm run tests
     $ npm run lint
 
-## List of `make` commands:
+#### List of `make` commands:
 
     $ make help           # show all make commands available
     $ make deps           # npm install, gitbook plugins...
