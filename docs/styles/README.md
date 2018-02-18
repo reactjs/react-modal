@@ -1,6 +1,8 @@
 ## Styles
 
-Styles passed into the Modal via the `style` prop are merged with the defaults.  The default styles are:
+Styles passed into the Modal via the `style` prop are merged with the defaults.
+The default styles are defined in the `Modal.defaultStyles` object and are
+shown below.
 
 ```jsx
 <Modal
@@ -32,3 +34,7 @@ Styles passed into the Modal via the `style` prop are merged with the defaults. 
   ...
 >
 ```
+
+You can change the default styles by modifying `Modal.defaultStyles`.  Please
+note that specifying a [CSS class](classes.md) for the overlay or the content
+will disable the default styles for that component.

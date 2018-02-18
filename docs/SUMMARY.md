@@ -1,12 +1,18 @@
 # Summary
 
-* [Read Me](/README.md)
+* [Overview](/README.md)
+  * [Installation](/README.md#installation)
+  * [Usage](/README.md#usage)
+  * [License](/README.md#license)
 
-* [Development](dev/README.md)
+* [Accessibility](accessibility/README.md)
+  * [The app element](accessibility/README.md#app-element)
+  * [Keyboard navigation](accessibility/README.md#keyboard)
+  * [Custom ARIA attributes](accessibility/README.md#aria)
 
 * [Styles](styles/README.md)
   * [Using CSS Classes](styles/classes.md)
-  * [Overriding Defaults](styles/defaults.md)
+  * [Transitions](styles/transitions.md)
 
 * [Testing](testing/README.md)
 
@@ -20,3 +26,4 @@
   * [Using Global Style Overrides](examples/global_overrides.md)
 
 * [Contributing](contributing/README.md)
+  * [Development setup](contributing/development.md)
