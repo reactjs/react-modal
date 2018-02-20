@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
 import scopeTab from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
-import * as bodyClassList from "../helpers/bodyClassList";
+import * as classList from "../helpers/classList";
 import SafeHTMLElement from "../helpers/safeHTMLElement";
 
 // so that our CSS is statically analyzable
@@ -132,13 +132,19 @@ export default class ModalPortal extends Component {
     const {
       appElement,
       ariaHideApp,
-      bodyOpenClassName,
-      htmlOpenClassName
+      htmlOpenClassName,
+      bodyOpenClassName
     } = this.props;
-    // Add body and html class
-    bodyClassList.add(document.body, bodyOpenClassName);
-    classList.add(document.getElementsByTagName("html")[0], htmlOpenClassName);
-    // Add aria-hidden to appElement
+
+    // Add classes.
+    classList.add(document.body, bodyOpenClassName);
+
+    htmlOpenClassName &&
+      classList.add(
+        document.getElementsByTagName("html")[0],
+        htmlOpenClassName
+      );
+
     if (ariaHideApp) {
       ariaHiddenInstances += 1;
       ariaAppHider.hide(appElement);
@@ -146,14 +152,21 @@ export default class ModalPortal extends Component {
   }
 
   afterClose = () => {
-    const { appElement, ariaHideApp } = this.props;
+    const {
+      appElement,
+      ariaHideApp,
+      htmlOpenClassName,
+      bodyOpenClassName
+    } = this.props;
 
-    // Remove body class
-    bodyClassList.remove(this.props.bodyOpenClassName);
-    classList.remove(
-      document.getElementsByTagName("html")[0],
-      this.props.htmlOpenClassName
-    );
+    // Remove classes.
+    classList.remove(document.body, bodyOpenClassName);
+
+    htmlOpenClassName &&
+      classList.remove(
+        document.getElementsByTagName("html")[0],
+        htmlOpenClassName
+      );
 
     // Reset aria-hidden attribute if all modals have been removed
     if (ariaHideApp && ariaHiddenInstances > 0) {

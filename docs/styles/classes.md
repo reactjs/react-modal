@@ -38,7 +38,7 @@ any styles applied using these default classes will not override the default
 styles as they would if specified using the `className` or `overlayClassName`
 props.
 
-#### For the document body
+#### For the document.body and html tag
 
 You can override the default class that is added to `document.body` when the
 modal is open by defining a property `bodyOpenClassName`.
@@ -58,6 +58,21 @@ non-default `bodyOpenClassName`), you could use the following CSS:
 ```CSS
 .ReactModal__Body--open {
     overflow: hidden;
+}
+```
+
+You can define a class to be added to the html tag, using the `htmlOpenClassName`
+attribute, which can be helpeful to stop the page to scroll to the top when open
+a modal.
+
+This attribute follows the same rules as `bodyOpenClassName`, it must be a *constant string*;
+
+Here is an example that can help preventing this behavior:
+
+```CSS
+.ReactModal__Body--open,
+.ReactModal__Html--open {
+  overflow: hidden;
 }
 ```
 

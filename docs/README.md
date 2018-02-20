@@ -71,6 +71,7 @@ import ReactModal from 'react-modal';
   bodyOpenClassName="ReactModal__Body--open"
   /*
      String className to be applied to the document.html (must be a constant string).
+     This attribute is `null` by default.
      See the `Styles` section for more details.
   */
   htmlOpenClassName="ReactModal__Html--open"
