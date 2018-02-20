@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Modal, {
-  bodyOpenClassName,
-  htmlOpenClassName
-} from "../src/components/Modal";
+import Modal, { bodyOpenClassName } from "../src/components/Modal";
 import TestUtils from "react-dom/test-utils";
 
 const divStack = [];
@@ -26,6 +23,12 @@ if (!String.prototype.includes) {
 }
 
 /**
+ * Return the class list object from `document.body`.
+ * @return {Array}
+ */
+export const documentBodyClassList = () => document.body.classList;
+
+/**
  * Check if the document.body contains the react modal
  * open class.
  * @return {Boolean}
@@ -34,12 +37,19 @@ export const isBodyWithReactModalOpenClass = (bodyClass = bodyOpenClassName) =>
   document.body.className.includes(bodyClass);
 
 /**
+ * Return the class list object from <html />.
+ * @return {Array}
+ */
+export const htmlClassList = () =>
+  document.getElementsByTagName("html")[0].classList;
+
+/**
  * Check if the html contains the react modal
  * open class.
  * @return {Boolean}
  */
-export const isHtmlWithReactModalOpenClass = (htmlClass = htmlOpenClassName) =>
-  document.getElementsByTagName("html")[0].className.includes(htmlClass);
+export const isHtmlWithReactModalOpenClass = htmlClass =>
+  htmlClassList().contains(htmlClass);
 
 /**
  * Returns a rendered dom element by class.
