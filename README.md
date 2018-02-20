@@ -10,10 +10,8 @@ Accessible modal dialog component for React.JS
 ## Table of Contents
 
 * [Installation](#installation)
-* [Usage](#usage)
-* [Styles](#styles)
+* [API documentation](#api-documentation)
 * [Examples](#examples)
-* [Testing](#testing)
 * [Demos](#demos)
 
 ## Installation
