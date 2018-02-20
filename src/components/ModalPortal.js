@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
 import scopeTab from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
+import { isSafariDesktop } from "../helpers/ariaAppHider";
 import * as bodyClassList from "../helpers/bodyClassList";
 import SafeHTMLElement from "../helpers/safeHTMLElement";
 
@@ -16,6 +17,9 @@ const TAB_KEY = 9;
 const ESC_KEY = 27;
 
 let ariaHiddenInstances = 0;
+
+const ariaModal = navigator.userAgent.match(/(iPhone|iPad|Mac)/i)
+  || isSafariDesktop ? {} : { modal: true };
 
 export default class ModalPortal extends Component {
   static defaultProps = {
@@ -318,7 +322,7 @@ export default class ModalPortal extends Component {
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
         onMouseUp={this.handleOverlayOnMouseUp}
-        aria-modal="true"
+        {...this.ariaAttributes(ariaModal)}
       >
         <div
           ref={this.setContentRef}
