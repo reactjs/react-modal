@@ -46,10 +46,20 @@ modal is open by defining a property `bodyOpenClassName`.
 The `bodyOpenClassName` prop must be a *constant string*; otherwise, we would
 require a complex system to manage which class name should be added to or
 removed from `document.body` from which modal (if using multiple modals
-simultaneously).
+simultaneously).  The default value is `ReactModal__Body--open`.
 
 `bodyOpenClassName` can support adding multiple classes to `document.body` when
 the modal is open. Add as many class names as you desire, delineated by spaces.
+
+One potential application for the body class is to remove scrolling on the body
+when the modal is open.  To do this for all modals (except those that specify a
+non-default `bodyOpenClassName`), you could use the following CSS:
+
+```CSS
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+```
 
 #### For the entire portal
 

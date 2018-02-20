@@ -25,201 +25,16 @@ To install, you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com)
     $ yarn add react-modal
 
 
-## Usage
+## API documentation
 
-The Modal object has one required prop:
-
-- `isOpen` to render its children.
-
-Example:
-
-```jsx
-<Modal
-  isOpen={bool}
-  onAfterOpen={afterOpenFn}
-  onRequestClose={requestCloseFn}
-  closeTimeoutMS={n}
-  style={customStyle}
-  contentLabel="Modal"
->
-  <h1>Modal Content</h1>
-  <p>Etc.</p>
-</Modal>
-```
-
-> Use the prop `contentLabel` which adds `aria-label` to the modal if there is no label text visible on the screen, otherwise specify the element including the label text using `aria-labelledby`
-
-### App Element
-
-The app element allows you to specify the portion
-of your app that should be hidden (via aria-hidden)
-to prevent assistive technologies such as screenreaders
-from reading content outside of the content of
-your modal.
-
-If you are doing server-side rendering, you should use
-this property.
-
-It can be specified in the following ways:
-
-- DOMElement
-
-```js
-Modal.setAppElement(appElement);
-```
-
-- query selector - uses the first element found if you pass in a class.
-
-```js
-Modal.setAppElement('#your-app-element');
-```
-
-### Additional Aria Attributes
-
-Use the property `aria` to pass any additional aria attributes. It accepts
-an object where the keys are the names of the attributes without the prefix
-`aria-`.
-
-Example:
-
-```jsx
-<Modal
-  isOpen={modalIsOpen}
-  aria={{
-    labelledby: "heading",
-    describedby: "full_description"
-  }}>
-  <h1 id="heading">H1</h1>
-  <div id="full_description">
-    <p>Description goes here.</p>
-  </div>
-</Modal>
-```
-
-## Styles
-
-Styles are passed with the `style` prop, an object with 2 keys, 'overlay' and 'content' like so
-
-```jsx
-<Modal
-  ...
-  style={{
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(255, 255, 255, 0.75)'
-    },
-    content: {
-      position: 'absolute',
-      top: '40px',
-      left: '40px',
-      right: '40px',
-      bottom: '40px',
-      border: '1px solid #ccc',
-      background: '#fff',
-      overflow: 'auto',
-      WebkitOverflowScrolling: 'touch',
-      borderRadius: '4px',
-      outline: 'none',
-      padding: '20px'
-    }
-  }}
-  ...
->
-```
-
-Styles passed to the modal are merged in with the above defaults and applied to their respective elements.
-At this time, media queries will need to be handled by the consumer.
-
-### Using CSS Classes
-
-If you prefer not to use inline styles or are unable to do so in your project,
-you can pass `className` and `overlayClassName` props to the Modal.  If you do
-this then none of the default styles will apply and you will have full control
-over styling via CSS.
-
-If you want to override default content and overlay classes you can pass object
-with three required properties: `base`, `afterOpen`, `beforeClose`.
-
-```jsx
-<Modal
-  ...
-  className={{
-    base: 'myClass',
-    afterOpen: 'myClass_after-open',
-    beforeClose: 'myClass_before-close'
-  }}
-  overlayClassName={{
-    base: 'myOverlayClass',
-    afterOpen: 'myOverlayClass_after-open',
-    beforeClose: 'myOverlayClass_before-close'
-  }}
-  ...
->
-```
-
-You can also pass a `portalClassName` to change the wrapper's class (*ReactModalPortal*).
-This doesn't affect styling as no styles are applied to this element by default.
-
-### Overriding styles globally
-
-The default styles above are available on `Modal.defaultStyles`. Changes to this
-object will apply to all instances of the modal.
-
-### Appended to custom node
-
-You can choose an element for the modal to be appended to, rather than using
-body tag. To do this, provide a function to `parentSelector` prop that return
-the element to be used.
-
-```jsx
-
-function getParent() {
-  return document.querySelector('#root');
-}
-
-<Modal
-  ...
-  parentSelector={getParent}
-  ...
->
-  <p>Modal Content.</p>
-</Modal>
-```
-
-### Body class
-
-When the modal is opened a `ReactModal__Body--open` class is added to the `body` tag.
-You can use this to remove scrolling on the body while the modal is open.
-
-```CSS
-/* Remove scroll on the body when react-modal is open */
-.ReactModal__Body--open {
-    overflow: hidden;
-}
-```
-
-### Refs
-
-You can use ref callbacks to get overlay and content DOM nodes:
-
-```jsx
-<Modal
-  ...
-  overlayRef={node => this.overlayRef = node}
-  contentRef={node => this.contentRef = node}
-  ...
->
-  <p>Modal Content.</p>
-</Modal>
-```
+The primary documentation for react-modal is the
+[reference book](https://reactjs.github.io/react-modal), which describes the API
+and gives examples of its usage.
 
 ## Examples
 
-Inside an app:
+Here is a simple example of react-modal being used in an app with some custom
+styles and focusable input elements within the modal content:
 
 ```jsx
 import React from 'react';
@@ -294,33 +109,18 @@ class App extends React.Component {
 ReactDOM.render(<App />, appElement);
 ```
 
-## Testing
-
-When using React Test Utils with this library, here are some things to keep in mind:
-
-- You need to set `isOpen={true}` on the modal component for it to render its children.
-- You need to use the `.portal` property, as in `ReactDOM.findDOMNode(renderedModal.portal)` or `TestUtils.scryRenderedDOMComponentsWithClass(Modal.portal, 'my-modal-class')` to acquire a handle to the inner contents of your modal.
-
-By default the modal is closed when clicking outside of it (the overlay area). If you want to prevent this behavior you can
-pass the 'shouldCloseOnOverlayClick' prop with 'false' value.
-
-```jsx
-<Modal
-  isOpen={bool}
-  onAfterOpen={afterOpenFn}
-  onRequestClose={requestCloseFn}
-  closeTimeoutMS={n}
-  shouldCloseOnOverlayClick={false}
-  style={customStyle}
-  contentLabel="No Overlay Click Modal"
->
-
-  <h1>Force Modal</h1>
-  <p>Modal cannot be closed when clicking the overlay area</p>
-  <button onClick={handleCloseFunc}>Close Modal...</button>
-</Modal>
-```
+You can find more examples in the `examples` directory, which you can run in a
+local development server using `npm start` or `yarn run start`.
 
 ## Demos
 
-* http://reactjs.github.io/react-modal/
+There are several demos hosted on [CodePen](https://codepen.io) which
+demonstrate various features of react-modal:
+
+* [Minimal example](https://codepen.io/claydiffrient/pen/KNxgav)
+* [Using setAppElement](https://codepen.io/claydiffrient/pen/ENegGJ)
+* [Using onRequestClose](https://codepen.io/claydiffrient/pen/KNjVBx)
+* [Using shouldCloseOnOverlayClick](https://codepen.io/claydiffrient/pen/woLzwo)
+* [Using inline styles](https://codepen.io/claydiffrient/pen/ZBmyKz)
+* [Using CSS classes for styling](https://codepen.io/claydiffrient/pen/KNjVrG)
+* [Customizing the default styles](https://codepen.io/claydiffrient/pen/pNXgqQ)

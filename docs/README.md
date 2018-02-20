@@ -15,7 +15,9 @@ To install the stable version you can use [npm](https://npmjs.org/) or [yarn](ht
 
 ## General Usage {#usage}
 
-The following is an example of using react-modal specifying all the possible props and options:
+The only required prop for the modal object is `isOpen`, which indicates
+whether the modal should be displayed.  The following is an example of using
+react-modal specifying all the possible props and options:
 
 ```js
 import ReactModal from 'react-modal';
@@ -113,6 +115,46 @@ import ReactModal from 'react-modal';
   */
   contentRef={setContentRef}
 />
+```
+
+## Using a custom parent node {#custom-parent}
+
+By default, the modal portal will be appended to the document's body.  You can
+choose a different parent element by providing a function to the
+`parentSelector` prop that returns the element to be used:
+
+```jsx
+function getParent() {
+  return document.querySelector('#root');
+}
+
+<Modal
+  ...
+  parentSelector={getParent}
+  ...
+>
+  <p>Modal Content.</p>
+</Modal>
+```
+
+If you do this, please ensure that your
+[app element](accessibility/README.md#app-element) is set correctly.  The app
+element should not be a parent of the modal, to prevent modal content from
+being hidden to screenreaders while it is open.
+
+## Refs {#refs}
+
+You can use ref callbacks to get the overlay and content DOM nodes directly:
+
+```jsx
+<Modal
+  ...
+  overlayRef={node => this.overlayRef = node}
+  contentRef={node => this.contentRef = node}
+  ...
+>
+  <p>Modal Content.</p>
+</Modal>
 ```
 
 ## License {#license}
