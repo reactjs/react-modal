@@ -2,13 +2,15 @@
 
 * [Overview](/README.md)
   * [Installation](/README.md#installation)
-  * [Usage](/README.md#usage)
+  * [Usage summary](/README.md#usage)
+  * [Using a custom parent node](/README.md#custom-parent)
+  * [Refs](/README.md#refs)
   * [License](/README.md#license)
 
 * [Accessibility](accessibility/README.md)
   * [The app element](accessibility/README.md#app-element)
   * [Keyboard navigation](accessibility/README.md#keyboard)
-  * [Custom ARIA attributes](accessibility/README.md#aria)
+  * [ARIA attributes](accessibility/README.md#aria)
 
 * [Styles](styles/README.md)
   * [Using CSS Classes](styles/classes.md)

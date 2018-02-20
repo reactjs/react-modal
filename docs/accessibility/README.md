@@ -44,11 +44,22 @@ The modal can be closed using the escape key, unless the
 `shouldCloseOnEsc={false}` prop is passed.  Disabling this behavior may cause
 accessibility issues for keyboard users, however, so it is not recommended.
 
-### Custom ARIA attributes {#aria}
+### ARIA attributes {#aria}
 
-To pass custom ARIA attributes to your modal, you can use the `aria` prop,
-which accepts an object whose keys are the attributes you want to set (without
-the leading `aria-` prefix).  For example, you could have an alert modal with a
+Besides the `aria-hidden` attribute which is applied to the app element when
+the modal is shown, there are many other ARIA attributes which you can use to
+make your app more accessible.  A complete list of ARIA attributes can be found
+in the [ARIA specification](https://www.w3.org/TR/wai-aria-1.1/#state_prop_def).
+
+One ARIA attribute is given a dedicated prop by react-modal: you should use the
+`contentLabel` prop to provide a label for the modal content (via `aria-label`)
+if there is no visible label on the screen.  If the modal is already labeled
+with visible text, you should specify the element including the label with the
+`aria-labelledby` attribute using the `aria` prop described below.
+
+To pass other ARIA attributes to your modal, you can use the `aria` prop, which
+accepts an object whose keys are the attributes you want to set (without the
+leading `aria-` prefix).  For example, you could have an alert modal with a
 title as well as a longer description:
 
 ```jsx
