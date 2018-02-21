@@ -682,6 +682,7 @@ Modal.propTypes = {
   }),
   portalClassName: _propTypes2.default.string,
   bodyOpenClassName: _propTypes2.default.string,
+  htmlOpenClassName: _propTypes2.default.string,
   className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.shape({
     base: _propTypes2.default.string.isRequired,
     afterOpen: _propTypes2.default.string.isRequired,
@@ -1444,9 +1445,9 @@ var _ariaAppHider = __webpack_require__(7);
 
 var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
 
-var _bodyClassList = __webpack_require__(19);
+var _classList = __webpack_require__(19);
 
-var bodyClassList = _interopRequireWildcard(_bodyClassList);
+var classList = _interopRequireWildcard(_classList);
 
 var _safeHTMLElement = __webpack_require__(8);
 
@@ -1498,11 +1499,15 @@ var ModalPortal = function (_Component) {
     _this.afterClose = function () {
       var _this$props = _this.props,
           appElement = _this$props.appElement,
-          ariaHideApp = _this$props.ariaHideApp;
+          ariaHideApp = _this$props.ariaHideApp,
+          htmlOpenClassName = _this$props.htmlOpenClassName,
+          bodyOpenClassName = _this$props.bodyOpenClassName;
 
-      // Remove body class
+      // Remove classes.
 
-      bodyClassList.remove(_this.props.bodyOpenClassName);
+      classList.remove(document.body, bodyOpenClassName);
+
+      htmlOpenClassName && classList.remove(document.getElementsByTagName("html")[0], htmlOpenClassName);
 
       // Reset aria-hidden attribute if all modals have been removed
       if (ariaHideApp && ariaHiddenInstances > 0) {
@@ -1694,6 +1699,10 @@ var ModalPortal = function (_Component) {
           // eslint-disable-next-line no-console
           console.warn('React-Modal: "bodyOpenClassName" prop has been modified. ' + "This may cause unexpected behavior when multiple modals are open.");
         }
+        if (newProps.htmlOpenClassName !== this.props.htmlOpenClassName) {
+          // eslint-disable-next-line no-console
+          console.warn('React-Modal: "htmlOpenClassName" prop has been modified. ' + "This may cause unexpected behavior when multiple modals are open.");
+        }
       }
       // Focus only needs to be set once when the modal is being opened
       if (!this.props.isOpen && newProps.isOpen) {
@@ -1723,11 +1732,15 @@ var ModalPortal = function (_Component) {
       var _props = this.props,
           appElement = _props.appElement,
           ariaHideApp = _props.ariaHideApp,
+          htmlOpenClassName = _props.htmlOpenClassName,
           bodyOpenClassName = _props.bodyOpenClassName;
-      // Add body class
 
-      bodyClassList.add(bodyOpenClassName);
-      // Add aria-hidden to appElement
+      // Add classes.
+
+      classList.add(document.body, bodyOpenClassName);
+
+      htmlOpenClassName && classList.add(document.getElementsByTagName("html")[0], htmlOpenClassName);
+
       if (ariaHideApp) {
         ariaHiddenInstances += 1;
         ariaAppHider.hide(appElement);
@@ -1800,6 +1813,7 @@ ModalPortal.propTypes = {
   className: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
   overlayClassName: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
   bodyOpenClassName: _propTypes2.default.string,
+  htmlOpenClassName: _propTypes2.default.string,
   ariaHideApp: _propTypes2.default.bool,
   appElement: _propTypes2.default.instanceOf(_safeHTMLElement2.default),
   onAfterOpen: _propTypes2.default.func,
@@ -2079,41 +2093,108 @@ module.exports = warning;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var classListMap = {};
+exports.dumpClassLists = dumpClassLists;
+var htmlClassList = {};
+var docBodyClassList = {};
 
-var addClassToMap = function addClassToMap(className) {
-  // Set variable and default if none
-  if (!classListMap[className]) {
-    classListMap[className] = 0;
+function dumpClassLists() {
+  if (undefined !== "production") {
+    var classes = document.getElementsByTagName("html")[0].className;
+    var buffer = "Show tracked classes:\n\n";
+
+    buffer += "<html /> (" + classes + "):\n";
+    for (var x in htmlClassList) {
+      buffer += "  " + x + " " + htmlClassList[x] + "\n";
+    }
+
+    classes = document.body.className;
+
+    // eslint-disable-next-line max-len
+    buffer += "\n\ndoc.body (" + classes + "):\n";
+    for (var _x in docBodyClassList) {
+      buffer += "  " + _x + " " + docBodyClassList[_x] + "\n";
+    }
+
+    buffer += "\n";
+
+    // eslint-disable-next-line no-console
+    console.log(buffer);
   }
-  classListMap[className] += 1;
+}
+
+/**
+ * Track the number of reference of a class.
+ * @param {object} poll The poll to receive the reference.
+ * @param {string} className The class name.
+ * @return {string}
+ */
+var incrementReference = function incrementReference(poll, className) {
+  if (!poll[className]) {
+    poll[className] = 0;
+  }
+  poll[className] += 1;
   return className;
 };
 
-var removeClassFromMap = function removeClassFromMap(className) {
-  if (classListMap[className]) {
-    classListMap[className] -= 1;
+/**
+ * Drop the reference of a class.
+ * @param {object} poll The poll to receive the reference.
+ * @param {string} className The class name.
+ * @return {string}
+ */
+var decrementReference = function decrementReference(poll, className) {
+  if (poll[className]) {
+    poll[className] -= 1;
   }
   return className;
 };
 
-var add = function add(bodyClass) {
-  bodyClass.split(" ").map(addClassToMap).forEach(function (className) {
-    return document.body.classList.add(className);
+/**
+ * Track a class and add to the given class list.
+ * @param {Object} classListRef A class list of an element.
+ * @param {Object} poll         The poll to be used.
+ * @param {Array}  classes      The list of classes to be tracked.
+ */
+var trackClass = function trackClass(classListRef, poll, classes) {
+  classes.forEach(function (className) {
+    incrementReference(poll, className);
+    classListRef.add(className);
   });
 };
 
-var remove = function remove(bodyClass) {
-  // Remove unused class(es) from body
-  bodyClass.split(" ").map(removeClassFromMap).filter(function (className) {
-    return classListMap[className] === 0;
-  }).forEach(function (className) {
-    return document.body.classList.remove(className);
+/**
+ * Untrack a class and remove from the given class list if the reference
+ * reaches 0.
+ * @param {Object} classListRef A class list of an element.
+ * @param {Object} poll         The poll to be used.
+ * @param {Array}  classes      The list of classes to be untracked.
+ */
+var untrackClass = function untrackClass(classListRef, poll, classes) {
+  classes.forEach(function (className) {
+    decrementReference(poll, className);
+    poll[className] === 0 && classListRef.remove(className);
   });
 };
 
-exports.add = add;
-exports.remove = remove;
+/**
+ * Public inferface to add classes to the document.body.
+ * @param {string} bodyClass The class string to be added.
+ *                           It may contain more then one class
+ *                           with ' ' as separator.
+ */
+var add = exports.add = function add(element, classString) {
+  return trackClass(element.classList, element.nodeName.toLowerCase() == "html" ? htmlClassList : docBodyClassList, classString.split(" "));
+};
+
+/**
+ * Public inferface to remove classes from the document.body.
+ * @param {string} bodyClass The class string to be added.
+ *                           It may contain more then one class
+ *                           with ' ' as separator.
+ */
+var remove = exports.remove = function remove(element, classString) {
+  return untrackClass(element.classList, element.nodeName.toLowerCase() == "html" ? htmlClassList : docBodyClassList, classString.split(" "));
+};
 
 /***/ }),
 /* 20 */

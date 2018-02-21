@@ -1,3 +1,13 @@
+v3.3.1 - Wed, 21 Feb 2018 09:53:44 UTC
+--------------------------------------
+
+- [0c6d966](../../commit/0c6d966) [added] htmlOpenClassName will follow the same rules like... bodyOpenClassName.
+- [088e68e](../../commit/088e68e) [added] add class to html when modal is open
+- [e6159b6](../../commit/e6159b6) [chore] Fix README table of contents
+- [241b8a6](../../commit/241b8a6) [chore] Move API documentation from README to gitbook
+- [4c1e590](../../commit/4c1e590) Expand documentation
+
+
 v3.2.1 - Thu, 15 Feb 2018 09:07:28 UTC
 --------------------------------------
 
