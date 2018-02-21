@@ -63,7 +63,7 @@ non-default `bodyOpenClassName`), you could use the following CSS:
 
 You can define a class to be added to the html tag, using the `htmlOpenClassName`
 attribute, which can be helpeful to stop the page to scroll to the top when open
-a modal.
+a modal. The default value is `null`.
 
 This attribute follows the same rules as `bodyOpenClassName`, it must be a *constant string*;
 
