@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
-import scopeTab from "../helpers/scopeTab";
+import { scopeTab, isSafariDesktop } from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import * as classList from "../helpers/classList";
 import SafeHTMLElement from "../helpers/safeHTMLElement";
@@ -340,6 +340,8 @@ export default class ModalPortal extends Component {
     const { className, overlayClassName, defaultStyles } = this.props;
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
+    const ariaModal = navigator.userAgent.match(/(iPhone|iPad|Mac)/i)
+      || isSafariDesktop ? {} : { modal: true };
 
     return this.shouldBeClosed() ? null : (
       <div
@@ -349,7 +351,7 @@ export default class ModalPortal extends Component {
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
         onMouseUp={this.handleOverlayOnMouseUp}
-        aria-modal="true"
+        {...this.ariaAttributes(ariaModal)}
       >
         <div
           ref={this.setContentRef}
