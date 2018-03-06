@@ -29,6 +29,9 @@ If you are already applying the `aria-hidden` attribute to your app content
 through other means, you can pass the `ariaHideApp={false}` prop to your modal
 to avoid getting a warning that your app element is not specified.
 
+Using `Modal.setAppElement` will not embed react-modal into your react app as
+a descendent component. It will just help boost up the app accessiblity.
+
 ### Keyboard navigation {#keyboard}
 
 When the modal is opened, it restricts keyboard navigation using the tab key to
