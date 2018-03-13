@@ -1,3 +1,11 @@
+v3.3.2 - Mon, 12 Mar 2018 22:16:32 UTC
+--------------------------------------
+
+- [eb1ac25](../../commit/eb1ac25) [chore] update list of files that shouldn't be packed.
+- [d8051f9](../../commit/d8051f9) [chore] improve documentation for shouldCloseOnOverlayClick.
+- [9012d81](../../commit/9012d81) [chore] add to docs the default value of the html class option.
+
+
 v3.3.1 - Wed, 21 Feb 2018 09:53:44 UTC
 --------------------------------------
 
