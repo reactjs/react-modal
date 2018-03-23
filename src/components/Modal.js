@@ -171,7 +171,7 @@ export default class Modal extends Component {
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
   };
-  
+
   portalRef = ref => {
     this.portal = ref;
   };
