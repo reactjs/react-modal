@@ -134,14 +134,14 @@ class Modal extends Component {
       this.node.className = portalClassName;
     }
 
-    // Stop unnecessary renders if modal is remaining closed
-    if (!prevProps.isOpen && !isOpen) return;
-
     const { prevParent, nextParent } = snapshot;
     if (nextParent !== prevParent) {
       prevParent.removeChild(this.node);
       nextParent.appendChild(this.node);
     }
+
+    // Stop unnecessary renders if modal is remaining closed
+    if (!prevProps.isOpen && !isOpen) return;
 
     !isReact16 && this.renderPortal(this.props);
   }
