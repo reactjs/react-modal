@@ -123,8 +123,6 @@ export default class Modal extends Component {
   componentWillReceiveProps(newProps) {
     if (!canUseDOM) return;
     const { isOpen } = newProps;
-    // Stop unnecessary renders if modal is remaining closed
-    if (!this.props.isOpen && !isOpen) return;
 
     const currentParent = getParentElement(this.props.parentSelector);
     const newParent = getParentElement(newProps.parentSelector);
@@ -133,6 +131,9 @@ export default class Modal extends Component {
       currentParent.removeChild(this.node);
       newParent.appendChild(this.node);
     }
+
+    // Stop unnecessary renders if modal is remaining closed
+    if (!this.props.isOpen && !isOpen) return;
 
     !isReact16 && this.renderPortal(newProps);
   }
@@ -170,7 +171,7 @@ export default class Modal extends Component {
     const parent = getParentElement(this.props.parentSelector);
     parent.removeChild(this.node);
   };
-
+  
   portalRef = ref => {
     this.portal = ref;
   };
