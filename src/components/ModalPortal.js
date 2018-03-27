@@ -266,16 +266,6 @@ export default class ModalPortal extends Component {
       }
     }
     this.shouldClose = null;
-    this.moveFromContentToOverlay = null;
-  };
-
-  handleOverlayOnMouseUp = () => {
-    if (this.moveFromContentToOverlay === null) {
-      this.shouldClose = false;
-    }
-    if (this.props.shouldCloseOnOverlayClick) {
-      this.shouldClose = true;
-    }
   };
 
   handleContentOnMouseUp = () => {
@@ -286,7 +276,6 @@ export default class ModalPortal extends Component {
     if (!this.props.shouldCloseOnOverlayClick && event.target == this.overlay) {
       event.preventDefault();
     }
-    this.moveFromContentToOverlay = false;
   };
 
   handleContentOnClick = () => {
@@ -295,7 +284,6 @@ export default class ModalPortal extends Component {
 
   handleContentOnMouseDown = () => {
     this.shouldClose = false;
-    this.moveFromContentToOverlay = false;
   };
 
   requestClose = event =>
@@ -348,7 +336,6 @@ export default class ModalPortal extends Component {
         style={{ ...overlayStyles, ...this.props.style.overlay }}
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
-        onMouseUp={this.handleOverlayOnMouseUp}
         aria-modal="true"
       >
         <div
