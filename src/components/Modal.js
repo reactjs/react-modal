@@ -5,6 +5,8 @@ import ModalPortal from "./ModalPortal";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
 
+import polyfill from "react-lifecycles-compat";
+
 export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";
 
@@ -14,10 +16,12 @@ const createPortal = isReact16
   : ReactDOM.unstable_renderSubtreeIntoContainer;
 
 function getParentElement(parentSelector) {
-  return parentSelector();
+  return parentSelector() || Modal.defaultProps.parentSelector;
 }
 
-export default class Modal extends Component {
+class Modal extends Component {
+  state = Object.assign({}, Modal.defaultProps);
+
   static setAppElement(element) {
     ariaAppHider.setElement(element);
   }
@@ -76,9 +80,7 @@ export default class Modal extends Component {
     shouldCloseOnEsc: true,
     shouldCloseOnOverlayClick: true,
     shouldReturnFocusAfterClose: true,
-    parentSelector() {
-      return document.body;
-    }
+    parentSelector: () => document.body
   };
 
   static defaultStyles = {
@@ -120,29 +122,45 @@ export default class Modal extends Component {
     !isReact16 && this.renderPortal(this.props);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (!canUseDOM) return;
+  static getDerivedStateFromProps(newProps, prevState) {
+    if (!canUseDOM) return null;
     const { isOpen } = newProps;
     // Stop unnecessary renders if modal is remaining closed
-    if (!this.props.isOpen && !isOpen) return;
+    if (prevState && !prevState.isOpen && !isOpen) return null;
 
-    const currentParent = getParentElement(this.props.parentSelector);
+    const currentParent = getParentElement(prevState.parentSelector);
     const newParent = getParentElement(newProps.parentSelector);
+
+    const enumeratedState = {
+      isOpen: newProps.isOpen,
+      parentSelector: newProps.parentSelector,
+      portalClassName: newProps.portalClassName
+    };
 
     if (newParent !== currentParent) {
       currentParent.removeChild(this.node);
       newParent.appendChild(this.node);
     }
 
+    const newState = Object.assign(prevState, enumeratedState);
     !isReact16 && this.renderPortal(newProps);
+    return newState;
   }
 
-  componentWillUpdate(newProps) {
-    if (!canUseDOM) return;
-    if (newProps.portalClassName !== this.props.portalClassName) {
-      this.node.className = newProps.portalClassName;
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (!canUseDOM) {
+      return null;
+    } else {
+      this.node.className = prevState.portalClassName;
+      return prevState.portalClassName;
     }
   }
+
+  /*eslint-disable no-unused-vars*/
+  componentDidUpdate(prevProps, prevState) {
+    // Just to satisfy polyfilling
+  }
+  /*eslint-enable no-unused-vars*/
 
   componentWillUnmount() {
     if (!canUseDOM || !this.node || !this.portal) return;
@@ -203,3 +221,7 @@ export default class Modal extends Component {
     );
   }
 }
+
+polyfill(Modal);
+
+export default Modal;
