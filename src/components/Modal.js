@@ -16,12 +16,10 @@ const createPortal = isReact16
   : ReactDOM.unstable_renderSubtreeIntoContainer;
 
 function getParentElement(parentSelector) {
-  return parentSelector() || Modal.defaultProps.parentSelector;
+  return parentSelector();
 }
 
 class Modal extends Component {
-  state = Object.assign({}, Modal.defaultProps);
-
   static setAppElement(element) {
     ariaAppHider.setElement(element);
   }
@@ -122,45 +120,31 @@ class Modal extends Component {
     !isReact16 && this.renderPortal(this.props);
   }
 
-  static getDerivedStateFromProps(newProps, prevState) {
-    if (!canUseDOM) return null;
-    const { isOpen } = newProps;
+  getSnapshotBeforeUpdate(prevProps) {
+    const prevParent = getParentElement(prevProps.parentSelector);
+    const nextParent = getParentElement(this.props.parentSelector);
+    return { prevParent, nextParent };
+  }
+
+  componentDidUpdate(prevProps, _, snapshot) {
+    if (!canUseDOM) return;
+    const { isOpen, portalClassName } = this.props;
+
+    if (prevProps.portalClassName !== portalClassName) {
+      this.node.className = portalClassName;
+    }
+
     // Stop unnecessary renders if modal is remaining closed
-    if (prevState && !prevState.isOpen && !isOpen) return null;
+    if (!prevProps.isOpen && !isOpen) return;
 
-    const currentParent = getParentElement(prevState.parentSelector);
-    const newParent = getParentElement(newProps.parentSelector);
-
-    const enumeratedState = {
-      isOpen: newProps.isOpen,
-      parentSelector: newProps.parentSelector,
-      portalClassName: newProps.portalClassName
-    };
-
-    if (newParent !== currentParent) {
-      currentParent.removeChild(this.node);
-      newParent.appendChild(this.node);
+    const { prevParent, nextParent } = snapshot;
+    if (nextParent !== prevParent) {
+      prevParent.removeChild(this.node);
+      nextParent.appendChild(this.node);
     }
 
-    const newState = Object.assign(prevState, enumeratedState);
-    !isReact16 && this.renderPortal(newProps);
-    return newState;
+    !isReact16 && this.renderPortal(this.props);
   }
-
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (!canUseDOM) {
-      return null;
-    } else {
-      this.node.className = prevState.portalClassName;
-      return prevState.portalClassName;
-    }
-  }
-
-  /*eslint-disable no-unused-vars*/
-  componentDidUpdate(prevProps, prevState) {
-    // Just to satisfy polyfilling
-  }
-  /*eslint-enable no-unused-vars*/
 
   componentWillUnmount() {
     if (!canUseDOM || !this.node || !this.portal) return;
