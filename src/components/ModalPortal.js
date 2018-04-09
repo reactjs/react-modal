@@ -69,23 +69,21 @@ export default class ModalPortal extends Component {
   }
 
   componentDidMount() {
-    // Focus needs to be set when mounting and already open
     if (this.props.isOpen) {
-      this.setFocusAfterRender(true);
       this.open();
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (process.env.NODE_ENV !== "production") {
-      if (newProps.bodyOpenClassName !== this.props.bodyOpenClassName) {
+      if (prevProps.bodyOpenClassName !== this.props.bodyOpenClassName) {
         // eslint-disable-next-line no-console
         console.warn(
           'React-Modal: "bodyOpenClassName" prop has been modified. ' +
             "This may cause unexpected behavior when multiple modals are open."
         );
       }
-      if (newProps.htmlOpenClassName !== this.props.htmlOpenClassName) {
+      if (prevProps.htmlOpenClassName !== this.props.htmlOpenClassName) {
         // eslint-disable-next-line no-console
         console.warn(
           'React-Modal: "htmlOpenClassName" prop has been modified. ' +
@@ -93,19 +91,20 @@ export default class ModalPortal extends Component {
         );
       }
     }
-    // Focus only needs to be set once when the modal is being opened
-    if (!this.props.isOpen && newProps.isOpen) {
-      this.setFocusAfterRender(true);
+
+    if (this.props.isOpen && !prevProps.isOpen) {
       this.open();
-    } else if (this.props.isOpen && !newProps.isOpen) {
+    } else if (!this.props.isOpen && prevProps.isOpen) {
       this.close();
     }
-  }
 
-  componentDidUpdate() {
-    if (this.focusAfterRender) {
+    // Focus only needs to be set once when the modal is being opened
+    if (
+      this.props.shouldFocusAfterRender &&
+      this.state.isOpen &&
+      !prevState.isOpen
+    ) {
       this.focusContent();
-      this.setFocusAfterRender(false);
     }
   }
 
@@ -113,10 +112,6 @@ export default class ModalPortal extends Component {
     this.afterClose();
     clearTimeout(this.closeTimer);
   }
-
-  setFocusAfterRender = focus => {
-    this.focusAfterRender = this.props.shouldFocusAfterRender && focus;
-  };
 
   setOverlayRef = overlay => {
     this.overlay = overlay;
