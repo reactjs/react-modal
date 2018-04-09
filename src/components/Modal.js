@@ -5,7 +5,7 @@ import ModalPortal from "./ModalPortal";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
 
-import polyfill from "react-lifecycles-compat";
+import { polyfill } from "react-lifecycles-compat";
 
 export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";

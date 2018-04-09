@@ -52,7 +52,6 @@
     "prettier": "^1.7.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-lifecycles-compat": "^1.1.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "should": "^13.1.0",
@@ -64,6 +63,7 @@
   "dependencies": {
     "exenv": "^1.2.0",
     "prop-types": "^15.5.10",
+    "react-lifecycles-compat": "^3.0.0",
     "warning": "^3.0.0"
   },
   "peerDependencies": {
