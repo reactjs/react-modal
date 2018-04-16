@@ -22,7 +22,8 @@ export default class ModalPortal extends Component {
     style: {
       overlay: {},
       content: {}
-    }
+    },
+    defaultStyles: {}
   };
 
   static propTypes = {
