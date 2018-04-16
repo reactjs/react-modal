@@ -54,7 +54,8 @@ export default class ModalPortal extends Component {
     children: PropTypes.node,
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
-    contentRef: PropTypes.func
+    contentRef: PropTypes.func,
+    testId: PropTypes.string
   };
 
   constructor(props) {
@@ -346,6 +347,7 @@ export default class ModalPortal extends Component {
           role={this.props.role}
           aria-label={this.props.contentLabel}
           {...this.ariaAttributes(this.props.aria || {})}
+          data-testid={this.props.testId}
         >
           {this.props.children}
         </div>
