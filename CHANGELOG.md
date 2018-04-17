@@ -1,3 +1,17 @@
+v3.4.1 - Tue, 17 Apr 2018 09:49:06 UTC
+--------------------------------------
+
+- [2132488](../../commit/2132488) Add eslint rule to disallow importing devDependencies in lib sources
+- [4887c69](../../commit/4887c69) Move react-lifecycles-compat to `dependencies` and upgrade it to v3
+- [f748406](../../commit/f748406) Remove cWRP usage in ModalPortal
+- [e91d59a](../../commit/e91d59a) Fix lifecycle method usages in Modal
+- [0dd7805](../../commit/0dd7805) [chore] update the pull request template...
+- [fa8e33c](../../commit/fa8e33c) removed un-safe lifecycle methods componentWillMount and componentWillUpdate. Implemented getDerivedStateFromProps and getSnapshotBeforeUpdate lifecycle methods using react-lifecycles-compat polyfill.
+- [d8c3dad](../../commit/d8c3dad) [fixed] mouse up event on overlay triggered the closing of the modal
+- [d6f3463](../../commit/d6f3463) [chore] Update transitions.md (#635)
+- [fa87046](../../commit/fa87046) [Chore] update README.md: added description for setting app element
+
+
 v3.3.2 - Mon, 12 Mar 2018 22:16:32 UTC
 --------------------------------------
 
