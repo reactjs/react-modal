@@ -1885,7 +1885,9 @@ var ModalPortal = function (_Component) {
             onClick: this.handleContentOnClick,
             role: this.props.role,
             "aria-label": this.props.contentLabel
-          }, this.ariaAttributes(this.props.aria || {})),
+          }, this.ariaAttributes(this.props.aria || {}), {
+            "data-testid": this.props.testId
+          }),
           this.props.children
         )
       );
@@ -1899,7 +1901,8 @@ ModalPortal.defaultProps = {
   style: {
     overlay: {},
     content: {}
-  }
+  },
+  defaultStyles: {}
 };
 ModalPortal.propTypes = {
   isOpen: _propTypes2.default.bool.isRequired,
@@ -1929,7 +1932,8 @@ ModalPortal.propTypes = {
   children: _propTypes2.default.node,
   shouldCloseOnEsc: _propTypes2.default.bool,
   overlayRef: _propTypes2.default.func,
-  contentRef: _propTypes2.default.func
+  contentRef: _propTypes2.default.func,
+  testId: _propTypes2.default.string
 };
 exports.default = ModalPortal;
 module.exports = exports["default"];

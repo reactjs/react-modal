@@ -1,3 +1,11 @@
+v3.4.2 - Thu, 19 Apr 2018 09:16:47 UTC
+--------------------------------------
+
+- [529ca33](../../commit/529ca33) Add `testId` prop for use as a test hook
+- [e294dc7](../../commit/e294dc7) [added] Add module field to package json
+- [d8fe0dd](../../commit/d8fe0dd) Added default prop for defaultStyles property
+
+
 v3.4.1 - Tue, 17 Apr 2018 09:49:06 UTC
 --------------------------------------
 
