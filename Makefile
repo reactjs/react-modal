@@ -78,6 +78,7 @@ check-working-tree:
 .branch:
 	@echo "[Release from branch]"
 	@git branch | grep '^*' | awk '{ print $$2 }' > .branch
+	@[[ "`git branch | awk '{ print $$2 }'`" != "master" ]] && echo "Fail. Current branch is not master." && exit 1
 	@echo "Current branch: `cat .branch`"
 
 changelog:
