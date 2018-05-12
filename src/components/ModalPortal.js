@@ -22,7 +22,8 @@ export default class ModalPortal extends Component {
     style: {
       overlay: {},
       content: {}
-    }
+    },
+    defaultStyles: {}
   };
 
   static propTypes = {
@@ -53,7 +54,8 @@ export default class ModalPortal extends Component {
     children: PropTypes.node,
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
-    contentRef: PropTypes.func
+    contentRef: PropTypes.func,
+    testId: PropTypes.string
   };
 
   constructor(props) {
@@ -69,23 +71,21 @@ export default class ModalPortal extends Component {
   }
 
   componentDidMount() {
-    // Focus needs to be set when mounting and already open
     if (this.props.isOpen) {
-      this.setFocusAfterRender(true);
       this.open();
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (process.env.NODE_ENV !== "production") {
-      if (newProps.bodyOpenClassName !== this.props.bodyOpenClassName) {
+      if (prevProps.bodyOpenClassName !== this.props.bodyOpenClassName) {
         // eslint-disable-next-line no-console
         console.warn(
           'React-Modal: "bodyOpenClassName" prop has been modified. ' +
             "This may cause unexpected behavior when multiple modals are open."
         );
       }
-      if (newProps.htmlOpenClassName !== this.props.htmlOpenClassName) {
+      if (prevProps.htmlOpenClassName !== this.props.htmlOpenClassName) {
         // eslint-disable-next-line no-console
         console.warn(
           'React-Modal: "htmlOpenClassName" prop has been modified. ' +
@@ -93,19 +93,20 @@ export default class ModalPortal extends Component {
         );
       }
     }
-    // Focus only needs to be set once when the modal is being opened
-    if (!this.props.isOpen && newProps.isOpen) {
-      this.setFocusAfterRender(true);
+
+    if (this.props.isOpen && !prevProps.isOpen) {
       this.open();
-    } else if (this.props.isOpen && !newProps.isOpen) {
+    } else if (!this.props.isOpen && prevProps.isOpen) {
       this.close();
     }
-  }
 
-  componentDidUpdate() {
-    if (this.focusAfterRender) {
+    // Focus only needs to be set once when the modal is being opened
+    if (
+      this.props.shouldFocusAfterRender &&
+      this.state.isOpen &&
+      !prevState.isOpen
+    ) {
       this.focusContent();
-      this.setFocusAfterRender(false);
     }
   }
 
@@ -113,10 +114,6 @@ export default class ModalPortal extends Component {
     this.afterClose();
     clearTimeout(this.closeTimer);
   }
-
-  setFocusAfterRender = focus => {
-    this.focusAfterRender = this.props.shouldFocusAfterRender && focus;
-  };
 
   setOverlayRef = overlay => {
     this.overlay = overlay;
@@ -266,16 +263,6 @@ export default class ModalPortal extends Component {
       }
     }
     this.shouldClose = null;
-    this.moveFromContentToOverlay = null;
-  };
-
-  handleOverlayOnMouseUp = () => {
-    if (this.moveFromContentToOverlay === null) {
-      this.shouldClose = false;
-    }
-    if (this.props.shouldCloseOnOverlayClick) {
-      this.shouldClose = true;
-    }
   };
 
   handleContentOnMouseUp = () => {
@@ -286,7 +273,6 @@ export default class ModalPortal extends Component {
     if (!this.props.shouldCloseOnOverlayClick && event.target == this.overlay) {
       event.preventDefault();
     }
-    this.moveFromContentToOverlay = false;
   };
 
   handleContentOnClick = () => {
@@ -295,7 +281,6 @@ export default class ModalPortal extends Component {
 
   handleContentOnMouseDown = () => {
     this.shouldClose = false;
-    this.moveFromContentToOverlay = false;
   };
 
   requestClose = event =>
@@ -354,7 +339,6 @@ export default class ModalPortal extends Component {
         style={{ ...overlayStyles, ...this.props.style.overlay }}
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
-        onMouseUp={this.handleOverlayOnMouseUp}
         aria-modal="true"
       >
         <div
@@ -370,6 +354,7 @@ export default class ModalPortal extends Component {
           aria-label={this.props.contentLabel}
           {...this.ariaAttributes(this.props.aria || {})}
           {...this.dataAttributes(this.props.data || {})}
+          data-testid={this.props.testId}
         >
           {this.props.children}
         </div>

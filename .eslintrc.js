@@ -20,10 +20,11 @@ module.exports = {
       "pragma": "React",
       "version": "15.0"
     },
-    "propWrapperFunctions": [ "forbidExtraProps" ]
+    "propWrapperFunctions": [ "forbidExtraProps" ],
+    "import/resolver": "webpack"
   },
 
-  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:import/recommended", "prettier"],
 
   "plugins": ["prettier"],
 
@@ -45,6 +46,10 @@ module.exports = {
     "prettier/prettier": "error",
     "react/no-find-dom-node": [0],
     "react/jsx-closing-bracket-location": [0],
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "import/no-extraneous-dependencies": [2, {
+      "devDependencies": ["specs/**"]
+    }]
   }
+
 }

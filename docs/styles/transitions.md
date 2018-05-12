@@ -6,17 +6,17 @@ your project's styles, you can make the modal content fade in when it is opened
 and fade out when it is closed:
 
 ```css
-.ReactModal__Content {
-  opacity: 0;
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 2000ms ease-in-out;
 }
 
-.ReactModal__Content--after-open {
-  opacity: 1;
-  transition: opacity 150ms;
+.ReactModal__Overlay--after-open{
+    opacity: 1;
 }
 
-.ReactModal__Content--before-close {
-  opacity: 0;
+.ReactModal__Overlay--before-close{
+    opacity: 0;
 }
 ```
 
