@@ -393,6 +393,17 @@ export default () => {
     unmountModal();
   });
 
+  it("additional data attributes", () => {
+    const modal = renderModal(
+      { isOpen: true, data: { background: "green" } },
+      "hello"
+    );
+    mcontent(modal)
+      .getAttribute("data-background")
+      .should.be.eql("green");
+    unmountModal();
+  });
+
   it("raises an exception if the appElement selector does not match", () => {
     should(() => ariaAppHider.setElement(".test")).throw();
   });

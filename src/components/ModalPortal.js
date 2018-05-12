@@ -51,6 +51,7 @@ export default class ModalPortal extends Component {
     role: PropTypes.string,
     contentLabel: PropTypes.string,
     aria: PropTypes.object,
+    data: PropTypes.object,
     children: PropTypes.node,
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
@@ -315,9 +316,9 @@ export default class ModalPortal extends Component {
       : className;
   };
 
-  ariaAttributes = items =>
+  attributesFromObject = (prefix, items) =>
     Object.keys(items).reduce((acc, name) => {
-      acc[`aria-${name}`] = items[name];
+      acc[`${prefix}-${name}`] = items[name];
       return acc;
     }, {});
 
@@ -346,8 +347,8 @@ export default class ModalPortal extends Component {
           onClick={this.handleContentOnClick}
           role={this.props.role}
           aria-label={this.props.contentLabel}
-          {...this.ariaAttributes(this.props.aria || {})}
-          data-testid={this.props.testId}
+          {...this.attributesFromObject("aria", this.props.aria || {})}
+          {...this.attributesFromObject("data", this.props.data || {})}
         >
           {this.props.children}
         </div>
