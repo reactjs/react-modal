@@ -113,6 +113,12 @@ import ReactModal from 'react-modal';
     describedby: "full_description"
   }}
   /*
+    Additional data attributes (optional).
+  */
+  data={{
+    background: "green"
+  }}
+  /*
     Overlay ref callback.
   */
   overlayRef={setOverlayRef}
