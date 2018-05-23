@@ -40,7 +40,7 @@ export default function scopeTab(node, event) {
   // Safari does not move the focus to the radio button,
   // so we need to force it to really walk through all elements.
   //
-  // This is very error prune, since we are trying to guess
+  // This is very error prone, since we are trying to guess
   // if it is a safari browser from the first occurence between
   // chrome or safari.
   //
