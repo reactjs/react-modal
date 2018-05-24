@@ -121,7 +121,7 @@ demonstrate various features of react-modal:
 * [Minimal example](https://codepen.io/claydiffrient/pen/KNxgav)
 * [Using setAppElement](https://codepen.io/claydiffrient/pen/ENegGJ)
 * [Using onRequestClose](https://codepen.io/claydiffrient/pen/KNjVBx)
-* [Using shouldCloseOnOverlayClick](https://codepen.io/claydiffrient/pen/woLzwo)
+* [Using shouldCloseOnOverlayClick](https://codepen.io/ajthinking/pen/WJBEwz)
 * [Using inline styles](https://codepen.io/claydiffrient/pen/ZBmyKz)
 * [Using CSS classes for styling](https://codepen.io/claydiffrient/pen/KNjVrG)
 * [Customizing the default styles](https://codepen.io/claydiffrient/pen/pNXgqQ)
