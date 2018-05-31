@@ -1,4 +1,5 @@
 import warning from "warning";
+import { canUseDOM } from "./safeHTMLElement";
 
 let globalElement = null;
 
@@ -12,7 +13,7 @@ export function assertNodeList(nodeList, selector) {
 
 export function setElement(element) {
   let useElement = element;
-  if (typeof useElement === "string") {
+  if (typeof useElement === "string" && canUseDOM) {
     const el = document.querySelectorAll(useElement);
     assertNodeList(el, useElement);
     useElement = "length" in el ? el[0] : el;
