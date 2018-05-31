@@ -84,7 +84,7 @@ export default () => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
-  it("allows setting appElement of type string", () => {
+  it("allow setting appElement of type string", () => {
     const node = document.createElement("div");
     class App extends Component {
       render() {
