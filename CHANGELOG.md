@@ -1,3 +1,12 @@
+v3.4.5 - Fri, 01 Jun 2018 11:11:21 UTC
+--------------------------------------
+
+- [2bf2dd2](../../commit/2bf2dd2) chore: update Makefile.
+- [73893a2](../../commit/73893a2) [fixed]  Safety check for SSR (#668)
+- [5f92df7](../../commit/5f92df7) very small spelling correction in comment
+- [92cae36](../../commit/92cae36) [chore] don't allow publish if branch is not master.
+
+
 v3.4.4 - Mon, 23 Apr 2018 23:08:59 UTC
 --------------------------------------
 
