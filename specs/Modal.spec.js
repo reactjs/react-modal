@@ -84,6 +84,28 @@ export default () => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
+  it("allow setting appElement of type string", () => {
+    const node = document.createElement("div");
+    class App extends Component {
+      render() {
+        return (
+          <div>
+            <Modal isOpen>
+              <span>hello</span>
+            </Modal>
+          </div>
+        );
+      }
+    }
+    const appElement = "body";
+    Modal.setAppElement(appElement);
+    ReactDOM.render(<App />, node);
+    document.body
+      .querySelector(".ReactModalPortal")
+      .parentNode.should.be.eql(document.body);
+    ReactDOM.unmountComponentAtNode(node);
+  });
+
   it("default parentSelector should be document.body.", () => {
     const modal = renderModal({ isOpen: true });
     modal.props.parentSelector().should.be.eql(document.body);
