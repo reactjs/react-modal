@@ -70,16 +70,15 @@ docs: build-docs
 check-working-tree:
 	@sh ./scripts/repo_status
 
-.version:
+version:
 	@echo "[Updating react-modal version]"
 	@sh ./scripts/version $(CURRENT_VERSION)
 	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
 
-.branch:
+branch:
 	@echo "[Release from branch]"
 	@git branch | grep '^*' | awk '{ print $$2 }' > .branch
-	@[[ "`git branch | awk '{ print $$2 }'`" != "master" ]] && echo "Fail. Current branch is not master." && exit 1
-	@echo "Current branch: `cat .branch`"
+	@[[ "`cat .branch`" != "master\n" ]] && echo "Current branch: `cat .branch`" || (echo "Fail. Current branch is not master." && exit 1)
 
 changelog:
 	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > `cat .version`]"
@@ -107,7 +106,7 @@ publish-version: release-commit release-tag
 	git push $(REMOTE) "`cat .branch`" "v`cat .version`"
 	npm publish
 
-pre-publish: clean .branch .version changelog
+pre-publish: clean branch version changelog
 pre-build: deps-project tests-ci build
 
 publish: check-working-tree pre-publish pre-build publish-version publish-finished
