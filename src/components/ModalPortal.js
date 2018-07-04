@@ -321,6 +321,12 @@ export default class ModalPortal extends Component {
       return acc;
     }, {});
 
+  dataAttributes = items =>
+    Object.keys(items).reduce((acc, name) => {
+      acc[`data-${name}`] = items[name];
+      return acc;
+    }, {});
+
   render() {
     const { className, overlayClassName, defaultStyles } = this.props;
     const contentStyles = className ? {} : defaultStyles.content;
@@ -347,6 +353,7 @@ export default class ModalPortal extends Component {
           role={this.props.role}
           aria-label={this.props.contentLabel}
           {...this.ariaAttributes(this.props.aria || {})}
+          {...this.dataAttributes(this.props.data || {})}
           data-testid={this.props.testId}
         >
           {this.props.children}

@@ -60,6 +60,7 @@ class Modal extends Component {
     shouldReturnFocusAfterClose: PropTypes.bool,
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
+    data: propTypes.object,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
     shouldCloseOnEsc: PropTypes.bool,
