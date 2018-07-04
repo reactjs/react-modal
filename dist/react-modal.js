@@ -609,9 +609,6 @@ var Modal = function (_Component) {
         this.node.className = portalClassName;
       }
 
-      // Stop unnecessary renders if modal is remaining closed
-      if (!prevProps.isOpen && !isOpen) return;
-
       var prevParent = snapshot.prevParent,
           nextParent = snapshot.nextParent;
 
@@ -619,6 +616,9 @@ var Modal = function (_Component) {
         prevParent.removeChild(this.node);
         nextParent.appendChild(this.node);
       }
+
+      // Stop unnecessary renders if modal is remaining closed
+      if (!prevProps.isOpen && !isOpen) return;
 
       !isReact16 && this.renderPortal(this.props);
     }
@@ -701,6 +701,7 @@ Modal.propTypes = {
   shouldReturnFocusAfterClose: _propTypes2.default.bool,
   parentSelector: _propTypes2.default.func,
   aria: _propTypes2.default.object,
+  data: _propTypes2.default.object,
   role: _propTypes2.default.string,
   contentLabel: _propTypes2.default.string,
   shouldCloseOnEsc: _propTypes2.default.bool,
@@ -1775,9 +1776,9 @@ var ModalPortal = function (_Component) {
       return typeof additional === "string" && additional ? className + " " + additional : className;
     };
 
-    _this.ariaAttributes = function (items) {
+    _this.attributesFromObject = function (prefix, items) {
       return Object.keys(items).reduce(function (acc, name) {
-        acc["aria-" + name] = items[name];
+        acc[prefix + "-" + name] = items[name];
         return acc;
       }, {});
     };
@@ -1887,9 +1888,7 @@ var ModalPortal = function (_Component) {
             onClick: this.handleContentOnClick,
             role: this.props.role,
             "aria-label": this.props.contentLabel
-          }, this.ariaAttributes(this.props.aria || {}), {
-            "data-testid": this.props.testId
-          }),
+          }, this.attributesFromObject("aria", this.props.aria || {}), this.attributesFromObject("data", this.props.data || {})),
           this.props.children
         )
       );
@@ -1931,6 +1930,7 @@ ModalPortal.propTypes = {
   role: _propTypes2.default.string,
   contentLabel: _propTypes2.default.string,
   aria: _propTypes2.default.object,
+  data: _propTypes2.default.object,
   children: _propTypes2.default.node,
   shouldCloseOnEsc: _propTypes2.default.bool,
   overlayRef: _propTypes2.default.func,

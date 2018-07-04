@@ -1,3 +1,10 @@
+v3.5.1 - Wed, 04 Jul 2018 10:22:38 UTC
+--------------------------------------
+
+- [c3e06ab](../../commit/c3e06ab) [added] additional data attributes.
+- [e5a80d6](../../commit/e5a80d6) [fixed] portal node will be reparented if necessary on props change
+
+
 v3.4.5 - Fri, 01 Jun 2018 11:11:21 UTC
 --------------------------------------
 
