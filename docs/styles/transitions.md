@@ -27,10 +27,19 @@ whose `afterOpen` and `beforeClose` classes have not been set via the
 the above class names and pass an object to your modal's `className` prop as
 described in the [previous section](classes.md).
 
-In order for the close transition to take effect, you will also need to pass
-the `closeTimeoutMS={150}` prop to each of your modals.
+In order for the fade transition to work, you need to inform the `<Modal />` about the transition time required for the animation.
 
-Also, if you are using `v3` which supports **React 16**, the close transition works [only if you use](https://github.com/reactjs/react-modal/issues/530#issuecomment-335208533) the `isOpen` prop to toggle the visibility of the modal.
+Like this
+
+```javascript
+<Modal closeTimeoutMS={2000} />
+```
+
+`closeTimeoutMS` is expressed in milliseconds.
+
+The `closeTimeoutMS` value and the value used in CSS or `style` prop passed to `<Modal />` needs to be the same.
+
+Warning: if you are using **React 16**, the close transition works [only if you use](https://github.com/reactjs/react-modal/issues/530#issuecomment-335208533) the `isOpen` prop to toggle the visibility of the modal.
 
 Do not conditionally render the `<Modal />`.
 
@@ -38,7 +47,7 @@ Instead of this
 
 ```javascript
 {
-  this.state.showModal ?
+  this.state.showModal &&
   <Modal
     closeTimeoutMS={200}
     isOpen
@@ -47,7 +56,6 @@ Instead of this
   >
     <h2>Add modal content here</h2>
   </Modal>
-  : null
 }
 ```
 
@@ -63,6 +71,9 @@ Instead of this
   >
     <h2>Add modal content here</h2>
   </Modal>
-  : null
 }
 ```
+
+React Modal has adopted the [stable Portal API](https://reactjs.org/docs/portals.html) API as exposed in React 16.
+
+And `createProtal` API from React 16 [no longer allow](https://github.com/facebook/react/issues/10826#issuecomment-355719729) developers to intervene the unmounting of the portal component.
