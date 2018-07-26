@@ -334,7 +334,6 @@ export default class ModalPortal extends Component {
         style={{ ...overlayStyles, ...this.props.style.overlay }}
         onClick={this.handleOverlayOnClick}
         onMouseDown={this.handleOverlayOnMouseDown}
-        aria-modal="true"
       >
         <div
           ref={this.setContentRef}
