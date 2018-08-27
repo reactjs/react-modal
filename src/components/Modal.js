@@ -73,6 +73,7 @@ class Modal extends Component {
     isOpen: false,
     portalClassName,
     bodyOpenClassName,
+    role: "dialog",
     ariaHideApp: true,
     closeTimeoutMS: 0,
     shouldFocusAfterRender: true,
