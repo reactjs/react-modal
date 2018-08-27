@@ -99,6 +99,7 @@ import ReactModal from 'react-modal';
   shouldReturnFocusAfterClose={true}
   /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
+    This attribute is `dialog` by default.
   */
   role="dialog"
   /*

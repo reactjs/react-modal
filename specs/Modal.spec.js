@@ -117,6 +117,19 @@ export default () => {
     contentAttribute(modal, "role").should.be.eql("dialog");
   });
 
+  // eslint-disable-next-line max-len
+  it("renders the modal content with the default aria role when not provided", () => {
+    const child = "I am a child of Modal, and he has sent me here...";
+    const modal = renderModal({ isOpen: true }, child);
+    contentAttribute(modal, "role").should.be.eql("dialog");
+  });
+
+  it("does not render the aria role when provided role with null", () => {
+    const child = "I am a child of Modal, and he has sent me here...";
+    const modal = renderModal({ isOpen: true, role: null }, child);
+    should(contentAttribute(modal, "role")).be.eql(null);
+  });
+
   it("sets aria-label based on the contentLabel prop", () => {
     const child = "I am a child of Modal, and he has sent me here...";
     const modal = renderModal(
