@@ -712,6 +712,7 @@ Modal.defaultProps = {
   isOpen: false,
   portalClassName: portalClassName,
   bodyOpenClassName: bodyOpenClassName,
+  role: "dialog",
   ariaHideApp: true,
   closeTimeoutMS: 0,
   shouldFocusAfterRender: true,
@@ -1872,8 +1873,7 @@ var ModalPortal = function (_Component) {
           className: this.buildClassName("overlay", overlayClassName),
           style: _extends({}, overlayStyles, this.props.style.overlay),
           onClick: this.handleOverlayOnClick,
-          onMouseDown: this.handleOverlayOnMouseDown,
-          "aria-modal": "true"
+          onMouseDown: this.handleOverlayOnMouseDown
         },
         _react2.default.createElement(
           "div",

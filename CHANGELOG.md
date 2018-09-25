@@ -1,3 +1,12 @@
+v3.6.1 - Tue, 25 Sep 2018 11:47:45 UTC
+--------------------------------------
+
+- [a2c38cc](../../commit/a2c38cc) [fixed] set default role for accessibility
+- [921358e](../../commit/921358e) Add explicit comments as suggested in PR review
+- [3d74c1b](../../commit/3d74c1b) Update doc to inform v3 users about close transition
+- [1e349c0](../../commit/1e349c0) [fixed] remove aria-modal attr to prevent browser bugs
+
+
 v3.5.1 - Wed, 04 Jul 2018 10:22:38 UTC
 --------------------------------------
 
