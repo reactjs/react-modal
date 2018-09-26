@@ -62,6 +62,10 @@ export default function scopeTab(node, event) {
     x += shiftKey ? -1 : 1;
   }
 
+  // If the tabbable element does not exist,
+  // let the browser control the focus
+  if (typeof tabbable[x] === "undefined") return;
+
   event.preventDefault();
 
   tabbable[x].focus();
