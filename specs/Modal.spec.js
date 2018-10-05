@@ -417,6 +417,14 @@ export default () => {
     unmountModal();
   });
 
+  it("additional testId attribute", () => {
+    const modal = renderModal({ isOpen: true, testId: "foo-bar" }, "hello");
+    mcontent(modal)
+      .getAttribute("data-testid")
+      .should.be.eql("foo-bar");
+    unmountModal();
+  });
+
   it("raises an exception if the appElement selector does not match", () => {
     should(() => ariaAppHider.setElement(".test")).throw();
   });
