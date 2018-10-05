@@ -348,6 +348,7 @@ export default class ModalPortal extends Component {
           aria-label={this.props.contentLabel}
           {...this.attributesFromObject("aria", this.props.aria || {})}
           {...this.attributesFromObject("data", this.props.data || {})}
+          data-testid={this.props.testId}
         >
           {this.props.children}
         </div>
