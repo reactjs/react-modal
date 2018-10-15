@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import ReactDOM from "react-dom";
 import sinon from "sinon";
 import { mcontent, renderModal, emptyDOM } from "./helper";
