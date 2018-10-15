@@ -11,9 +11,11 @@ export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";
 
 const isReact16 = ReactDOM.createPortal !== undefined;
-const createPortal = isReact16
-  ? ReactDOM.createPortal
-  : ReactDOM.unstable_renderSubtreeIntoContainer;
+
+const getCreatePortal = () =>
+  isReact16
+    ? ReactDOM.createPortal
+    : ReactDOM.unstable_renderSubtreeIntoContainer;
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -180,6 +182,7 @@ class Modal extends Component {
   };
 
   renderPortal = props => {
+    const createPortal = getCreatePortal();
     const portal = createPortal(
       this,
       <ModalPortal defaultStyles={Modal.defaultStyles} {...props} />,
@@ -197,6 +200,7 @@ class Modal extends Component {
       this.node = document.createElement("div");
     }
 
+    const createPortal = getCreatePortal();
     return createPortal(
       <ModalPortal
         ref={this.portalRef}
