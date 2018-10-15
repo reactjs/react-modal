@@ -1,4 +1,4 @@
-let browsers = ['Chrome'];
+let browsers = ['ChromeHeadless'];
 let coverageType = 'text';
 
 if (process.env.CONTINUOUS_INTEGRATION) {
