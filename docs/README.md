@@ -28,6 +28,11 @@ import ReactModal from 'react-modal';
   */
   isOpen={false}
   /*
+    Boolean flagging whether the current modal is nested (i.e., multiple
+    modals staked on top of each other).
+  */
+  isNested={false}
+  /*
     Function that will be run after the modal has opened.
   */
   onAfterOpen={handleAfterOpenFunc}
