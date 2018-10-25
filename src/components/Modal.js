@@ -65,12 +65,14 @@ class Modal extends Component {
     contentLabel: PropTypes.string,
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
-    contentRef: PropTypes.func
+    contentRef: PropTypes.func,
+    isNested: PropTypes.bool
   };
   /* eslint-enable react/no-unused-prop-types */
 
   static defaultProps = {
     isOpen: false,
+    isNested: false,
     portalClassName,
     bodyOpenClassName,
     role: "dialog",

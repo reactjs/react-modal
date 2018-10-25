@@ -28,6 +28,7 @@ export default class ModalPortal extends Component {
 
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
+    isNested: PropTypes.bool.isRequired,
     defaultStyles: PropTypes.shape({
       content: PropTypes.object,
       overlay: PropTypes.object
@@ -154,17 +155,23 @@ export default class ModalPortal extends Component {
       appElement,
       ariaHideApp,
       htmlOpenClassName,
-      bodyOpenClassName
+      bodyOpenClassName,
+      isNested,
     } = this.props;
 
-    // Remove classes.
-    classList.remove(document.body, bodyOpenClassName);
+    // only remove the covering className is the modal is not nested;
+    // if nested, the remaining Russian doll modals will need the
+    // covering className
+    if (!isNested) {
+      // Remove classes.
+      classList.remove(document.body, bodyOpenClassName);
 
-    htmlOpenClassName &&
-      classList.remove(
-        document.getElementsByTagName("html")[0],
-        htmlOpenClassName
-      );
+      htmlOpenClassName &&
+        classList.remove(
+          document.getElementsByTagName("html")[0],
+          htmlOpenClassName
+        );
+    }
 
     // Reset aria-hidden attribute if all modals have been removed
     if (ariaHideApp && ariaHiddenInstances > 0) {
