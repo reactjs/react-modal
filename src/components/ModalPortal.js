@@ -156,7 +156,7 @@ export default class ModalPortal extends Component {
       ariaHideApp,
       htmlOpenClassName,
       bodyOpenClassName,
-      isNested,
+      isNested
     } = this.props;
 
     // only remove the covering className is the modal is not nested;
