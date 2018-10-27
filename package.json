@@ -14,7 +14,7 @@
     "example": "examples"
   },
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
+    "start": "./node_modules/.bin/webpack-dev-server --open",
     "test": "cross-env NODE_ENV=test karma start",
     "lint": "eslint src/ specs/"
   },
@@ -60,8 +60,9 @@
     "should": "^13.2.3",
     "sinon": "next",
     "uglify-js": "3.1.1",
-    "webpack": "^3.12.0",
-    "webpack-dev-server": "2.8.2"
+    "webpack": "^4",
+    "webpack-cli": "^3",
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
     "exenv": "^1.2.0",
