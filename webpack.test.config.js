@@ -9,7 +9,10 @@ commonConfig.plugins = [];
 
 commonConfig.module.rules.unshift({
   test: /\.js$/,
-  use: { loader: "istanbul-instrumenter-loader" },
+  use: {
+    loader: "istanbul-instrumenter-loader",
+    options: { esModules: true }
+  },
   enforce: "post",
   include: path.resolve(__dirname, "./src")
 });
