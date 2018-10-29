@@ -12,10 +12,13 @@ const CLASS_NAMES = {
   content: "ReactModal__Content"
 };
 
+const WILL_OPEN = 0;
+const OPENED = 1;
+const WILL_CLOSE = 2;
+const CLOSED = 3;
+
 const TAB_KEY = 9;
 const ESC_KEY = 27;
-
-let ariaHiddenInstances = 0;
 
 export default class ModalPortal extends Component {
   static defaultProps = {
@@ -59,22 +62,14 @@ export default class ModalPortal extends Component {
     testId: PropTypes.string
   };
 
+  state = { state: CLOSED };
+
+  shouldClose = null;
+  moveFromContentToOverlay = null;
+
   constructor(props) {
     super(props);
-
-    this.state = {
-      afterOpen: false,
-      beforeClose: false
-    };
-
-    this.shouldClose = null;
-    this.moveFromContentToOverlay = null;
-  }
-
-  componentDidMount() {
-    if (this.props.isOpen) {
-      this.open();
-    }
+    this.state.state = props.isOpen ? WILL_OPEN : CLOSED;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -95,12 +90,6 @@ export default class ModalPortal extends Component {
       }
     }
 
-    if (this.props.isOpen && !prevProps.isOpen) {
-      this.open();
-    } else if (!this.props.isOpen && prevProps.isOpen) {
-      this.close();
-    }
-
     // Focus only needs to be set once when the modal is being opened
     if (
       this.props.shouldFocusAfterRender &&
@@ -112,8 +101,6 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
-    this.afterClose();
-    clearTimeout(this.closeTimer);
   }
 
   setOverlayRef = overlay => {
@@ -126,119 +113,9 @@ export default class ModalPortal extends Component {
     this.props.contentRef && this.props.contentRef(content);
   };
 
-  beforeOpen() {
-    const {
-      appElement,
-      ariaHideApp,
-      htmlOpenClassName,
-      bodyOpenClassName
-    } = this.props;
-
-    // Add classes.
-    classList.add(document.body, bodyOpenClassName);
-
-    htmlOpenClassName &&
-      classList.add(
-        document.getElementsByTagName("html")[0],
-        htmlOpenClassName
-      );
-
-    if (ariaHideApp) {
-      ariaHiddenInstances += 1;
-      ariaAppHider.hide(appElement);
-    }
-  }
-
-  afterClose = () => {
-    const {
-      appElement,
-      ariaHideApp,
-      htmlOpenClassName,
-      bodyOpenClassName
-    } = this.props;
-
-    // Remove classes.
-    classList.remove(document.body, bodyOpenClassName);
-
-    htmlOpenClassName &&
-      classList.remove(
-        document.getElementsByTagName("html")[0],
-        htmlOpenClassName
-      );
-
-    // Reset aria-hidden attribute if all modals have been removed
-    if (ariaHideApp && ariaHiddenInstances > 0) {
-      ariaHiddenInstances -= 1;
-
-      if (ariaHiddenInstances === 0) {
-        ariaAppHider.show(appElement);
-      }
-    }
-
-    if (this.props.shouldFocusAfterRender) {
-      if (this.props.shouldReturnFocusAfterClose) {
-        focusManager.returnFocus();
-        focusManager.teardownScopedFocus();
-      } else {
-        focusManager.popWithoutFocus();
-      }
-    }
-  };
-
-  open = () => {
-    this.beforeOpen();
-    if (this.state.afterOpen && this.state.beforeClose) {
-      clearTimeout(this.closeTimer);
-      this.setState({ beforeClose: false });
-    } else {
-      if (this.props.shouldFocusAfterRender) {
-        focusManager.setupScopedFocus(this.node);
-        focusManager.markForFocusLater();
-      }
-
-      this.setState({ isOpen: true }, () => {
-        this.setState({ afterOpen: true });
-
-        if (this.props.isOpen && this.props.onAfterOpen) {
-          this.props.onAfterOpen();
-        }
-      });
-    }
-  };
-
-  close = () => {
-    if (this.props.closeTimeoutMS > 0) {
-      this.closeWithTimeout();
-    } else {
-      this.closeWithoutTimeout();
-    }
-  };
-
   // Don't steal focus from inner elements
   focusContent = () =>
     this.content && !this.contentHasFocus() && this.content.focus();
-
-  closeWithTimeout = () => {
-    const closesAt = Date.now() + this.props.closeTimeoutMS;
-    this.setState({ beforeClose: true, closesAt }, () => {
-      this.closeTimer = setTimeout(
-        this.closeWithoutTimeout,
-        this.state.closesAt - Date.now()
-      );
-    });
-  };
-
-  closeWithoutTimeout = () => {
-    this.setState(
-      {
-        beforeClose: false,
-        isOpen: false,
-        afterOpen: false,
-        closesAt: null
-      },
-      this.afterClose
-    );
-  };
 
   handleKeyDown = event => {
     if (event.keyCode === TAB_KEY) {
@@ -247,7 +124,7 @@ export default class ModalPortal extends Component {
 
     if (this.props.shouldCloseOnEsc && event.keyCode === ESC_KEY) {
       event.stopPropagation();
-      this.requestClose(event);
+      this.props.onRequestClose(event);
     }
   };
 
@@ -257,8 +134,8 @@ export default class ModalPortal extends Component {
     }
 
     if (this.shouldClose && this.props.shouldCloseOnOverlayClick) {
-      if (this.ownerHandlesClose()) {
-        this.requestClose(event);
+      if (this.props.onRequestClose) {
+        this.props.onRequestClose(event);
       } else {
         this.focusContent();
       }
@@ -266,30 +143,16 @@ export default class ModalPortal extends Component {
     this.shouldClose = null;
   };
 
-  handleContentOnMouseUp = () => {
-    this.shouldClose = false;
-  };
+  handleContentOnMouseUp = () => (this.shouldClose = false);
 
-  handleOverlayOnMouseDown = event => {
-    if (!this.props.shouldCloseOnOverlayClick && event.target == this.overlay) {
-      event.preventDefault();
-    }
-  };
+  handleOverlayOnMouseDown = event =>
+    (!this.props.shouldCloseOnOverlayClick &&
+     event.target == this.overlay
+    ) && event.preventDefault();
 
-  handleContentOnClick = () => {
-    this.shouldClose = false;
-  };
+  handleContentOnClick = () => (this.shouldClose = false);
 
-  handleContentOnMouseDown = () => {
-    this.shouldClose = false;
-  };
-
-  requestClose = event =>
-    this.ownerHandlesClose() && this.props.onRequestClose(event);
-
-  ownerHandlesClose = () => this.props.onRequestClose;
-
-  shouldBeClosed = () => !this.state.isOpen && !this.state.beforeClose;
+  handleContentOnMouseDown = () => (this.shouldClose = false);
 
   contentHasFocus = () =>
     document.activeElement === this.content ||
@@ -305,10 +168,10 @@ export default class ModalPortal extends Component {
             beforeClose: `${CLASS_NAMES[which]}--before-close`
           };
     let className = classNames.base;
-    if (this.state.afterOpen) {
+    if (this.props.shouldRender < WILL_CLOSE) {
       className = `${className} ${classNames.afterOpen}`;
     }
-    if (this.state.beforeClose) {
+    if (this.props.shouldRender >= WILL_CLOSE) {
       className = `${className} ${classNames.beforeClose}`;
     }
     return typeof additional === "string" && additional
@@ -327,7 +190,7 @@ export default class ModalPortal extends Component {
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
-    return this.shouldBeClosed() ? null : (
+    return (
       <div
         ref={this.setOverlayRef}
         className={this.buildClassName("overlay", overlayClassName)}

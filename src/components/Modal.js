@@ -1,8 +1,10 @@
+/* global setTimeout, clearTimeout */
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import ModalPortal from "./ModalPortal";
 import * as ariaAppHider from "../helpers/ariaAppHider";
+import * as classList from "../helpers/classList";
 import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
 
 import { polyfill } from "react-lifecycles-compat";
@@ -12,20 +14,40 @@ export const bodyOpenClassName = "ReactModal__Body--open";
 
 const isReact16 = ReactDOM.createPortal !== undefined;
 
+let ariaHiddenInstances = 0;
+
 const getCreatePortal = () =>
   isReact16
     ? ReactDOM.createPortal
     : ReactDOM.unstable_renderSubtreeIntoContainer;
 
-function getParentElement(parentSelector) {
-  return parentSelector();
+class EventTimer {
+  timer = null;
+
+  start = (duration, onTimeout) => (
+    this.timer = setTimeout(
+      () => {
+        onTimeout();
+        this.stop();
+      },
+      duration
+    )
+  );
+
+  stop = () => clearTimeout(this.timer);
+
+  reset = (duration, onTimeout) => {
+    this.stop();
+    this.state(duration, onTimeout);
+  }
 }
 
-class Modal extends Component {
-  static setAppElement(element) {
-    ariaAppHider.setElement(element);
-  }
+const WILL_OPEN = 0;
+const OPENED = 1;
+const WILL_CLOSE = 2;
+const CLOSED = 3;
 
+class Modal extends Component {
   /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -110,28 +132,51 @@ class Modal extends Component {
     }
   };
 
+  // proxy
+  static setAppElement = ariaAppHider.setElement;
+
+  state = { action: CLOSED };
+
+  constructor(props) {
+    super(props);
+    this.state.action = props.isOpen ? WILL_OPEN : CLOSED;
+    this.timer = new EventTimer();
+  }
+
   componentDidMount() {
     if (!canUseDOM) return;
+
+    const { portalClassName, parentSelector } = this.props;
 
     if (!isReact16) {
       this.node = document.createElement("div");
     }
-    this.node.className = this.props.portalClassName;
+    this.node.className = portalClassName;
 
-    const parent = getParentElement(this.props.parentSelector);
+    const parent = parentSelector();
     parent.appendChild(this.node);
 
-    !isReact16 && this.renderPortal(this.props);
+    if (this.props.isOpen) {
+      this.beforeOpen();
+      this.setState(
+        { state: OPENED },
+        () => {
+          !isReact16 && this.renderPortal(this.props);
+        }
+      );
+    }
   }
 
   getSnapshotBeforeUpdate(prevProps) {
-    const prevParent = getParentElement(prevProps.parentSelector);
-    const nextParent = getParentElement(this.props.parentSelector);
-    return { prevParent, nextParent };
+    return {
+      prevParent: prevProps.parentSelector(),
+      nextParent: this.props.parentSelector()
+    };
   }
 
   componentDidUpdate(prevProps, _, snapshot) {
     if (!canUseDOM) return;
+
     const { isOpen, portalClassName } = this.props;
 
     if (prevProps.portalClassName !== portalClassName) {
@@ -145,47 +190,114 @@ class Modal extends Component {
     }
 
     // Stop unnecessary renders if modal is remaining closed
-    if (!prevProps.isOpen && !isOpen) return;
+    (!prevProps.isOpen && !isOpen) && this.renderPortal(this.props);
 
-    !isReact16 && this.renderPortal(this.props);
-  }
-
-  componentWillUnmount() {
-    if (!canUseDOM || !this.node || !this.portal) return;
-
-    const state = this.portal.state;
-    const now = Date.now();
-    const closesAt =
-      state.isOpen &&
-      this.props.closeTimeoutMS &&
-      (state.closesAt || now + this.props.closeTimeoutMS);
-
-    if (closesAt) {
-      if (!state.beforeClose) {
-        this.portal.closeWithTimeout();
-      }
-
-      setTimeout(this.removePortal, closesAt - now);
-    } else {
-      this.removePortal();
+    if (!prevProps.isOpen && this.props.isOpen) {
+      this.open();
+    } else if (prevProps.isOpen && !this.props.isOpen) {
+      this.close();
     }
   }
 
-  removePortal = () => {
-    !isReact16 && ReactDOM.unmountComponentAtNode(this.node);
-    const parent = getParentElement(this.props.parentSelector);
-    parent.removeChild(this.node);
+  open = () => {
+    this.beforeOpen();
   };
 
-  portalRef = ref => {
-    this.portal = ref;
+  close = () => {
+    console.log("closing");
+    this.setState({ state: WILL_CLOSE }, () => {
+      if (!canUseDOM || !this.node || !this.portal) return;
+
+      const { closeTimeoutMS } = this.props;
+      const { state, isOpen, closesAt } = this.portal.state;
+      const now = Date.now();
+
+      if (this.props.isOpen && this.props.closeTimeoutMS) {
+
+        const shouldClosesAt = closeTimeoutMS &&
+              (closesAt || now + closeTimeoutMS) || null;
+        this.setState(
+          { state: WILL_CLOSE },
+          () => this.timer.start(shouldClosesAt, () => {
+            this.removePortal();
+          })
+        );
+      } else {
+        this.removePortal();
+      }
+    });
   };
+
+  beforeOpen = () => {
+    const {
+      appElement,
+      ariaHideApp,
+      htmlOpenClassName,
+      bodyOpenClassName
+    } = this.props;
+
+    // Remove classes.
+    classList.add(document.body, bodyOpenClassName);
+
+    htmlOpenClassName &&
+      classList.add(
+        document.getElementsByTagName("html")[0],
+        htmlOpenClassName
+      );
+
+    if (this.props.ariaHideApp) {
+      ariaHiddenInstances += 1;
+      ariaAppHider.hide(this.props.appElement);
+    }
+  };
+
+  afterClose = () => {
+    const {
+      appElement,
+      ariaHideApp,
+      htmlOpenClassName,
+      bodyOpenClassName
+    } = this.props;
+
+    // Remove classes.
+    classList.remove(document.body, bodyOpenClassName);
+
+    htmlOpenClassName &&
+      classList.remove(
+        document.getElementsByTagName("html")[0],
+        htmlOpenClassName
+      );
+
+    // Reset aria-hidden attribute if all modals have been removed
+    if (ariaHideApp && ariaHiddenInstances > 0) {
+      ariaHiddenInstances -= 1;
+
+      if (ariaHiddenInstances === 0) {
+        ariaAppHider.show(appElement);
+      }
+    }
+  };
+
+  removePortal = () => {
+    console.log("removing portal");
+    this.afterClose();
+    !isReact16 && ReactDOM.unmountComponentAtNode(this.node);
+    const parent = this.props.parentSelector();
+    parent.removeChild(this.node);
+    this.afterClose();
+  };
+
+  portalRef = ref => (this.portal = ref);
 
   renderPortal = props => {
     const createPortal = getCreatePortal();
     const portal = createPortal(
       this,
-      <ModalPortal defaultStyles={Modal.defaultStyles} {...props} />,
+      this.state.shouldRender == CLOSED ? null : (
+        <ModalPortal defaultStyles={Modal.defaultStyles}
+                     shouldRender={this.state.action}
+                     {...props} />
+      ),
       this.node
     );
     this.portalRef(portal);
@@ -202,11 +314,14 @@ class Modal extends Component {
 
     const createPortal = getCreatePortal();
     return createPortal(
-      <ModalPortal
-        ref={this.portalRef}
-        defaultStyles={Modal.defaultStyles}
-        {...this.props}
-      />,
+      this.state.shouldRender == CLOSED ?
+        null : (
+          <ModalPortal ref={this.portalRef}
+                       defaultStyles={Modal.defaultStyles}
+                       shouldRender={this.state.action}
+                       {...this.props}
+                       />
+        ),
       this.node
     );
   }

@@ -31,7 +31,7 @@ export default () => {
 
   it("can be closed initially", () => {
     const modal = renderModal({}, "hello");
-    should(ReactDOM.findDOMNode(mcontent(modal))).not.be.ok();
+    should(ReactDOM.findDOMNode(modal.portal)).not.be.ok();
   });
 
   it("doesn't render the portal if modal is closed", () => {
@@ -59,7 +59,7 @@ export default () => {
     const el = document.createElement("div");
     const node = document.createElement("div");
     ReactDOM.render(<Modal isOpen={true} appElement={el} />, node);
-    el.getAttribute("aria-hidden").should.be.eql("true");
+    (el.getAttribute("aria-hidden") || false).should.be.eql("true");
     ReactDOM.unmountComponentAtNode(node);
   });
 
@@ -144,9 +144,11 @@ export default () => {
   });
 
   it("removes the portal node", () => {
-    renderModal({ isOpen: true }, "hello");
-    unmountModal();
-    should(document.querySelector(".ReactModalPortal")).not.be.ok();
+    const modal = renderModal({ isOpen: true }, "hello");
+    modal.close();
+    should(
+      document.querySelector(".ReactModalPortal")
+    ).not.be.ok();
   });
 
   it("removes the portal node after closeTimeoutMS", done => {

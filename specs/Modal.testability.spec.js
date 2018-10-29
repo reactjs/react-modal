@@ -12,6 +12,12 @@ export default () => {
   });
 
   it("allows ReactDOM.createPortal to be overridden in real-time", () => {
+    const isReact16 = ReactDOM.createPortal !== undefined;
+    if (!isReact16) {
+      console.log("Testing with version 16-");
+      (true).should.be.ok();
+      return;
+    }
     const createPortalSpy = sinon.spy(ReactDOM, "createPortal");
     renderModal({ isOpen: true }, "hello");
     createPortalSpy.called.should.be.ok();
