@@ -65,6 +65,7 @@ export default () => {
 
   it("renders into the body, not in context", () => {
     const node = document.createElement("div");
+
     class App extends Component {
       render() {
         return (
@@ -76,6 +77,7 @@ export default () => {
         );
       }
     }
+
     Modal.setAppElement(node);
     ReactDOM.render(<App />, node);
     document.body
@@ -86,6 +88,7 @@ export default () => {
 
   it("allow setting appElement of type string", () => {
     const node = document.createElement("div");
+
     class App extends Component {
       render() {
         return (
@@ -97,6 +100,7 @@ export default () => {
         );
       }
     }
+
     const appElement = "body";
     Modal.setAppElement(appElement);
     ReactDOM.render(<App />, node);
@@ -188,6 +192,7 @@ export default () => {
       unmountModal();
       done();
     }
+
     const modalA = renderModal(
       {
         isOpen: true,
@@ -245,6 +250,33 @@ export default () => {
     mcontent(modal)
       .className.includes("myClass")
       .should.be.ok();
+  });
+
+  it("supports custom overlayElement", () => {
+    const overlayElement = (props, contentElement) => (
+      <div id="custom" {...props}>
+        {contentElement}
+      </div>
+    );
+
+    const modal = renderModal({ isOpen: true, overlayElement });
+    const modalOverlay = moverlay(modal);
+
+    modalOverlay.id.should.eql("custom");
+  });
+
+  it("supports custom contentElement", () => {
+    const contentElement = (props, children) => (
+      <div id="custom" {...props}>
+        {children}
+      </div>
+    );
+
+    const modal = renderModal({ isOpen: true, contentElement }, "hello");
+    const modalContent = mcontent(modal);
+
+    modalContent.id.should.eql("custom");
+    modalContent.textContent.should.be.eql("hello");
   });
 
   it("supports overlayClassName", () => {
@@ -611,13 +643,16 @@ export default () => {
         super(props);
         this.state = { error: false };
       }
+
       unstable_handleError() {
         this.setState({ error: true });
       }
+
       render() {
         return this.state.error ? null : <div>{this.props.children}</div>;
       }
     }
+
     /* eslint-enable camelcase, react/prop-types */
 
     const Throw = () => {

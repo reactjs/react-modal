@@ -127,6 +127,14 @@ import ReactModal from 'react-modal';
     Content ref callback.
   */
   contentRef={setContentRef}
+  /*
+    Custom Overlay element.
+  */
+  overlayElement={(props, contentElement) => <div {...props}>{contentElement}</div>}
+  /*
+    Custom Content element.
+  */
+  contentElement={(props, children) => <div {...props}>{children}</div>}
 />
 ```
 

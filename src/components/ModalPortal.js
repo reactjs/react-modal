@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
 import scopeTab from "../helpers/scopeTab";
@@ -56,6 +56,8 @@ export default class ModalPortal extends Component {
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
     contentRef: PropTypes.func,
+    overlayElement: PropTypes.func,
+    contentElement: PropTypes.func,
     testId: PropTypes.string
   };
 
@@ -323,36 +325,39 @@ export default class ModalPortal extends Component {
     }, {});
 
   render() {
-    const { className, overlayClassName, defaultStyles } = this.props;
+    const { className, overlayClassName, defaultStyles, children } = this.props;
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
-    return this.shouldBeClosed() ? null : (
-      <div
-        ref={this.setOverlayRef}
-        className={this.buildClassName("overlay", overlayClassName)}
-        style={{ ...overlayStyles, ...this.props.style.overlay }}
-        onClick={this.handleOverlayOnClick}
-        onMouseDown={this.handleOverlayOnMouseDown}
-      >
-        <div
-          ref={this.setContentRef}
-          style={{ ...contentStyles, ...this.props.style.content }}
-          className={this.buildClassName("content", className)}
-          tabIndex="-1"
-          onKeyDown={this.handleKeyDown}
-          onMouseDown={this.handleContentOnMouseDown}
-          onMouseUp={this.handleContentOnMouseUp}
-          onClick={this.handleContentOnClick}
-          role={this.props.role}
-          aria-label={this.props.contentLabel}
-          {...this.attributesFromObject("aria", this.props.aria || {})}
-          {...this.attributesFromObject("data", this.props.data || {})}
-          data-testid={this.props.testId}
-        >
-          {this.props.children}
-        </div>
-      </div>
-    );
+    if (this.shouldBeClosed()) {
+      return null;
+    }
+
+    const overlayProps = {
+      ref: this.setOverlayRef,
+      className: this.buildClassName("overlay", overlayClassName),
+      style: { ...overlayStyles, ...this.props.style.overlay },
+      onClick: this.handleOverlayOnClick,
+      onMouseDown: this.handleOverlayOnMouseDown
+    };
+
+    const contentProps = {
+      ref: this.setContentRef,
+      style: { ...contentStyles, ...this.props.style.content },
+      className: this.buildClassName("content", className),
+      tabIndex: "-1",
+      onKeyDown: this.handleKeyDown,
+      onMouseDown: this.handleContentOnMouseDown,
+      onMouseUp: this.handleContentOnMouseUp,
+      onClick: this.handleContentOnClick,
+      role: this.props.role,
+      "aria-label": this.props.contentLabel,
+      ...this.attributesFromObject("aria", this.props.aria || {}),
+      ...this.attributesFromObject("data", this.props.data || {}),
+      "data-testid": this.props.testId
+    };
+
+    const contentElement = this.props.contentElement(contentProps, children);
+    return this.props.overlayElement(overlayProps, contentElement);
   }
 }
