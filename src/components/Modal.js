@@ -68,7 +68,10 @@ class Modal extends Component {
     contentLabel: PropTypes.string,
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
-    contentRef: PropTypes.func
+    contentRef: PropTypes.func,
+    id: PropTypes.string,
+    overlayElement: PropTypes.func,
+    contentElement: PropTypes.func
   };
   /* eslint-enable react/no-unused-prop-types */
 
@@ -84,7 +87,9 @@ class Modal extends Component {
     shouldCloseOnOverlayClick: true,
     shouldReturnFocusAfterClose: true,
     preventScroll: false,
-    parentSelector: () => document.body
+    parentSelector: () => document.body,
+    overlayElement: (props, contentEl) => <div {...props}>{contentEl}</div>,
+    contentElement: (props, children) => <div {...props}>{children}</div>
   };
 
   static defaultStyles = {

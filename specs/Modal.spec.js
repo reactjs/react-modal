@@ -237,8 +237,8 @@ export default () => {
   it("supports id prop", () => {
     const modal = renderModal({ isOpen: true, id: "id" });
     mcontent(modal)
-      .id.includes("id")
-      .should.be.ok();
+      .id
+      .should.be.eql("id");
   });
 
   it("supports portalClassName", () => {
@@ -254,6 +254,33 @@ export default () => {
     mcontent(modal)
       .className.includes("myClass")
       .should.be.ok();
+  });
+
+  it("supports custom overlayElement", () => {
+    const overlayElement = (props, contentElement) => (
+      <div {...props} id="custom">
+        {contentElement}
+      </div>
+    );
+
+    const modal = renderModal({ isOpen: true, overlayElement });
+    const modalOverlay = moverlay(modal);
+
+    modalOverlay.id.should.eql("custom");
+  });
+
+  it("supports custom contentElement", () => {
+    const contentElement = (props, children) => (
+      <div {...props} id="custom">
+        {children}
+      </div>
+    );
+
+    const modal = renderModal({ isOpen: true, contentElement }, "hello");
+    const modalContent = mcontent(modal);
+
+    modalContent.id.should.eql("custom");
+    modalContent.textContent.should.be.eql("hello");
   });
 
   it("supports overlayClassName", () => {
