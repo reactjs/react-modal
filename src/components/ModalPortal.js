@@ -135,7 +135,7 @@ export default class ModalPortal extends Component {
     } = this.props;
 
     // Add classes.
-    classList.add(document.body, bodyOpenClassName);
+    bodyOpenClassName && classList.add(document.body, bodyOpenClassName);
 
     htmlOpenClassName &&
       classList.add(
@@ -158,7 +158,7 @@ export default class ModalPortal extends Component {
     } = this.props;
 
     // Remove classes.
-    classList.remove(document.body, bodyOpenClassName);
+    bodyOpenClassName && classList.remove(document.body, bodyOpenClassName);
 
     htmlOpenClassName &&
       classList.remove(

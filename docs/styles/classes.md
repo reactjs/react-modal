@@ -48,6 +48,8 @@ require a complex system to manage which class name should be added to or
 removed from `document.body` from which modal (if using multiple modals
 simultaneously).  The default value is `ReactModal__Body--open`.
 
+`bodyOpenClassName` when set as `null` doesn't add any class to `document.body`.
+
 `bodyOpenClassName` can support adding multiple classes to `document.body` when
 the modal is open. Add as many class names as you desire, delineated by spaces.
 

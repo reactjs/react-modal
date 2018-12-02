@@ -14,7 +14,8 @@ import {
   escKeyDown,
   renderModal,
   unmountModal,
-  emptyDOM
+  emptyDOM,
+  documentBodyClassList
 } from "./helper";
 
 export default () => {
@@ -299,6 +300,12 @@ export default () => {
   it("don't append class to document.body if modal is closed.", () => {
     renderModal({ isOpen: false });
     isBodyWithReactModalOpenClass().should.not.be.ok();
+  });
+
+  // eslint-disable-next-line max-len
+  it("don't append any class to document.body when bodyOpenClassName is null.", () => {
+    renderModal({ isOpen: true, bodyOpenClassName: null });
+    documentBodyClassList().should.be.empty();
   });
 
   it("don't append class to <html /> if modal is closed.", () => {
