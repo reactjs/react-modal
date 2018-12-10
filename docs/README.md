@@ -66,6 +66,7 @@ import ReactModal from 'react-modal';
   className="ReactModal__Content"
   /*
      String className to be applied to the document.body (must be a constant string).
+     This attribute when set as `null` doesn't add any class to document.body.
      See the `Styles` section for more details.
   */
   bodyOpenClassName="ReactModal__Body--open"
