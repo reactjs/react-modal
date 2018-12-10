@@ -1,3 +1,14 @@
+v3.7.1 - Mon, 10 Dec 2018 13:12:33 UTC
+--------------------------------------
+
+- [2ae092a](../../commit/2ae092a) [fixed] Allow empty classNames for body (#720)
+- [8d8f476](../../commit/8d8f476) React-Modal: chromeHeadless use
+- [fc53400](../../commit/fc53400) [fixed] Allow ReactDOM.createPortal to be mocked in tests
+- [6a6bcf7](../../commit/6a6bcf7) [fixed] Render `testId` property
+- [1b561fc](../../commit/1b561fc) [fixed] if tabbable element is undefined, focus head or tail based on shiftKey
+- [86632aa](../../commit/86632aa) [fixed] check if element exists before focusing in scopeTab helper
+
+
 v3.6.1 - Tue, 25 Sep 2018 11:47:45 UTC
 --------------------------------------
 

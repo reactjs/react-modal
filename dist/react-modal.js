@@ -542,7 +542,10 @@ var portalClassName = exports.portalClassName = "ReactModalPortal";
 var bodyOpenClassName = exports.bodyOpenClassName = "ReactModal__Body--open";
 
 var isReact16 = _reactDom2.default.createPortal !== undefined;
-var createPortal = isReact16 ? _reactDom2.default.createPortal : _reactDom2.default.unstable_renderSubtreeIntoContainer;
+
+var getCreatePortal = function getCreatePortal() {
+  return isReact16 ? _reactDom2.default.createPortal : _reactDom2.default.unstable_renderSubtreeIntoContainer;
+};
 
 function getParentElement(parentSelector) {
   return parentSelector();
@@ -569,6 +572,7 @@ var Modal = function (_Component) {
     }, _this.portalRef = function (ref) {
       _this.portal = ref;
     }, _this.renderPortal = function (props) {
+      var createPortal = getCreatePortal();
       var portal = createPortal(_this, _react2.default.createElement(_ModalPortal2.default, _extends({ defaultStyles: Modal.defaultStyles }, props)), _this.node);
       _this.portalRef(portal);
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -652,6 +656,7 @@ var Modal = function (_Component) {
         this.node = document.createElement("div");
       }
 
+      var createPortal = getCreatePortal();
       return createPortal(_react2.default.createElement(_ModalPortal2.default, _extends({
         ref: this.portalRef,
         defaultStyles: Modal.defaultStyles
@@ -1629,7 +1634,7 @@ var ModalPortal = function (_Component) {
 
       // Remove classes.
 
-      classList.remove(document.body, bodyOpenClassName);
+      bodyOpenClassName && classList.remove(document.body, bodyOpenClassName);
 
       htmlOpenClassName && classList.remove(document.getElementsByTagName("html")[0], htmlOpenClassName);
 
@@ -1843,7 +1848,7 @@ var ModalPortal = function (_Component) {
 
       // Add classes.
 
-      classList.add(document.body, bodyOpenClassName);
+      bodyOpenClassName && classList.add(document.body, bodyOpenClassName);
 
       htmlOpenClassName && classList.add(document.getElementsByTagName("html")[0], htmlOpenClassName);
 
@@ -1888,7 +1893,9 @@ var ModalPortal = function (_Component) {
             onClick: this.handleContentOnClick,
             role: this.props.role,
             "aria-label": this.props.contentLabel
-          }, this.attributesFromObject("aria", this.props.aria || {}), this.attributesFromObject("data", this.props.data || {})),
+          }, this.attributesFromObject("aria", this.props.aria || {}), this.attributesFromObject("data", this.props.data || {}), {
+            "data-testid": this.props.testId
+          }),
           this.props.children
         )
       );
@@ -2115,6 +2122,15 @@ function scopeTab(node, event) {
 
   if (x > -1) {
     x += shiftKey ? -1 : 1;
+  }
+
+  // If the tabbable element does not exist,
+  // focus head/tail based on shiftKey
+  if (typeof tabbable[x] === "undefined") {
+    event.preventDefault();
+    target = shiftKey ? tail : head;
+    target.focus();
+    return;
   }
 
   event.preventDefault();
