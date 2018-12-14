@@ -32,6 +32,10 @@ import ReactModal from 'react-modal';
   */
   onAfterOpen={handleAfterOpenFunc}
   /*
+    Function that will be run after the modal has closed.
+  */
+  onAfterClose={handleAfterCloseFunc}
+  /*
     Function that will be run when the modal is requested to be closed (either by clicking on overlay or pressing ESC)
     Note: It is not called if isOpen is changed by other means.
   */
