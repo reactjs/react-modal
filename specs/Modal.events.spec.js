@@ -24,7 +24,7 @@ export default () => {
     afterOpenCallback.called.should.be.ok();
   });
 
-  it.only("should trigger the onAfterClose callback", () => {
+  it("should trigger the onAfterClose callback", () => {
     const onAfterCloseCallback = sinon.spy();
     const modal = renderModal({
       isOpen: true,
