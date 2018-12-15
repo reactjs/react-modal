@@ -82,6 +82,7 @@ class SimpleUsage extends Component {
           <h1 id="heading" ref={h1 => this.heading = h1}>This is the modal 2!</h1>
           <div id="fulldescription" tabIndex="0" role="document">
             <p>This is a description of what it does: nothing :)</p>
+            <button onClick={this.toggleModal(MODAL_B)}>close</button>
           </div>
         </Modal>
       </div>
