@@ -24,6 +24,18 @@ export default () => {
     afterOpenCallback.called.should.be.ok();
   });
 
+  it("should trigger the onAfterClose callback", () => {
+    const onAfterCloseCallback = sinon.spy();
+    const modal = renderModal({
+      isOpen: true,
+      onAfterClose: onAfterCloseCallback
+    });
+
+    modal.portal.close();
+
+    onAfterCloseCallback.called.should.be.ok();
+  });
+
   it("keeps focus inside the modal when child has no tabbable elements", () => {
     let tabPrevented = false;
     const modal = renderModal({ isOpen: true }, "hello");

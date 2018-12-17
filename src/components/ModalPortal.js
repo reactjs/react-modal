@@ -43,6 +43,7 @@ export default class ModalPortal extends Component {
     ariaHideApp: PropTypes.bool,
     appElement: PropTypes.instanceOf(SafeHTMLElement),
     onAfterOpen: PropTypes.func,
+    onAfterClose: PropTypes.func,
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     shouldFocusAfterRender: PropTypes.bool,
@@ -182,6 +183,10 @@ export default class ModalPortal extends Component {
       } else {
         focusManager.popWithoutFocus();
       }
+    }
+
+    if (this.props.onAfterClose) {
+      this.props.onAfterClose();
     }
   };
 
