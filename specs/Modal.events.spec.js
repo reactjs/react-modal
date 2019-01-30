@@ -163,6 +163,20 @@ export default () => {
     hasPropagated.should.be.ok();
   });
 
+  it("should stop event propagation if configured accordingly", () => {
+    let hasPropagated = false;
+    const modal = renderModal({
+      isOpen: true,
+      shouldCloseOnOverlayClick: true,
+      stopPropagationOnClickFor: ['overlay']
+    });
+    window.addEventListener("click", () => {
+      hasPropagated = true;
+    });
+    moverlay(modal).dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    hasPropagated.should.be.not.ok();
+  });
+
   it("verify event passing on overlay click", () => {
     const requestCloseCallback = sinon.spy();
     const modal = renderModal({

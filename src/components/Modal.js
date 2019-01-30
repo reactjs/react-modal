@@ -60,6 +60,8 @@ class Modal extends Component {
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     shouldReturnFocusAfterClose: PropTypes.bool,
+    stopPropagationOnClickFor: PropTypes.arrayOf(
+      PropTypes.oneOf(["content", "overlay"])),
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
     data: PropTypes.object,
@@ -82,6 +84,7 @@ class Modal extends Component {
     shouldCloseOnEsc: true,
     shouldCloseOnOverlayClick: true,
     shouldReturnFocusAfterClose: true,
+    stopPropagationOnClickFor: [],
     parentSelector: () => document.body
   };
 

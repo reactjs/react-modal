@@ -103,6 +103,10 @@ import ReactModal from 'react-modal';
   */
   shouldReturnFocusAfterClose={true}
   /*
+    Stop propagation for the listed elements: 'content' or 'overlay'. Per the React docs (https://reactjs.org/docs/portals.html#event-bubbling-through-portals), an "event fired from inside a portal will propagate to ancestors in the containing React tree, even if those elements are not ancestors in the DOM tree".
+  */ 
+  stopPropagationOnClickFor={[]}
+  /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
     This attribute is `dialog` by default.
   */
