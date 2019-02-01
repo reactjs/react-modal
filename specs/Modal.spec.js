@@ -267,7 +267,10 @@ export default () => {
         beforeClose: "myClass_before-close"
       }
     });
-    mcontent(modal).className.should.be.eql("myClass myClass_after-open");
+    Array.from(mcontent(modal).classList).should.be.eql([
+      "myClass",
+      "myClass_after-open"
+    ]);
     unmountModal();
   });
 
@@ -280,9 +283,10 @@ export default () => {
         beforeClose: "myOverlayClass_before-close"
       }
     });
-    moverlay(modal).className.should.be.eql(
-      "myOverlayClass myOverlayClass_after-open"
-    );
+    Array.from(moverlay(modal).classList).should.be.eql([
+      "myOverlayClass",
+      "myOverlayClass_after-open"
+    ]);
     unmountModal();
   });
 
