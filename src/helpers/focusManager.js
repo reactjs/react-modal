@@ -39,7 +39,7 @@ export function returnFocus() {
   try {
     if (focusLaterElements.length !== 0) {
       toFocus = focusLaterElements.pop();
-      toFocus.focus();
+      toFocus.focus({ preventScroll: true });
     }
     return;
   } catch (e) {
