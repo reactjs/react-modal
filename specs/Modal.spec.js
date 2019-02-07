@@ -51,6 +51,7 @@ export default () => {
     props.closeTimeoutMS.should.be.eql(0);
     props.shouldFocusAfterRender.should.be.ok();
     props.shouldCloseOnOverlayClick.should.be.ok();
+    props.preventScroll.should.be.false();
     ReactDOM.unmountComponentAtNode(node);
     ariaAppHider.resetForTesting();
     Modal.setAppElement(document.body); // restore default

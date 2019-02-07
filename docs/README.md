@@ -103,6 +103,11 @@ import ReactModal from 'react-modal';
   */
   shouldReturnFocusAfterClose={true}
   /*
+    Boolean indicating if the modal should use the preventScroll flag when restoring focus
+    to the element that had focus prior to its display.
+  */
+  preventScroll={false}
+  /*
     String indicating the role of the modal, allowing the 'dialog' role to be applied if desired.
     This attribute is `dialog` by default.
   */
