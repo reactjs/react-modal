@@ -34,12 +34,12 @@ export function markForFocusLater() {
 }
 
 /* eslint-disable no-console */
-export function returnFocus() {
+export function returnFocus(preventScroll = false) {
   let toFocus = null;
   try {
     if (focusLaterElements.length !== 0) {
       toFocus = focusLaterElements.pop();
-      toFocus.focus();
+      toFocus.focus({ preventScroll });
     }
     return;
   } catch (e) {

@@ -60,6 +60,7 @@ class Modal extends Component {
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     shouldReturnFocusAfterClose: PropTypes.bool,
+    preventScroll: PropTypes.bool,
     parentSelector: PropTypes.func,
     aria: PropTypes.object,
     data: PropTypes.object,
@@ -82,6 +83,7 @@ class Modal extends Component {
     shouldCloseOnEsc: true,
     shouldCloseOnOverlayClick: true,
     shouldReturnFocusAfterClose: true,
+    preventScroll: false,
     parentSelector: () => document.body
   };
 

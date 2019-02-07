@@ -51,6 +51,7 @@ export default class ModalPortal extends Component {
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     shouldReturnFocusAfterClose: PropTypes.bool,
+    preventScroll: PropTypes.bool,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
     aria: PropTypes.object,
@@ -185,7 +186,7 @@ export default class ModalPortal extends Component {
 
     if (this.props.shouldFocusAfterRender) {
       if (this.props.shouldReturnFocusAfterClose) {
-        focusManager.returnFocus();
+        focusManager.returnFocus(this.props.preventScroll);
         focusManager.teardownScopedFocus();
       } else {
         focusManager.popWithoutFocus();
