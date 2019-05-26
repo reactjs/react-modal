@@ -61,7 +61,7 @@
     "sinon": "next",
     "uglify-js": "3.1.1",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^2.11.5"
   },
   "dependencies": {
     "exenv": "^1.2.0",
