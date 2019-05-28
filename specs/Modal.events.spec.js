@@ -12,7 +12,8 @@ import {
   escKeyDown,
   tabKeyDown,
   renderModal,
-  emptyDOM
+  emptyDOM,
+  unmountModal
 } from "./helper";
 
 export default () => {
@@ -33,6 +34,20 @@ export default () => {
 
     modal.portal.close();
 
+    onAfterCloseCallback.called.should.be.ok();
+  });
+
+  it("should not trigger onAfterClose callback when unmounting a closed modal", () => {
+    const onAfterCloseCallback = sinon.spy();
+    renderModal({ isOpen: false, onAfterClose: onAfterCloseCallback });
+    unmountModal();
+    onAfterCloseCallback.called.should.not.be.ok();
+  });
+
+  it("should trigger onAfterClose callback when unmounting an opened modal", () => {
+    const onAfterCloseCallback = sinon.spy();
+    renderModal({ isOpen: true, onAfterClose: onAfterCloseCallback });
+    unmountModal();
     onAfterCloseCallback.called.should.be.ok();
   });
 
