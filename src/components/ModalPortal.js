@@ -114,7 +114,9 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
-    this.afterClose();
+    if (this.state.isOpen) {
+      this.afterClose();
+    }
     clearTimeout(this.closeTimer);
   }
 
