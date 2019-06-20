@@ -67,7 +67,7 @@
     "exenv": "^1.2.0",
     "prop-types": "^15.5.10",
     "react-lifecycles-compat": "^3.0.0",
-    "warning": "^3.0.0"
+    "warning": "^4.0.3"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16",
