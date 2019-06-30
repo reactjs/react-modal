@@ -1,3 +1,13 @@
+v3.8.2 - Sun, 30 Jun 2019 20:48:21 UTC
+--------------------------------------
+
+- [9fe84df](../../commit/9fe84df) Update `warning` to v4
+- [6ff8d85](../../commit/6ff8d85) [fixed] Local development environment (#754)
+- [a2838bb](../../commit/a2838bb) [chore] update webpack-dev-server dependency.
+- [ec3f749](../../commit/ec3f749) fix item index
+- [d56e295](../../commit/d56e295) fix can't close Modal B
+
+
 v3.8.1 - Wed, 19 Dec 2018 00:57:16 UTC
 --------------------------------------
 
