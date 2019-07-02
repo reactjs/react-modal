@@ -56,8 +56,7 @@ export default class ModalPortal extends Component {
     children: PropTypes.node,
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
-    contentRef: PropTypes.func,
-    testId: PropTypes.string
+    contentRef: PropTypes.func
   };
 
   constructor(props) {
