@@ -57,6 +57,7 @@ export default class ModalPortal extends Component {
     shouldCloseOnEsc: PropTypes.bool,
     overlayRef: PropTypes.func,
     contentRef: PropTypes.func,
+    id: PropTypes.string,
     testId: PropTypes.string
   };
 
@@ -328,7 +329,7 @@ export default class ModalPortal extends Component {
     }, {});
 
   render() {
-    const { className, overlayClassName, defaultStyles } = this.props;
+    const { id, className, overlayClassName, defaultStyles } = this.props;
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
@@ -341,6 +342,7 @@ export default class ModalPortal extends Component {
         onMouseDown={this.handleOverlayOnMouseDown}
       >
         <div
+          id={id}
           ref={this.setContentRef}
           style={{ ...contentStyles, ...this.props.style.content }}
           className={this.buildClassName("content", className)}
