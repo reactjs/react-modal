@@ -1,3 +1,9 @@
+v3.9.1 - Sun, 14 Jul 2019 16:52:30 UTC
+--------------------------------------
+
+- [c747c24](../../commit/c747c24) [added] Added an id prop, applied to the modal dialog (content) (#765)
+
+
 v3.8.2 - Sun, 30 Jun 2019 20:48:21 UTC
 --------------------------------------
 

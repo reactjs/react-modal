@@ -2058,6 +2058,7 @@ var ModalPortal = function (_Component) {
     key: "render",
     value: function render() {
       var _props2 = this.props,
+          id = _props2.id,
           className = _props2.className,
           overlayClassName = _props2.overlayClassName,
           defaultStyles = _props2.defaultStyles;
@@ -2077,6 +2078,7 @@ var ModalPortal = function (_Component) {
         _react2.default.createElement(
           "div",
           _extends({
+            id: id,
             ref: this.setContentRef,
             style: _extends({}, contentStyles, this.props.style.content),
             className: this.buildClassName("content", className),
@@ -2137,6 +2139,7 @@ ModalPortal.propTypes = {
   shouldCloseOnEsc: _propTypes2.default.bool,
   overlayRef: _propTypes2.default.func,
   contentRef: _propTypes2.default.func,
+  id: _propTypes2.default.string,
   testId: _propTypes2.default.string
 };
 exports.default = ModalPortal;
