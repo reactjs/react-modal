@@ -233,6 +233,13 @@ export default () => {
     });
   });
 
+  it("supports id prop", () => {
+    const modal = renderModal({ isOpen: true, id: "id" });
+    mcontent(modal)
+      .id.includes("id")
+      .should.be.ok();
+  });
+
   it("supports portalClassName", () => {
     const modal = renderModal({
       isOpen: true,

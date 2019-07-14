@@ -63,6 +63,10 @@ import ReactModal from 'react-modal';
      See the `Styles` section for more details.
   */
   overlayClassName="ReactModal__Overlay"
+   /*
+     String id to be applied to the content div
+   */
+  id=""
   /*
      String className to be applied to the modal content.
      See the `Styles` section for more details.
