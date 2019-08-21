@@ -1,3 +1,16 @@
+v3.10.1 - Wed, 21 Aug 2019 20:49:53 UTC
+---------------------------------------
+
+- [8a71f71](../../commit/8a71f71) [fixed] onAfterClose prop falsly called on unmount
+- [1b80146](../../commit/1b80146) Revert "Merge pull request #766 from reactjs/dependabot/npm_and_yarn/webpack-dev-server-3.1.11"
+- [43e2296](../../commit/43e2296) Revert "[chore] run npm audit fix"
+- [0b56049](../../commit/0b56049) Revert "[chore] cleanup readme"
+- [a428d83](../../commit/a428d83) [chore] cleanup readme
+- [b0eb17f](../../commit/b0eb17f) [chore] run npm audit fix
+- [9a6edf9](../../commit/9a6edf9) Merge pull request #766 from reactjs/dependabot/npm_and_yarn/webpack-dev-server-3.1.11
+- [8f4ea54](../../commit/8f4ea54) Bump webpack-dev-server from 2.11.5 to 3.1.11
+
+
 v3.9.1 - Sun, 14 Jul 2019 16:52:30 UTC
 --------------------------------------
 

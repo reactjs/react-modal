@@ -2028,7 +2028,9 @@ var ModalPortal = function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.afterClose();
+      if (this.state.isOpen) {
+        this.afterClose();
+      }
       clearTimeout(this.closeTimer);
     }
   }, {
