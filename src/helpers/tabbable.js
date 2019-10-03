@@ -21,7 +21,9 @@ function hidesContents(element) {
   // Otherwise we need to check some styles
   const style = window.getComputedStyle(element);
   return zeroSize
-    ? style.getPropertyValue("overflow") !== "visible"
+    ? style.getPropertyValue("overflow") !== "visible" ||
+        // if 'overflow: visible' set, check if there is actually any overflow
+        (element.scrollWidth <= 0 && element.scrollHeight <= 0)
     : style.getPropertyValue("display") == "none";
 }
 
