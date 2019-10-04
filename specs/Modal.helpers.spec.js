@@ -105,6 +105,15 @@ export default () => {
         elem.appendChild(input);
         tabbable(elem).should.containEql(input);
       });
+
+      it("excludes elements with overflow == visible if there is no visible content", () => {
+        const button = document.createElement("button");
+        button.innerHTML = "You can't see me!";
+        button.style.display = "none";
+        button.style.overflow = "visible";
+        elem.appendChild(button);
+        tabbable(elem).should.not.containEql(button);
+      });
     });
   });
 };
