@@ -99,11 +99,20 @@ export default () => {
 
       it("includes inputs visible because of overflow == visible", () => {
         const input = document.createElement("input");
-        elem.style.width = "0";
-        elem.style.height = "0";
-        elem.style.overflow = "visible";
+        input.style.width = "0";
+        input.style.height = "0";
+        input.style.overflow = "visible";
         elem.appendChild(input);
         tabbable(elem).should.containEql(input);
+      });
+
+      it("excludes elements with overflow == visible if there is no visible content", () => {
+        const button = document.createElement("button");
+        button.innerHTML = "You can't see me!";
+        button.style.display = "none";
+        button.style.overflow = "visible";
+        elem.appendChild(button);
+        tabbable(elem).should.not.containEql(button);
       });
     });
   });
