@@ -99,9 +99,9 @@ export default () => {
 
       it("includes inputs visible because of overflow == visible", () => {
         const input = document.createElement("input");
-        elem.style.width = "0";
-        elem.style.height = "0";
-        elem.style.overflow = "visible";
+        input.style.width = "0";
+        input.style.height = "0";
+        input.style.overflow = "visible";
         elem.appendChild(input);
         tabbable(elem).should.containEql(input);
       });
