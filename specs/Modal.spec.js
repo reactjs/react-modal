@@ -47,7 +47,7 @@ export default () => {
     const modal = ReactDOM.render(<Modal />, node);
     const props = modal.props;
     props.isOpen.should.not.be.ok();
-    props.ariaHideApp.should.be.ok();
+    props.ariaHideApp.should.not.be.ok();
     props.closeTimeoutMS.should.be.eql(0);
     props.shouldFocusAfterRender.should.be.ok();
     props.shouldCloseOnOverlayClick.should.be.ok();
