@@ -25,6 +25,16 @@ export default () => {
     afterOpenCallback.called.should.be.ok();
   });
 
+  it("should call onAfterOpen with overlay and content references", () => {
+    const afterOpenCallback = sinon.spy();
+    const modal = renderModal({ isOpen: true, onAfterOpen: afterOpenCallback });
+
+    sinon.assert.calledWith(afterOpenCallback, {
+      overlayEl: modal.portal.overlay,
+      contentEl: modal.portal.content
+    });
+  });
+
   it("should trigger the onAfterClose callback", () => {
     const onAfterCloseCallback = sinon.spy();
     const modal = renderModal({
