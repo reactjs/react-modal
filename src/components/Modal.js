@@ -174,7 +174,14 @@ class Modal extends Component {
   removePortal = () => {
     !isReact16 && ReactDOM.unmountComponentAtNode(this.node);
     const parent = getParentElement(this.props.parentSelector);
-    parent && parent.removeChild(this.node);
+    if (parent) {
+      parent.removeChild(this.node);
+    } else {
+      /* eslint-disable-next-line no-console  */
+      console.warn(
+        "Cannot remove modal from the parent element as it no longer exists in the DOM"
+      );
+    }
   };
 
   portalRef = ref => {
