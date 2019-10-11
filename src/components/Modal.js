@@ -177,9 +177,11 @@ class Modal extends Component {
     if (parent) {
       parent.removeChild(this.node);
     } else {
-      /* eslint-disable-next-line no-console  */
+      // eslint-disable-next-line no-console
       console.warn(
-        "Cannot remove modal from the parent element as it no longer exists in the DOM"
+        'React-Modal: "parentSelector" prop did not returned any DOM ' +
+          "element. Make sure that the parent element is unmounted to " +
+          "avoid any memory leaks."
       );
     }
   };
