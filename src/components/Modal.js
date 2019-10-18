@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import ModalPortal from "./ModalPortal";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
+import gteVersion from "../helpers/version";
 
 import { polyfill } from "react-lifecycles-compat";
 
 export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";
 
-const isReact16 = ReactDOM.createPortal !== undefined;
+const isReact16 = gteVersion(React.version, "16.0.0");
 
 const getCreatePortal = () =>
   isReact16
