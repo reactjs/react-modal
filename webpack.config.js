@@ -23,6 +23,7 @@ function buildEntries() {
 }
 
 module.exports = {
+  mode: 'development',
 
   entry: buildEntries(),
 
@@ -45,9 +46,13 @@ module.exports = {
     }
   },
 
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
+
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('shared'),
     new webpack.LoaderOptionsPlugin({ debug: true })
   ]
-
 };

@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
 var reactExternal = {
   root: 'React',
@@ -16,6 +15,7 @@ var reactDOMExternal = {
 };
 
 module.exports = {
+  mode: 'production',
 
   entry: {
     'react-modal': './src/index.js',
@@ -36,16 +36,13 @@ module.exports = {
     library: 'ReactModal'
   },
 
+  optimization: {
+    minimize: true
+  },
+
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    }),
-    new UglifyJsPlugin({
-      include: /\.min\.js$/,
-      minimize: true,
-      compress: {
-        warnings: false
-      }
     })
   ],
 

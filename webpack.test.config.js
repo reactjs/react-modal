@@ -2,6 +2,7 @@ const path = require('path');
 const commonConfig = require('./webpack.config');
 
 commonConfig.plugins = [];
+delete commonConfig.optimization;
 commonConfig.entry = './specs/index.js';
 commonConfig.devtool = 'inline-source-map';
 
