@@ -1,3 +1,13 @@
+v3.11.1 - Fri, 25 Oct 2019 21:02:09 UTC
+---------------------------------------
+
+- [ee1a363](../../commit/ee1a363) chore: update webpack* versions.
+- [4ac3ff4](../../commit/4ac3ff4) [added]: pass overlay and content element references to onAfterOpen fn (#741)
+- [9be00a9](../../commit/9be00a9) [fixed] some untabbable elements are being returned from findTabbable (#774)
+- [4dd25ac](../../commit/4dd25ac) chore: changed xvfb to a service.
+- [2d4f231](../../commit/2d4f231) chore: changed xvfb to a service.
+
+
 v3.10.1 - Wed, 21 Aug 2019 20:49:53 UTC
 ---------------------------------------
 
