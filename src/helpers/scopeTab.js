@@ -9,6 +9,8 @@ export default function scopeTab(node, event) {
     return;
   }
 
+  let target;
+
   const shiftKey = event.shiftKey;
   const head = tabbable[0];
   const tail = tabbable[tabbable.length - 1];
@@ -20,7 +22,6 @@ export default function scopeTab(node, event) {
     target = tail;
   }
 
-  var target;
   if (tail === document.activeElement && !shiftKey) {
     target = head;
   }
@@ -62,9 +63,11 @@ export default function scopeTab(node, event) {
     x += shiftKey ? -1 : 1;
   }
 
+  target = tabbable[x];
+
   // If the tabbable element does not exist,
   // focus head/tail based on shiftKey
-  if (typeof tabbable[x] === "undefined") {
+  if (typeof target === "undefined") {
     event.preventDefault();
     target = shiftKey ? tail : head;
     target.focus();
@@ -73,5 +76,5 @@ export default function scopeTab(node, event) {
 
   event.preventDefault();
 
-  tabbable[x].focus();
+  target.focus();
 }
