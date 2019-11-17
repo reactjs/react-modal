@@ -54,7 +54,7 @@ const customStyles = {
 Modal.setAppElement('#yourAppElement')
 
 function App(){
-  openModal = openModal.bind(this);
+  var subtitle;
   afterOpenModal = afterOpenModal.bind(this);
   closeModal = closeModal.bind(this);
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -82,7 +82,7 @@ function App(){
           contentLabel="Example Modal"
         >
 
-          <h2 ref={_subtitle => subtitle = _subtitle}>Hello</h2>
+          <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
           <button onClick={closeModal}>close</button>
           <div>I am a modal</div>
           <form>
