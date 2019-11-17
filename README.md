@@ -55,8 +55,6 @@ Modal.setAppElement('#yourAppElement')
 
 function App(){
   var subtitle;
-  afterOpenModal = afterOpenModal.bind(this);
-  closeModal = closeModal.bind(this);
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
