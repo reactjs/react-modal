@@ -73,13 +73,15 @@ export default class ModalPortal extends Component {
     this.moveFromContentToOverlay = null;
 
     // Body focus trap see Issue #742
-    this.bodyFocusTrapBefore = document.createElement("div");
-    this.bodyFocusTrapBefore.style.position = "absolute";
-    this.bodyFocusTrapBefore.style.opacity = "0";
-    this.bodyFocusTrapBefore.setAttribute("tabindex", "0");
-    this.bodyFocusTrapAfter = this.bodyFocusTrapBefore.cloneNode();
-    this.bodyFocusTrapBefore.addEventListener("focus", this.focusContent);
-    this.bodyFocusTrapAfter.addEventListener("focus", this.focusContent);
+    if (typeof window !== "undefined") {
+      this.bodyFocusTrapBefore = document.createElement("div");
+      this.bodyFocusTrapBefore.style.position = "absolute";
+      this.bodyFocusTrapBefore.style.opacity = "0";
+      this.bodyFocusTrapBefore.setAttribute("tabindex", "0");
+      this.bodyFocusTrapAfter = this.bodyFocusTrapBefore.cloneNode();
+      this.bodyFocusTrapBefore.addEventListener("focus", this.focusContent);
+      this.bodyFocusTrapAfter.addEventListener("focus", this.focusContent);
+    }
   }
 
   componentDidMount() {
@@ -161,14 +163,16 @@ export default class ModalPortal extends Component {
       ariaAppHider.hide(appElement);
     }
 
-    if (document.body.firstChild !== this.bodyFocusTrapBefore) {
-      document.body.insertBefore(
-        this.bodyFocusTrapBefore,
-        document.body.firstChild
-      );
-    }
-    if (document.body.lastChild !== this.bodyFocusTrapAfter) {
-      document.body.appendChild(this.bodyFocusTrapAfter);
+    if (typeof window !== "undefined") {
+      if (document.body.firstChild !== this.bodyFocusTrapBefore) {
+        document.body.insertBefore(
+          this.bodyFocusTrapBefore,
+          document.body.firstChild
+        );
+      }
+      if (document.body.lastChild !== this.bodyFocusTrapAfter) {
+        document.body.appendChild(this.bodyFocusTrapAfter);
+      }
     }
   }
 
@@ -211,11 +215,13 @@ export default class ModalPortal extends Component {
       this.props.onAfterClose();
     }
 
-    if (this.bodyFocusTrapBefore.parentElement === document.body) {
-      document.body.removeChild(this.bodyFocusTrapBefore);
-    }
-    if (this.bodyFocusTrapAfter.parentElement === document.body) {
-      document.body.removeChild(this.bodyFocusTrapAfter);
+    if (typeof window !== "undefined") {
+      if (this.bodyFocusTrapBefore.parentElement === document.body) {
+        document.body.removeChild(this.bodyFocusTrapBefore);
+      }
+      if (this.bodyFocusTrapAfter.parentElement === document.body) {
+        document.body.removeChild(this.bodyFocusTrapAfter);
+      }
     }
   };
 
