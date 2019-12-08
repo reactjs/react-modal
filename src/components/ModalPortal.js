@@ -71,12 +71,6 @@ export default class ModalPortal extends Component {
 
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
-  }
-
-  componentDidMount() {
-    if (this.props.isOpen) {
-      this.open();
-    }
 
     // Body focus trap see Issue #742
     this.bodyFocusTrapBefore = document.createElement("div");
@@ -86,6 +80,12 @@ export default class ModalPortal extends Component {
     this.bodyFocusTrapAfter = this.bodyFocusTrapBefore.cloneNode();
     this.bodyFocusTrapBefore.addEventListener("focus", this.focusContent);
     this.bodyFocusTrapAfter.addEventListener("focus", this.focusContent);
+  }
+
+  componentDidMount() {
+    if (this.props.isOpen) {
+      this.open();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
