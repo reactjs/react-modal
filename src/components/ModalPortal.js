@@ -5,6 +5,8 @@ import scopeTab from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import * as classList from "../helpers/classList";
 import SafeHTMLElement from "../helpers/safeHTMLElement";
+import portalOpenInstances from "../helpers/portalOpenInstances";
+import "../helpers/bodyTrap";
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
@@ -151,6 +153,8 @@ export default class ModalPortal extends Component {
       ariaHiddenInstances += 1;
       ariaAppHider.hide(appElement);
     }
+
+    portalOpenInstances.register(this);
   }
 
   afterClose = () => {
@@ -191,6 +195,8 @@ export default class ModalPortal extends Component {
     if (this.props.onAfterClose) {
       this.props.onAfterClose();
     }
+
+    portalOpenInstances.deregister(this);
   };
 
   open = () => {
