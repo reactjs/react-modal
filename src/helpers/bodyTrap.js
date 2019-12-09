@@ -1,12 +1,16 @@
 import portalOpenInstances from "./portalOpenInstances";
 // Body focus trap see Issue #742
 
-let before, after, instances;
+let before,
+  after,
+  instances = [];
 
 function focusContent() {
-  if (!instances || instances.length === 0) {
-    // eslint-disable-next-line no-console
-    console.warn(`React-Modal: Open instances > 0 expected`);
+  if (instances.length === 0) {
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console
+      console.warn(`React-Modal: Open instances > 0 expected`);
+    }
     return;
   }
   instances[instances.length - 1].focusContent();
