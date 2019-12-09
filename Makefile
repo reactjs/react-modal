@@ -1,7 +1,9 @@
-NODE=$(shell which node)
-NPM=$(shell which npm)
-YARN=$(shell which yarn)
-JQ=$(shell which jq)
+NODE=$(shell which node 2> /dev/null)
+NPM=$(shell which npm 2> /dev/null)
+YARN=$(shell which yarn 2> /dev/null)
+JQ=$(shell which jq 2> /dev/null)
+
+PKM?=$(if $(YARN),$(YARN),$(shell which npm))
 
 BABEL=./node_modules/.bin/babel
 COVERALLS=./node_modules/coveralls/bin/coveralls.js
@@ -29,10 +31,9 @@ help: info
 	@echo "  make publish-all      - publish version and docs."
 
 info:
-	@echo node version: `$(NODE) --version` "($(NODE))"
-	@echo npm version: `$(NPM) --version` "($(NPM))"
-	@echo yarn version: `$(YARN) --version` "($(YARN))"
-	@echo jq version: `$(JQ) --version` "($(JQ))"
+	@[[ ! -z "$(NODE)" ]] && echo node version: `$(NODE) --version` "$(NODE)"
+	@[[ ! -z "$(PKM)" ]] && echo $(shell basename $(PKM)) version: `$(PKM) --version` "$(PKM)"
+	@[[ ! -z "$(JQ)" ]] && echo jq version: `$(JQ) --version` "$(JQ)"
 
 deps: deps-project deps-docs
 
@@ -54,7 +55,7 @@ tests-single-run:
 	@npm run test -- --single-run
 
 coveralls:
-	-cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js 2>/dev/null
+	-cat ./coverage/lcov.info | $(COVERALLS) 2>/dev/null
 
 tests-ci: clean lint
 	@COVERAGE=$(COVERAGE) make tests-single-run coveralls
@@ -91,7 +92,7 @@ compile:
 
 build: compile
 	@echo "[Building dists]"
-	@./node_modules/.bin/webpack --config webpack.dist.config.js
+	@./node_modules/.bin/webpack --config ./scripts/webpack.dist.config.js
 
 release-commit:
 	git commit --allow-empty -m "Release v`cat .version`."

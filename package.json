@@ -14,7 +14,7 @@
     "example": "examples"
   },
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --inline --host 127.0.0.1 --content-base examples/",
+    "start": "npx webpack-dev-server --config ./scripts/webpack.config.js --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
     "lint": "eslint src/ specs/"
   },

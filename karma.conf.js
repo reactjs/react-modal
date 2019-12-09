@@ -18,7 +18,7 @@ module.exports = function(config) {
 
     files: ['./specs/index.js'],
 
-    webpack: require('./webpack.test.config'),
+    webpack: require('./scripts/webpack.test.config'),
 
     webpackMiddleware: { stats: 'errors-only' },
 
