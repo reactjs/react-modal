@@ -4,4 +4,4 @@ This example shows how to use setAppElement to properly hide your application fr
 
 You'll notice in this example that the aria-hidden attribute is applied to the #main div rather than the document body.
 
-[](codepen://claydiffrient/ENegGJ)
+[setAppElement example](codepen://claydiffrient/ENegGJ)

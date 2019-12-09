@@ -11,6 +11,11 @@ REMOTE="git@github.com:reactjs/react-modal"
 CURRENT_VERSION:=$(shell jq ".version" package.json)
 COVERAGE?=true
 
+BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
+CURRENT_VERSION:=$(shell jq ".version" package.json)
+
+VERSION:=$(if $(RELEASE),$(shell read -p "Release $(CURRENT_VERSION) -> " V && echo $$V),$(subst /,-,$(BRANCH)))
+
 help: info
 	@echo
 	@echo "Current version: $(CURRENT_VERSION)"
@@ -38,10 +43,10 @@ info:
 deps: deps-project deps-docs
 
 deps-project:
-	@[[ ! -z "$(YARN)" ]] && $(YARN) install || $(NPM) install
+	@$(PKM) install
 
 deps-docs:
-	@gitbook install
+	@pip install --user mkdocs mkdocs-material jsx-lexer
 
 # Rules for development
 
@@ -64,27 +69,20 @@ lint:
 	@npm run lint
 
 docs: build-docs
-	gitbook serve
+	mkdocs serve
 
 # Rules for build and publish
 
 check-working-tree:
-	@sh ./scripts/repo_status
-
-version:
-	@echo "[Updating react-modal version]"
-	@sh ./scripts/version $(CURRENT_VERSION)
-	@$(JQ) '.version' package.json | cut -d\" -f2 > .version
-
-branch:
-	@echo "[Release from branch]"
-	@git branch | grep '^*' | awk '{ print $$2 }' > .branch
-	@[[ "`cat .branch`" != "master\n" ]] && echo "Current branch: `cat .branch`" || (echo "Fail. Current branch is not master." && exit 1)
+	@[[ ! -z "`git status -s`" ]] && \
+	echo "Stopping publish. There are change to commit or discard." && \
+	exit 1
 
 changelog:
-	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > `cat .version`]"
-	@python3 ./scripts/changelog.py v$(CURRENT_VERSION) v`cat .version` > .changelog_update
+	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION)]"
+	@python3 ./scripts/changelog.py v$(CURRENT_VERSION) v$(VERSION) > .changelog_update
 	@cat .changelog_update CHANGELOG.md > tmp && mv tmp CHANGELOG.md
+	@rm .changelog_update
 
 compile:
 	@echo "[Compiling source]"
@@ -92,19 +90,19 @@ compile:
 
 build: compile
 	@echo "[Building dists]"
-	@./node_modules/.bin/webpack --config ./scripts/webpack.dist.config.js
+	@npx webpack --config ./scripts/webpack.dist.config.js
 
 release-commit:
-	git commit --allow-empty -m "Release v`cat .version`."
+	git commit --allow-empty -m "Release v$(VERSION)."
 	@git add .
 	@git commit --amend -m "`git log -1 --format=%s`"
 
 release-tag:
-	git tag "v`cat .version`"
+	git tag "v$(VERSION)"
 
 publish-version: release-commit release-tag
 	@echo "[Publishing]"
-	git push $(REMOTE) "`cat .branch`" "v`cat .version`"
+	git push $(REMOTE) "$(BRANCH)" "v$(VERSION)"
 	npm publish
 
 pre-publish: clean branch version changelog
@@ -122,7 +120,7 @@ init-docs-repo:
 build-docs:
 	@echo "[Building documentation]"
 	@rm -rf _book
-	@gitbook build -g reactjs/react-modal
+	@mkdocs build 
 
 pre-publish-docs: clean-docs init-docs-repo deps-docs
 

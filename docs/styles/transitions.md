@@ -1,5 +1,3 @@
-### Transitions
-
 Using [CSS classes](classes.md), it is possible to implement transitions for
 when the modal is opened or closed.  By placing the following CSS somewhere in
 your project's styles, you can make the modal content fade in when it is opened

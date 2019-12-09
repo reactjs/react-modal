@@ -1,0 +1,26 @@
+site_name: react-modal documentation
+site_dir: _book
+nav:
+  - Overview: index.md
+  - Accessibility: accessibility/index.md
+  - Styles:
+      - Inline Styles: styles/index.md
+      - Classes: styles/classes.md
+      - Transitions: styles/transitions.md
+  - Examples:
+      - Run local: examples/index.md
+      - Minimal: examples/minimal.md
+      - setAppElement: examples/set_app_element.md
+      - shouldCloseOnOverlayClick: examples/should_close_on_overlay_click.md
+      - onRequestClose: examples/on_request_close.md
+      - Global Overrides: examples/global_overrides.md
+      - Inline Styles: examples/inline_styles.md
+      - Css Classes: examples/css_classes.md
+  - Testing: testing/index.md
+  - Contributing:
+      - Overview: contributing/index.md
+      - Development setup: contributing/development.md
+theme:
+  name: 'material'     
+markdown_extensions:
+  - codehilite

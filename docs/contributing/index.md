@@ -1,5 +1,3 @@
-## Contributing
-
 ### Commit Subjects
 
 If your patch **changes the API or fixes a bug** please use one of the

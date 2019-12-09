@@ -1,5 +1,3 @@
-## Styles
-
 Styles passed into the Modal via the `style` prop are merged with the defaults.
 The default styles are defined in the `Modal.defaultStyles` object and are
 shown below.

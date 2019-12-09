@@ -1,5 +1,3 @@
-### CSS Classes
-
 Sometimes it may be preferable to use CSS classes rather than inline styles.
 react-modal can be configured to use CSS classes to style the modal content and
 overlay, as well as the document body and the portal within which the modal is
