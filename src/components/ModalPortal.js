@@ -154,7 +154,6 @@ export default class ModalPortal extends Component {
       ariaAppHider.hide(appElement);
     }
 
-    console.log("registering");
     portalOpenInstances.register(this);
   }
 
