@@ -5,6 +5,8 @@ import scopeTab from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import * as classList from "../helpers/classList";
 import SafeHTMLElement from "../helpers/safeHTMLElement";
+import portalOpenInstances from "../helpers/portalOpenInstances";
+import "../helpers/bodyTrap";
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
@@ -71,15 +73,6 @@ export default class ModalPortal extends Component {
 
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
-
-    // Body focus trap see Issue #742
-    this.bodyFocusTrapBefore = document.createElement("div");
-    this.bodyFocusTrapBefore.style.position = "absolute";
-    this.bodyFocusTrapBefore.style.opacity = "0";
-    this.bodyFocusTrapBefore.setAttribute("tabindex", "0");
-    this.bodyFocusTrapAfter = this.bodyFocusTrapBefore.cloneNode();
-    this.bodyFocusTrapBefore.addEventListener("focus", this.focusContent);
-    this.bodyFocusTrapAfter.addEventListener("focus", this.focusContent);
   }
 
   componentDidMount() {
@@ -161,15 +154,8 @@ export default class ModalPortal extends Component {
       ariaAppHider.hide(appElement);
     }
 
-    if (document.body.firstChild !== this.bodyFocusTrapBefore) {
-      document.body.insertBefore(
-        this.bodyFocusTrapBefore,
-        document.body.firstChild
-      );
-    }
-    if (document.body.lastChild !== this.bodyFocusTrapAfter) {
-      document.body.appendChild(this.bodyFocusTrapAfter);
-    }
+    console.log("registering");
+    portalOpenInstances.register(this);
   }
 
   afterClose = () => {
@@ -211,12 +197,7 @@ export default class ModalPortal extends Component {
       this.props.onAfterClose();
     }
 
-    if (this.bodyFocusTrapBefore.parentElement === document.body) {
-      document.body.removeChild(this.bodyFocusTrapBefore);
-    }
-    if (this.bodyFocusTrapAfter.parentElement === document.body) {
-      document.body.removeChild(this.bodyFocusTrapAfter);
-    }
+    portalOpenInstances.deregister(this);
   };
 
   open = () => {
