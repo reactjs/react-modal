@@ -8,7 +8,10 @@ class PortalOpenInstances {
 
   register = openInstance => {
     if (this.openInstances.indexOf(openInstance) !== -1) {
-      console.warn(`Cannot register modal instance that's already open`);
+      // eslint-disable-next-line no-console
+      console.warn(
+        `React-Modal: Cannot register modal instance that's already open`
+      );
       return;
     }
     this.openInstances.push(openInstance);
@@ -18,8 +21,9 @@ class PortalOpenInstances {
   deregister = openInstance => {
     const index = this.openInstances.indexOf(openInstance);
     if (index === -1) {
+      // eslint-disable-next-line no-console
       console.warn(
-        `Unable to deregister ${openInstance} as it was never registered`
+        `React-Modal: Unable to deregister ${openInstance} as it was never registered`
       );
       return;
     }

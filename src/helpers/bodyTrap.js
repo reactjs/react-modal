@@ -5,7 +5,8 @@ let before, after, instances;
 
 function focusContent() {
   if (!instances || instances.length === 0) {
-    console.warn(`Open instances > 0 expected`);
+    // eslint-disable-next-line no-console
+    console.warn(`React-Modal: Open instances > 0 expected`);
     return;
   }
   instances[instances.length - 1].focusContent();
