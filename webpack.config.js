@@ -24,35 +24,20 @@ function buildEntries() {
 
 module.exports = {
   mode: 'development',
-
   entry: buildEntries(),
-
   output: {
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
     path: path.resolve(__dirname, './examples/__build__'),
     publicPath: '/__build__/'
   },
-
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, use: { loader: 'babel-loader' } }
     ]
   },
-
   resolve: {
     alias: {
       "react-modal": path.resolve(__dirname, "./src")
     }
-  },
-
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
-  },
-
-  plugins: [
-    new webpack.LoaderOptionsPlugin({ debug: true })
-  ]
+  }
 };
