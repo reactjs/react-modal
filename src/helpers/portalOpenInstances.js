@@ -26,7 +26,8 @@ class PortalOpenInstances {
       if (process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
         console.warn(
-          `React-Modal: Unable to deregister ${openInstance} as it was never registered`
+          `React-Modal: Unable to deregister ${openInstance} as ` +
+            `it was never registered`
         );
       }
       return;

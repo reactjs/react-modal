@@ -16,7 +16,7 @@
   "scripts": {
     "start": "npx webpack-dev-server --config ./scripts/webpack.config.js --inline --host 127.0.0.1 --content-base examples/",
     "test": "cross-env NODE_ENV=test karma start",
-    "lint": "eslint src/ specs/"
+    "lint": "eslint src/"
   },
   "authors": [
     "Ryan Florence"
@@ -39,7 +39,7 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^2.3.1",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.17.0",
     "gitbook-cli": "^2.3.2",
     "istanbul-instrumenter-loader": "^3.0.0",
     "karma": "^4.4.1",
@@ -61,8 +61,8 @@
     "sinon": "next",
     "uglify-js": "3.1.1",
     "webpack": "^4.41.2",
-    "webpack-dev-server": "^3.9.0",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
     "exenv": "^1.2.0",
