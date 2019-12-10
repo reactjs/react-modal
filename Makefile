@@ -14,7 +14,7 @@ COVERAGE?=true
 BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 CURRENT_VERSION:=$(shell jq ".version" package.json)
 
-VERSION:=$(if $(RELEASE),$(shell read -p "Release $(CURRENT_VERSION) -> " V && echo $$V),$(subst /,-,$(BRANCH)))
+VERSION:=$(if $(RELEASE),$(shell read -p "Release $(CURRENT_VERSION) -> " V && echo $$V),"HEAD")
 
 help: info
 	@echo
@@ -79,10 +79,8 @@ check-working-tree:
 	exit 1
 
 changelog:
-	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION)]"
-	@python3 ./scripts/changelog.py v$(CURRENT_VERSION) v$(VERSION) > .changelog_update
-	@cat .changelog_update CHANGELOG.md > tmp && mv tmp CHANGELOG.md
-	@rm .changelog_update
+	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > $(VERSION)]"
+	python ./scripts/changelog.py -a $(VERSION) > CHANGELOG.md
 
 compile:
 	@echo "[Compiling source]"
@@ -98,7 +96,7 @@ release-commit:
 	@git commit --amend -m "`git log -1 --format=%s`"
 
 release-tag:
-	git tag "v$(VERSION)"
+	git tag "v$(VERSION)" -m "`python ./scripts/changelog.py -c $(VERSION)`"
 
 publish-version: release-commit release-tag
 	@echo "[Publishing]"
@@ -120,7 +118,7 @@ init-docs-repo:
 build-docs:
 	@echo "[Building documentation]"
 	@rm -rf _book
-	@mkdocs build 
+	@mkdocs build
 
 pre-publish-docs: clean-docs init-docs-repo deps-docs
 
@@ -150,6 +148,6 @@ clean-coverage:
 	@rm -rf ./coverage/*
 
 clean-build:
-	@rm -rf .version .branch lib/*
+	@rm -rf lib/*
 
 clean: clean-build clean-docs clean-coverage
