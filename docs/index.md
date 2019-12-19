@@ -136,6 +136,11 @@ import ReactModal from 'react-modal';
   data={
     { background: "green" }
   /* Additional data attributes (optional). */}
+  
+  testId={
+    ""
+  /* String testId that renders a data-testid attribute in the DOM,
+    useful for testing. */}
 
   overlayRef={
     setOverlayRef
