@@ -6,5 +6,4 @@ This is especially important for handling closing the modal via the escape key.
 
 Also more important if `shouldCloseOnOverlayClick` is set to `true`, when clicked on overlay it calls `onRequestClose`.
 
-
-[onRequestClose example](codepen://claydiffrient/KNjVBx)
+[onRequestClose example](https://codepen.io/claydiffrient/pen/KNjVBx)
