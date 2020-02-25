@@ -102,7 +102,7 @@ publish-version: release-commit release-tag
 	git push $(REMOTE) "$(BRANCH)" "v$(VERSION)"
 	npm publish
 
-pre-publish: clean branch version changelog
+pre-publish: clean changelog
 pre-build: deps-project tests-ci build
 
 publish: check-working-tree pre-publish pre-build publish-version publish-finished
