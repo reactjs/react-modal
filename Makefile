@@ -74,9 +74,8 @@ docs: build-docs
 # Rules for build and publish
 
 check-working-tree:
-	@[ ! -z "`git status -s`" ] && \
-	echo "Stopping publish. There are change to commit or discard." && \
-	exit 1
+	@[ -z "`git status -s`" ] && \
+	echo "Stopping publish. There are change to commit or discard." || echo "Worktree is clean."
 
 changelog:
 	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > $(VERSION)]"
