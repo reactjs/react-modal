@@ -1,3 +1,25 @@
+3.11.2 - Tue, 25 Feb 2020 21:49:36 UTC
+--------------------------------------
+
+- [8cd47cd](../../commit/8cd47cd) fixed: update package.json version.
+- [bb76272](../../commit/bb76272) fixed: rules' execution order.
+- [83c8c23](../../commit/83c8c23) fixed: when building, use test single run rule.
+- [c6c4d8c](../../commit/c6c4d8c) fixed: removed build and version rules since they were simplified.
+- [83c5e29](../../commit/83c5e29) fixed: makefile rule to check the working tree.
+- [5fdcfdd](../../commit/5fdcfdd) [fixed] set correct URL for codepen setAppElement example
+- [8efaa37](../../commit/8efaa37) [chore] forgot to remote book.json.
+- [f7e96f3](../../commit/f7e96f3) [fixed] sync package-lock.json.
+- [4abbc0a](../../commit/4abbc0a) [fixed] passing lint.
+- [dc57795](../../commit/dc57795) [chore] fixed rule to check if repository is dirty.
+- [b9cbd40](../../commit/b9cbd40) [chore] rewrite CHANGELOG.
+- [e5fe406](../../commit/e5fe406) [chore] moving documentation to mkdocs.
+- [525c35c](../../commit/525c35c) [chore] moving webpack scripts to scripts folder.
+- [aa822be](../../commit/aa822be) [chore] it's not necessary to make chunks when running the examples.
+- [eb20444](../../commit/eb20444) [fixed] Focus trap when reentering document (#742) (#791)
+- [98dd5be](../../commit/98dd5be) [Chore] Update README (example with React Hooks).
+- [cec8833](../../commit/cec8833) fixed: using variable before declaration...
+- [5dffbf2](../../commit/5dffbf2) [fixed] Call parent.removeChild only if parent exists (#778)
+
 3.11.1 - Fri, 25 Oct 2019 21:02:39 UTC
 --------------------------------------
 
