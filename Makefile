@@ -103,7 +103,7 @@ publish-version: release-commit release-tag
 	npm publish
 
 pre-publish: clean changelog
-pre-build: deps-project tests-ci build
+pre-build: deps-project tests-single-run build
 
 publish: check-working-tree pre-publish pre-build publish-version publish-finished
 
