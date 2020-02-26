@@ -77,10 +77,6 @@ check-working-tree:
 	@[ -z "`git status -s`" ] && \
 	echo "Stopping publish. There are change to commit or discard." || echo "Worktree is clean."
 
-changelog:
-	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > $(VERSION)]"
-	python ./scripts/changelog.py -a $(VERSION) > CHANGELOG.md
-
 compile:
 	@echo "[Compiling source]"
 	$(BABEL) src --out-dir lib
@@ -89,8 +85,17 @@ build: compile
 	@echo "[Building dists]"
 	@npx webpack --config ./scripts/webpack.dist.config.js
 
-release-commit:
+pre-release-commit:
 	git commit --allow-empty -m "Release v$(VERSION)."
+
+changelog:
+	@echo "[Updating CHANGELOG.md $(CURRENT_VERSION) > $(VERSION)]"
+	python ./scripts/changelog.py -a $(VERSION) > CHANGELOG.md
+
+update-package-version:
+	@cat package.json | jq '.version=$(VERSION)' > tmp; mv -f tmp package.json
+
+release-commit: pre-release-commit update-package-version changelog
 	@git add .
 	@git commit --amend -m "`git log -1 --format=%s`"
 
@@ -102,7 +107,7 @@ publish-version: release-commit release-tag
 	git push $(REMOTE) "$(BRANCH)" "v$(VERSION)"
 	npm publish
 
-pre-publish: clean changelog
+pre-publish: clean
 pre-build: deps-project tests-single-run build
 
 publish: check-working-tree pre-publish pre-build publish-version publish-finished
