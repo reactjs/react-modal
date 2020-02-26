@@ -93,7 +93,7 @@ changelog:
 	python ./scripts/changelog.py -a $(VERSION) > CHANGELOG.md
 
 update-package-version:
-	@cat package.json | jq '.version=$(VERSION)' > tmp; mv -f tmp package.json
+	cat package.json | jq '.version="$(VERSION)"' > tmp; mv -f tmp package.json
 
 release-commit: pre-release-commit update-package-version changelog
 	@git add .
