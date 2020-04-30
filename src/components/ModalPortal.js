@@ -233,7 +233,9 @@ export default class ModalPortal extends Component {
 
   // Don't steal focus from inner elements
   focusContent = () =>
-    this.content && !this.contentHasFocus() && this.content.focus({ preventScroll: true });
+    this.content &&
+    !this.contentHasFocus() &&
+    this.content.focus({ preventScroll: true });
 
   closeWithTimeout = () => {
     const closesAt = Date.now() + this.props.closeTimeoutMS;
