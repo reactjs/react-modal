@@ -19,7 +19,7 @@ Accessible modal dialog component for React.JS
 To install, you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com):
 
 
-    $ npm install react-modal
+    $ npm install --save react-modal
     $ yarn add react-modal
 
 
