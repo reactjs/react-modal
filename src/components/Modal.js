@@ -176,7 +176,7 @@ class Modal extends Component {
   removePortal = () => {
     !isReact16 && ReactDOM.unmountComponentAtNode(this.node);
     const parent = getParentElement(this.props.parentSelector);
-    if (parent) {
+    if (parent && parent.contains(this.node)) {
       parent.removeChild(this.node);
     } else {
       // eslint-disable-next-line no-console
