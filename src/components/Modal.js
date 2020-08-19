@@ -10,7 +10,7 @@ import { polyfill } from "react-lifecycles-compat";
 export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";
 
-const isReact16 = ReactDOM.createPortal !== undefined;
+const isReact16 = canUseDOM && ReactDOM.createPortal !== undefined;
 
 const getCreatePortal = () =>
   isReact16
