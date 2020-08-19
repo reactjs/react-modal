@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import * as focusManager from "../helpers/focusManager";
 import scopeTab from "../helpers/scopeTab";
@@ -345,7 +345,13 @@ export default class ModalPortal extends Component {
     }, {});
 
   render() {
-    const { id, className, overlayClassName, defaultStyles, children } = this.props;
+    const {
+      id,
+      className,
+      overlayClassName,
+      defaultStyles,
+      children
+    } = this.props;
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
