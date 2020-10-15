@@ -180,7 +180,6 @@ choose a different parent element by providing a function to the
   <p>Modal Content.</p>
 </Modal>
 ```
-p
 If you do this, please ensure that your
 [app element](accessibility/README.md#app-element) is set correctly.  The app
 element should not be a parent of the modal, to prevent modal content from
