@@ -24,7 +24,7 @@ will be closed immediately when requested.  Thus, if you are using the
 set `closeTimeoutMS` to the length (in milliseconds) of your closing
 transition.
 
-If you specify `className`, the [default content styles](README.md) will not be
+If you specify `className`, the [default content styles](index.md) will not be
 applied.  Likewise, if you specify `overlayClassName`, the default overlay
 styles will not be applied.
 
