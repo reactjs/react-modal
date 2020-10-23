@@ -379,7 +379,7 @@ export default class ModalPortal extends Component {
       onClick: this.handleContentOnClick,
       role: this.props.role,
       "aria-label": this.props.contentLabel,
-      ...this.attributesFromObject("aria", this.props.aria || {}),
+      ...this.attributesFromObject("aria", { modal: true, ...this.props.aria }),
       ...this.attributesFromObject("data", this.props.data || {}),
       "data-testid": this.props.testId
     };
