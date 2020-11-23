@@ -1,4 +1,24 @@
-3.11.2 - Tue, 25 Feb 2020 21:49:36 UTC
+3.12.1 - Sun, 22 Nov 2020 22:51:12 UTC
+--------------------------------------
+
+- [029a525](../../commit/029a525) Added react 17 support
+- [694d425](../../commit/694d425) fix #833 by changing stale link from `README.md`
+- [9ca3626](../../commit/9ca3626) [fixed] add aria-modal attribute
+- [b2e58e7](../../commit/b2e58e7) [fixed] extra 'p' character in index.md
+- [94ad567](../../commit/94ad567) [fixed] don't access ReactDOM.createPortal if DOM not available
+- [421a1c8](../../commit/421a1c8) chore(lint): run lint.
+- [c797e9a](../../commit/c797e9a) [added] Added custom overlayElement and contentElement.
+- [fa98fcc](../../commit/fa98fcc) [fixed] check before react-modal removal from parent element that parent has it
+- [ff0a7f5](../../commit/ff0a7f5) [added] a preventScroll prop
+- [2ea6d44](../../commit/2ea6d44) Add '--save'
+- [eea891c](../../commit/eea891c) Update package.json
+- [6417a6a](../../commit/6417a6a) fixed(chore): update packages.
+- [bd07d56](../../commit/bd07d56) Adds testId prop and useage to documentation
+- [4a120a9](../../commit/4a120a9) fix linting
+- [206cfe6](../../commit/206cfe6) ensure focus does not scroll the modal
+- [9a4dde5](../../commit/9a4dde5) [fixed] -  Fix broken links of codepen in examples in docs
+
+3.11.2 - Tue, 25 Feb 2020 21:49:35 UTC
 --------------------------------------
 
 - [8cd47cd](../../commit/8cd47cd) fixed: update package.json version.
