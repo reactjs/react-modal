@@ -46,7 +46,7 @@ deps-project:
 	@$(PKM) install
 
 deps-docs:
-	@pip install --user mkdocs mkdocs-material jsx-lexer
+	@pip install mkdocs mkdocs-material jsx-lexer
 
 # Rules for development
 
@@ -69,6 +69,7 @@ lint:
 	@npm run lint
 
 docs: build-docs
+	pygmentize -S default -f html -a .codehilite > docs/pygments.css
 	mkdocs serve
 
 # Rules for build and publish

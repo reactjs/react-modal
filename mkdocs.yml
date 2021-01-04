@@ -21,6 +21,7 @@ nav:
       - Overview: contributing/index.md
       - Development setup: contributing/development.md
 theme:
-  name: 'material'     
+  name: 'material'
 markdown_extensions:
   - codehilite
+extra_css: [pygments.css]
