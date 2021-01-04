@@ -181,7 +181,7 @@ choose a different parent element by providing a function to the
 </Modal>
 ```
 If you do this, please ensure that your
-[app element](accessibility/README.md#app-element) is set correctly.  The app
+[app element](accessibility/#app-element) is set correctly.  The app
 element should not be a parent of the modal, to prevent modal content from
 being hidden to screenreaders while it is open.
 
