@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 import React from "react";
+import ReactDOM from "react-dom";
 import "should";
 import sinon from "sinon";
 import Modal from "react-modal";
@@ -11,24 +12,37 @@ import {
   mouseUpAt,
   escKeyDown,
   tabKeyDown,
-  withModal
+  withModal,
+  withElementCollector,
+  createHTMLElement
 } from "./helper";
 
 export default () => {
   it("should trigger the onAfterOpen callback", () => {
     const afterOpenCallback = sinon.spy();
-    const props = { isOpen: true, onAfterOpen: afterOpenCallback }; 
-    withModal(props, null, () => {});
-    afterOpenCallback.called.should.be.ok();
+    withElementCollector(() => {
+      const props = { isOpen: true, onAfterOpen: afterOpenCallback };
+      const node = createHTMLElement("div");
+      ReactDOM.render(<Modal {...props} />, node);
+      requestAnimationFrame(() => {
+        afterOpenCallback.called.should.be.ok();
+        ReactDOM.unmountComponentAtNode(node);
+      });
+    });
   });
 
   it("should call onAfterOpen with overlay and content references", () => {
     const afterOpenCallback = sinon.spy();
-    const props = { isOpen: true, onAfterOpen: afterOpenCallback }; 
-    withModal(props, null, modal => {
-      sinon.assert.calledWith(afterOpenCallback, {
-        overlayEl: modal.portal.overlay,
-        contentEl: modal.portal.content
+    withElementCollector(() => {
+      const props = { isOpen: true, onAfterOpen: afterOpenCallback };
+      const node = createHTMLElement("div");
+      const modal = ReactDOM.render(<Modal {...props} />, node);
+      requestAnimationFrame(() => {
+        sinon.assert.calledWith(afterOpenCallback, {
+          overlayEl: modal.portal.overlay,
+          contentEl: modal.portal.content
+        });
+        ReactDOM.unmountComponentAtNode(node);
       });
     });
   });

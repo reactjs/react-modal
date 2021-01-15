@@ -348,32 +348,42 @@ export default () => {
   });
 
   it("overrides content classes with custom object className", () => {
-    const props = {
-      isOpen: true,
-      className: {
-        base: "myClass",
-        afterOpen: "myClass_after-open",
-        beforeClose: "myClass_before-close"
-      }
-    };
-    withModal(props, null, modal => {
-      mcontent(modal).className.should.be.eql("myClass myClass_after-open");
+    withElementCollector(() => {
+      const props = {
+        isOpen: true,
+        className: {
+          base: "myClass",
+          afterOpen: "myClass_after-open",
+          beforeClose: "myClass_before-close"
+        }
+      };
+      const node = createHTMLElement("div");
+      const modal = ReactDOM.render(<Modal {...props} />, node);
+      requestAnimationFrame(() => {
+        mcontent(modal).className.should.be.eql("myClass myClass_after-open");
+        ReactDOM.unmountComponentAtNode(node);
+      });
     });
   });
 
   it("overrides overlay classes with custom object overlayClassName", () => {
-    const props = {
-      isOpen: true,
-      overlayClassName: {
-        base: "myOverlayClass",
-        afterOpen: "myOverlayClass_after-open",
-        beforeClose: "myOverlayClass_before-close"
-      }
-    };
-    withModal(props, null, modal => {
-      moverlay(modal).className.should.be.eql(
-        "myOverlayClass myOverlayClass_after-open"
-      );
+    withElementCollector(() => {
+      const props = {
+        isOpen: true,
+        overlayClassName: {
+          base: "myOverlayClass",
+          afterOpen: "myOverlayClass_after-open",
+          beforeClose: "myOverlayClass_before-close"
+        }
+      };
+      const node = createHTMLElement("div");
+      const modal = ReactDOM.render(<Modal {...props} />, node);
+      requestAnimationFrame(() => {
+        moverlay(modal).className.should.be.eql(
+          "myOverlayClass myOverlayClass_after-open"
+        );
+        ReactDOM.unmountComponentAtNode(node);
+      });
     });
   });
 
@@ -668,11 +678,18 @@ export default () => {
   });
 
   it("adds --after-open for animations", () => {
-    const props = { isOpen: true };
-    withModal(props, null, modal => {
+    withElementCollector(() => {
       const rg = /--after-open/i;
-      rg.test(mcontent(modal).className).should.be.ok();
-      rg.test(moverlay(modal).className).should.be.ok();
+      const props = { isOpen: true };
+      const node = createHTMLElement("div");
+      const modal = ReactDOM.render(<Modal {...props} />, node);
+      requestAnimationFrame(() => {
+        const contentName = modal.portal.content.className;
+        const overlayName = modal.portal.overlay.className;
+        rg.test(contentName).should.be.ok();
+        rg.test(overlayName).should.be.ok();
+        ReactDOM.unmountComponentAtNode(node);
+      });
     });
   });
 
@@ -722,25 +739,24 @@ export default () => {
   });
 
   it("keeps the modal in the DOM until closeTimeoutMS elapses", done => {
-    const closeTimeoutMS = 100;
+    function checkDOM(count) {
+      const overlay = document.querySelectorAll(".ReactModal__Overlay");
+      const content = document.querySelectorAll(".ReactModal__Content");
+      overlay.length.should.be.eql(count);
+      content.length.should.be.eql(count);
+    }
+    withElementCollector(() => {
+      const closeTimeoutMS = 100;
+      const props = { isOpen: true, closeTimeoutMS };
+      const node = createHTMLElement("div");
+      const modal = ReactDOM.render(<Modal {...props} />, node);
 
-    const props = { isOpen: true, closeTimeoutMS };
-    withModal(props, null, modal => {
       modal.portal.closeWithTimeout();
-
-      function checkDOM(count) {
-        const overlay = document.querySelectorAll(".ReactModal__Overlay");
-        const content = document.querySelectorAll(".ReactModal__Content");
-        overlay.length.should.be.eql(count);
-        content.length.should.be.eql(count);
-      }
-
-      // content is still mounted after modal is gone
       checkDOM(1);
 
       setTimeout(() => {
-        // content is unmounted after specified timeout
         checkDOM(0);
+        ReactDOM.unmountComponentAtNode(node);
         done();
       }, closeTimeoutMS);
     });
