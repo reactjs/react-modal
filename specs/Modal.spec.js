@@ -293,7 +293,7 @@ export default () => {
       .should.be.ok();
   });
 
-  it("overrides content classes with custom object className", () => {
+  it("overrides content classes with custom object className", done => {
     const modal = renderModal({
       isOpen: true,
       className: {
@@ -302,11 +302,14 @@ export default () => {
         beforeClose: "myClass_before-close"
       }
     });
-    mcontent(modal).className.should.be.eql("myClass myClass_after-open");
-    unmountModal();
+    requestAnimationFrame(() => {
+      mcontent(modal).className.should.be.eql("myClass myClass_after-open");
+      unmountModal();
+      done();
+    });
   });
 
-  it("overrides overlay classes with custom object overlayClassName", () => {
+  it("overrides overlay classes with custom object overlayClassName", done => {
     const modal = renderModal({
       isOpen: true,
       overlayClassName: {
@@ -315,10 +318,13 @@ export default () => {
         beforeClose: "myOverlayClass_before-close"
       }
     });
-    moverlay(modal).className.should.be.eql(
-      "myOverlayClass myOverlayClass_after-open"
-    );
-    unmountModal();
+    requestAnimationFrame(() => {
+      moverlay(modal).className.should.be.eql(
+        "myOverlayClass myOverlayClass_after-open"
+      );
+      unmountModal();
+      done();
+    });
   });
 
   it("supports overriding react modal open class in document.body.", () => {
@@ -578,11 +584,14 @@ export default () => {
     appElement.getAttribute("aria-hidden").should.be.eql("true");
   });
 
-  it("adds --after-open for animations", () => {
+  it("adds --after-open for animations", done => {
     const modal = renderModal({ isOpen: true });
     const rg = /--after-open/i;
-    rg.test(mcontent(modal).className).should.be.ok();
-    rg.test(moverlay(modal).className).should.be.ok();
+    requestAnimationFrame(() => {
+      rg.test(mcontent(modal).className).should.be.ok();
+      rg.test(moverlay(modal).className).should.be.ok();
+      done();
+    });
   });
 
   it("adds --before-close for animations", () => {

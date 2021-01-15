@@ -19,19 +19,25 @@ import {
 export default () => {
   afterEach("Unmount modal", emptyDOM);
 
-  it("should trigger the onAfterOpen callback", () => {
+  it("should trigger the onAfterOpen callback", done => {
     const afterOpenCallback = sinon.spy();
     renderModal({ isOpen: true, onAfterOpen: afterOpenCallback });
-    afterOpenCallback.called.should.be.ok();
+      requestAnimationFrame(() => {
+      afterOpenCallback.called.should.be.ok();
+      done();
+    });
   });
 
-  it("should call onAfterOpen with overlay and content references", () => {
+  it("should call onAfterOpen with overlay and content references", done => {
     const afterOpenCallback = sinon.spy();
     const modal = renderModal({ isOpen: true, onAfterOpen: afterOpenCallback });
 
-    sinon.assert.calledWith(afterOpenCallback, {
-      overlayEl: modal.portal.overlay,
-      contentEl: modal.portal.content
+    requestAnimationFrame(() => {
+      sinon.assert.calledWith(afterOpenCallback, {
+        overlayEl: modal.portal.overlay,
+        contentEl: modal.portal.content
+      });
+      done();
     });
   });
 

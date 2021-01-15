@@ -214,14 +214,16 @@ export default class ModalPortal extends Component {
       }
 
       this.setState({ isOpen: true }, () => {
-        this.setState({ afterOpen: true });
+        requestAnimationFrame(() => {
+          this.setState({ afterOpen: true });
 
-        if (this.props.isOpen && this.props.onAfterOpen) {
-          this.props.onAfterOpen({
-            overlayEl: this.overlay,
-            contentEl: this.content
-          });
-        }
+          if (this.props.isOpen && this.props.onAfterOpen) {
+            this.props.onAfterOpen({
+              overlayEl: this.overlay,
+              contentEl: this.content
+            });
+          }
+        });
       });
     }
   };
