@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "exenv": "^1.2.0",
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.7.2",
     "react-lifecycles-compat": "^3.0.0",
     "warning": "^4.0.3"
   },
