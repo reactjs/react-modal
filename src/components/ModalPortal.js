@@ -4,7 +4,10 @@ import * as focusManager from "../helpers/focusManager";
 import scopeTab from "../helpers/scopeTab";
 import * as ariaAppHider from "../helpers/ariaAppHider";
 import * as classList from "../helpers/classList";
-import SafeHTMLElement from "../helpers/safeHTMLElement";
+import SafeHTMLElement, {
+  SafeHTMLCollection,
+  SafeNodeList
+} from "../helpers/safeHTMLElement";
 import portalOpenInstances from "../helpers/portalOpenInstances";
 import "../helpers/bodyTrap";
 
@@ -43,7 +46,12 @@ export default class ModalPortal extends Component {
     bodyOpenClassName: PropTypes.string,
     htmlOpenClassName: PropTypes.string,
     ariaHideApp: PropTypes.bool,
-    appElement: PropTypes.instanceOf(SafeHTMLElement),
+    appElement: PropTypes.oneOfType([
+      PropTypes.instanceOf(SafeHTMLElement),
+      PropTypes.instanceOf(SafeHTMLCollection),
+      PropTypes.instanceOf(SafeNodeList),
+      PropTypes.arrayOf(PropTypes.instanceOf(SafeHTMLElement))
+    ]),
     onAfterOpen: PropTypes.func,
     onAfterClose: PropTypes.func,
     onRequestClose: PropTypes.func,

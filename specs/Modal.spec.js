@@ -65,6 +65,16 @@ export default () => {
     ReactDOM.unmountComponentAtNode(node);
   });
 
+  it("accepts array of appElement as a prop", () => {
+    const el1 = document.createElement("div");
+    const el2 = document.createElement("div");
+    const node = document.createElement("div");
+    ReactDOM.render(<Modal isOpen={true} appElement={[el1, el2]} />, node);
+    el1.getAttribute("aria-hidden").should.be.eql("true");
+    el2.getAttribute("aria-hidden").should.be.eql("true");
+    ReactDOM.unmountComponentAtNode(node);
+  });
+
   it("renders into the body, not in context", () => {
     const node = document.createElement("div");
     class App extends Component {
@@ -106,6 +116,36 @@ export default () => {
       .querySelector(".ReactModalPortal")
       .parentNode.should.be.eql(document.body);
     ReactDOM.unmountComponentAtNode(node);
+  });
+
+  // eslint-disable-next-line max-len
+  it("allow setting appElement of type string matching multiple elements", () => {
+    const el1 = document.createElement("div");
+    el1.id = "id1";
+    document.body.appendChild(el1);
+    const el2 = document.createElement("div");
+    el2.id = "id2";
+    document.body.appendChild(el2);
+    const node = document.createElement("div");
+    class App extends Component {
+      render() {
+        return (
+          <div>
+            <Modal isOpen>
+              <span>hello</span>
+            </Modal>
+          </div>
+        );
+      }
+    }
+    const appElement = "#id1, #id2";
+    Modal.setAppElement(appElement);
+    ReactDOM.render(<App />, node);
+    el1.getAttribute("aria-hidden").should.be.eql("true");
+    el2.getAttribute("aria-hidden").should.be.eql("true");
+    ReactDOM.unmountComponentAtNode(node);
+    document.body.removeChild(el1);
+    document.body.removeChild(el2);
   });
 
   it("default parentSelector should be document.body.", () => {

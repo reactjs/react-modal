@@ -16,14 +16,21 @@ export function setElement(element) {
   if (typeof useElement === "string" && canUseDOM) {
     const el = document.querySelectorAll(useElement);
     assertNodeList(el, useElement);
-    useElement = "length" in el ? el[0] : el;
+    useElement = el;
   }
   globalElement = useElement || globalElement;
   return globalElement;
 }
 
 export function validateElement(appElement) {
-  if (!appElement && !globalElement) {
+  const el = appElement || globalElement;
+  if (el) {
+    return Array.isArray(el) ||
+      el instanceof HTMLCollection ||
+      el instanceof NodeList
+      ? el
+      : [el];
+  } else {
     warning(
       false,
       [
@@ -35,21 +42,19 @@ export function validateElement(appElement) {
       ].join(" ")
     );
 
-    return false;
+    return [];
   }
-
-  return true;
 }
 
 export function hide(appElement) {
-  if (validateElement(appElement)) {
-    (appElement || globalElement).setAttribute("aria-hidden", "true");
+  for (let el of validateElement(appElement)) {
+    el.setAttribute("aria-hidden", "true");
   }
 }
 
 export function show(appElement) {
-  if (validateElement(appElement)) {
-    (appElement || globalElement).removeAttribute("aria-hidden");
+  for (let el of validateElement(appElement)) {
+    el.removeAttribute("aria-hidden");
   }
 }
 
