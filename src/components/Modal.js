@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import ModalPortal from "./ModalPortal";
 import * as ariaAppHider from "../helpers/ariaAppHider";
-import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
+import SafeHTMLElement, {
+  SafeNodeList,
+  SafeHTMLCollection,
+  canUseDOM
+} from "../helpers/safeHTMLElement";
 
 import { polyfill } from "react-lifecycles-compat";
 
@@ -52,7 +56,12 @@ class Modal extends Component {
         beforeClose: PropTypes.string.isRequired
       })
     ]),
-    appElement: PropTypes.instanceOf(SafeHTMLElement),
+    appElement: PropTypes.oneOfType([
+      PropTypes.instanceOf(SafeHTMLElement),
+      PropTypes.instanceOf(SafeHTMLCollection),
+      PropTypes.instanceOf(SafeNodeList),
+      PropTypes.arrayOf(PropTypes.instanceOf(SafeHTMLElement))
+    ]),
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
