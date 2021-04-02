@@ -24,7 +24,10 @@ Modal.setAppElement(document.getElementById('root'));
 ```
 
 Using a selector that matches multiple elements or passing a list of DOM
-elements will hide all of the elements.
+elements will hide all of the elements. Note that this list won't be
+automatically pruned if elements are removed from the DOM, so you may want to
+call `Modal.setAppElement` when any such changes are made, or pass a live
+HTMLCollection as the value.
 
 If you are already applying the `aria-hidden` attribute to your app content
 through other means, you can pass the `ariaHideApp={false}` prop to your modal
