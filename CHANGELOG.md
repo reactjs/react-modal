@@ -1,4 +1,14 @@
-3.12.1 - Sun, 22 Nov 2020 22:51:12 UTC
+3.13.1 - Tue, 13 Apr 2021 14:19:46 UTC
+--------------------------------------
+
+- [5832904](../../commit/5832904) Updated README.md
+- [d7083c5](../../commit/d7083c5) [added] docs note about setAppElement not pruning removed nodes
+- [e1807ce](../../commit/e1807ce) [added] support Array, HTMLCollection and NodeList values for appElement
+- [c9d8e2d](../../commit/c9d8e2d) Bump ini from 1.3.5 to 1.3.8
+- [8d4ef84](../../commit/8d4ef84) fixed(documentation): jsx-lexer now requires to generate a css file...
+- [ab8c44c](../../commit/ab8c44c) fixed(documentation): link to app-element on index.
+
+3.12.1 - Sun, 22 Nov 2020 22:51:08 UTC
 --------------------------------------
 
 - [029a525](../../commit/029a525) Added react 17 support
