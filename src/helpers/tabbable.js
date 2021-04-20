@@ -18,6 +18,12 @@ function hidesContents(element) {
   // If the node is empty, this is good enough
   if (zeroSize && !element.innerHTML) return true;
 
+  // if the element is not of type Element e.g. shadowRoot
+  // we cannot go any further
+  if (!element.isPrototypeOf(Element)) {
+    return false;
+  }
+
   // Otherwise we need to check some styles
   const style = window.getComputedStyle(element);
   return zeroSize
