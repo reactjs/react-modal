@@ -16,6 +16,8 @@ export const bodyOpenClassName = "ReactModal__Body--open";
 
 const isReact16 = canUseDOM && ReactDOM.createPortal !== undefined;
 
+let createHTMLElement = name => document.createElement(name);
+
 const getCreatePortal = () =>
   isReact16
     ? ReactDOM.createPortal
@@ -130,7 +132,7 @@ class Modal extends Component {
     if (!canUseDOM) return;
 
     if (!isReact16) {
-      this.node = document.createElement("div");
+      this.node = createHTMLElement("div");
     }
     this.node.className = this.props.portalClassName;
 
@@ -222,7 +224,7 @@ class Modal extends Component {
     }
 
     if (!this.node && isReact16) {
-      this.node = document.createElement("div");
+      this.node = createHTMLElement("div");
     }
 
     const createPortal = getCreatePortal();
@@ -238,5 +240,9 @@ class Modal extends Component {
 }
 
 polyfill(Modal);
+
+if (process.env.NODE_ENV !== "production") {
+  Modal.setCreateHTMLElement = fn => (createHTMLElement = fn);
+}
 
 export default Modal;

@@ -5,6 +5,29 @@ let before,
   after,
   instances = [];
 
+/* eslint-disable no-console */
+/* istanbul ignore next */
+export function resetState() {
+  for (let item of [before, after]) {
+    if (!item) continue;
+    item.parentNode && item.parentNode.removeChild(item);
+  }
+  before = after = null;
+  instances = [];
+}
+
+/* istanbul ignore next */
+export function log() {
+  console.log("bodyTrap ----------");
+  console.log(instances.length);
+  for (let item of [before, after]) {
+    let check = item || {};
+    console.log(check.nodeName, check.className, check.id);
+  }
+  console.log("edn bodyTrap ----------");
+}
+/* eslint-enable no-console */
+
 function focusContent() {
   if (instances.length === 0) {
     if (process.env.NODE_ENV !== "production") {
@@ -17,7 +40,7 @@ function focusContent() {
 }
 
 function bodyTrap(eventType, openInstances) {
-  if (!before || !after) {
+  if (!before && !after) {
     before = document.createElement("div");
     before.setAttribute("data-react-modal-body-trap", "");
     before.style.position = "absolute";
