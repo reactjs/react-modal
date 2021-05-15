@@ -11,74 +11,71 @@ import {
   mouseUpAt,
   escKeyDown,
   tabKeyDown,
-  renderModal,
-  emptyDOM,
-  unmountModal
+  withModal
 } from "./helper";
 
 export default () => {
-  afterEach("Unmount modal", emptyDOM);
-
   it("should trigger the onAfterOpen callback", () => {
     const afterOpenCallback = sinon.spy();
-    renderModal({ isOpen: true, onAfterOpen: afterOpenCallback });
+    const props = { isOpen: true, onAfterOpen: afterOpenCallback }; 
+    withModal(props, null, () => {});
     afterOpenCallback.called.should.be.ok();
   });
 
   it("should call onAfterOpen with overlay and content references", () => {
     const afterOpenCallback = sinon.spy();
-    const modal = renderModal({ isOpen: true, onAfterOpen: afterOpenCallback });
-
-    sinon.assert.calledWith(afterOpenCallback, {
-      overlayEl: modal.portal.overlay,
-      contentEl: modal.portal.content
+    const props = { isOpen: true, onAfterOpen: afterOpenCallback }; 
+    withModal(props, null, modal => {
+      sinon.assert.calledWith(afterOpenCallback, {
+        overlayEl: modal.portal.overlay,
+        contentEl: modal.portal.content
+      });
     });
   });
 
   it("should trigger the onAfterClose callback", () => {
     const onAfterCloseCallback = sinon.spy();
-    const modal = renderModal({
+    withModal({
       isOpen: true,
       onAfterClose: onAfterCloseCallback
     });
-
-    modal.portal.close();
-
     onAfterCloseCallback.called.should.be.ok();
   });
 
   it("should not trigger onAfterClose callback when unmounting a closed modal", () => {
     const onAfterCloseCallback = sinon.spy();
-    renderModal({ isOpen: false, onAfterClose: onAfterCloseCallback });
-    unmountModal();
+    withModal({ isOpen: false, onAfterClose: onAfterCloseCallback });
     onAfterCloseCallback.called.should.not.be.ok();
   });
 
   it("should trigger onAfterClose callback when unmounting an opened modal", () => {
     const onAfterCloseCallback = sinon.spy();
-    renderModal({ isOpen: true, onAfterClose: onAfterCloseCallback });
-    unmountModal();
+    withModal({ isOpen: true, onAfterClose: onAfterCloseCallback });
     onAfterCloseCallback.called.should.be.ok();
   });
 
   it("keeps focus inside the modal when child has no tabbable elements", () => {
     let tabPrevented = false;
-    const modal = renderModal({ isOpen: true }, "hello");
-    const content = mcontent(modal);
-    document.activeElement.should.be.eql(content);
-    tabKeyDown(content, {
-      preventDefault() {
-        tabPrevented = true;
-      }
+    const props = { isOpen: true }; 
+    withModal(props, "hello", modal => {
+      const content = mcontent(modal);
+      document.activeElement.should.be.eql(content);
+      tabKeyDown(content, {
+        preventDefault() {
+          tabPrevented = true;
+        }
+      });
+      tabPrevented.should.be.eql(true);
     });
-    tabPrevented.should.be.eql(true);
   });
 
   it("handles case when child has no tabbable elements", () => {
-    const modal = renderModal({ isOpen: true }, "hello");
-    const content = mcontent(modal);
-    tabKeyDown(content);
-    document.activeElement.should.be.eql(content);
+    const props = { isOpen: true }; 
+    withModal(props, "hello", modal => {
+      const content = mcontent(modal);
+      tabKeyDown(content);
+      document.activeElement.should.be.eql(content);
+    });
   });
 
   it("traps tab in the modal on shift + tab", () => {
@@ -90,39 +87,48 @@ export default () => {
         {bottomButton}
       </div>
     );
-    const modal = renderModal({ isOpen: true }, modalContent);
-    const content = mcontent(modal);
-    tabKeyDown(content, { shiftKey: true });
-    document.activeElement.textContent.should.be.eql("bottom");
+    const props = { isOpen: true }; 
+    withModal(props, modalContent, modal => {
+      const content = mcontent(modal);
+      tabKeyDown(content, { shiftKey: true });
+      document.activeElement.textContent.should.be.eql("bottom");
+    });
   });
 
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
         const requestCloseCallback = sinon.spy();
-        const modal = renderModal({
-          isOpen: true,
-          shouldCloseOnEsc: true,
-          onRequestClose: requestCloseCallback
-        });
-        escKeyDown(mcontent(modal));
-        requestCloseCallback.called.should.be.ok();
-        // Check if event is passed to onRequestClose callback.
-        const event = requestCloseCallback.getCall(0).args[0];
-        event.should.be.ok();
+        withModal(
+          {
+            isOpen: true,
+            shouldCloseOnEsc: true,
+            onRequestClose: requestCloseCallback
+          },
+          null,
+          modal => {
+            escKeyDown(mcontent(modal));
+            requestCloseCallback.called.should.be.ok();
+            // Check if event is passed to onRequestClose callback.
+            const event = requestCloseCallback.getCall(0).args[0];
+            event.should.be.ok();
+          }
+        );
       });
     });
 
     context("when false", () => {
       it("should not close on Esc key event", () => {
         const requestCloseCallback = sinon.spy();
-        const modal = renderModal({
+        const props = {
           isOpen: true,
           shouldCloseOnEsc: false,
           onRequestClose: requestCloseCallback
+        };
+        withModal(props, null, modal => {
+          escKeyDown(mcontent(modal));
+          requestCloseCallback.called.should.be.false;
         });
-        escKeyDown(mcontent(modal));
-        requestCloseCallback.called.should.be.false;
       });
     });
   });
@@ -130,80 +136,93 @@ export default () => {
   describe("shouldCloseOnoverlayClick", () => {
     it("when false, click on overlay should not close", () => {
       const requestCloseCallback = sinon.spy();
-      const modal = renderModal({
+      const props = {
         isOpen: true,
         shouldCloseOnOverlayClick: false
+      };
+      withModal(props, null, modal => {
+        const overlay = moverlay(modal);
+        clickAt(overlay);
+        requestCloseCallback.called.should.not.be.ok();
       });
-      const overlay = moverlay(modal);
-      clickAt(overlay);
-      requestCloseCallback.called.should.not.be.ok();
     });
 
     it("when true, click on overlay must close", () => {
       const requestCloseCallback = sinon.spy();
-      const modal = renderModal({
+      const props = {
         isOpen: true,
         shouldCloseOnOverlayClick: true,
         onRequestClose: requestCloseCallback
+      };
+      withModal(props, null, modal => {
+        clickAt(moverlay(modal));
+        requestCloseCallback.called.should.be.ok();
       });
-      clickAt(moverlay(modal));
-      requestCloseCallback.called.should.be.ok();
     });
 
     it("overlay mouse down and content mouse up, should not close", () => {
       const requestCloseCallback = sinon.spy();
-      const modal = renderModal({
+      const props = {
         isOpen: true,
         shouldCloseOnOverlayClick: true,
         onRequestClose: requestCloseCallback
+      };
+      withModal(props, null, modal => {
+        mouseDownAt(moverlay(modal));
+        mouseUpAt(mcontent(modal));
+        requestCloseCallback.called.should.not.be.ok();
       });
-      mouseDownAt(moverlay(modal));
-      mouseUpAt(mcontent(modal));
-      requestCloseCallback.called.should.not.be.ok();
     });
 
     it("content mouse down and overlay mouse up, should not close", () => {
       const requestCloseCallback = sinon.spy();
-      const modal = renderModal({
+      const props = {
         isOpen: true,
         shouldCloseOnOverlayClick: true,
         onRequestClose: requestCloseCallback
+      };
+      withModal(props, null, modal => {
+        mouseDownAt(mcontent(modal));
+        mouseUpAt(moverlay(modal));
+        requestCloseCallback.called.should.not.be.ok();
       });
-      mouseDownAt(mcontent(modal));
-      mouseUpAt(moverlay(modal));
-      requestCloseCallback.called.should.not.be.ok();
     });
   });
 
   it("should not stop event propagation", () => {
     let hasPropagated = false;
-    const modal = renderModal({
+    const props = {
       isOpen: true,
       shouldCloseOnOverlayClick: true
+    };
+    withModal(props, null, modal => {
+      const propagated = () => (hasPropagated = true);
+      window.addEventListener("click", propagated);
+      const event = new MouseEvent("click", { bubbles: true });
+      moverlay(modal).dispatchEvent(event);
+      hasPropagated.should.be.ok();
+      window.removeEventListener("click", propagated);
     });
-    window.addEventListener("click", () => {
-      hasPropagated = true;
-    });
-    moverlay(modal).dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    hasPropagated.should.be.ok();
   });
 
   it("verify event passing on overlay click", () => {
     const requestCloseCallback = sinon.spy();
-    const modal = renderModal({
+    const props = {
       isOpen: true,
       shouldCloseOnOverlayClick: true,
       onRequestClose: requestCloseCallback
+    };
+    withModal(props, null, modal => {
+      // click the overlay
+      clickAt(moverlay(modal), {
+        // Used to test that this was the event received
+        fakeData: "ABC"
+      });
+      requestCloseCallback.called.should.be.ok();
+      // Check if event is passed to onRequestClose callback.
+      const event = requestCloseCallback.getCall(0).args[0];
+      event.should.be.ok();
     });
-    // click the overlay
-    clickAt(moverlay(modal), {
-      // Used to test that this was the event received
-      fakeData: "ABC"
-    });
-    requestCloseCallback.called.should.be.ok();
-    // Check if event is passed to onRequestClose callback.
-    const event = requestCloseCallback.getCall(0).args[0];
-    event.should.be.ok();
   });
 
   it("on nested modals, only the topmost should handle ESC key.", () => {
@@ -214,7 +233,7 @@ export default () => {
       innerModal = ref;
     };
 
-    renderModal(
+    withModal(
       {
         isOpen: true,
         onRequestClose: requestCloseCallback
@@ -225,12 +244,13 @@ export default () => {
         ref={innerModalRef}
       >
         <span>Test</span>
-      </Modal>
+      </Modal>,
+      () => {
+        const content = mcontent(innerModal);
+        escKeyDown(content);
+        innerRequestCloseCallback.called.should.be.ok();
+        requestCloseCallback.called.should.not.be.ok();
+      }
     );
-
-    const content = mcontent(innerModal);
-    escKeyDown(content);
-    innerRequestCloseCallback.called.should.be.ok();
-    requestCloseCallback.called.should.not.be.ok();
   });
 };
