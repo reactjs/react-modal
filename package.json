@@ -2,8 +2,8 @@
   "name": "react-modal",
   "version": "3.13.1",
   "description": "Accessible modal dialog component for React.JS",
-  "main": "./src/index.js",
-  "module": "./src/index.js",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/reactjs/react-modal.git"
