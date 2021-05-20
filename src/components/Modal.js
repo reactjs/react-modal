@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import ModalPortal from "./ModalPortal";
 import * as ariaAppHider from "../helpers/ariaAppHider";
-import SafeHTMLElement, { canUseDOM } from "../helpers/safeHTMLElement";
+import SafeHTMLElement, {
+  SafeNodeList,
+  SafeHTMLCollection,
+  canUseDOM
+} from "../helpers/safeHTMLElement";
 
 import { polyfill } from "react-lifecycles-compat";
 
@@ -11,6 +15,8 @@ export const portalClassName = "ReactModalPortal";
 export const bodyOpenClassName = "ReactModal__Body--open";
 
 const isReact16 = canUseDOM && ReactDOM.createPortal !== undefined;
+
+let createHTMLElement = name => document.createElement(name);
 
 const getCreatePortal = () =>
   isReact16
@@ -52,7 +58,12 @@ class Modal extends Component {
         beforeClose: PropTypes.string.isRequired
       })
     ]),
-    appElement: PropTypes.instanceOf(SafeHTMLElement),
+    appElement: PropTypes.oneOfType([
+      PropTypes.instanceOf(SafeHTMLElement),
+      PropTypes.instanceOf(SafeHTMLCollection),
+      PropTypes.instanceOf(SafeNodeList),
+      PropTypes.arrayOf(PropTypes.instanceOf(SafeHTMLElement))
+    ]),
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
@@ -121,7 +132,7 @@ class Modal extends Component {
     if (!canUseDOM) return;
 
     if (!isReact16) {
-      this.node = document.createElement("div");
+      this.node = createHTMLElement("div");
     }
     this.node.className = this.props.portalClassName;
 
@@ -213,7 +224,7 @@ class Modal extends Component {
     }
 
     if (!this.node && isReact16) {
-      this.node = document.createElement("div");
+      this.node = createHTMLElement("div");
     }
 
     const createPortal = getCreatePortal();
@@ -229,5 +240,9 @@ class Modal extends Component {
 }
 
 polyfill(Modal);
+
+if (process.env.NODE_ENV !== "production") {
+  Modal.setCreateHTMLElement = fn => (createHTMLElement = fn);
+}
 
 export default Modal;

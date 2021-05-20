@@ -2,8 +2,78 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Modal, { bodyOpenClassName } from "../src/components/Modal";
 import TestUtils from "react-dom/test-utils";
+import { log as classListLog } from "../src/helpers/classList";
+import { log as focusManagerLog } from "../src/helpers/focusManager";
+import { log as ariaAppLog } from "../src/helpers/ariaAppHider";
+import { log as bodyTrapLog } from "../src/helpers/bodyTrap";
+import { log as portalInstancesLog } from "../src/helpers/portalOpenInstances";
 
-const divStack = [];
+const debug = false;
+
+let i = 0;
+
+/**
+ * This log is used to see if there are leaks in between tests.
+ */
+export function log(label, spaces) {
+  if (!debug) return;
+
+  console.log(`${label} -----------------`);
+  console.log(document.body.children.length);
+  const logChildren = c => console.log(c.nodeName, c.className, c.id);
+  document.body.children.forEach(logChildren);
+
+  ariaAppLog();
+  bodyTrapLog();
+  classListLog();
+  focusManagerLog();
+  portalInstancesLog();
+
+  console.log(`end ${label} -----------------` + (!spaces ? '' : `
+
+
+`));
+}
+
+let elementPool = [];
+
+/**
+ * Every HTMLElement must be requested using this function...
+ * and inside `withElementCollector`.
+ */
+export function createHTMLElement(name) {
+  const e = document.createElement(name);
+  elementPool[elementPool.length - 1].push(e);
+  e.className = `element_pool_${name}-${++i}`;
+  return e;
+}
+
+/**
+ * Remove every element from its parent and release the pool.
+ */
+export function drainPool(pool) {
+  pool.forEach(e => e.parentNode && e.parentNode.removeChild(e));
+}
+
+/**
+ * Every HTMLElement must be requested inside this function...
+ * The reason is that it provides a mechanism that disposes
+ * all the elements (built with `createHTMLElement`) after a test.
+ */
+export function withElementCollector(work) {
+  let r;
+  let poolIndex = elementPool.length;
+  elementPool[poolIndex] = [];
+  try {
+    r = work();
+  } finally {
+    drainPool(elementPool[poolIndex]);
+    elementPool = elementPool.slice(
+      0, poolIndex
+    );
+  }
+  return r;
+}
 
 /**
  * Polyfill for String.includes on some node versions.
@@ -26,15 +96,16 @@ if (!String.prototype.includes) {
  * Return the class list object from `document.body`.
  * @return {Array}
  */
-export const documentBodyClassList = () => document.body.classList;
+export const documentClassList = () => document.body.classList;
 
 /**
  * Check if the document.body contains the react modal
  * open class.
  * @return {Boolean}
  */
-export const isBodyWithReactModalOpenClass = (bodyClass = bodyOpenClassName) =>
-  document.body.className.includes(bodyClass);
+export const isDocumentWithReactModalOpenClass = (
+  bodyClass = bodyOpenClassName
+) => document.body.className.includes(bodyClass);
 
 /**
  * Return the class list object from <html />.
@@ -141,29 +212,27 @@ export const mouseUpAt = Simulate.mouseUp;
  */
 export const mouseDownAt = Simulate.mouseDown;
 
-export const renderModal = function(props, children, callback) {
-  const modalProps = { ariaHideApp: false, ...props };
+export const noop = () => {};
 
-  const currentDiv = document.createElement("div");
-  divStack.push(currentDiv);
-  document.body.appendChild(currentDiv);
-
-  // eslint-disable-next-line react/no-render-return-value
-  return ReactDOM.render(
-    <Modal {...modalProps}>{children}</Modal>,
-    currentDiv,
-    callback
-  );
-};
-
-export const unmountModal = function() {
-  const currentDiv = divStack.pop();
-  ReactDOM.unmountComponentAtNode(currentDiv);
-  document.body.removeChild(currentDiv);
-};
-
-export const emptyDOM = () => {
-  while (divStack.length) {
-    unmountModal();
-  }
+/**
+ * Request a managed modal to run the tests on.
+ *
+ */
+export const withModal = function(props, children, test = noop) {
+  return withElementCollector(() => {
+    const node = createHTMLElement();
+    const modalProps = { ariaHideApp: false, ...props };
+    let modal;
+    try {
+      ReactDOM.render(
+        <Modal ref={m => (modal = m)} {...modalProps}>
+          {children}
+        </Modal>,
+        node
+      );
+      test(modal);
+    } finally {
+      ReactDOM.unmountComponentAtNode(node);
+    }
+  });
 };

@@ -1,8 +1,26 @@
 import findTabbable from "../helpers/tabbable";
 
-const focusLaterElements = [];
+let focusLaterElements = [];
 let modalElement = null;
 let needToFocus = false;
+
+/* eslint-disable no-console */
+/* istanbul ignore next */
+export function resetState() {
+  focusLaterElements = [];
+}
+
+/* istanbul ignore next */
+export function log() {
+  if (process.env.NODE_ENV === "production") return;
+  console.log("focusManager ----------");
+  focusLaterElements.forEach(f => {
+    const check = f || {};
+    console.log(check.nodeName, check.className, check.id);
+  });
+  console.log("end focusManager ----------");
+}
+/* eslint-enable no-console */
 
 export function handleBlur() {
   needToFocus = true;
