@@ -53,7 +53,9 @@ function bodyTrap(eventType, openInstances) {
 
   instances = openInstances;
 
-  if (instances.length > 0) {
+  const trapFocus = instances.find(({ props }) => !props.disableFocusTrap)
+
+  if (trapFocus && instances.length > 0) {
     // Add focus trap
     if (document.body.firstChild !== before) {
       document.body.insertBefore(before, document.body.firstChild);
