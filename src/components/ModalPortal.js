@@ -59,6 +59,8 @@ export default class ModalPortal extends Component {
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     shouldReturnFocusAfterClose: PropTypes.bool,
+    disableFocusTrap: PropTypes.bool,
+    disableTabTrap: PropTypes.bool,
     preventScroll: PropTypes.bool,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
