@@ -18,19 +18,17 @@ function hidesContents(element) {
   // If the node is empty, this is good enough
   if (zeroSize && !element.innerHTML) return true;
 
-  // if the element is not of type Element e.g. shadowRoot
-  // we cannot go any further
-  if (!element.isPrototypeOf(Element)) {
+  try {
+    // Otherwise we need to check some styles
+    const style = window.getComputedStyle(element);
+    return zeroSize
+      ? style.getPropertyValue("overflow") !== "visible" ||
+          // if 'overflow: visible' set, check if there is actually any overflow
+          (element.scrollWidth <= 0 && element.scrollHeight <= 0)
+      : style.getPropertyValue("display") == "none";
+  } catch(exception) {
     return false;
   }
-
-  // Otherwise we need to check some styles
-  const style = window.getComputedStyle(element);
-  return zeroSize
-    ? style.getPropertyValue("overflow") !== "visible" ||
-        // if 'overflow: visible' set, check if there is actually any overflow
-        (element.scrollWidth <= 0 && element.scrollHeight <= 0)
-    : style.getPropertyValue("display") == "none";
 }
 
 function visible(element) {
