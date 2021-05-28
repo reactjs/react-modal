@@ -27,7 +27,8 @@ function hidesContents(element) {
           (element.scrollWidth <= 0 && element.scrollHeight <= 0)
       : style.getPropertyValue("display") == "none";
   } catch (exception) {
-    console.warn('Failed to inspect element style');
+    // eslint-disable-next-line no-console
+    console.warn("Failed to inspect element style");
     return false;
   }
 }
