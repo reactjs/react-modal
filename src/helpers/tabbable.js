@@ -26,7 +26,8 @@ function hidesContents(element) {
           // if 'overflow: visible' set, check if there is actually any overflow
           (element.scrollWidth <= 0 && element.scrollHeight <= 0)
       : style.getPropertyValue("display") == "none";
-  } catch(exception) {
+  } catch (exception) {
+    console.warn('Failed to inspect element style');
     return false;
   }
 }
