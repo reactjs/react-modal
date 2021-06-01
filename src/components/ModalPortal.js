@@ -47,7 +47,7 @@ export default class ModalPortal extends Component {
     htmlOpenClassName: PropTypes.string,
     ariaHideApp: PropTypes.bool,
     appElement: PropTypes.oneOfType([
-      PropTypes.instanceOf(SafeHTMLElement),
+      SafeHTMLElement,
       PropTypes.instanceOf(SafeHTMLCollection),
       PropTypes.instanceOf(SafeNodeList),
       PropTypes.arrayOf(PropTypes.instanceOf(SafeHTMLElement))
