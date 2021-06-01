@@ -275,7 +275,7 @@ export default class ModalPortal extends Component {
   };
 
   handleKeyDown = event => {
-    if (event.keyCode === TAB_KEY && !this.props.disableTabTrap) {
+    if (!this.props.disableTabTrap && event.keyCode === TAB_KEY) {
       scopeTab(this.content, event);
     }
 
