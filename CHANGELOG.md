@@ -1,4 +1,9 @@
-3.14.1 - Tue, 01 Jun 2021 21:39:10 UTC
+3.14.2 - Tue, 01 Jun 2021 21:42:22 UTC
+--------------------------------------
+
+- [172879e](../../commit/172879e) [chore] Don't allow .log in on releases.
+
+3.14.1 - Tue, 01 Jun 2021 21:39:02 UTC
 --------------------------------------
 
 - [fc62ab1](../../commit/fc62ab1) Fixing lint error and PR suggestion change to use double quotes
