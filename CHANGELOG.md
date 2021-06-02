@@ -1,4 +1,17 @@
-3.13.1 - Tue, 13 Apr 2021 14:19:46 UTC
+3.14.1 - Tue, 01 Jun 2021 21:39:10 UTC
+--------------------------------------
+
+- [fc62ab1](../../commit/fc62ab1) Fixing lint error and PR suggestion change to use double quotes
+- [ce94d86](../../commit/ce94d86) Working on lint error
+- [7e732d7](../../commit/7e732d7) Wrapping getComputedStyle in try catch per PR review
+- [31d59b2](../../commit/31d59b2) Adding a check to see if the element is a prototype of Element before getting the computed style
+- [827796d](../../commit/827796d) [fixed] Ensure after-open css transitions work in Safari 14 & Mobile Safari
+- [76df16b](../../commit/76df16b) [chore] regenerate package-lock.
+- [4fbe228](../../commit/4fbe228) bump prop-types to 15.7.2
+- [a5f959a](../../commit/a5f959a) [chore] update packages.
+- [8050773](../../commit/8050773) [chore] clean up all element leaks between tests.
+
+3.13.1 - Tue, 13 Apr 2021 14:19:44 UTC
 --------------------------------------
 
 - [5832904](../../commit/5832904) Updated README.md
