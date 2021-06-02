@@ -5,6 +5,7 @@ CONTRIBUTING.md
 .eslintrc.js
 *.orig
 *.rej
+.log
 .changelog_update
 Makefile
 book.json

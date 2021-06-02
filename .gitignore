@@ -11,6 +11,7 @@ _book
 *.diff
 *.orig
 *.rej
+.log
 examples/__build__
 coverage
 yarn.lock
