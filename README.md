@@ -1,5 +1,10 @@
 # react-modal
 
+# NOTE
+
+Need feedback to push a new version of `react-modal` forward. See issue [#881](https://github.com/reactjs/react-modal/issues/881). 
+
+
 Accessible modal dialog component for React.JS
 
 [![Build Status](https://travis-ci.org/reactjs/react-modal.svg?branch=v1)](https://travis-ci.org/reactjs/react-modal)
