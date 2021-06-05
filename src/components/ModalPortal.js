@@ -131,6 +131,7 @@ export default class ModalPortal extends Component {
       this.afterClose();
     }
     clearTimeout(this.closeTimer);
+    cancelAnimationFrame(this.openAnimationFrame);
   }
 
   setOverlayRef = overlay => {
@@ -222,7 +223,7 @@ export default class ModalPortal extends Component {
       }
 
       this.setState({ isOpen: true }, () => {
-        requestAnimationFrame(() => {
+        this.openAnimationFrame = requestAnimationFrame(() => {
           this.setState({ afterOpen: true });
 
           if (this.props.isOpen && this.props.onAfterOpen) {
