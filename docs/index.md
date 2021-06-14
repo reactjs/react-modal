@@ -106,6 +106,9 @@ import ReactModal from 'react-modal';
     Boolean indicating if the modal should allow focus to leave the modal when it's visible.
     If you set this flag to true, it's likely that you'll want to set disableTabTrap=true also,
     to allow focus to leave the modal using the tab button.
+    
+    It is worth mentioning that if you have many modals open and one or more of them don't have
+    disableFocusTrap set, a focus trap will exist until those modals have been closed.
   */}
 
   disableTabTrap={
