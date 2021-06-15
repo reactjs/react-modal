@@ -1,4 +1,12 @@
-3.14.2 - Tue, 01 Jun 2021 21:42:22 UTC
+3.14.3 - Tue, 15 Jun 2021 15:09:02 UTC
+--------------------------------------
+
+- [b33923a](../../commit/b33923a) [changed]: Updated and formatted example in README
+- [0847049](../../commit/0847049) [fixed] Cancel requested animation frame on unmount.
+- [fc76b0c](../../commit/fc76b0c) [chore] added link to the discussion for react-modal v4.
+- [0d99156](../../commit/0d99156) [chore] Don't allow mkdocs.yml be included on releases.
+
+3.14.2 - Tue, 01 Jun 2021 21:42:17 UTC
 --------------------------------------
 
 - [172879e](../../commit/172879e) [chore] Don't allow .log in on releases.
