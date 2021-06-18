@@ -26,6 +26,17 @@ To install, you can use [npm](https://npmjs.org/) or [yarn](https://yarnpkg.com)
 
     $ npm install --save react-modal
     $ yarn add react-modal
+    
+To install react-modal in React CDN app:
+
+   - Add this CDN script tag after React CDN scripts and before your JS files (for example from [cdnjs](https://cdnjs.com/)): 
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-modal/3.14.3/react-modal.min.js"
+            integrity="sha512-MY2jfK3DBnVzdS2V8MXo5lRtr0mNRroUI9hoLVv2/yL3vrJTam3VzASuKQ96fLEpyYIT4a8o7YgtUs5lPjiLVQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+   - Use `<ReactModal>` tag inside your React CDN app.
 
 
 ## API documentation
