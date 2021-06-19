@@ -109,6 +109,25 @@ export default () => {
     });
   });
 
+
+  it("does NOT keep focus inside the modal when child has no tabbable elements and disableTabTrap === true", () => {
+    let tabPrevented = false;
+    const props = {
+      isOpen: true,
+      disableTabTrap: true,
+    }; 
+    withModal(props, "hello", modal => {
+      const content = mcontent(modal);
+      document.activeElement.should.be.eql(content);
+      tabKeyDown(content, {
+        preventDefault() {
+          tabPrevented = true;
+        }
+      });
+      tabPrevented.should.be.eql(false);
+    });
+  });
+
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
