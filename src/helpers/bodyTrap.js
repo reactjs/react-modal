@@ -5,7 +5,6 @@ let before,
   after,
   instances = [];
 
-/* eslint-disable no-console */
 /* istanbul ignore next */
 export function resetState() {
   for (let item of [before, after]) {
@@ -15,18 +14,6 @@ export function resetState() {
   before = after = null;
   instances = [];
 }
-
-/* istanbul ignore next */
-export function log() {
-  console.log("bodyTrap ----------");
-  console.log(instances.length);
-  for (let item of [before, after]) {
-    let check = item || {};
-    console.log(check.nodeName, check.className, check.id);
-  }
-  console.log("edn bodyTrap ----------");
-}
-/* eslint-enable no-console */
 
 function focusContent() {
   if (instances.length === 0) {

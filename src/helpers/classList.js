@@ -1,7 +1,6 @@
 let htmlClassList = {};
 let docBodyClassList = {};
 
-/* eslint-disable no-console */
 /* istanbul ignore next */
 function removeClass(at, cls) {
   at.classList.remove(cls);
@@ -22,35 +21,6 @@ export function resetState() {
   htmlClassList = {};
   docBodyClassList = {};
 }
-
-/* istanbul ignore next */
-export function log() {
-  if (process.env.NODE_ENV === "production") return;
-
-  let classes = document.getElementsByTagName("html")[0].className;
-  let buffer = "Show tracked classes:\n\n";
-
-  buffer += `<html /> (${classes}):
-`;
-  for (let x in htmlClassList) {
-    buffer += `  ${x} ${htmlClassList[x]}
-`;
-  }
-
-  classes = document.body.className;
-
-  buffer += `\n\ndoc.body (${classes}):
-`;
-  for (let x in docBodyClassList) {
-    buffer += `  ${x} ${docBodyClassList[x]}
-`;
-  }
-
-  buffer += "\n";
-
-  console.log(buffer);
-}
-/* eslint-enable no-console */
 
 /**
  * Track the number of reference of a class.
