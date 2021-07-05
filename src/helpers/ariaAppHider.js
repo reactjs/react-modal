@@ -3,7 +3,6 @@ import { canUseDOM } from "./safeHTMLElement";
 
 let globalElement = null;
 
-/* eslint-disable no-console */
 /* istanbul ignore next */
 export function resetState() {
   if (globalElement) {
@@ -19,16 +18,6 @@ export function resetState() {
   }
   globalElement = null;
 }
-
-/* istanbul ignore next */
-export function log() {
-  if (process.env.NODE_ENV === "production") return;
-  const check = globalElement || {};
-  console.log("ariaAppHider ----------");
-  console.log(check.nodeName, check.className, check.id);
-  console.log("end ariaAppHider ----------");
-}
-/* eslint-enable no-console */
 
 export function assertNodeList(nodeList, selector) {
   if (!nodeList || !nodeList.length) {
