@@ -35,8 +35,13 @@ function hidesContents(element) {
 
 function visible(element) {
   let parentElement = element;
+  let rootNode =
+    typeof element.getRootNode === "function"
+      ? element.getRootNode()
+      : undefined;
   while (parentElement) {
     if (parentElement === document.body) break;
+    if (rootNode && parentElement === rootNode) parentElement = rootNode.host;
     if (hidesContents(parentElement)) return false;
     parentElement = parentElement.parentNode;
   }

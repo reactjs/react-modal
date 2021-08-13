@@ -23,6 +23,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@webcomponents/custom-elements": "^1.5.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.25.0",
     "babel-eslint": "^8.0.1",
