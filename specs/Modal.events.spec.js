@@ -8,6 +8,7 @@ import {
   moverlay,
   mcontent,
   clickAt,
+  rightClickAt,
   mouseDownAt,
   mouseUpAt,
   escKeyDown,
@@ -70,7 +71,7 @@ export default () => {
 
   it("keeps focus inside the modal when child has no tabbable elements", () => {
     let tabPrevented = false;
-    const props = { isOpen: true }; 
+    const props = { isOpen: true };
     withModal(props, "hello", modal => {
       const content = mcontent(modal);
       document.activeElement.should.be.eql(content);
@@ -84,7 +85,7 @@ export default () => {
   });
 
   it("handles case when child has no tabbable elements", () => {
-    const props = { isOpen: true }; 
+    const props = { isOpen: true };
     withModal(props, "hello", modal => {
       const content = mcontent(modal);
       tabKeyDown(content);
@@ -101,7 +102,7 @@ export default () => {
         {bottomButton}
       </div>
     );
-    const props = { isOpen: true }; 
+    const props = { isOpen: true };
     withModal(props, modalContent, modal => {
       const content = mcontent(modal);
       tabKeyDown(content, { shiftKey: true });
@@ -170,6 +171,19 @@ export default () => {
       };
       withModal(props, null, modal => {
         clickAt(moverlay(modal));
+        requestCloseCallback.called.should.be.ok();
+      });
+    });
+
+    it("when true, right click on overlay must close", () => {
+      const requestCloseCallback = sinon.spy();
+      const props = {
+        isOpen: true,
+        shouldCloseOnOverlayClick: true,
+        onRequestClose: requestCloseCallback
+      };
+      withModal(props, null, modal => {
+        rightClickAt(moverlay(modal));
         requestCloseCallback.called.should.be.ok();
       });
     });

@@ -204,6 +204,10 @@ export const tabKeyDown = dispatchMockKeyDownEvent("TAB", 9);
  */
 export const clickAt = Simulate.click;
 /**
+ * Dispatch a 'context menu' (right click) event at a node.
+ */
+export const rightClickAt = Simulate.contextMenu;
+/**
  * Dispatch a 'mouse up' event at a node.
  */
 export const mouseUpAt = Simulate.mouseUp;

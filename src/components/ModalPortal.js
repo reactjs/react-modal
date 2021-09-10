@@ -375,6 +375,7 @@ export default class ModalPortal extends Component {
       className: this.buildClassName("overlay", overlayClassName),
       style: { ...overlayStyles, ...this.props.style.overlay },
       onClick: this.handleOverlayOnClick,
+      onContextMenu: this.handleOverlayOnClick,
       onMouseDown: this.handleOverlayOnMouseDown
     };
 
