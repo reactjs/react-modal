@@ -11,7 +11,7 @@
  */
 
 const DISPLAY_NONE = "none";
-cosnt DISPLAY_CONTENTS = "contents";
+const DISPLAY_CONTENTS = "contents";
 
 const tabbableNode = /input|select|textarea|button|object/;
 
