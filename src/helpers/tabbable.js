@@ -10,7 +10,16 @@
  * http://api.jqueryui.com/category/ui-core/
  */
 
+const DISPLAY_NONE = "none";
+cosnt DISPLAY_CONTENTS = "contents";
+
 const tabbableNode = /input|select|textarea|button|object/;
+
+function hasElementOverflow(element, style) {
+  return style.getPropertyValue("overflow") !== "visible" ||
+    // if 'overflow: visible' set, check if there is actually any overflow
+    (element.scrollWidth <= 0 && element.scrollHeight <= 0);
+}
 
 function hidesContents(element) {
   const zeroSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
@@ -21,11 +30,10 @@ function hidesContents(element) {
   try {
     // Otherwise we need to check some styles
     const style = window.getComputedStyle(element);
-    return zeroSize
-      ? style.getPropertyValue("overflow") !== "visible" ||
-          // if 'overflow: visible' set, check if there is actually any overflow
-          (element.scrollWidth <= 0 && element.scrollHeight <= 0)
-      : style.getPropertyValue("display") == "none";
+    const displayValue = style.getPropertyValue("display");
+    return displayValue !== DISPLAY_CONTENTS && (zeroSize
+      ? hasElementOverflow(element, style)
+      : displayValue === DISPLAY_NONE);
   } catch (exception) {
     // eslint-disable-next-line no-console
     console.warn("Failed to inspect element style");
