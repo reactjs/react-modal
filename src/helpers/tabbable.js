@@ -10,7 +10,7 @@
  * http://api.jqueryui.com/category/ui-core/
  */
 
-const tabbableNode = /input|select|textarea|button|object/;
+const tabbableNode = /input|select|textarea|button|object|iframe/;
 
 function hidesContents(element) {
   const zeroSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
