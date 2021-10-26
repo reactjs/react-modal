@@ -12,13 +12,14 @@ export function resetState() {
 
 /* istanbul ignore next */
 export function log() {
-  if (process.env.NODE_ENV === "production") return;
-  console.log("focusManager ----------");
-  focusLaterElements.forEach(f => {
-    const check = f || {};
-    console.log(check.nodeName, check.className, check.id);
-  });
-  console.log("end focusManager ----------");
+  if (process.env.NODE_ENV !== "production") {
+    console.log("focusManager ----------");
+    focusLaterElements.forEach(f => {
+      const check = f || {};
+      console.log(check.nodeName, check.className, check.id);
+    });
+    console.log("end focusManager ----------");
+  }
 }
 /* eslint-enable no-console */
 
