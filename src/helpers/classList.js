@@ -25,30 +25,30 @@ export function resetState() {
 
 /* istanbul ignore next */
 export function log() {
-  if (process.env.NODE_ENV === "production") return;
+  if (process.env.NODE_ENV !== "production") {
+    let classes = document.getElementsByTagName("html")[0].className;
+    let buffer = "Show tracked classes:\n\n";
 
-  let classes = document.getElementsByTagName("html")[0].className;
-  let buffer = "Show tracked classes:\n\n";
+    buffer += `<html /> (${classes}):
+  `;
+    for (let x in htmlClassList) {
+      buffer += `  ${x} ${htmlClassList[x]}
+  `;
+    }
 
-  buffer += `<html /> (${classes}):
-`;
-  for (let x in htmlClassList) {
-    buffer += `  ${x} ${htmlClassList[x]}
-`;
+    classes = document.body.className;
+
+    buffer += `\n\ndoc.body (${classes}):
+  `;
+    for (let x in docBodyClassList) {
+      buffer += `  ${x} ${docBodyClassList[x]}
+  `;
+    }
+
+    buffer += "\n";
+
+    console.log(buffer);
   }
-
-  classes = document.body.className;
-
-  buffer += `\n\ndoc.body (${classes}):
-`;
-  for (let x in docBodyClassList) {
-    buffer += `  ${x} ${docBodyClassList[x]}
-`;
-  }
-
-  buffer += "\n";
-
-  console.log(buffer);
 }
 /* eslint-enable no-console */
 
