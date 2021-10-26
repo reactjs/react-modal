@@ -53,19 +53,9 @@ class PortalOpenInstances {
 
 let portalOpenInstances = new PortalOpenInstances();
 
-/* eslint-disable no-console */
-/* istanbul ignore next */
-export function log() {
-  console.log("portalOpenInstances ----------");
-  console.log(portalOpenInstances.openInstances.length);
-  portalOpenInstances.openInstances.forEach(p => console.log(p));
-  console.log("end portalOpenInstances ----------");
-}
-
 /* istanbul ignore next */
 export function resetState() {
   portalOpenInstances = new PortalOpenInstances();
 }
-/* eslint-enable no-console */
 
 export default portalOpenInstances;
