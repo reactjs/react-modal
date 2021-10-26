@@ -22,11 +22,12 @@ export function resetState() {
 
 /* istanbul ignore next */
 export function log() {
-  if (process.env.NODE_ENV === "production") return;
-  const check = globalElement || {};
-  console.log("ariaAppHider ----------");
-  console.log(check.nodeName, check.className, check.id);
-  console.log("end ariaAppHider ----------");
+  if (process.env.NODE_ENV !== "production") {
+    var check = globalElement || {};
+    console.log("ariaAppHider ----------");
+    console.log(check.nodeName, check.className, check.id);
+    console.log("end ariaAppHider ----------");
+  }
 }
 /* eslint-enable no-console */
 
