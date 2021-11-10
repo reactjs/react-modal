@@ -1,4 +1,21 @@
-3.14.3 - Tue, 15 Jun 2021 15:09:02 UTC
+3.14.4 - Wed, 10 Nov 2021 17:53:38 UTC
+--------------------------------------
+
+- [12ccd6a](../../commit/12ccd6a) [fixed] using concat for finding shadowRoot descendants instead of spread
+- [f5783ca](../../commit/f5783ca) [fixed] ensuring usage of Web Components functions in all browsers (Safari, specifically)
+- [b049feb](../../commit/b049feb) Update src/helpers/tabbable.js
+- [edc4f12](../../commit/edc4f12) [fixed] Ensure we don't check for hidden on Shadow DOM.
+- [ffbaf0e](../../commit/ffbaf0e) Wrap NODE_ENV conditional code in block
+- [5eccdb0](../../commit/5eccdb0) Wrap NODE_ENV conditional code in block
+- [f5d404c](../../commit/f5d404c) Wrap NODE_ENV conditional code in block
+- [22e80e7](../../commit/22e80e7) [chore] update karma dependency.
+- [e3bfbf8](../../commit/e3bfbf8) Bump ws from 6.2.1 to 6.2.2
+- [fa914c5](../../commit/fa914c5) Bump path-parse from 1.0.6 to 1.0.7
+- [9e867d5](../../commit/9e867d5) Bump url-parse from 1.5.1 to 1.5.3
+- [fb6bab5](../../commit/fb6bab5) Update readme documentation with CDN installation
+- [d5ecf0a](../../commit/d5ecf0a) Update documentation by my suggestion in #889
+
+3.14.3 - Tue, 15 Jun 2021 15:08:58 UTC
 --------------------------------------
 
 - [b33923a](../../commit/b33923a) [changed]: Updated and formatted example in README
