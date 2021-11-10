@@ -38,7 +38,11 @@ function visible(element) {
   let rootNode = element.getRootNode && element.getRootNode();
   while (parentElement) {
     if (parentElement === document.body) break;
-    if (rootNode && parentElement === rootNode) parentElement = rootNode.host;
+
+    // if we are not hidden yet, skip to checking outside the Web Component
+    if (rootNode && parentElement === rootNode)
+      parentElement = rootNode.host.parentNode;
+
     if (hidesContents(parentElement)) return false;
     parentElement = parentElement.parentNode;
   }
@@ -61,5 +65,14 @@ function tabbable(element) {
 }
 
 export default function findTabbableDescendants(element) {
-  return [].slice.call(element.querySelectorAll("*"), 0).filter(tabbable);
+  const descendants = [].slice
+    .call(element.querySelectorAll("*"), 0)
+    .reduce(
+      (finished, el) => [
+        ...finished,
+        ...(!el.shadowRoot ? [el] : findTabbableDescendants(el.shadowRoot))
+      ],
+      []
+    );
+  return descendants.filter(tabbable);
 }

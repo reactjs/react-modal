@@ -1,5 +1,11 @@
 import findTabbable from "./tabbable";
 
+function getActiveElement(el = document) {
+  return el.activeElement.shadowRoot
+    ? getActiveElement(el.activeElement.shadowRoot)
+    : el.activeElement;
+}
+
 export default function scopeTab(node, event) {
   const tabbable = findTabbable(node);
 
@@ -14,19 +20,20 @@ export default function scopeTab(node, event) {
   const shiftKey = event.shiftKey;
   const head = tabbable[0];
   const tail = tabbable[tabbable.length - 1];
+  const activeElement = getActiveElement();
 
   // proceed with default browser behavior on tab.
   // Focus on last element on shift + tab.
-  if (node === document.activeElement) {
+  if (node === activeElement) {
     if (!shiftKey) return;
     target = tail;
   }
 
-  if (tail === document.activeElement && !shiftKey) {
+  if (tail === activeElement && !shiftKey) {
     target = head;
   }
 
-  if (head === document.activeElement && shiftKey) {
+  if (head === activeElement && shiftKey) {
     target = tail;
   }
 
@@ -57,7 +64,7 @@ export default function scopeTab(node, event) {
   // the focus
   if (!isSafariDesktop) return;
 
-  var x = tabbable.indexOf(document.activeElement);
+  var x = tabbable.indexOf(activeElement);
 
   if (x > -1) {
     x += shiftKey ? -1 : 1;
