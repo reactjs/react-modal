@@ -68,10 +68,9 @@ export default function findTabbableDescendants(element) {
   const descendants = [].slice
     .call(element.querySelectorAll("*"), 0)
     .reduce(
-      (finished, el) => [
-        ...finished,
-        ...(!el.shadowRoot ? [el] : findTabbableDescendants(el.shadowRoot))
-      ],
+      (finished, el) => finished.concat(
+        !el.shadowRoot ? [el] : findTabbableDescendants(el.shadowRoot)
+      ),
       []
     );
   return descendants.filter(tabbable);
