@@ -72,6 +72,6 @@ Instead of this
 }
 ```
 
-React Modal has adopted the [stable Portal API](https://reactjs.org/docs/portals.html) API as exposed in React 16.
+React Modal has adopted the [stable Portal API](https://reactjs.org/docs/portals.html) as exposed in React 16.
 
 And `createProtal` API from React 16 [no longer allow](https://github.com/facebook/react/issues/10826#issuecomment-355719729) developers to intervene the unmounting of the portal component.
