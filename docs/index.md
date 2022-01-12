@@ -11,18 +11,18 @@ To install the stable version you can use [npm](https://npmjs.org/) or [yarn](ht
 
     $ npm install react-modal
     $ yarn add react-modal
-    
+
 To install react-modal in React CDN app:
 
-   - Add this CDN script tag after React CDN scripts and before your JS files (for example from [cdnjs](https://cdnjs.com/)): 
-    
+   - Add this CDN script tag after React CDN scripts and before your JS files (for example from [cdnjs](https://cdnjs.com/)):
+
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react-modal/3.14.3/react-modal.min.js"
             integrity="sha512-MY2jfK3DBnVzdS2V8MXo5lRtr0mNRroUI9hoLVv2/yL3vrJTam3VzASuKQ96fLEpyYIT4a8o7YgtUs5lPjiLVQ=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer"></script>
-    
+
    - Use `<ReactModal>` tag inside your React CDN app.
-    
+
 
 ## [General Usage](#usage)
 
@@ -52,6 +52,14 @@ import ReactModal from 'react-modal';
   /* Function that will be run when the modal is requested
      to be closed (either by clicking on overlay or pressing ESC).
      Note: It is not called if isOpen is changed by other means. */}
+
+  onReturn={
+    handleReturnFunc
+  /* Function that will be run when the pressing return key. */}
+
+  shouldCloseOnReturn={
+    false
+  /* Boolean indicating if pressing the return key should close the modal */}
 
   closeTimeoutMS={
     0

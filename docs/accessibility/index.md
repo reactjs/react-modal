@@ -51,6 +51,10 @@ The modal can be closed using the escape key, unless the
 `shouldCloseOnEsc={false}` prop is passed.  Disabling this behavior may cause
 accessibility issues for keyboard users, however, so it is not recommended.
 
+The modal can be closed using the return key as well, when
+`shouldCloseOnReturn={true}` prop is passed.
+Additinal behaviour may be added to the enter key by passing the `onReturn` prop
+
 ### [ARIA attributes](#aria)
 
 Besides the `aria-hidden` attribute which is applied to the app element when

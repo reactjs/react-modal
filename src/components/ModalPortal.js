@@ -19,6 +19,7 @@ const CLASS_NAMES = {
 
 const TAB_KEY = 9;
 const ESC_KEY = 27;
+const RETURN_KEY = 13;
 
 let ariaHiddenInstances = 0;
 
@@ -71,7 +72,9 @@ export default class ModalPortal extends Component {
     id: PropTypes.string,
     overlayElement: PropTypes.func,
     contentElement: PropTypes.func,
-    testId: PropTypes.string
+    testId: PropTypes.string,
+    onReturn: PropTypes.func,
+    shouldCloseOnReturn: PropTypes.bool
   };
 
   constructor(props) {
@@ -282,6 +285,11 @@ export default class ModalPortal extends Component {
       event.stopPropagation();
       this.requestClose(event);
     }
+
+    if (event.keyCode === RETURN_KEY) {
+      this.requestReturn(event);
+      this.props.shouldCloseOnReturn && this.requestClose(event);
+    }
   };
 
   handleOverlayOnClick = event => {
@@ -321,6 +329,11 @@ export default class ModalPortal extends Component {
     this.ownerHandlesClose() && this.props.onRequestClose(event);
 
   ownerHandlesClose = () => this.props.onRequestClose;
+
+  ownerHandlesReturn = () => this.props.onReturn;
+
+  requestReturn = event =>
+    this.ownerHandlesReturn() && this.props.onReturn(event);
 
   shouldBeClosed = () => !this.state.isOpen && !this.state.beforeClose;
 

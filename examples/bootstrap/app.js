@@ -39,6 +39,8 @@ class App extends Component {
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.handleModalCloseRequest}
+          onReturn={this.handleSaveClicked}
+          shouldCloseOnReturn={true}
         >
           <div className="modal-content">
             <div className="modal-header">
