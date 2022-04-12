@@ -1,4 +1,11 @@
-3.14.4 - Wed, 10 Nov 2021 17:53:38 UTC
+3.15.1 - Mon, 11 Apr 2022 22:26:43 UTC
+--------------------------------------
+
+- [8395a21](../../commit/8395a21) allow react 18 as peer dependency
+- [68af7ec](../../commit/68af7ec) [added] tabbable support for iframes
+- [28986ea](../../commit/28986ea) Fix typo in docs
+
+3.14.4 - Wed, 10 Nov 2021 17:53:33 UTC
 --------------------------------------
 
 - [12ccd6a](../../commit/12ccd6a) [fixed] using concat for finding shadowRoot descendants instead of spread
