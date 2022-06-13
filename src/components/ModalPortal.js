@@ -17,9 +17,6 @@ const CLASS_NAMES = {
   content: "ReactModal__Content"
 };
 
-const TAB_KEY = 9;
-const ESC_KEY = 27;
-
 let ariaHiddenInstances = 0;
 
 export default class ModalPortal extends Component {
@@ -284,11 +281,11 @@ export default class ModalPortal extends Component {
   };
 
   handleKeyDown = event => {
-    if (event.keyCode === TAB_KEY) {
+    if (event.code === "Tab") {
       scopeTab(this.content, event);
     }
 
-    if (this.props.shouldCloseOnEsc && event.keyCode === ESC_KEY) {
+    if (this.props.shouldCloseOnEsc && event.code === "Escape") {
       event.stopPropagation();
       this.requestClose(event);
     }
