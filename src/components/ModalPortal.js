@@ -17,6 +17,18 @@ const CLASS_NAMES = {
   content: "ReactModal__Content"
 };
 
+/**
+ * We need to support the deprecated `KeyboardEvent.keyCode` in addition to
+ * `KeyboardEvent.code` for apps that still support IE11. Can be removed when
+ * `react-modal` only supports React >18 (which dropped IE support).
+ */
+const isTabKey = event => {
+  event.code === "Tab" || event.keyCode === 9;
+};
+const isEscKey = event => {
+  event.code === "Escape" || event.keyCode === 27;
+};
+
 let ariaHiddenInstances = 0;
 
 export default class ModalPortal extends Component {
@@ -271,11 +283,11 @@ export default class ModalPortal extends Component {
   };
 
   handleKeyDown = event => {
-    if (event.code === "Tab") {
+    if (isTabKey(event)) {
       scopeTab(this.content, event);
     }
 
-    if (this.props.shouldCloseOnEsc && event.code === "Escape") {
+    if (this.props.shouldCloseOnEsc && isEscKey(event)) {
       event.stopPropagation();
       this.requestClose(event);
     }
