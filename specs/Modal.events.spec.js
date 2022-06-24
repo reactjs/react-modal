@@ -11,7 +11,9 @@ import {
   mouseDownAt,
   mouseUpAt,
   escKeyDown,
+  escKeyDownWithCode,
   tabKeyDown,
+  tabKeyDownWithCode,
   withModal,
   withElementCollector,
   createHTMLElement
@@ -109,6 +111,23 @@ export default () => {
     });
   });
 
+  it("traps tab in the modal on shift + tab with KeyboardEvent.code", () => {
+    const topButton = <button>top</button>;
+    const bottomButton = <button>bottom</button>;
+    const modalContent = (
+      <div>
+        {topButton}
+        {bottomButton}
+      </div>
+    );
+    const props = { isOpen: true };
+    withModal(props, modalContent, modal => {
+      const content = mcontent(modal);
+      tabKeyDownWithCode(content, { shiftKey: true });
+      document.activeElement.textContent.should.be.eql("bottom");
+    });
+  });
+
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
@@ -122,6 +141,25 @@ export default () => {
           null,
           modal => {
             escKeyDown(mcontent(modal));
+            requestCloseCallback.called.should.be.ok();
+            // Check if event is passed to onRequestClose callback.
+            const event = requestCloseCallback.getCall(0).args[0];
+            event.should.be.ok();
+          }
+        );
+      });
+
+      it("should close on Esc key event with KeyboardEvent.code", () => {
+        const requestCloseCallback = sinon.spy();
+        withModal(
+          {
+            isOpen: true,
+            shouldCloseOnEsc: true,
+            onRequestClose: requestCloseCallback
+          },
+          null,
+          modal => {
+            escKeyDownWithCode(mcontent(modal));
             requestCloseCallback.called.should.be.ok();
             // Check if event is passed to onRequestClose callback.
             const event = requestCloseCallback.getCall(0).args[0];
