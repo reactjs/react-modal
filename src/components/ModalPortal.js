@@ -22,12 +22,8 @@ const CLASS_NAMES = {
  * `KeyboardEvent.code` for apps that still support IE11. Can be removed when
  * `react-modal` only supports React >18 (which dropped IE support).
  */
-const isTabKey = event => {
-  event.code === "Tab" || event.keyCode === 9;
-};
-const isEscKey = event => {
-  event.code === "Escape" || event.keyCode === 27;
-};
+const isTabKey = event => event.code === "Tab" || event.keyCode === 9;
+const isEscKey = event => event.code === "Escape" || event.keyCode === 27;
 
 let ariaHiddenInstances = 0;
 
