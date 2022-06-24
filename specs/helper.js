@@ -182,7 +182,7 @@ const dispatchMockEvent = eventCtor => (key, code) => (element, opts) =>
       {},
       {
         key: key,
-        code: code,
+        keyCode: code,
         which: code
       },
       opts
@@ -194,11 +194,11 @@ const dispatchMockKeyDownEvent = dispatchMockEvent(Simulate.keyDown);
 /**
  * Dispatch an 'esc' key down event from an element.
  */
-export const escKeyDown = dispatchMockKeyDownEvent("ESC", "Escape");
+export const escKeyDown = dispatchMockKeyDownEvent("ESC", 27);
 /**
  * Dispatch a 'tab' key down event from an element.
  */
-export const tabKeyDown = dispatchMockKeyDownEvent("TAB", "Tab");
+export const tabKeyDown = dispatchMockKeyDownEvent("TAB", 9);
 /**
  * Dispatch a 'click' event at a node.
  */
