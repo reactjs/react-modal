@@ -115,6 +115,10 @@ import ReactModal from 'react-modal';
     true
   /* Boolean indicating if the overlay should close the modal */}
 
+   shouldCloseOnOverlayRightClick={
+    true
+  /* Boolean indicating if the overlay should close the modal on right click*/}
+
   shouldCloseOnEsc={
     true
   /* Boolean indicating if pressing the esc key should close the modal

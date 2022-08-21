@@ -302,7 +302,7 @@ export default class ModalPortal extends Component {
   handleOverlayOnContextMenu = event => {
     if(this.shouldClose===null)this.shouldClose=true;
     else if(!this.shouldClose) this.shouldClose=null;
-    if(this.shouldClose)
+    if(this.shouldClose &&  this.props.shouldCloseOnOverlayRightClick)
     {
       event.preventDefault();
       this.requestClose(event);
