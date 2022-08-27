@@ -66,6 +66,7 @@ class Modal extends Component {
     ]),
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
+    onOverlayRightClick: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     ariaHideApp: PropTypes.bool,
     shouldFocusAfterRender: PropTypes.bool,
