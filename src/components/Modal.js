@@ -101,7 +101,8 @@ class Modal extends Component {
     preventScroll: false,
     parentSelector: () => document.body,
     overlayElement: (props, contentEl) => <div {...props}>{contentEl}</div>,
-    contentElement: (props, children) => <div {...props}>{children}</div>
+    contentElement: (props, children) => <div {...props}>{children}</div>,
+    onOverlayRightClick: ()=>null
   };
 
   static defaultStyles = {
