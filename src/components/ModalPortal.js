@@ -300,13 +300,12 @@ export default class ModalPortal extends Component {
     this.shouldClose = null;
   };
 
-  handleOverlayRightClick = (event) => {
-    if (this.shouldClose === null) this.shouldClose = true;
-    else if (!this.shouldClose) this.shouldClose = null;
-    if (this.shouldClose) {
-      event.preventDefault();
-      this.props.onOverlayRightClick(event);
-    }
+  handleOverlayRightClick = event => {    
+      if(event.target == this.overlay)
+      {
+        event.preventDefault();
+        this.props.onOverlayRightClick(event);
+      }
   };
 
   handleContentOnMouseUp = () => {
