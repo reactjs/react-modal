@@ -90,7 +90,7 @@ import ReactModal from 'react-modal';
 
   bodyOpenClassName={
     "ReactModal__Body--open"
-  /* String className to be applied to the document.body
+  /* String className to be applied to the modal ownerDocument.body
      (must be a constant string).
      This attribute when set as `null` doesn't add any class
      to document.body.
@@ -98,7 +98,7 @@ import ReactModal from 'react-modal';
 
   htmlOpenClassName={
     "ReactModal__Html--open"
-  /* String className to be applied to the document.html
+  /* String className to be applied to the modal ownerDocument.html
      (must be a constant string).
      This attribute is `null` by default.
      See the `Styles` section for more details. */}
