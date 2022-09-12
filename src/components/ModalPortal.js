@@ -43,6 +43,7 @@ export default class ModalPortal extends Component {
     }),
     className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     overlayClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    parentSelector: PropTypes.func,
     bodyOpenClassName: PropTypes.string,
     htmlOpenClassName: PropTypes.string,
     ariaHideApp: PropTypes.bool,
@@ -149,15 +150,19 @@ export default class ModalPortal extends Component {
       appElement,
       ariaHideApp,
       htmlOpenClassName,
-      bodyOpenClassName
+      bodyOpenClassName,
+      parentSelector
     } = this.props;
 
+    const parentDocument =
+      (parentSelector && parentSelector().ownerDocument) || document;
+
     // Add classes.
-    bodyOpenClassName && classList.add(document.body, bodyOpenClassName);
+    bodyOpenClassName && classList.add(parentDocument.body, bodyOpenClassName);
 
     htmlOpenClassName &&
       classList.add(
-        document.getElementsByTagName("html")[0],
+        parentDocument.getElementsByTagName("html")[0],
         htmlOpenClassName
       );
 
@@ -174,15 +179,20 @@ export default class ModalPortal extends Component {
       appElement,
       ariaHideApp,
       htmlOpenClassName,
-      bodyOpenClassName
+      bodyOpenClassName,
+      parentSelector
     } = this.props;
 
+    const parentDocument =
+      (parentSelector && parentSelector().ownerDocument) || document;
+
     // Remove classes.
-    bodyOpenClassName && classList.remove(document.body, bodyOpenClassName);
+    bodyOpenClassName &&
+      classList.remove(parentDocument.body, bodyOpenClassName);
 
     htmlOpenClassName &&
       classList.remove(
-        document.getElementsByTagName("html")[0],
+        parentDocument.getElementsByTagName("html")[0],
         htmlOpenClassName
       );
 
