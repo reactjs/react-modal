@@ -81,7 +81,10 @@ Instead of this
 It is possible to independently style the transitions for the modal 
 overlay and modal content. 
 
-{about precendence}
+Keep in mind that inline styles will take precedence over those defined 
+as CSS rules. If you want to apply a transition to one of the default styles,
+such as `transform`, you can remove it from the inline definition and define
+it instead as a CSS rule.
 
 The example below will fade the overlay 
 in and slide the modal content on-screen from the bottom of the page:
@@ -97,7 +100,7 @@ in and slide the modal content on-screen from the bottom of the page:
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
-        // transform: 'translate(-50%, -50%)', This will override the css values if not removed
+        // transform: 'translate(-50%, -50%)',
       },
     }}
     closeTimeoutMS={800}
