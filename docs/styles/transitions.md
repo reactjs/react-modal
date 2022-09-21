@@ -79,7 +79,11 @@ Instead of this
 #### Styling the overlay and content
 
 It is possible to independently style the transitions for the modal 
-overlay and modal content. The example below will fade the overlay 
+overlay and modal content. 
+
+{about precendence}
+
+The example below will fade the overlay 
 in and slide the modal content on-screen from the bottom of the page:
 
 ```javascript
