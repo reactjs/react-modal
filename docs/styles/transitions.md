@@ -1,7 +1,10 @@
 Using [CSS classes](classes.md), it is possible to implement transitions for
-when the modal is opened or closed.  By placing the following CSS somewhere in
-your project's styles, you can make the modal content fade in when it is opened
-and fade out when it is closed:
+when the modal is opened or closed.  
+
+#### Basic overlay styling
+
+By placing the following CSS somewhere in your project's styles, you can make the 
+modal content fade in when it is opened and fade out when it is closed:
 
 ```css
 .ReactModal__Overlay {
@@ -18,12 +21,13 @@ and fade out when it is closed:
 }
 ```
 
-
 The above example will apply the fade transition globally, affecting all modals
 whose `afterOpen` and `beforeClose` classes have not been set via the
 `className` prop.  To apply the transition to one modal only, you can change
 the above class names and pass an object to your modal's `className` prop as
 described in the [previous section](classes.md).
+
+#### Gracefully closing the modal
 
 In order for the fade transition to work, you need to inform the `<Modal />` about the transition time required for the animation.
 
@@ -71,6 +75,65 @@ Instead of this
   </Modal>
 }
 ```
+
+#### Styling the overlay and content
+
+It is possible to independently style the transitions for the modal 
+overlay and modal content. The example below will fade the overlay 
+in and slide the modal content on-screen from the bottom of the page:
+
+```javascript
+{
+  <Modal
+    style={{
+      overlay: { background: 'rgba(0, 0, 0, 0.3)' },
+      content: {
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+      },
+    }}
+    closeTimeoutMS={800}
+    isOpen={this.state.showModal}
+    contentLabel="modal"
+    onRequestClose={() => this.toggleModal()}
+  >
+    <h2>Add modal content here</h2>
+  </Modal>
+}
+```
+
+Corresponding CSS:
+
+```css
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 800ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+}
+
+.ReactModal__Content {
+  transform: translate(-50%, 150%);
+  transition: transform 800ms ease-in-out;
+}
+
+.ReactModal__Content--after-open {
+  transform: translate(-50%, -50%);
+}
+
+.ReactModal__Content--before-close {
+  transform: translate(-50%, 150%);
+}
+```
+
+#### Notes
 
 React Modal has adopted the [stable Portal API](https://reactjs.org/docs/portals.html) as exposed in React 16.
 
