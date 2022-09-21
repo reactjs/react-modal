@@ -88,9 +88,12 @@ in and slide the modal content on-screen from the bottom of the page:
     style={{
       overlay: { background: 'rgba(0, 0, 0, 0.3)' },
       content: {
-        position: 'fixed',
-        left: '50%',
         top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        // transform: 'translate(-50%, -50%)', This will override the css values if not removed
       },
     }}
     closeTimeoutMS={800}
