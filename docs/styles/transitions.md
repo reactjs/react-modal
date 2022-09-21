@@ -82,9 +82,7 @@ It is possible to independently style the transitions for the modal
 overlay and modal content. 
 
 Keep in mind that inline styles will take precedence over those defined 
-as CSS rules. If you want to apply a transition to one of the default styles,
-such as `transform`, you can remove it from the inline definition and define
-it instead as a CSS rule.
+as CSS rules. In case you need to use both at the same time, you'll need to use the css `!important`.
 
 The example below will fade the overlay 
 in and slide the modal content on-screen from the bottom of the page:
