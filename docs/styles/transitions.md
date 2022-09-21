@@ -100,7 +100,7 @@ in and slide the modal content on-screen from the bottom of the page:
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
-        // transform: 'translate(-50%, -50%)',
+        // transform: 'translate(-50%, -50%)', if you use inline styles instead of css 
       },
     }}
     closeTimeoutMS={800}
