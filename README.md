@@ -7,7 +7,7 @@ Need feedback to push a new version of `react-modal` forward. See issue [#881](h
 
 Accessible modal dialog component for React.JS
 
-[![Build Status](https://travis-ci.org/reactjs/react-modal.svg?branch=v1)](https://travis-ci.org/reactjs/react-modal)
+[![Build Status](https://api.travis-ci.org/reactjs/react-modal.svg)](https://travis-ci.org/reactjs/react-modal)
 [![Coverage Status](https://coveralls.io/repos/github/reactjs/react-modal/badge.svg?branch=master)](https://coveralls.io/github/reactjs/react-modal?branch=master)
 ![gzip size](http://img.badgesize.io/https://unpkg.com/react-modal/dist/react-modal.min.js?compression=gzip)
 [![Join the chat at https://gitter.im/react-modal/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/react-modal/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
