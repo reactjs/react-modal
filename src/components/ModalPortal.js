@@ -60,6 +60,8 @@ export default class ModalPortal extends Component {
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     shouldReturnFocusAfterClose: PropTypes.bool,
+    disableFocusTrap: PropTypes.bool,
+    disableTabTrap: PropTypes.bool,
     preventScroll: PropTypes.bool,
     role: PropTypes.string,
     contentLabel: PropTypes.string,
@@ -284,7 +286,7 @@ export default class ModalPortal extends Component {
   };
 
   handleKeyDown = event => {
-    if (event.keyCode === TAB_KEY) {
+    if (!this.props.disableTabTrap && event.keyCode === TAB_KEY) {
       scopeTab(this.content, event);
     }
 
