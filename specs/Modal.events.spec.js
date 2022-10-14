@@ -109,6 +109,30 @@ export default () => {
     });
   });
 
+  it("shifts focus within nested modals", () => {
+    withElementCollector(() => {
+      let nestedModal;
+      const props = { isOpen: true };
+      const node = createHTMLElement("div");
+
+      ReactDOM.render(
+        <Modal {...props} appElement={node}>
+          <button>Outer Button 1</button>
+          <button>Outer Button 2</button>
+          <Modal ref={el => (nestedModal = el)} appElement={node} a isOpen>
+            <button id="foo">Button One</button>
+            <button id="bar">Button Two</button>
+          </Modal>
+        </Modal>,
+        node
+      );
+      const content = mcontent(nestedModal);
+      tabKeyDown(content, { shiftKey: true });
+      document.activeElement.textContent.should.be.eql("Button Two");
+      ReactDOM.unmountComponentAtNode(node);
+    });
+  });
+
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
