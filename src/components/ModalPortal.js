@@ -300,6 +300,10 @@ export default class ModalPortal extends Component {
   };
 
   handleOverlayOnClick = event => {
+    if (!this.props.shouldCloseOnOverlayClick) {
+      event.stopPropagation();
+    }
+
     if (this.shouldClose === null) {
       this.shouldClose = true;
     }
