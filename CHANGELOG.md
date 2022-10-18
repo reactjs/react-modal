@@ -1,3 +1,15 @@
+3.16.1 - Mon, 17 Oct 2022 22:07:22 UTC
+--------------------------------------
+
+- [840a0f6](../../commit/840a0f6) Add tests
+- [742e9f5](../../commit/742e9f5) [fixed] Revert changes to test helpers
+- [28ea6b5](../../commit/28ea6b5) [fixed] Fix missing returns in keydown helpers
+- [15e0711](../../commit/15e0711) [fixed] address review comments
+- [f3a19fc](../../commit/f3a19fc) [fixed] switched from KeyboardEvent.keyCode to KeyboardEvent.code
+- [aca5261](../../commit/aca5261) fixing element with display 'contents' is visible and is tabbable
+- [df0665e](../../commit/df0665e) update broken build badge
+- [9bf0d4f](../../commit/9bf0d4f) [fixed]: css class added to root document in iframe
+
 3.15.1 - Mon, 11 Apr 2022 22:26:43 UTC
 --------------------------------------
 
