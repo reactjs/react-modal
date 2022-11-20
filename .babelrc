@@ -1,10 +1,6 @@
 {
   "presets": [
-    "env",
-    "react",
-    "stage-2"
-  ],
-  "plugins": [
-    "add-module-exports"
+    ["@babel/preset-env", { "modules": "auto" }],
+    "@babel/preset-react"
   ]
 }

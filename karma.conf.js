@@ -1,3 +1,5 @@
+const path = require('path');
+
 let browsers = ['ChromeHeadless'];
 let coverageType = 'text';
 
@@ -8,7 +10,18 @@ if (process.env.CONTINUOUS_INTEGRATION) {
 
 module.exports = function(config) {
   config.set({
-    frameworks: ['mocha'],
+    browsers,
+
+    frameworks: ['mocha', 'webpack'],
+
+    plugins: [
+      'karma-webpack',
+      'karma-mocha',
+      'karma-coverage',
+      'karma-sourcemap-loader',
+      'karma-chrome-launcher',
+      'karma-mocha-reporter',
+    ],
 
     preprocessors: {
       './src/*.js': ['coverage'],
@@ -20,29 +33,27 @@ module.exports = function(config) {
 
     webpack: require('./scripts/webpack.test.config'),
 
-    webpackMiddleware: { stats: 'errors-only' },
-
     reporters: ['mocha', 'coverage'],
 
     mochaReporter: { showDiff: true },
 
     coverageReporter: {
-      type : coverageType,
-      dir : 'coverage/',
-      subdir: '.'
+      // specify a common output directory
+      dir: './coverage',
+      reporters: [
+	{ type: 'html', subdir: 'html' },
+	{ type: 'lcov', subdir: 'lcov' }
+      ]
     },
-
-    port: 9876,
-
-    colors: true,
 
     logLevel: config.LOG_INFO,
 
     autoWatch: true,
 
-    browsers,
+    port: 9876,
 
-    // Increase timeouts to prevent the issue with disconnected tests (https://goo.gl/nstA69)
+    // Increase timeouts to prevent the issue
+    // with disconnected tests (https://goo.gl/nstA69)
     captureTimeout: 4 * 60 * 1000,
 
     singleRun: (process.env.CONTINUOUS_INTEGRATION)

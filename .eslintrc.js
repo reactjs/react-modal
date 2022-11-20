@@ -4,7 +4,7 @@ module.exports = {
     "browser": true
   },
 
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
 
   "parserOptions": {
     "ecmaVersion": 7,
@@ -24,9 +24,7 @@ module.exports = {
     "import/resolver": "webpack"
   },
 
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:import/recommended", "prettier"],
-
-  "plugins": ["prettier"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
 
   "globals": {
     "process": true
@@ -42,14 +40,9 @@ module.exports = {
     "func-names": [0],
     "arrow-parens": [0],
     "space-before-function-paren": [0],
-    "jsx-a11y/no-static-element-interactions": [0],
-    "prettier/prettier": "error",
+    "jsx-a11y/no-satatic-element-interactions": [0],
     "react/no-find-dom-node": [0],
     "react/jsx-closing-bracket-location": [0],
-    "react/require-default-props": 0,
-    "import/no-extraneous-dependencies": [2, {
-      "devDependencies": ["specs/**"]
-    }]
+    "react/require-default-props": 0
   }
-
 }
