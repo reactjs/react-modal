@@ -3,7 +3,7 @@ NPM=$(shell which npm 2> /dev/null)
 YARN=$(shell which yarn 2> /dev/null)
 JQ=$(shell which jq 2> /dev/null)
 
-PKM?=$(if $(YARN),$(YARN),$(shell which npm))
+PKM?=$(if $(NPM),$(NPM),$(shell which yarn))
 
 BABEL=./node_modules/.bin/babel
 COVERALLS=./node_modules/coveralls/bin/coveralls.js
@@ -51,13 +51,13 @@ deps-docs:
 # Rules for development
 
 serve:
-	@npm start
+	@$(PKM) start
 
 tests:
-	@npm run test
+	@$(PKM) run test
 
 tests-single-run:
-	@npm run test -- --single-run
+	@$(PKM) run test -- --single-run
 
 coveralls:
 	-cat ./coverage/lcov/lcov.info | $(COVERALLS) 2>/dev/null
@@ -66,7 +66,7 @@ tests-ci: clean lint
 	@COVERAGE=$(COVERAGE) make tests-single-run coveralls
 
 lint:
-	@npm run lint
+	@$(PKM) run lint
 
 docs: build-docs
 	pygmentize -S default -f html -a .codehilite > docs/pygments.css
