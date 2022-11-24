@@ -252,6 +252,7 @@ export const withModal = function(props, children, test = noop) {
     } catch(e) {
       // eslint-disable-next-line no-console
       console.error(e);
+      throw e;
     } finally {
       ReactDOM.unmountComponentAtNode(node);
     }

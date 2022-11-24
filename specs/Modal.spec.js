@@ -223,16 +223,6 @@ export default () => {
       });
     });
 
-    it("does not focus modal content if shouldFocusAfterRender is false", () => {
-      withModal(
-        { isOpen: true, shouldFocusAfterRender: false },
-        null,
-        modal => {
-          document.activeElement.should.not.be.eql(mcontent(modal));
-        }
-      );
-    });
-
     it("give back focus to previous element or modal.", done => {
       withModal(
         {

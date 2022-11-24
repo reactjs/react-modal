@@ -61,7 +61,6 @@ export default class ModalPortal extends Component {
     onAfterClose: PropTypes.func,
     onRequestClose: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
-    shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
     shouldReturnFocusAfterClose: PropTypes.bool,
     preventScroll: PropTypes.bool,
@@ -123,7 +122,6 @@ export default class ModalPortal extends Component {
 
     // Focus only needs to be set once when the modal is being opened
     if (
-      this.props.shouldFocusAfterRender &&
       this.state.isOpen &&
       !prevState.isOpen
     ) {
@@ -205,13 +203,11 @@ export default class ModalPortal extends Component {
       }
     }
 
-    if (this.props.shouldFocusAfterRender) {
-      if (this.props.shouldReturnFocusAfterClose) {
-        focusManager.returnFocus(this.props.preventScroll);
-        focusManager.teardownScopedFocus();
-      } else {
-        focusManager.popWithoutFocus();
-      }
+    if (this.props.shouldReturnFocusAfterClose) {
+      focusManager.returnFocus(this.props.preventScroll);
+      focusManager.teardownScopedFocus();
+    } else {
+      focusManager.popWithoutFocus();
     }
 
     if (this.props.onAfterClose) {
@@ -227,10 +223,8 @@ export default class ModalPortal extends Component {
       clearTimeout(this.closeTimer);
       this.setState({ beforeClose: false });
     } else {
-      if (this.props.shouldFocusAfterRender) {
-        focusManager.setupScopedFocus(this.node);
-        focusManager.markForFocusLater();
-      }
+      focusManager.setupScopedFocus(this.node);
+      focusManager.markForFocusLater();
 
       this.setState({ isOpen: true }, () => {
         this.openAnimationFrame = requestAnimationFrame(() => {
