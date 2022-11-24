@@ -103,10 +103,6 @@ import ReactModal from 'react-modal';
      This attribute is `null` by default.
      See the `Styles` section for more details. */}
 
-  shouldFocusAfterRender={
-    true
-  /* Boolean indicating if the modal should be focused after render. */}
-
   shouldCloseOnOverlayClick={
     true
   /* Boolean indicating if the overlay should close the modal */}
