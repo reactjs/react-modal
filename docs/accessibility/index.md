@@ -6,21 +6,13 @@ accessibility-oriented features, along with their configuration options.
 ### [The app element](#app-element)
 
 It is important for users of screenreaders that other page content be hidden
-(via the `aria-hidden` attribute) while the modal is open.  To allow
-react-modal to do this, you should call `Modal.setAppElement` with a query
-selector identifying the root of your app.  For example, if your app content is
+(via the `aria-hidden` attribute) while the modal is open. This done by
+using `ReactModal.setAppElement`.  For example, if your app content is
 located inside an element with the ID `root`, you could place the following
 call somewhere in your code before any modals are opened:
 
-```jsx
+```js
 Modal.setAppElement('#root');
-```
-
-You can also pass a DOM element directly, so that the above example could be
-rewritten:
-
-```jsx
-Modal.setAppElement(document.getElementById('root'));
 ```
 
 Using a selector that matches multiple elements or passing a list of DOM
@@ -29,12 +21,11 @@ automatically pruned if elements are removed from the DOM, so you may want to
 call `Modal.setAppElement` when any such changes are made, or pass a live
 HTMLCollection as the value.
 
-If you are already applying the `aria-hidden` attribute to your app content
-through other means, you can pass the `ariaHideApp={false}` prop to your modal
-to avoid getting a warning that your app element is not specified.
+```tsx
+Modal.setAppElement('#app1, #app2');
 
-Using `Modal.setAppElement` will not embed react-modal into your react app as
-a descendent component. It will just help boost up the app accessiblity.
+Modal.setAppElement([app1, app2] as HTMLElement[]);
+```
 
 ### [Keyboard navigation](#keyboard)
 
