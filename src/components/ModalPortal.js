@@ -51,7 +51,6 @@ export default class ModalPortal extends Component {
     parentSelector: PropTypes.func,
     bodyOpenClassName: PropTypes.string,
     htmlOpenClassName: PropTypes.string,
-    ariaHideApp: PropTypes.bool,
     appElement: PropTypes.oneOfType([
       PropTypes.instanceOf(SafeHTMLElement),
       PropTypes.instanceOf(SafeHTMLCollection),
@@ -153,7 +152,6 @@ export default class ModalPortal extends Component {
   beforeOpen() {
     const {
       appElement,
-      ariaHideApp,
       htmlOpenClassName,
       bodyOpenClassName,
       parentSelector
@@ -171,10 +169,8 @@ export default class ModalPortal extends Component {
         htmlOpenClassName
       );
 
-    if (ariaHideApp) {
-      ariaHiddenInstances += 1;
-      ariaAppHider.hide(appElement);
-    }
+    ariaHiddenInstances += 1;
+    ariaAppHider.hide(appElement);
 
     portalOpenInstances.register(this);
   }
@@ -182,7 +178,6 @@ export default class ModalPortal extends Component {
   afterClose = () => {
     const {
       appElement,
-      ariaHideApp,
       htmlOpenClassName,
       bodyOpenClassName,
       parentSelector
@@ -202,7 +197,7 @@ export default class ModalPortal extends Component {
       );
 
     // Reset aria-hidden attribute if all modals have been removed
-    if (ariaHideApp && ariaHiddenInstances > 0) {
+    if (ariaHiddenInstances > 0) {
       ariaHiddenInstances -= 1;
 
       if (ariaHiddenInstances === 0) {
