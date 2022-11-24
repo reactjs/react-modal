@@ -20,6 +20,20 @@ import {
 } from "./helper";
 
 export default () => {
+  let appElement = null;
+
+  beforeEach(() => {
+    appElement = document.createElement('div');
+    appElement.id = "app";
+    document.body.appendChild(appElement);
+
+    Modal.setAppElement("#app");
+  });
+
+  afterEach(() => {
+    document.body.removeChild(appElement);
+  });
+
   it("should trigger the onAfterOpen callback", () => {
     const afterOpenCallback = sinon.spy();
     withElementCollector(() => {
@@ -27,8 +41,8 @@ export default () => {
       const node = createHTMLElement("div");
       ReactDOM.render(<Modal {...props} />, node);
       requestAnimationFrame(() => {
-        afterOpenCallback.called.should.be.ok();
-        ReactDOM.unmountComponentAtNode(node);
+	afterOpenCallback.called.should.be.ok();
+	ReactDOM.unmountComponentAtNode(node);
       });
     });
   });
@@ -40,11 +54,11 @@ export default () => {
       const node = createHTMLElement("div");
       const modal = ReactDOM.render(<Modal {...props} />, node);
       requestAnimationFrame(() => {
-        sinon.assert.calledWith(afterOpenCallback, {
-          overlayEl: modal.portal.overlay,
-          contentEl: modal.portal.content
-        });
-        ReactDOM.unmountComponentAtNode(node);
+	sinon.assert.calledWith(afterOpenCallback, {
+	  overlayEl: modal.portal.overlay,
+	  contentEl: modal.portal.content
+	});
+	ReactDOM.unmountComponentAtNode(node);
       });
     });
   });
@@ -72,21 +86,21 @@ export default () => {
 
   it("keeps focus inside the modal when child has no tabbable elements", () => {
     let tabPrevented = false;
-    const props = { isOpen: true }; 
+    const props = { isOpen: true };
     withModal(props, "hello", modal => {
       const content = mcontent(modal);
       document.activeElement.should.be.eql(content);
       tabKeyDown(content, {
-        preventDefault() {
-          tabPrevented = true;
-        }
+	preventDefault() {
+	  tabPrevented = true;
+	}
       });
       tabPrevented.should.be.eql(true);
     });
   });
 
   it("handles case when child has no tabbable elements", () => {
-    const props = { isOpen: true }; 
+    const props = { isOpen: true };
     withModal(props, "hello", modal => {
       const content = mcontent(modal);
       tabKeyDown(content);
@@ -99,11 +113,11 @@ export default () => {
     const bottomButton = <button>bottom</button>;
     const modalContent = (
       <div>
-        {topButton}
-        {bottomButton}
+	{topButton}
+	{bottomButton}
       </div>
     );
-    const props = { isOpen: true }; 
+    const props = { isOpen: true };
     withModal(props, modalContent, modal => {
       const content = mcontent(modal);
       tabKeyDown(content, { shiftKey: true });
@@ -116,8 +130,8 @@ export default () => {
     const bottomButton = <button>bottom</button>;
     const modalContent = (
       <div>
-        {topButton}
-        {bottomButton}
+	{topButton}
+	{bottomButton}
       </div>
     );
     const props = { isOpen: true };
@@ -131,56 +145,56 @@ export default () => {
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
-        const requestCloseCallback = sinon.spy();
-        withModal(
-          {
-            isOpen: true,
-            shouldCloseOnEsc: true,
-            onRequestClose: requestCloseCallback
-          },
-          null,
-          modal => {
-            escKeyDown(mcontent(modal));
-            requestCloseCallback.called.should.be.ok();
-            // Check if event is passed to onRequestClose callback.
-            const event = requestCloseCallback.getCall(0).args[0];
-            event.should.be.ok();
-          }
-        );
+	const requestCloseCallback = sinon.spy();
+	withModal(
+	  {
+	    isOpen: true,
+	    shouldCloseOnEsc: true,
+	    onRequestClose: requestCloseCallback
+	  },
+	  null,
+	  modal => {
+	    escKeyDown(mcontent(modal));
+	    requestCloseCallback.called.should.be.ok();
+	    // Check if event is passed to onRequestClose callback.
+	    const event = requestCloseCallback.getCall(0).args[0];
+	    event.should.be.ok();
+	  }
+	);
       });
 
       it("should close on Esc key event with KeyboardEvent.code", () => {
-        const requestCloseCallback = sinon.spy();
-        withModal(
-          {
-            isOpen: true,
-            shouldCloseOnEsc: true,
-            onRequestClose: requestCloseCallback
-          },
-          null,
-          modal => {
-            escKeyDownWithCode(mcontent(modal));
-            requestCloseCallback.called.should.be.ok();
-            // Check if event is passed to onRequestClose callback.
-            const event = requestCloseCallback.getCall(0).args[0];
-            event.should.be.ok();
-          }
-        );
+	const requestCloseCallback = sinon.spy();
+	withModal(
+	  {
+	    isOpen: true,
+	    shouldCloseOnEsc: true,
+	    onRequestClose: requestCloseCallback
+	  },
+	  null,
+	  modal => {
+	    escKeyDownWithCode(mcontent(modal));
+	    requestCloseCallback.called.should.be.ok();
+	    // Check if event is passed to onRequestClose callback.
+	    const event = requestCloseCallback.getCall(0).args[0];
+	    event.should.be.ok();
+	  }
+	);
       });
     });
 
     context("when false", () => {
       it("should not close on Esc key event", () => {
-        const requestCloseCallback = sinon.spy();
-        const props = {
-          isOpen: true,
-          shouldCloseOnEsc: false,
-          onRequestClose: requestCloseCallback
-        };
-        withModal(props, null, modal => {
-          escKeyDown(mcontent(modal));
-          requestCloseCallback.called.should.be.false;
-        });
+	const requestCloseCallback = sinon.spy();
+	const props = {
+	  isOpen: true,
+	  shouldCloseOnEsc: false,
+	  onRequestClose: requestCloseCallback
+	};
+	withModal(props, null, modal => {
+	  escKeyDown(mcontent(modal));
+	  requestCloseCallback.called.should.be.false;
+	});
       });
     });
   });
@@ -189,54 +203,54 @@ export default () => {
     it("when false, click on overlay should not close", () => {
       const requestCloseCallback = sinon.spy();
       const props = {
-        isOpen: true,
-        shouldCloseOnOverlayClick: false
+	isOpen: true,
+	shouldCloseOnOverlayClick: false
       };
       withModal(props, null, modal => {
-        const overlay = moverlay(modal);
-        clickAt(overlay);
-        requestCloseCallback.called.should.not.be.ok();
+	const overlay = moverlay(modal);
+	clickAt(overlay);
+	requestCloseCallback.called.should.not.be.ok();
       });
     });
 
     it("when true, click on overlay must close", () => {
       const requestCloseCallback = sinon.spy();
       const props = {
-        isOpen: true,
-        shouldCloseOnOverlayClick: true,
-        onRequestClose: requestCloseCallback
+	isOpen: true,
+	shouldCloseOnOverlayClick: true,
+	onRequestClose: requestCloseCallback
       };
       withModal(props, null, modal => {
-        clickAt(moverlay(modal));
-        requestCloseCallback.called.should.be.ok();
+	clickAt(moverlay(modal));
+	requestCloseCallback.called.should.be.ok();
       });
     });
 
     it("overlay mouse down and content mouse up, should not close", () => {
       const requestCloseCallback = sinon.spy();
       const props = {
-        isOpen: true,
-        shouldCloseOnOverlayClick: true,
-        onRequestClose: requestCloseCallback
+	isOpen: true,
+	shouldCloseOnOverlayClick: true,
+	onRequestClose: requestCloseCallback
       };
       withModal(props, null, modal => {
-        mouseDownAt(moverlay(modal));
-        mouseUpAt(mcontent(modal));
-        requestCloseCallback.called.should.not.be.ok();
+	mouseDownAt(moverlay(modal));
+	mouseUpAt(mcontent(modal));
+	requestCloseCallback.called.should.not.be.ok();
       });
     });
 
     it("content mouse down and overlay mouse up, should not close", () => {
       const requestCloseCallback = sinon.spy();
       const props = {
-        isOpen: true,
-        shouldCloseOnOverlayClick: true,
-        onRequestClose: requestCloseCallback
+	isOpen: true,
+	shouldCloseOnOverlayClick: true,
+	onRequestClose: requestCloseCallback
       };
       withModal(props, null, modal => {
-        mouseDownAt(mcontent(modal));
-        mouseUpAt(moverlay(modal));
-        requestCloseCallback.called.should.not.be.ok();
+	mouseDownAt(mcontent(modal));
+	mouseUpAt(moverlay(modal));
+	requestCloseCallback.called.should.not.be.ok();
       });
     });
   });
@@ -267,8 +281,8 @@ export default () => {
     withModal(props, null, modal => {
       // click the overlay
       clickAt(moverlay(modal), {
-        // Used to test that this was the event received
-        fakeData: "ABC"
+	// Used to test that this was the event received
+	fakeData: "ABC"
       });
       requestCloseCallback.called.should.be.ok();
       // Check if event is passed to onRequestClose callback.
@@ -287,21 +301,21 @@ export default () => {
 
     withModal(
       {
-        isOpen: true,
-        onRequestClose: requestCloseCallback
+	isOpen: true,
+	onRequestClose: requestCloseCallback
       },
       <Modal
-        isOpen
-        onRequestClose={innerRequestCloseCallback}
-        ref={innerModalRef}
+	isOpen
+	onRequestClose={innerRequestCloseCallback}
+	ref={innerModalRef}
       >
-        <span>Test</span>
+	<span>Test</span>
       </Modal>,
       () => {
-        const content = mcontent(innerModal);
-        escKeyDown(content);
-        innerRequestCloseCallback.called.should.be.ok();
-        requestCloseCallback.called.should.not.be.ok();
+	const content = mcontent(innerModal);
+	escKeyDown(content);
+	innerRequestCloseCallback.called.should.be.ok();
+	requestCloseCallback.called.should.not.be.ok();
       }
     );
   });
