@@ -3,6 +3,8 @@ name: Test
 on:
   pull_request:
     branches:
+      - master
+      - v4
       - chore/github-actions
 
 jobs:
