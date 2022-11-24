@@ -4,6 +4,20 @@ import Modal from "react-modal";
 import { mcontent, moverlay, withModal } from "./helper";
 
 export default () => {
+  let appElement = null;
+
+  beforeEach(() => {
+    appElement = document.createElement('div');
+    appElement.id = "app";
+    document.body.appendChild(appElement);
+
+    Modal.setAppElement("#app");
+  });
+
+  afterEach(() => {
+    document.body.removeChild(appElement);
+  });
+
   it("overrides the default styles when a custom classname is used", () => {
     const props = { isOpen: true, className: "myClass" }; 
     withModal(props, null, modal => {

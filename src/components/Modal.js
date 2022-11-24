@@ -59,6 +59,7 @@ class Modal extends Component {
       })
     ]),
     appElement: PropTypes.oneOfType([
+      PropTypes.string,
       PropTypes.instanceOf(SafeHTMLElement),
       PropTypes.instanceOf(SafeHTMLCollection),
       PropTypes.instanceOf(SafeNodeList),

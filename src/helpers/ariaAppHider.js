@@ -1,4 +1,3 @@
-import warning from "warning";
 import { canUseDOM } from "./safeHTMLElement";
 
 let globalElement = null;
@@ -39,49 +38,42 @@ export function assertNodeList(nodeList, selector) {
   }
 }
 
-export function setElement(element) {
-  let useElement = element;
-  if (typeof useElement === "string" && canUseDOM) {
-    const el = document.querySelectorAll(useElement);
-    assertNodeList(el, useElement);
-    useElement = el;
+export function validateElement(element) {
+  if (!element || element.length == 0) {
+    // eslint-disable-next-line no-console
+    throw new Error(
+      [
+        "react-modal: App element is not defined.",
+        "Please use `Modal.setAppElement(el)` or set `appElement={el}`."
+      ].join(" ")
+    );
   }
-  globalElement = useElement || globalElement;
+
+  return Array.isArray(element) ||
+    element instanceof HTMLCollection ||
+    element instanceof NodeList
+    ? element
+    : [element];
+}
+
+export function setElement(element) {
+  if (!canUseDOM) return;
+  globalElement =
+    (typeof element === "string" && document.querySelectorAll(element)) ||
+    ((element instanceof HTMLElement) && [element]) ||
+    globalElement;
+  validateElement(globalElement);
   return globalElement;
 }
 
-export function validateElement(appElement) {
-  const el = appElement || globalElement;
-  if (el) {
-    return Array.isArray(el) ||
-      el instanceof HTMLCollection ||
-      el instanceof NodeList
-      ? el
-      : [el];
-  } else {
-    warning(
-      false,
-      [
-        "react-modal: App element is not defined.",
-        "Please use `Modal.setAppElement(el)` or set `appElement={el}`.",
-        "This is needed so screen readers don't see main content",
-        "when modal is opened. It is not recommended, but you can opt-out",
-        "by setting `ariaHideApp={false}`."
-      ].join(" ")
-    );
-
-    return [];
-  }
-}
-
 export function hide(appElement) {
-  for (let el of validateElement(appElement)) {
+  for (let el of validateElement(appElement || globalElement)) {
     el.setAttribute("aria-hidden", "true");
   }
 }
 
 export function show(appElement) {
-  for (let el of validateElement(appElement)) {
+  for (let el of validateElement(appElement || globalElement)) {
     el.removeAttribute("aria-hidden");
   }
 }
