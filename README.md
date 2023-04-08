@@ -123,6 +123,7 @@ There are several demos hosted on [CodePen](https://codepen.io) which
 demonstrate various features of react-modal:
 
 * [Minimal example](https://codepen.io/neilhsmith/pen/QWVVEEg)
+* [Using setAppElement](https://codepen.io/neilhsmith/pen/JjmoaOV)
 * [Using onRequestClose](https://codepen.io/neilhsmith/pen/OJooXBg)
 * [Using shouldCloseOnOverlayClick](https://codepen.io/neilhsmith/pen/wvEYxKa)
 * [Using inline styles](https://codepen.io/neilhsmith/pen/gOdZPPP)
