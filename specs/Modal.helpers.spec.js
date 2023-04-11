@@ -116,7 +116,28 @@ export default () => {
         tabbable(elem).should.not.containEql(button);
       });
 
-      describe("inside Web Components", () => {
+      it("excludes elements that contain reserved node names", () => {
+        const button = document.createElement("button");
+        button.innerHTML = "I am a good button";
+        elem.appendChild(button);
+
+        const badButton = document.createElement("bad-button");
+        badButton.innerHTML = "I am a bad button";
+        elem.appendChild(badButton);
+
+        tabbable(elem).should.deepEqual([button]);
+      });
+
+      it("includes elements that contain reserved node names with tabindex", () => {
+        const trickButton = document.createElement("trick-button");
+        trickButton.innerHTML = "I am a good button";
+        trickButton.tabIndex = '0';
+        elem.appendChild(trickButton);
+
+        tabbable(elem).should.deepEqual([trickButton]);
+      });
+
+      describe("inside Web Components with shadow dom", () => {
         let wc;
         let input;
         class TestWebComponent extends HTMLElement {
@@ -167,6 +188,48 @@ export default () => {
         it("excludes elements when hidden inside a Shadow DOM", () => {
           wc.style.display = "none";
           tabbable(elem).should.not.containEql(input);
+        });
+      });
+
+      describe("inside Web Components with no shadow dom", () => {
+        let wc;
+        let button;
+        class ButtonWebComponent extends HTMLElement {
+          constructor() {
+            super();
+          }
+
+          connectedCallback() {
+            this.innerHTML = '<button>Normal button</button>';
+            this.style.display = "block";
+            this.style.width = "100px";
+            this.style.height = "25px";
+          }
+        }
+
+        const registerButtonComponent = () => {
+          if (window.customElements.get("button-web-component")) {
+            return;
+          }
+          window.customElements.define("button-web-component", ButtonWebComponent);
+        };
+
+        beforeEach(() => {
+          registerButtonComponent();
+          wc = document.createElement("button-web-component");
+
+          elem.appendChild(wc);
+        });
+
+        afterEach(() => {
+          // remove Web Component
+          elem.removeChild(wc);
+        });
+
+        it("includes only focusable elements", () => {
+          button = wc.querySelector('button');
+
+          tabbable(elem).should.deepEqual([button]);
         });
       });
     });
