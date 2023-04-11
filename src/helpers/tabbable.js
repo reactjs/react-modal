@@ -13,7 +13,8 @@
 const DISPLAY_NONE = "none";
 const DISPLAY_CONTENTS = "contents";
 
-const tabbableNode = /input|select|textarea|button|object|iframe/;
+// match the whole word to prevent fuzzy searching
+const tabbableNode = /^(input|select|textarea|button|object|iframe)$/;
 
 function isNotOverflowing(element, style) {
   return (
