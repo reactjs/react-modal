@@ -319,6 +319,7 @@ export default class ModalPortal extends Component {
   };
 
   handleOverlayOnMouseDown = event => {
+    this.shouldClose = null;
     if (!this.props.shouldCloseOnOverlayClick && event.target == this.overlay) {
       event.preventDefault();
     }
@@ -328,7 +329,8 @@ export default class ModalPortal extends Component {
     this.shouldClose = false;
   };
 
-  handleContentOnMouseDown = () => {
+  handleContentOnMouseDown = (event) => {
+    event.stopPropagation();
     this.shouldClose = false;
   };
 
