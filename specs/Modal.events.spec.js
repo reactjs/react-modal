@@ -222,7 +222,7 @@ export default () => {
       withModal(props, null, modal => {
         mouseDownAt(moverlay(modal));
         mouseUpAt(mcontent(modal));
-        clickAt(mcontent(modal));
+        clickAt(moverlay(modal));
         requestCloseCallback.called.should.not.be.ok();
       });
     });
