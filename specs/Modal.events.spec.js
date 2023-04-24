@@ -222,6 +222,7 @@ export default () => {
       withModal(props, null, modal => {
         mouseDownAt(moverlay(modal));
         mouseUpAt(mcontent(modal));
+        clickAt(mcontent(modal));
         requestCloseCallback.called.should.not.be.ok();
       });
     });
@@ -236,8 +237,39 @@ export default () => {
       withModal(props, null, modal => {
         mouseDownAt(mcontent(modal));
         mouseUpAt(moverlay(modal));
+        clickAt(moverlay(modal));
         requestCloseCallback.called.should.not.be.ok();
       });
+    });
+
+    it("click on button containing stopPropagation inside modal shouldn't block closing", () => {
+      const requestCloseCallback = sinon.spy();
+      let innerButton = null;
+      let innerButtonRef = ref => {
+        innerButton = ref;
+      };
+      function click(event) {
+        event.stopPropagation();
+      }
+
+      withModal(
+        {
+          isOpen: true,
+          onRequestClose: requestCloseCallback
+        },
+        <button ref={innerButtonRef} onClick={click} />,
+        modal => {
+          // imitate regular click with all mouse events on button inside modal
+          mouseDownAt(innerButton);
+          mouseUpAt(innerButton);
+          clickAt(innerButton);
+          // imitate regular click with all mouse events on modal overlay
+          mouseDownAt(moverlay(modal));
+          mouseUpAt(moverlay(modal));
+          clickAt(moverlay(modal));
+          requestCloseCallback.called.should.be.ok();
+        }
+      );
     });
   });
 
