@@ -2,7 +2,7 @@
 
 # NOTE
 
-Need feedback to push a new version of `react-modal` forward. See issue [#881](https://github.com/reactjs/react-modal/issues/881). 
+Need feedback to push a new version of `react-modal` forward. See issue [#881](https://github.com/reactjs/react-modal/issues/881).
 
 
 Accessible modal dialog component for React.JS
@@ -129,3 +129,7 @@ demonstrate various features of react-modal:
 * [Using inline styles](https://codepen.io/claydiffrient/pen/ZBmyKz)
 * [Using CSS classes for styling](https://codepen.io/claydiffrient/pen/KNjVrG)
 * [Customizing the default styles](https://codepen.io/claydiffrient/pen/pNXgqQ)
+
+## Testing `onAfterOpen` and Jest
+
+The `onAfterOpen` prop calls `requestAnimationFrame` which can break Jest tests that were written prior to [v3.14.1](https://github.com/reactjs/react-modal/releases/tag/v3.14.1). Please review the [Jest bug](https://github.com/facebook/jest/issues/5147) for details on how to resolve these test failures, as well as how to support new tests related to `onAfterOpen`.
