@@ -359,10 +359,11 @@ export default () => {
       };
       const node = createHTMLElement("div");
       const modal = ReactDOM.render(<Modal {...props} />, node);
-      requestAnimationFrame(() => {
+      const request = requestAnimationFrame(() => {
         mcontent(modal).className.should.be.eql("myClass myClass_after-open");
         ReactDOM.unmountComponentAtNode(node);
       });
+      cancelAnimationFrame(request);
     });
   });
 
@@ -378,12 +379,13 @@ export default () => {
       };
       const node = createHTMLElement("div");
       const modal = ReactDOM.render(<Modal {...props} />, node);
-      requestAnimationFrame(() => {
+      const request = requestAnimationFrame(() => {
         moverlay(modal).className.should.be.eql(
           "myOverlayClass myOverlayClass_after-open"
         );
         ReactDOM.unmountComponentAtNode(node);
       });
+      cancelAnimationFrame(request);
     });
   });
 
@@ -562,7 +564,10 @@ export default () => {
       ReactDOM.render(<Modal isOpen appElement={el} />, node);
       el.getAttribute("aria-hidden").should.be.eql("true");
       ReactDOM.unmountComponentAtNode(node);
-      should(el.getAttribute("aria-hidden")).not.be.ok();
+      const request = requestAnimationFrame(() => {
+        should(el.getAttribute('aria-hidden')).not.be.ok();
+      });
+      cancelAnimationFrame(request);
     });
   });
 
@@ -593,10 +598,13 @@ export default () => {
         </div>
       );
 
-      ReactDOM.render(updatedState, rootNode);
-      should(appElement.getAttribute("aria-hidden")).not.be.ok();
+      const request = requestAnimationFrame(() => {
+        ReactDOM.render(updatedState, rootNode);
+        should(appElement.getAttribute("aria-hidden")).not.be.ok();
 
-      ReactDOM.unmountComponentAtNode(rootNode);
+        ReactDOM.unmountComponentAtNode(rootNode);
+      });
+      cancelAnimationFrame(request);
     });
   });
 
@@ -652,7 +660,10 @@ export default () => {
         appElement.getAttribute("aria-hidden").should.be.eql("true");
       });
 
-      should(appElement.getAttribute("aria-hidden")).not.be.ok();
+      const request = requestAnimationFrame(() => {
+        should(appElement.getAttribute("aria-hidden")).not.be.ok();
+      });
+      cancelAnimationFrame(request);
     });
   });
 
@@ -673,7 +684,11 @@ export default () => {
         });
         check("true");
       });
-      should(appElement.getAttribute("aria-hidden")).not.be.ok();
+
+      const request = requestAnimationFrame(() => {
+        should(appElement.getAttribute("aria-hidden")).not.be.ok();
+      });
+      cancelAnimationFrame(request);
     });
   });
 
@@ -683,13 +698,14 @@ export default () => {
       const props = { isOpen: true };
       const node = createHTMLElement("div");
       const modal = ReactDOM.render(<Modal {...props} />, node);
-      requestAnimationFrame(() => {
+      const request = requestAnimationFrame(() => {
         const contentName = modal.portal.content.className;
         const overlayName = modal.portal.overlay.className;
         rg.test(contentName).should.be.ok();
         rg.test(overlayName).should.be.ok();
         ReactDOM.unmountComponentAtNode(node);
       });
+      cancelAnimationFrame(request);
     });
   });
 
