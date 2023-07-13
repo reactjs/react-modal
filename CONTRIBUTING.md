@@ -41,7 +41,7 @@ anyway unless you are fixing something around our global build.)
 
 ## Miscellaneous
 
-if you faced the below issue, make sure you use Nodejs version 16
+if you faced the below issue, make sure you use node version < 18
 ```node:internal/crypto/hash:71
   this[kHandle] = new _Hash(algorithm, xofLen);
                   ^
