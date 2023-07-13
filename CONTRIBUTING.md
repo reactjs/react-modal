@@ -39,3 +39,13 @@ Please do not include the output of `scripts/build` in your commits, we
 only do this when we release. (Also, you probably don't need to build
 anyway unless you are fixing something around our global build.)
 
+## Miscellaneous
+
+if you faced the below issue, make sure you use Nodejs version 16
+```node:internal/crypto/hash:71
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:71:19)
+    at Object.createHash (node:crypto:133:10)```
