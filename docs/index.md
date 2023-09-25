@@ -186,7 +186,7 @@ choose a different parent element by providing a function to the
 
 ```jsx
 <Modal
-  ...
+  // ...
   parentSelector={() => document.querySelector('#root')}>
   <p>Modal Content.</p>
 </Modal>
@@ -202,7 +202,7 @@ You can use ref callbacks to get the overlay and content DOM nodes directly:
 
 ```jsx
 <Modal
-  ...
+  // ...
   overlayRef={node => (this.overlayRef = node)}
   contentRef={node => (this.contentRef = node)}>
   <p>Modal Content.</p>
