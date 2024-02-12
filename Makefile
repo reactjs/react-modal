@@ -2,19 +2,22 @@ NODE=$(shell which node 2> /dev/null)
 NPM=$(shell which npm 2> /dev/null)
 YARN=$(shell which yarn 2> /dev/null)
 JQ=$(shell which jq 2> /dev/null)
+ESBUILD=npx esbuild
 
 PKM?=$(if $(YARN),$(YARN),$(shell which npm))
 
-BABEL=./node_modules/.bin/babel
-COVERALLS=./node_modules/coveralls/bin/coveralls.js
 REMOTE="git@github.com:reactjs/react-modal"
 CURRENT_VERSION:=$(shell jq ".version" package.json)
+
+COVERALLS=./node_modules/coveralls/bin/coveralls.js
 COVERAGE?=true
 
 BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 CURRENT_VERSION:=$(shell jq ".version" package.json)
 
 VERSION:=$(if $(RELEASE),$(shell read -p "Release $(CURRENT_VERSION) -> " V && echo $$V),"HEAD")
+
+ESBUILDFLAGS?=
 
 help: info
 	@echo
@@ -50,9 +53,6 @@ deps-docs:
 
 # Rules for development
 
-serve:
-	@npm start
-
 tests:
 	@npm run test
 
@@ -76,15 +76,17 @@ docs: build-docs
 
 check-working-tree:
 	@[ -z "`git status -s`" ] && \
-	echo "Stopping publish. There are change to commit or discard." || echo "Worktree is clean."
+	echo "Stopping publish. There are change to commit or discard." || \
+	echo "Worktree is clean."
 
-compile:
-	@echo "[Compiling source]"
-	$(BABEL) src --out-dir lib
+build:
+	@$(NODE) build.mjs
 
-build: compile
-	@echo "[Building dists]"
-	@npx webpack --config ./scripts/webpack.dist.config.js
+build-minified:
+	@$(NODE) build.mjs --minify
+
+serve:
+	@ESBUILDFLAGS="--watch" make -C . -k build
 
 pre-release-commit:
 	git commit --allow-empty -m "Release v$(VERSION)."
