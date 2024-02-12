@@ -1,10 +1,5 @@
 # react-modal
 
-# NOTE
-
-Need feedback to push a new version of `react-modal` forward. See issue [#881](https://github.com/reactjs/react-modal/issues/881). 
-
-
 Accessible modal dialog component for React.JS
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/reactjs/react-modal/test.yml?branch=master)](https://github.com/reactjs/react-modal/actions/workflows/test.yml)
