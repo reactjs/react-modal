@@ -16,7 +16,8 @@ const examples = [
   Forms,
   MultipleModals,
   NestedModals,
-  ReactRouter
+  ReactRouter,
+  ModalClose
 ];
 
 class App extends Component {

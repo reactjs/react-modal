@@ -88,6 +88,7 @@ function App() {
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
+        onOverlayRightClick={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
