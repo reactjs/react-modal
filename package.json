@@ -59,7 +59,7 @@
     "react-router-dom": "^4.2.2",
     "should": "^13.1.0",
     "sinon": "next",
-    "uglify-js": "3.1.1",
+    "uglify-js": "3.14.3",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"
