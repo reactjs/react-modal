@@ -133,7 +133,7 @@ export default class ModalPortal extends Component {
   }
 
   componentWillUnmount() {
-    if (this.state.isOpen) {
+    if (this.props.isOpen) {
       this.afterClose();
     }
     clearTimeout(this.closeTimer);
@@ -227,11 +227,11 @@ export default class ModalPortal extends Component {
   };
 
   open = () => {
-    this.beforeOpen();
     if (this.state.afterOpen && this.state.beforeClose) {
       clearTimeout(this.closeTimer);
       this.setState({ beforeClose: false });
     } else {
+      this.beforeOpen();
       if (this.props.shouldFocusAfterRender) {
         focusManager.setupScopedFocus(this.node);
         focusManager.markForFocusLater();
@@ -268,24 +268,21 @@ export default class ModalPortal extends Component {
 
   closeWithTimeout = () => {
     const closesAt = Date.now() + this.props.closeTimeoutMS;
-    this.setState({ beforeClose: true, closesAt }, () => {
-      this.closeTimer = setTimeout(
-        this.closeWithoutTimeout,
-        this.state.closesAt - Date.now()
-      );
-    });
+    this.setState({ beforeClose: true, closesAt });
+    this.closeTimer = setTimeout(
+      this.closeWithoutTimeout,
+      this.props.closeTimeoutMS
+    );
   };
 
   closeWithoutTimeout = () => {
-    this.setState(
-      {
-        beforeClose: false,
-        isOpen: false,
-        afterOpen: false,
-        closesAt: null
-      },
-      this.afterClose
-    );
+    this.setState({
+      beforeClose: false,
+      isOpen: false,
+      afterOpen: false,
+      closesAt: null
+    });
+    this.afterClose();
   };
 
   handleKeyDown = event => {
