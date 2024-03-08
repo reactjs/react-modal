@@ -29,7 +29,13 @@ export default function scopeTab(node, event) {
     target = tail;
   }
 
-  if (tail === activeElement && !shiftKey) {
+  if (
+    (tail === activeElement ||
+       (activeElement.type === "radio" &&
+         tail.type === "radio" &&
+         tail.name === activeElement.name)) &&
+     !shiftKey) 
+  ) {
     target = head;
   }
 
