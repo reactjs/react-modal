@@ -45,21 +45,21 @@ class Forms extends Component {
                 <input type="text"  />
               </fieldset>
               <fieldset>
-                <legend>Radio buttons</legend>
-                <label>
-                  <input id="radio-a" name="radios" type="radio" /> A
-                </label>
-                <label>
-                  <input id="radio-b" name="radios" type="radio" /> B
-                </label>
-              </fieldset>
-              <fieldset>
                 <legend>Checkbox buttons</legend>
                 <label>
                   <input id="checkbox-a" name="checkbox-a" type="checkbox" /> A
                 </label>
                 <label>
                   <input id="checkbox-b" name="checkbox-b" type="checkbox" /> B
+                </label>
+              </fieldset>
+              <fieldset>
+                <legend>Radio buttons</legend>
+                <label>
+                  <input id="radio-a" name="radios" type="radio" /> A
+                </label>
+                <label>
+                  <input id="radio-b" name="radios" type="radio" /> B
                 </label>
               </fieldset>
               <input type="text" />
