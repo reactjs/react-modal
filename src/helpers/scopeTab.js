@@ -6,6 +6,14 @@ function getActiveElement(el = document) {
     : el.activeElement;
 }
 
+function isActiveElementInTailRadioGroup(activeElement, tail) {
+  return (
+    activeElement.type === "radio" &&
+    tail.type === "radio" &&
+    tail.name === activeElement.name
+  );
+}
+
 export default function scopeTab(node, event) {
   const tabbable = findTabbable(node);
 
@@ -31,10 +39,8 @@ export default function scopeTab(node, event) {
 
   if (
     (tail === activeElement ||
-       (activeElement.type === "radio" &&
-         tail.type === "radio" &&
-         tail.name === activeElement.name)) &&
-     !shiftKey) 
+       isActiveElementInTailRadioGroup(activeElement, tail)) &&
+     !shiftKey 
   ) {
     target = head;
   }
