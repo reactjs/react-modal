@@ -6,7 +6,7 @@ function getActiveElement(el = document) {
     : el.activeElement;
 }
 
-function isActiveElementInTailRadioGroup(activeElement, tail) {
+function areFromSameRadioGroup(a, b) {
   return (
     activeElement.type === "radio" &&
     tail.type === "radio" &&
