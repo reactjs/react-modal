@@ -39,7 +39,7 @@ export default function scopeTab(node, event) {
 
   if (
     (tail === activeElement ||
-       isActiveElementInTailRadioGroup(activeElement, tail)) &&
+       areFromSameRadioGroup(activeElement, tail)) &&
      !shiftKey 
   ) {
     target = head;
