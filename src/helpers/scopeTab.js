@@ -7,7 +7,7 @@ function getActiveElement(el = document) {
 }
 
 function areFromSameRadioGroup(a, b) {
-  return a.type === "radio" && b.type === "radio" && a.name === b.name;
+  return a.name === b.name && a.type === "radio" && b.type === "radio";
 }
 
 export default function scopeTab(node, event) {
