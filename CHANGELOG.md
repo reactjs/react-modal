@@ -1,4 +1,22 @@
-3.16.1 - Mon, 17 Oct 2022 22:07:22 UTC
+3.16.2 - Tue, 17 Dec 2024 09:11:36 UTC
+--------------------------------------
+
+- [b91c724](../../commit/b91c724) updade react and react-dom peer dependencies.
+- [a275399](../../commit/a275399) simplify PR template.
+- [588f26b](../../commit/588f26b) contributing requirements now just need a corresponding issue... on GitHub board
+- [449398d](../../commit/449398d) remove discussion note from readme.
+- [e4841d6](../../commit/e4841d6) chore: update shouldCloseOnOverlayClick doc
+- [6724a04](../../commit/6724a04) Fix tests
+- [7c1d947](../../commit/7c1d947) Fix badge
+- [96a81be](../../commit/96a81be) Comment the ellipsis in code blocks in docs/index.md
+- [aff8b91](../../commit/aff8b91) [added] add nodejs version restriction to package.json
+- [321966e](../../commit/321966e) [changed] change Miscellaneous related nodejs version text
+- [8dc2347](../../commit/8dc2347) [added] add Miscellaneous section to the contributions.md file
+- [f9bc6a0](../../commit/f9bc6a0) [fixed] strict matching for tabbable nodes
+- [e7c4a63](../../commit/e7c4a63) downgrade node version on github action.
+- [1a8f562](../../commit/1a8f562) running tests on github actions
+
+3.16.1 - Mon, 17 Oct 2022 22:07:19 UTC
 --------------------------------------
 
 - [840a0f6](../../commit/840a0f6) Add tests
