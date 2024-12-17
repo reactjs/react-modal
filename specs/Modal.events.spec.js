@@ -128,6 +128,26 @@ export default () => {
     });
   });
 
+  it("traps tab in the modal on tab with radio button as last element", () => {
+    const topButton = <button>top</button>;
+    const radio1 = <input id="radio-a" name="radios" type="radio" />;
+    const radio2 = <input id="radio-b" name="radios" type="radio" />;
+    const modalContent = (
+      <div>
+        {topButton}
+        {radio1}
+        {radio2}
+      </div>
+    );
+    const props = { isOpen: true };
+    withModal(props, modalContent, modal => {
+      const content = mcontent(modal);
+      tabKeyDown(content);
+      tabKeyDown(content);
+      document.activeElement.textContent.should.be.eql("top");
+    });
+  });
+
   describe("shouldCloseOnEsc", () => {
     context("when true", () => {
       it("should close on Esc key event", () => {
