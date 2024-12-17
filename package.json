@@ -84,8 +84,5 @@
     "react-component",
     "modal",
     "dialog"
-  ],
-  "engines": {
-    "node": ">=8 <18"
-  }
+  ]
 }
