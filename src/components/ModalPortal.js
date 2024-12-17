@@ -61,6 +61,7 @@ export default class ModalPortal extends Component {
     onAfterOpen: PropTypes.func,
     onAfterClose: PropTypes.func,
     onRequestClose: PropTypes.func,
+    onOverlayRightClick: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     shouldFocusAfterRender: PropTypes.bool,
     shouldCloseOnOverlayClick: PropTypes.bool,
@@ -314,6 +315,14 @@ export default class ModalPortal extends Component {
     this.shouldClose = null;
   };
 
+  handleOverlayRightClick = event => {    
+      if(event.target == this.overlay)
+      {
+        event.preventDefault();
+        this.props.onOverlayRightClick(event);
+      }
+  };
+
   handleContentOnMouseUp = () => {
     this.shouldClose = false;
   };
@@ -390,7 +399,8 @@ export default class ModalPortal extends Component {
       className: this.buildClassName("overlay", overlayClassName),
       style: { ...overlayStyles, ...this.props.style.overlay },
       onClick: this.handleOverlayOnClick,
-      onMouseDown: this.handleOverlayOnMouseDown
+      onMouseDown: this.handleOverlayOnMouseDown,
+      onContextMenu: this.handleOverlayRightClick,
     };
 
     const contentProps = {
