@@ -1,4 +1,9 @@
-3.16.2 - Tue, 17 Dec 2024 09:11:36 UTC
+3.16.3 - Tue, 17 Dec 2024 10:38:34 UTC
+--------------------------------------
+
+- [a5c0cf4](../../commit/a5c0cf4) removing restriction on node engines.
+
+3.16.2 - Tue, 17 Dec 2024 09:11:34 UTC
 --------------------------------------
 
 - [b91c724](../../commit/b91c724) updade react and react-dom peer dependencies.
