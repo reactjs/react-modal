@@ -128,6 +128,11 @@ class Modal extends Component {
     }
   };
 
+  constructor(props) {
+    super(props);
+    this.removePortalTimer = null;
+  }
+
   componentDidMount() {
     if (!canUseDOM) return;
 
