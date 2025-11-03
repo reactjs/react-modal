@@ -15,13 +15,13 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - run: make deps-project tests-ci
