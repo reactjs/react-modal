@@ -131,6 +131,8 @@ class Modal extends Component {
   componentDidMount() {
     if (!canUseDOM) return;
 
+    clearTimeout(this.removePortalTimer);
+
     if (!isReact16) {
       this.node = createHTMLElement("div");
     }
@@ -183,7 +185,7 @@ class Modal extends Component {
         this.portal.closeWithTimeout();
       }
 
-      setTimeout(this.removePortal, closesAt - now);
+      this.removePortalTimer = setTimeout(this.removePortal, closesAt - now);
     } else {
       this.removePortal();
     }
