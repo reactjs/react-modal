@@ -6,6 +6,10 @@ function getActiveElement(el = document) {
     : el.activeElement;
 }
 
+function areFromSameRadioGroup(a, b) {
+  return a.name === b.name && a.type === "radio" && b.type === "radio";
+}
+
 export default function scopeTab(node, event) {
   const tabbable = findTabbable(node);
 
@@ -29,7 +33,10 @@ export default function scopeTab(node, event) {
     target = tail;
   }
 
-  if (tail === activeElement && !shiftKey) {
+  if (
+    (tail === activeElement || areFromSameRadioGroup(activeElement, tail)) &&
+    !shiftKey
+  ) {
     target = head;
   }
 
