@@ -288,16 +288,31 @@ export default class ModalPortal extends Component {
     );
   };
 
-  handleKeyDown = event => {
-    if (isTabKey(event)) {
-      scopeTab(this.content, event);
-    }
+ handleKeyDown = event => {
+  if (isTabKey(event)) {
+    scopeTab(this.content, event);
+  }
 
-    if (this.props.shouldCloseOnEsc && isEscKey(event)) {
-      event.stopPropagation();
-      this.requestClose(event);
-    }
-  };
+  if (!this.props.shouldCloseOnEsc) {
+    return;
+  }
+
+  const nativeEvent = event.nativeEvent || event;
+
+  const isComposing =
+    nativeEvent.isComposing === true ||
+    nativeEvent.keyCode === 229 ||
+    nativeEvent.code === "Process";
+
+  if (isComposing) {
+    return;
+  }
+  if (isEscKey(event)) {
+    event.stopPropagation();
+    this.requestClose(event);
+  }
+};
+
 
   handleOverlayOnClick = event => {
     if (this.shouldClose === null) {
