@@ -39,6 +39,7 @@ class App extends Component {
           closeTimeoutMS={150}
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.handleModalCloseRequest}
+          onOverlayRightClick={this.handleModalCloseRequest}
         >
           <div className="modal-content">
             <div className="modal-header">

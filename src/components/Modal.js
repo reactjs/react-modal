@@ -66,6 +66,7 @@ class Modal extends Component {
     ]),
     onAfterOpen: PropTypes.func,
     onRequestClose: PropTypes.func,
+    onOverlayRightClick: PropTypes.func,
     closeTimeoutMS: PropTypes.number,
     ariaHideApp: PropTypes.bool,
     shouldFocusAfterRender: PropTypes.bool,
@@ -100,7 +101,8 @@ class Modal extends Component {
     preventScroll: false,
     parentSelector: () => document.body,
     overlayElement: (props, contentEl) => <div {...props}>{contentEl}</div>,
-    contentElement: (props, children) => <div {...props}>{children}</div>
+    contentElement: (props, children) => <div {...props}>{children}</div>,
+    onOverlayRightClick: ()=>null
   };
 
   static defaultStyles = {

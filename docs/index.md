@@ -52,6 +52,12 @@ import ReactModal from 'react-modal';
   /* Function that will be run when the modal is requested
      to be closed (either by clicking on overlay or pressing ESC).
      Note: It is not called if isOpen is changed by other means. */}
+     
+  onOverlayRightClick={
+    handleRequestCloseFunc
+    /* Function that will be run when the modal is requested
+     to be closed (either by right clicking on overlay or pressing ESC).
+     Note: It is not called if isOpen is changed by other means. */}
 
   closeTimeoutMS={
     0
