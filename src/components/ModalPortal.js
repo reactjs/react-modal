@@ -27,6 +27,10 @@ const isEscKey = event => event.code === "Escape" || event.keyCode === 27;
 
 let ariaHiddenInstances = 0;
 
+// Check if CloseWatcher API is available
+const supportsCloseWatcher =
+  typeof window !== "undefined" && "CloseWatcher" in window;
+
 export default class ModalPortal extends Component {
   static defaultProps = {
     style: {
@@ -90,6 +94,7 @@ export default class ModalPortal extends Component {
 
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
+    this.closeWatcher = null;
   }
 
   componentDidMount() {
@@ -138,6 +143,7 @@ export default class ModalPortal extends Component {
     }
     clearTimeout(this.closeTimer);
     cancelAnimationFrame(this.openAnimationFrame);
+    this.destroyCloseWatcher();
   }
 
   setOverlayRef = overlay => {
@@ -226,6 +232,24 @@ export default class ModalPortal extends Component {
     portalOpenInstances.deregister(this);
   };
 
+  setupCloseWatcher = () => {
+    if (supportsCloseWatcher && this.props.shouldCloseOnEsc) {
+      this.closeWatcher = new window.CloseWatcher();
+      this.closeWatcher.onclose = event => {
+        if (this.props.shouldCloseOnEsc) {
+          this.requestClose(event);
+        }
+      };
+    }
+  };
+
+  destroyCloseWatcher = () => {
+    if (this.closeWatcher) {
+      this.closeWatcher.destroy();
+      this.closeWatcher = null;
+    }
+  };
+
   open = () => {
     this.beforeOpen();
     if (this.state.afterOpen && this.state.beforeClose) {
@@ -236,6 +260,8 @@ export default class ModalPortal extends Component {
         focusManager.setupScopedFocus(this.node);
         focusManager.markForFocusLater();
       }
+
+      this.setupCloseWatcher();
 
       this.setState({ isOpen: true }, () => {
         this.openAnimationFrame = requestAnimationFrame(() => {
@@ -277,6 +303,7 @@ export default class ModalPortal extends Component {
   };
 
   closeWithoutTimeout = () => {
+    this.destroyCloseWatcher();
     this.setState(
       {
         beforeClose: false,
@@ -293,7 +320,14 @@ export default class ModalPortal extends Component {
       scopeTab(this.content, event);
     }
 
-    if (this.props.shouldCloseOnEsc && isEscKey(event)) {
+    // Handle escape key for closing when CloseWatcher is not supported.
+    // CloseWatcher emits for both native close (Android back) and Escape.
+    // Without it, we can fall back to ordinary keydown events from Escape.
+    if (
+      !supportsCloseWatcher &&
+      this.props.shouldCloseOnEsc &&
+      isEscKey(event)
+    ) {
       event.stopPropagation();
       this.requestClose(event);
     }
