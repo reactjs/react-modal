@@ -27,10 +27,6 @@ const isEscKey = event => event.code === "Escape" || event.keyCode === 27;
 
 let ariaHiddenInstances = 0;
 
-// Check if CloseWatcher API is available
-const supportsCloseWatcher =
-  typeof window !== "undefined" && "CloseWatcher" in window;
-
 export default class ModalPortal extends Component {
   static defaultProps = {
     style: {
@@ -233,7 +229,7 @@ export default class ModalPortal extends Component {
   };
 
   setupCloseWatcher = () => {
-    if (supportsCloseWatcher && this.props.shouldCloseOnEsc) {
+    if (typeof CloseWatcher !== "undefined" && this.props.shouldCloseOnEsc) {
       this.closeWatcher = new window.CloseWatcher();
       this.closeWatcher.onclose = event => {
         if (this.props.shouldCloseOnEsc) {
@@ -324,7 +320,7 @@ export default class ModalPortal extends Component {
     // CloseWatcher emits for both native close (Android back) and Escape.
     // Without it, we can fall back to ordinary keydown events from Escape.
     if (
-      !supportsCloseWatcher &&
+      typeof CloseWatcher === "undefined" &&
       this.props.shouldCloseOnEsc &&
       isEscKey(event)
     ) {
