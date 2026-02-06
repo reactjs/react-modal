@@ -231,10 +231,13 @@ export default class ModalPortal extends Component {
   setupCloseWatcher = () => {
     if (typeof CloseWatcher !== "undefined" && this.props.shouldCloseOnEsc) {
       this.closeWatcher = new window.CloseWatcher();
-      this.closeWatcher.onclose = event => {
-        if (this.props.shouldCloseOnEsc) {
-          this.requestClose(event);
+      this.closeWatcher.oncancel = event => {
+        if (!this.props.shouldCloseOnEsc) {
+          event.preventDefault();
         }
+      };
+      this.closeWatcher.onclose = event => {
+        this.requestClose(event);
       };
     }
   };
