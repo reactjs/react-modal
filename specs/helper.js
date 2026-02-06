@@ -93,6 +93,15 @@ if (!String.prototype.includes) {
 }
 
 /**
+ * hide the native close watcher; we don't have a way to test it yet,
+ * the implementation will fall back to using normal keydown events
+ * as usual.
+ */
+if (window.CloseWatcher) {
+  delete window.CloseWatcher;
+}
+
+/**
  * Return the class list object from `document.body`.
  * @return {Array}
  */

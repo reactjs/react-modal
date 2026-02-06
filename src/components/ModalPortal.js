@@ -90,6 +90,7 @@ export default class ModalPortal extends Component {
 
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
+    this.closeWatcher = null;
   }
 
   componentDidMount() {
@@ -138,6 +139,7 @@ export default class ModalPortal extends Component {
     }
     clearTimeout(this.closeTimer);
     cancelAnimationFrame(this.openAnimationFrame);
+    this.destroyCloseWatcher();
   }
 
   setOverlayRef = overlay => {
@@ -226,6 +228,27 @@ export default class ModalPortal extends Component {
     portalOpenInstances.deregister(this);
   };
 
+  setupCloseWatcher = () => {
+    if (typeof CloseWatcher !== "undefined" && this.props.shouldCloseOnEsc) {
+      this.closeWatcher = new window.CloseWatcher();
+      this.closeWatcher.oncancel = event => {
+        if (!this.props.shouldCloseOnEsc) {
+          event.preventDefault();
+        }
+      };
+      this.closeWatcher.onclose = event => {
+        this.requestClose(event);
+      };
+    }
+  };
+
+  destroyCloseWatcher = () => {
+    if (this.closeWatcher) {
+      this.closeWatcher.destroy();
+      this.closeWatcher = null;
+    }
+  };
+
   open = () => {
     this.beforeOpen();
     if (this.state.afterOpen && this.state.beforeClose) {
@@ -236,6 +259,8 @@ export default class ModalPortal extends Component {
         focusManager.setupScopedFocus(this.node);
         focusManager.markForFocusLater();
       }
+
+      this.setupCloseWatcher();
 
       this.setState({ isOpen: true }, () => {
         this.openAnimationFrame = requestAnimationFrame(() => {
@@ -277,6 +302,7 @@ export default class ModalPortal extends Component {
   };
 
   closeWithoutTimeout = () => {
+    this.destroyCloseWatcher();
     this.setState(
       {
         beforeClose: false,
@@ -293,7 +319,14 @@ export default class ModalPortal extends Component {
       scopeTab(this.content, event);
     }
 
-    if (this.props.shouldCloseOnEsc && isEscKey(event)) {
+    // Handle escape key for closing when CloseWatcher is not supported.
+    // CloseWatcher emits for both native close (Android back) and Escape.
+    // Without it, we can fall back to ordinary keydown events from Escape.
+    if (
+      typeof CloseWatcher === "undefined" &&
+      this.props.shouldCloseOnEsc &&
+      isEscKey(event)
+    ) {
       event.stopPropagation();
       this.requestClose(event);
     }
