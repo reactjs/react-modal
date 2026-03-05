@@ -57,8 +57,8 @@ class SimpleUsage extends Component {
 
     return (
       <div>
-        <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_A)}>Open Modal A</button>
-        <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_B)}>Open Modal B</button>
+        <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_A)} aria-label="Open Modal A">Open Modal A</button>
+        <button type="button" className="btn btn-primary" onClick={this.toggleModal(MODAL_B)} aria-label="Open Modal B">Open Modal B</button>
         <MyModal
           title={this.state.title1}
           isOpen={currentModal == MODAL_A}
@@ -82,7 +82,7 @@ class SimpleUsage extends Component {
           <h1 id="heading" ref={h1 => this.heading = h1}>This is the modal 2!</h1>
           <div id="fulldescription" tabIndex="0" role="document">
             <p>This is a description of what it does: nothing :)</p>
-            <button onClick={this.toggleModal(MODAL_B)}>close</button>
+            <button onClick={this.toggleModal(MODAL_B)} aria-label="Close Modal B">close</button>
           </div>
         </Modal>
       </div>
