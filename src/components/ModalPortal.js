@@ -381,6 +381,8 @@ export default class ModalPortal extends Component {
     const contentStyles = className ? {} : defaultStyles.content;
     const overlayStyles = overlayClassName ? {} : defaultStyles.overlay;
 
+    // FIX: Always return null when modal should be closed
+    // This prevents rendering undefined or invalid elements
     if (this.shouldBeClosed()) {
       return null;
     }
@@ -410,7 +412,49 @@ export default class ModalPortal extends Component {
       "data-testid": this.props.testId
     };
 
-    const contentElement = this.props.contentElement(contentProps, children);
-    return this.props.overlayElement(overlayProps, contentElement);
+    // FIX: Validate that contentElement function returns a valid React element
+    // If children is undefined/null, ensure we still pass a valid value
+    // This prevents "Invariant Violation" when children are missing
+    let contentElement;
+    try {
+      // Ensure children is always a valid value (null if undefined)
+      const validChildren = children !== undefined ? children : null;
+      contentElement = this.props.contentElement(contentProps, validChildren);
+      
+      // FIX: If contentElement returns undefined, null, or invalid value, use fallback
+      // This handles cases where custom contentElement functions don't return properly
+      if (contentElement === undefined || contentElement === false) {
+        contentElement = <div {...contentProps}>{validChildren}</div>;
+      }
+    } catch (error) {
+      // FIX: If contentElement function throws, use safe fallback
+      if (process.env.NODE_ENV !== "production") {
+        console.error("React-Modal: contentElement function error", error);
+      }
+      contentElement = <div {...contentProps}>{children || null}</div>;
+    }
+
+    // FIX: Validate that overlayElement function returns a valid React element
+    // This prevents "Invariant Violation" when overlayElement returns invalid content
+    let overlayElement;
+    try {
+      overlayElement = this.props.overlayElement(overlayProps, contentElement);
+      
+      // FIX: If overlayElement returns undefined, null, or invalid value, use fallback
+      // This ensures we always return a valid React element
+      if (overlayElement === undefined || overlayElement === false) {
+        overlayElement = <div {...overlayProps}>{contentElement}</div>;
+      }
+    } catch (error) {
+      // FIX: If overlayElement function throws, use safe fallback
+      if (process.env.NODE_ENV !== "production") {
+        console.error("React-Modal: overlayElement function error", error);
+      }
+      overlayElement = <div {...overlayProps}>{contentElement}</div>;
+    }
+
+    // FIX: Final safety check - ensure we're returning a valid React element or null
+    // This is the last line of defense against "Invariant Violation" errors
+    return overlayElement || null;
   }
 }

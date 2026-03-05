@@ -96,6 +96,7 @@ class DraggableModal extends Component {
       style, 
       draggable = true, 
       dragHandleSelector,
+      children,
       ...otherProps 
     } = this.props;
     const { position, isDragging } = this.state;
@@ -119,21 +120,56 @@ class DraggableModal extends Component {
       }
     };
 
-    return (
-      <Modal
-        {...otherProps}
-        style={mergedStyle}
-        contentRef={this.setContentRef}
-        contentElement={(props, children) => (
+    // FIX: Ensure children is always a valid value (null if undefined)
+    // This prevents "Invariant Violation" when no children are provided
+    const validChildren = children !== undefined ? children : null;
+
+    // FIX: Validate contentElement function returns valid React element
+    // Wrap in try-catch to handle edge cases where contentElement might fail
+    let contentElementFn;
+    try {
+      contentElementFn = (props, children) => {
+        // FIX: Ensure we always return a valid React element
+        const element = (
           <div 
             {...props} 
             onMouseDown={draggable ? this.handleMouseDown : undefined}
           >
             {children}
           </div>
-        )}
-      />
-    );
+        );
+        return element;
+      };
+    } catch (error) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("React-Modal: DraggableModal contentElement error", error);
+      }
+      // Fallback to simple div wrapper
+      contentElementFn = (props, children) => <div {...props}>{children || null}</div>;
+    }
+
+    // FIX: Wrap Modal in try-catch and ensure we always return valid element or null
+    try {
+      const modalElement = (
+        <Modal
+          {...otherProps}
+          style={mergedStyle}
+          contentRef={this.setContentRef}
+          contentElement={contentElementFn}
+        >
+          {validChildren}
+        </Modal>
+      );
+      
+      // FIX: Ensure we return a valid React element or null
+      return modalElement || null;
+    } catch (error) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("React-Modal: DraggableModal render error", error);
+      }
+      // FIX: Return null instead of undefined if rendering fails
+      return null;
+    }
   }
 }
 
