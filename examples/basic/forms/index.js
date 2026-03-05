@@ -24,7 +24,7 @@ class Forms extends Component {
 
     return (
       <div>
-        <button className="btn btn-primary" onClick={this.toggleModal}>Open Modal</button>
+        <button className="btn btn-primary" onClick={this.toggleModal} aria-label="Open Forms Modal">Open Modal</button>
         <Modal
           id="modal_with_forms"
           isOpen={isOpen}
@@ -41,8 +41,15 @@ class Forms extends Component {
             <p>This is a description of what it does: nothing :)</p>
             <form>
               <fieldset>
-                <input type="text"  />
-                <input type="text"  />
+                <legend>Text Inputs</legend>
+                <label htmlFor="text-input-1">
+                  Text Input 1:
+                  <input id="text-input-1" type="text" aria-label="Text Input 1" />
+                </label>
+                <label htmlFor="text-input-2">
+                  Text Input 2:
+                  <input id="text-input-2" type="text" aria-label="Text Input 2" />
+                </label>
               </fieldset>
               <fieldset>
                 <legend>Radio buttons</legend>
@@ -62,7 +69,10 @@ class Forms extends Component {
                   <input id="checkbox-b" name="checkbox-b" type="checkbox" /> B
                 </label>
               </fieldset>
-              <input type="text" />
+              <label htmlFor="additional-text">
+                Additional Text:
+                <input id="additional-text" type="text" aria-label="Additional Text Input" />
+              </label>
             </form>
           </div>
         </Modal>
