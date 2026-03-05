@@ -226,23 +226,50 @@ class Modal extends Component {
   };
 
   render() {
+    // FIX: Always return null when DOM is not available or React 16+ is not present
+    // This prevents "Invariant Violation" errors when render returns undefined
     if (!canUseDOM || !isReact16) {
       return null;
     }
 
+    // FIX: Ensure node exists before creating portal
+    // This prevents rendering issues during initial mount
     if (!this.node && isReact16) {
       this.node = createHTMLElement("div");
     }
 
+    // FIX: Validate that node exists before creating portal
+    // If node creation failed, return null instead of undefined
+    if (!this.node) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("React-Modal: Failed to create portal node");
+      }
+      return null;
+    }
+
     const createPortal = getCreatePortal();
-    return createPortal(
-      <ModalPortal
-        ref={this.portalRef}
-        defaultStyles={Modal.defaultStyles}
-        {...this.props}
-      />,
-      this.node
-    );
+    
+    // FIX: Wrap portal creation in try-catch to handle edge cases
+    // where createPortal might fail or return invalid element
+    try {
+      const portal = createPortal(
+        <ModalPortal
+          ref={this.portalRef}
+          defaultStyles={Modal.defaultStyles}
+          {...this.props}
+        />,
+        this.node
+      );
+      
+      // FIX: Ensure portal is a valid React element or null
+      // React portals should always return a valid element, but we validate to be safe
+      return portal || null;
+    } catch (error) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("React-Modal: Error creating portal", error);
+      }
+      return null;
+    }
   }
 }
 

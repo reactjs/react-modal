@@ -7,7 +7,7 @@ class List extends React.Component {
       <div>
         {this.props.items.map((x, i) => (
           <div key={i} onClick={this.props.onItemClick(i)}>
-            <a href="javascript:void(0)">{x}</a>
+            <a href="javascript:void(0)" tabIndex="0" role="button" aria-label={`Select ${x}`}>{x}</a>
           </div>))}
       </div>
     );
@@ -71,7 +71,7 @@ class MultipleModals extends Component {
     const { listItemsIsOpen } = this.state;
     return (
       <div>
-        <button type="button" className="btn btn-primary" onClick={this.toggleModal}>Open Modal A</button>
+        <button type="button" className="btn btn-primary" onClick={this.toggleModal} aria-label="Open Multiple Modals">Open Modal A</button>
         <Modal
           id="test"
           closeTimeoutMS={150}

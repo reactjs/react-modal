@@ -25,7 +25,7 @@ class Item extends Component {
 
     return (
       <div key={index} onClick={toggleModal}>
-        <a href="javascript:void(0)">{number}</a>
+        <a href="javascript:void(0)" tabIndex="0" role="button" aria-label={`Open details for ${number}`}>{number}</a>
         <Modal closeTimeoutMS={150}
                contentLabel="modalB"
                isOpen={isOpen}
@@ -91,7 +91,7 @@ class NestedModals extends Component {
     const { isOpen } = this.state;
     return (
       <div>
-        <button type="button" className="btn btn-primary" onClick={this.toggleModal}>Open Modal A</button>
+        <button type="button" className="btn btn-primary" onClick={this.toggleModal} aria-label="Open Nested Modals">Open Modal A</button>
         <Modal
           id="test"
           closeTimeoutMS={150}
