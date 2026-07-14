@@ -192,7 +192,7 @@ const dispatchMockEvent = eventCtor => (key, code) => (element, opts) =>
 const dispatchMockKeyDownEvent = dispatchMockEvent(Simulate.keyDown);
 
 /**
- * @deprecated will be replaced by `escKeyDownWithCode` when `react-modal`
+ * @deprecated will be replaced by `escKeyDownWithKey` when `react-modal`
  * drops support for React <18.
  *
  * Dispatch an 'esc' key down event using the legacy KeyboardEvent.keyCode.
@@ -201,11 +201,16 @@ export const escKeyDown = dispatchMockKeyDownEvent("ESC", { keyCode: 27 });
 /**
  * Dispatch an 'esc' key down event.
  */
-export const escKeyDownWithCode = dispatchMockKeyDownEvent("ESC", {
-  code: "Escape"
+export const escKeyDownWithKey = dispatchMockKeyDownEvent("Escape", {});
+/**
+ * Dispatch a non-escape logical key from the physical Escape key location.
+ */
+export const nonEscKeyDownWithEscCode = dispatchMockKeyDownEvent("Process", {
+  code: "Escape",
+  keyCode: 229
 });
 /**
- * @deprecated will be replaced by `escKeyDownWithCode` when `react-modal`
+ * @deprecated will be replaced by `tabKeyDownWithKey` when `react-modal`
  * drops support for React <18.
  *
  * Dispatch a 'tab' key down event using the legacy KeyboardEvent.keyCode.
@@ -214,9 +219,7 @@ export const tabKeyDown = dispatchMockKeyDownEvent("TAB", { keyCode: 9 });
 /**
  * Dispatch a 'tab' key down event.
  */
-export const tabKeyDownWithCode = dispatchMockKeyDownEvent("TAB", {
-  code: "Tab"
-});
+export const tabKeyDownWithKey = dispatchMockKeyDownEvent("Tab", {});
 /**
  * Dispatch a 'click' event at a node.
  */
