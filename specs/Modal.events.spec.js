@@ -11,9 +11,10 @@ import {
   mouseDownAt,
   mouseUpAt,
   escKeyDown,
-  escKeyDownWithCode,
+  escKeyDownWithKey,
+  nonEscKeyDownWithEscCode,
   tabKeyDown,
-  tabKeyDownWithCode,
+  tabKeyDownWithKey,
   withModal,
   withElementCollector,
   createHTMLElement
@@ -111,7 +112,7 @@ export default () => {
     });
   });
 
-  it("traps tab in the modal on shift + tab with KeyboardEvent.code", () => {
+  it("traps tab in the modal on shift + tab with KeyboardEvent.key", () => {
     const topButton = <button>top</button>;
     const bottomButton = <button>bottom</button>;
     const modalContent = (
@@ -123,7 +124,7 @@ export default () => {
     const props = { isOpen: true };
     withModal(props, modalContent, modal => {
       const content = mcontent(modal);
-      tabKeyDownWithCode(content, { shiftKey: true });
+      tabKeyDownWithKey(content, { shiftKey: true });
       document.activeElement.textContent.should.be.eql("bottom");
     });
   });
@@ -149,7 +150,7 @@ export default () => {
         );
       });
 
-      it("should close on Esc key event with KeyboardEvent.code", () => {
+      it("should close on Esc key event with KeyboardEvent.key", () => {
         const requestCloseCallback = sinon.spy();
         withModal(
           {
@@ -159,11 +160,27 @@ export default () => {
           },
           null,
           modal => {
-            escKeyDownWithCode(mcontent(modal));
+            escKeyDownWithKey(mcontent(modal));
             requestCloseCallback.called.should.be.ok();
             // Check if event is passed to onRequestClose callback.
             const event = requestCloseCallback.getCall(0).args[0];
             event.should.be.ok();
+          }
+        );
+      });
+
+      it("should not close when Escape code represents another logical key", () => {
+        const requestCloseCallback = sinon.spy();
+        withModal(
+          {
+            isOpen: true,
+            shouldCloseOnEsc: true,
+            onRequestClose: requestCloseCallback
+          },
+          null,
+          modal => {
+            nonEscKeyDownWithEscCode(mcontent(modal));
+            requestCloseCallback.called.should.be.false();
           }
         );
       });
