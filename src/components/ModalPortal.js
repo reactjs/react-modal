@@ -90,6 +90,7 @@ export default class ModalPortal extends Component {
 
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
+    this.preventOverlayMouseDown = false;
   }
 
   componentDidMount() {
@@ -322,6 +323,12 @@ export default class ModalPortal extends Component {
     if (!this.props.shouldCloseOnOverlayClick && event.target == this.overlay) {
       event.preventDefault();
     }
+
+    if (this.preventOverlayMouseDown) {
+      this.preventOverlayMouseDown = false;
+    } else if (event.target == this.overlay) {
+      this.shouldClose = null;
+    }
   };
 
   handleContentOnClick = () => {
@@ -330,6 +337,7 @@ export default class ModalPortal extends Component {
 
   handleContentOnMouseDown = () => {
     this.shouldClose = false;
+    this.preventOverlayMouseDown = true;
   };
 
   requestClose = event =>

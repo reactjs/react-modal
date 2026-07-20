@@ -239,6 +239,37 @@ export default () => {
         requestCloseCallback.called.should.not.be.ok();
       });
     });
+
+    it("closes on first overlay click after content click stops propagation", () => {
+      const requestCloseCallback = sinon.spy();
+      let innerButton = null;
+      const setInnerButton = ref => {
+        innerButton = ref;
+      };
+      const stopPropagation = event => event.stopPropagation();
+
+      const props = {
+        isOpen: true,
+        shouldCloseOnOverlayClick: true,
+        onRequestClose: requestCloseCallback
+      };
+
+      withModal(
+        props,
+        <button ref={setInnerButton} onClick={stopPropagation} />,
+        modal => {
+          mouseDownAt(innerButton);
+          mouseUpAt(innerButton);
+          clickAt(innerButton);
+
+          mouseDownAt(moverlay(modal));
+          mouseUpAt(moverlay(modal));
+          clickAt(moverlay(modal));
+
+          requestCloseCallback.calledOnce.should.be.ok();
+        }
+      );
+    });
   });
 
   it("should not stop event propagation", () => {
