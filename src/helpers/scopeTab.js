@@ -1,7 +1,7 @@
 import findTabbable from "./tabbable";
 
 function getActiveElement(el = document) {
-  return el.activeElement.shadowRoot
+  return el.activeElement.shadowRoot && el.activeElement.shadowRoot.activeElement
     ? getActiveElement(el.activeElement.shadowRoot)
     : el.activeElement;
 }
