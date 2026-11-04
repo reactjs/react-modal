@@ -2,9 +2,50 @@
 import "should";
 import "@webcomponents/custom-elements/src/native-shim";
 import tabbable from "../src/helpers/tabbable";
+import scopeTab from "../src/helpers/scopeTab";
 import "sinon";
 
 export default () => {
+  describe("scopeTab with shadow roots", () => {
+    it("handles a focused host with an empty shadow root", () => {
+      const container = document.createElement("div");
+      const host = document.createElement("div");
+      host.tabIndex = 0;
+      host.attachShadow({ mode: "open" });
+      container.appendChild(host);
+      container.appendChild(document.createElement("button"));
+      document.body.appendChild(container);
+      try {
+        host.focus();
+        document.activeElement.should.equal(host);
+        (host.shadowRoot.activeElement === null).should.equal(true);
+        scopeTab(container, { shiftKey: false, preventDefault() {} });
+      } finally {
+        document.body.removeChild(container);
+      }
+    });
+
+    it("wraps focus from a nested shadow root back to the first element", () => {
+      const container = document.createElement("div");
+      const first = document.createElement("button");
+      const host = document.createElement("div");
+      const last = document.createElement("button");
+      host.attachShadow({ mode: "open" }).appendChild(last);
+      container.appendChild(first);
+      container.appendChild(host);
+      document.body.appendChild(container);
+      try {
+        last.focus();
+        host.shadowRoot.activeElement.should.equal(last);
+        let prevented = false;
+        scopeTab(container, { shiftKey: false, preventDefault() { prevented = true; } });
+        prevented.should.equal(true);
+        document.activeElement.should.equal(first);
+      } finally {
+        document.body.removeChild(container);
+      }
+    });
+  });
   describe("tabbable", () => {
     describe("without tabbable descendents", () => {
       it("returns an empty array", () => {
