@@ -25,8 +25,6 @@ const CLASS_NAMES = {
 const isTabKey = event => event.code === "Tab" || event.keyCode === 9;
 const isEscKey = event => event.code === "Escape" || event.keyCode === 27;
 
-let ariaHiddenInstances = 0;
-
 export default class ModalPortal extends Component {
   static defaultProps = {
     style: {
@@ -90,6 +88,7 @@ export default class ModalPortal extends Component {
 
     this.shouldClose = null;
     this.moveFromContentToOverlay = null;
+    this.ariaHiddenElements = null;
   }
 
   componentDidMount() {
@@ -171,22 +170,15 @@ export default class ModalPortal extends Component {
         htmlOpenClassName
       );
 
-    if (ariaHideApp) {
-      ariaHiddenInstances += 1;
-      ariaAppHider.hide(appElement);
+    if (ariaHideApp && !this.ariaHiddenElements) {
+      this.ariaHiddenElements = ariaAppHider.hide(appElement);
     }
 
     portalOpenInstances.register(this);
   }
 
   afterClose = () => {
-    const {
-      appElement,
-      ariaHideApp,
-      htmlOpenClassName,
-      bodyOpenClassName,
-      parentSelector
-    } = this.props;
+    const { htmlOpenClassName, bodyOpenClassName, parentSelector } = this.props;
 
     const parentDocument =
       (parentSelector && parentSelector().ownerDocument) || document;
@@ -201,13 +193,9 @@ export default class ModalPortal extends Component {
         htmlOpenClassName
       );
 
-    // Reset aria-hidden attribute if all modals have been removed
-    if (ariaHideApp && ariaHiddenInstances > 0) {
-      ariaHiddenInstances -= 1;
-
-      if (ariaHiddenInstances === 0) {
-        ariaAppHider.show(appElement);
-      }
+    if (this.ariaHiddenElements) {
+      ariaAppHider.show(this.ariaHiddenElements);
+      this.ariaHiddenElements = null;
     }
 
     if (this.props.shouldFocusAfterRender) {

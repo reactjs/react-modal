@@ -100,6 +100,92 @@ export default () => {
     });
   });
 
+  it("restores each app element's original aria-hidden value", () => {
+    withElementCollector(() => {
+      const visible = createHTMLElement("div");
+      const hidden = createHTMLElement("div");
+      const explicitFalse = createHTMLElement("div");
+      const node = createHTMLElement("div");
+      hidden.setAttribute("aria-hidden", "true");
+      explicitFalse.setAttribute("aria-hidden", "false");
+      const targets = [visible, hidden, explicitFalse];
+
+      ReactDOM.render(<Modal isOpen appElement={targets} />, node);
+      targets.forEach(el => el.getAttribute("aria-hidden").should.eql("true"));
+      ReactDOM.render(<Modal isOpen={false} appElement={targets} />, node);
+
+      should(visible.getAttribute("aria-hidden")).equal(null);
+      hidden.getAttribute("aria-hidden").should.eql("true");
+      explicitFalse.getAttribute("aria-hidden").should.eql("false");
+      ReactDOM.unmountComponentAtNode(node);
+    });
+  });
+
+  it("restores overlapping app elements only after their last modal closes", () => {
+    withElementCollector(() => {
+      const first = createHTMLElement("div");
+      const shared = createHTMLElement("div");
+      const last = createHTMLElement("div");
+      const node = createHTMLElement("div");
+      shared.setAttribute("aria-hidden", "false");
+      last.setAttribute("aria-hidden", "true");
+      const render = (openFirst, openLast) => ReactDOM.render(
+        <div>
+          <Modal isOpen={openFirst} appElement={[first, shared]} />
+          <Modal isOpen={openLast} appElement={[shared, last]} />
+        </div>,
+        node
+      );
+
+      render(true, true);
+      render(false, true);
+      should(first.getAttribute("aria-hidden")).equal(null);
+      shared.getAttribute("aria-hidden").should.eql("true");
+      last.getAttribute("aria-hidden").should.eql("true");
+      render(false, false);
+      shared.getAttribute("aria-hidden").should.eql("false");
+      last.getAttribute("aria-hidden").should.eql("true");
+      ReactDOM.unmountComponentAtNode(node);
+    });
+  });
+
+  it("restores the original target when props change before unmount", () => {
+    withElementCollector(() => {
+      const first = createHTMLElement("div");
+      const second = createHTMLElement("div");
+      const node = createHTMLElement("div");
+      first.setAttribute("aria-hidden", "false");
+
+      ReactDOM.render(<Modal isOpen appElement={first} />, node);
+      ReactDOM.render(<Modal isOpen appElement={second} ariaHideApp={false} />, node);
+      ReactDOM.unmountComponentAtNode(node);
+
+      first.getAttribute("aria-hidden").should.eql("false");
+      should(second.getAttribute("aria-hidden")).equal(null);
+    });
+  });
+
+  it("keeps a shared target hidden when the last-opened modal closes first", () => {
+    withElementCollector(() => {
+      const target = createHTMLElement("div");
+      const node = createHTMLElement("div");
+      const render = (first, second) => ReactDOM.render(
+        <div>
+          <Modal isOpen={first} appElement={target} />
+          <Modal isOpen={second} appElement={target} />
+        </div>,
+        node
+      );
+
+      render(true, true);
+      render(true, false);
+      target.getAttribute("aria-hidden").should.eql("true");
+      render(false, false);
+      should(target.getAttribute("aria-hidden")).equal(null);
+      ReactDOM.unmountComponentAtNode(node);
+    });
+  });
+
   it("renders into the body, not in context", () => {
     withElementCollector(() => {
       const node = createHTMLElement("div");

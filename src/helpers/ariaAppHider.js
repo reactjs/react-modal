@@ -2,10 +2,12 @@ import warning from "warning";
 import { canUseDOM } from "./safeHTMLElement";
 
 let globalElement = null;
+let hiddenElements = new Map();
 
 /* eslint-disable no-console */
 /* istanbul ignore next */
 export function resetState() {
+  hiddenElements.clear();
   if (globalElement) {
     if (globalElement.removeAttribute) {
       globalElement.removeAttribute("aria-hidden");
@@ -75,14 +77,35 @@ export function validateElement(appElement) {
 }
 
 export function hide(appElement) {
-  for (let el of validateElement(appElement)) {
+  const elements = Array.prototype.slice.call(validateElement(appElement));
+  for (let el of elements) {
+    const previous = hiddenElements.get(el);
+    if (previous) {
+      previous.count += 1;
+    } else {
+      hiddenElements.set(el, {
+        count: 1,
+        value: el.getAttribute("aria-hidden")
+      });
+    }
     el.setAttribute("aria-hidden", "true");
   }
+  return elements;
 }
 
 export function show(appElement) {
   for (let el of validateElement(appElement)) {
-    el.removeAttribute("aria-hidden");
+    const previous = hiddenElements.get(el);
+    if (!previous) continue;
+    previous.count -= 1;
+    if (previous.count === 0) {
+      if (previous.value === null) {
+        el.removeAttribute("aria-hidden");
+      } else {
+        el.setAttribute("aria-hidden", previous.value);
+      }
+      hiddenElements.delete(el);
+    }
   }
 }
 
